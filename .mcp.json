@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "hermes": {
+      "command": "sh",
+      "args": [
+        "-c",
+        "exec \"${HERMES_DIR:-$HOME/hermes-agent}/venv/bin/hermes\" mcp serve"
+      ]
+    }
+  }
+}
