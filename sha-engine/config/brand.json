@@ -1,0 +1,110 @@
+{
+  "business": {
+    "name": "Hair by Sha",
+    "operator": "Shamalka",
+    "address": "1 Prospect Hill Rd, Camberwell VIC 3124",
+    "suburb": "Camberwell",
+    "city": "Melbourne",
+    "region": "VIC",
+    "country": "AU",
+    "timezone": "Australia/Melbourne",
+    "instagram": "hairbysha_c",
+    "tiktok": null,
+    "website": "https://hairbyshacamberwell.com/",
+    "bookingUrl": "https://www.fresha.com/a/hair-by-sha-melbourne-prospect-hill-road-i1nq0ttb",
+    "phone": "0452 611 799"
+  },
+  "positioning": {
+    "speciality": "Hair colour specialist",
+    "credentials": [
+      "K18 certified",
+      "20+ years experience"
+    ],
+    "services": [
+      "Balayage",
+      "Foils",
+      "Blonde colouring",
+      "Grey blending",
+      "Colour correction",
+      "K18 repair",
+      "Precision cuts",
+      "Bridal hair",
+      "Blow waves"
+    ],
+    "idealClient": "Busy professionals in Melbourne's inner east who want low-maintenance, natural-looking colour from someone who will not wreck their hair.",
+    "objective": "bookings",
+    "serviceRadiusKm": 12,
+    "priorityKeywords": [
+      "balayage melbourne",
+      "grey blending camberwell",
+      "colour correction melbourne",
+      "blonde specialist camberwell",
+      "k18 melbourne",
+      "hairdresser camberwell"
+    ]
+  },
+  "voice": {
+    "persona": "A calm, expert colourist who explains why things happen to hair. Warm but not gushing. Speaks to a client, not an audience.",
+    "onCamera": "face_and_voice",
+    "use": [
+      "Plain language over jargon, but never dumb it down",
+      "Name the actual product or technique when it matters",
+      "Talk about hair health as much as colour",
+      "Speak to one person"
+    ],
+    "avoid": [
+      "obsessed",
+      "obsessedd",
+      "OBSESSED",
+      "slay",
+      "ate",
+      "iconic",
+      "unreal",
+      "insane",
+      "girlies",
+      "besties",
+      "link in bio!!!",
+      "excessive emoji",
+      "ALL CAPS SHOUTING",
+      "clickbait that the video does not pay off"
+    ],
+    "emojiMax": 2,
+    "hashtagCount": {
+      "min": 4,
+      "max": 8
+    },
+    "coreHashtags": [
+      "#melbournehairdresser",
+      "#camberwellhair",
+      "#balayagemelbourne",
+      "#melbournecolourist"
+    ]
+  },
+  "cta": {
+    "primary": "Book at the link in bio",
+    "variants": [
+      "Chair's open this week \u2014 link in bio",
+      "Booking through Fresha, link in bio",
+      "DM me your hair goals"
+    ],
+    "frequencyCap": 0.4
+  },
+  "look": {
+    "safeAreaTopPct": 14,
+    "safeAreaBottomPct": 20,
+    "captionFontFile": null,
+    "captionFontSize": 52,
+    "captionPrimary": "#FFFFFF",
+    "captionOutline": "#12100E",
+    "accent": "#B07C33",
+    "accentAlt": "#6A5B8C"
+  },
+  "consent": {
+    "policy": "blanket_at_booking",
+    "allowedValues": [
+      "blanket_at_booking",
+      "per_client_optin"
+    ],
+    "requireFaceBlurWithoutConsent": true
+  }
+}
