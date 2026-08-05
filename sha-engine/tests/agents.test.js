@@ -107,9 +107,9 @@ test('cropExpression falls back to centre when analysis failed', () => {
 test('coordinator orders agents so requirements come first', () => {
   const order = resolveOrder().map((a) => a.id);
   const before = (a, b) => order.indexOf(a) < order.indexOf(b);
-  assert.ok(before('librarian', 'producer'), 'footage before planning');
-  assert.ok(before('producer', 'editor'), 'plan before cutting');
-  assert.ok(before('editor', 'critic'), 'cut before gating');
+  // The Editor is retired — video is filmed and posted natively by Sha, so
+  // the chain runs brief → gate → publish rather than brief → cut → gate.
+  assert.ok(before('producer', 'critic'), 'brief before gating');
   assert.ok(before('critic', 'publisher'), 'gate before publishing');
   assert.ok(before('publisher', 'analyst'), 'publish before scoring');
   assert.equal(order.length, AGENTS.length);
@@ -133,7 +133,7 @@ test('every agent declares an escalation message a human can act on', () => {
 
 test('critical agents are exactly the ones that block a week', () => {
   const critical = AGENTS.filter((a) => a.critical).map((a) => a.id).sort();
-  assert.deepEqual(critical, ['critic', 'editor', 'producer']);
+  assert.deepEqual(critical, ['critic', 'producer']);
 });
 
 test('explain reports degraded capabilities without running anything', () => {
@@ -143,7 +143,9 @@ test('explain reports degraded capabilities without running anything', () => {
 });
 
 test('getAgent resolves by id', () => {
-  assert.equal(getAgent('editor').name, 'Editor');
+  assert.equal(getAgent('producer').name, 'Producer');
+  assert.equal(getAgent('scout').name, 'Scout');
+  assert.equal(getAgent('editor'), null, 'the Editor was retired with the cut stage');
   assert.equal(getAgent('nope'), null);
 });
 

@@ -1,7 +1,7 @@
 import ingest from '../stages/ingest.js';
-import research from '../stages/research.js';
+import scout from '../stages/scout.js';
+import brief from '../stages/brief.js';
 import plan from '../stages/plan.js';
-import render from '../stages/render.js';
 import gate from '../stages/gate.js';
 import ship from '../stages/ship.js';
 import learn from '../stages/learn.js';
@@ -23,53 +23,49 @@ export const AGENTS = [
   {
     id: 'librarian',
     name: 'Librarian',
-    role: 'Takes in raw footage and keeps track of what exists',
+    role: 'Takes in photos Sha sends and keeps track of what exists',
     produces: ['footage'],
     requires: [],
     optional: [],
     run: () => ingest.run(),
-    escalate: 'No new footage arrived. Nothing can be cut until clips are uploaded.',
+    escalate: 'No new photos arrived. Photo posts need images before they can be built.',
     critical: false,
   },
   {
     id: 'scout',
     name: 'Scout',
-    role: 'Watches what is working in Australian beauty content',
+    role: 'Finds video formats worth copying, and the video that proves it',
     produces: ['trends'],
     requires: [],
-    optional: ['liveResearch'],
-    run: (ctx) => research.run({ scrape: ctx?.scrape || null }),
-    escalate: 'Running without live trend data. Formats are ranked on past results only.',
+    optional: [],
+    run: () => scout.run(),
+    escalate: 'Could not rank formats. The reference library is built in, so this should not happen.',
     critical: false,
   },
   {
     id: 'producer',
     name: 'Producer',
-    role: 'Decides what gets made this week and why',
+    role: "Writes the week's shoot brief — what to film and why",
     produces: ['plan'],
-    requires: ['footage'],
+    requires: [],
     optional: ['trends'],
-    run: () => plan.run(),
-    escalate: 'Could not build a plan. Usually means there is no footage at all.',
+    run: () => brief.run(),
+    escalate: 'Could not write the brief. Check config/brand.json is readable.',
     critical: true,
   },
-  {
-    id: 'editor',
-    name: 'Editor',
-    role: 'Cuts footage into finished verticals',
-    produces: ['posts'],
-    requires: ['plan'],
-    optional: ['transcription', 'framing'],
-    run: () => render.run(),
-    escalate: 'Nothing rendered. Either no slot had usable footage, or ffmpeg failed.',
-    critical: true,
-  },
+  // The Editor is retired. Moving raw footage off a phone onto a machine was
+  // the step that actually broke the workflow, so video is now filmed and
+  // posted natively by Sha against a written brief. Photo posts still publish
+  // through the API path, which is why the Publisher survives.
+
   {
     id: 'critic',
     name: 'Critic',
     role: 'Blocks anything that should not reach a client',
     produces: ['verdicts'],
-    requires: ['posts'],
+    // Nothing produces 'posts' now that the Editor is retired; the Critic
+    // gates whatever photo posts are pending, and passes cleanly when none are.
+    requires: [],
     optional: [],
     run: () => gate.run(),
     escalate: 'The gate could not run, so nothing is cleared for approval.',
