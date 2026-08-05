@@ -11,8 +11,9 @@
     "instagram": "hairbysha_c",
     "tiktok": null,
     "website": "https://hairbyshacamberwell.com/",
-    "bookingUrl": "https://www.fresha.com/a/hair-by-sha-melbourne-prospect-hill-road-i1nq0ttb",
-    "phone": "0452 611 799"
+    "bookingUrl": "https://hairbysha-booking.onrender.com/book",
+    "phone": "0452 611 799",
+    "bookingPlatform": "Kairo"
   },
   "positioning": {
     "speciality": "Hair colour specialist",
@@ -21,15 +22,146 @@
       "20+ years experience"
     ],
     "services": [
-      "Balayage",
-      "Foils",
-      "Blonde colouring",
-      "Grey blending",
-      "Colour correction",
-      "K18 repair",
-      "Precision cuts",
-      "Bridal hair",
-      "Blow waves"
+      {
+        "name": "Balayage / Lived-in Blonde",
+        "price": 340,
+        "from": true,
+        "minutes": 210,
+        "category": "colour package",
+        "note": "Low-maintenance, seamless blonde. Includes toner and blow wave.",
+        "hero": true
+      },
+      {
+        "name": "Blonde Transformation (Foils + Root + Cut)",
+        "price": 350,
+        "from": true,
+        "minutes": 240,
+        "category": "colour package",
+        "hero": true
+      },
+      {
+        "name": "Blonde Transformation + K18",
+        "price": 420,
+        "from": true,
+        "minutes": 240,
+        "category": "colour package",
+        "hero": true
+      },
+      {
+        "name": "Full Blonde",
+        "price": 320,
+        "from": true,
+        "minutes": 210,
+        "category": "colour package",
+        "note": "Full head foils for maximum blonde impact. Includes toner and blow wave."
+      },
+      {
+        "name": "Partial Blonde (Foils)",
+        "price": 240,
+        "from": true,
+        "minutes": 150,
+        "category": "colour package",
+        "note": "Soft brightness through the top and sides. Perfect for maintenance blondes."
+      },
+      {
+        "name": "Root Colour + Refresh",
+        "price": 150,
+        "from": true,
+        "minutes": 105,
+        "category": "colour package",
+        "note": "Regrowth colour with refreshed ends. Includes blow wave."
+      },
+      {
+        "name": "Balayage",
+        "price": 150,
+        "from": true,
+        "minutes": 150,
+        "category": "colour"
+      },
+      {
+        "name": "Full Colour",
+        "price": 110,
+        "from": true,
+        "minutes": 120,
+        "category": "colour"
+      },
+      {
+        "name": "Root Colour",
+        "price": 85,
+        "from": false,
+        "minutes": 105,
+        "category": "colour"
+      },
+      {
+        "name": "Toner & Gloss",
+        "price": 45,
+        "from": false,
+        "minutes": 45,
+        "category": "colour"
+      },
+      {
+        "name": "Restyle Cut",
+        "price": 140,
+        "from": false,
+        "minutes": 60,
+        "category": "cut"
+      },
+      {
+        "name": "Cut & Blow Wave",
+        "price": 110,
+        "from": false,
+        "minutes": 60,
+        "category": "cut"
+      },
+      {
+        "name": "Blow Wave",
+        "price": 55,
+        "from": true,
+        "minutes": 45,
+        "category": "cut"
+      },
+      {
+        "name": "Cut & Finish",
+        "price": 55,
+        "from": false,
+        "minutes": 60,
+        "category": "cut"
+      },
+      {
+        "name": "Blow Dry",
+        "price": 35,
+        "from": false,
+        "minutes": 45,
+        "category": "cut"
+      },
+      {
+        "name": "K18 Treatment",
+        "price": 45,
+        "from": false,
+        "minutes": 15,
+        "category": "add-on"
+      },
+      {
+        "name": "Deep Treatment",
+        "price": 30,
+        "from": false,
+        "minutes": 10,
+        "category": "add-on"
+      },
+      {
+        "name": "Extensions \u2014 Move up / Refit",
+        "price": 300,
+        "from": false,
+        "minutes": 150,
+        "category": "extensions"
+      },
+      {
+        "name": "Extensions \u2014 Removal",
+        "price": 100,
+        "from": false,
+        "minutes": 90,
+        "category": "extensions"
+      }
     ],
     "idealClient": "Busy professionals in Melbourne's inner east who want low-maintenance, natural-looking colour from someone who will not wreck their hair.",
     "objective": "bookings",
@@ -41,7 +173,15 @@
       "blonde specialist camberwell",
       "k18 melbourne",
       "hairdresser camberwell"
-    ]
+    ],
+    "tagline": "Crafting effortless beauty through personalised colour, style, and care.",
+    "priceAnchor": {
+      "heroService": "Balayage / Lived-in Blonde",
+      "heroPrice": 340,
+      "entryService": "Toner & Gloss",
+      "entryPrice": 45,
+      "note": "Colour packages are the money. Content should drive toward the $240-$420 band, not the $35 blow dry."
+    }
   },
   "voice": {
     "persona": "A calm, expert colourist who explains why things happen to hair. Warm but not gushing. Speaks to a client, not an audience.",
@@ -97,7 +237,8 @@
     "captionPrimary": "#FFFFFF",
     "captionOutline": "#12100E",
     "accent": "#B07C33",
-    "accentAlt": "#6A5B8C"
+    "accentAlt": "#6A5B8C",
+    "captionFontName": "DejaVu Sans"
   },
   "consent": {
     "policy": "blanket_at_booking",
@@ -106,5 +247,13 @@
       "per_client_optin"
     ],
     "requireFaceBlurWithoutConsent": true
+  },
+  "captions": {
+    "mode": "karaoke",
+    "source": "whisper",
+    "whisperModel": "base",
+    "fallback": "written",
+    "maxCharsPerLine": 28,
+    "maxWordsPerLine": 5
   }
 }

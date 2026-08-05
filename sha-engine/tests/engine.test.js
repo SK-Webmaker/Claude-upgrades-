@@ -247,11 +247,13 @@ test('instagram caption assembles hook, cta and hashtags within the limit', () =
   assert.ok(c.length <= 2200);
 });
 
-test('tiktok defaults to the inbox flow until the audit passes', () => {
-  assert.equal(resolveMode(), 'inbox');
+test('tiktok routes through the audited broker rather than an unaudited app', () => {
+  // An unaudited app can only post SELF_ONLY, which reaches nobody, so the
+  // broker route is preferred over both direct and inbox.
+  assert.equal(resolveMode(), 'broker');
   const pre = ttPreflight({ render: { durationSec: 20 }, mediaUrl: 'https://x/y.mp4' });
   assert.equal(pre.ok, true);
-  assert.equal(pre.mode, 'inbox');
+  assert.equal(pre.mode, 'broker');
 });
 
 test('ship will not invent a media URL it cannot serve', () => {

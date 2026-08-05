@@ -10,6 +10,7 @@ import gate from './stages/gate.js';
 import ship from './stages/ship.js';
 import learn from './stages/learn.js';
 import tiktok from './platforms/tiktok.js';
+import coordinator from './agents/coordinator.js';
 
 const log = makeLogger('cli');
 
@@ -26,7 +27,8 @@ sha — content engine for ${brand.business.name}, ${brand.business.suburb} ${br
   sha reject <id> [why]   Reject a post and teach the planner why
   sha ship [--dry-run]    Publish what is approved and due
   sha learn               Score what published and update pattern memory
-  sha week [--dry-run]    Run the full Monday sequence end to end
+  sha week [--dry-run]    Coordinator runs the full week end to end
+  sha agents              Show the agent roster and what each one needs
   sha status              Where everything currently stands
 
 Flags
@@ -97,14 +99,18 @@ function status() {
 }
 
 async function week({ dryRun }) {
-  log.info('running the full weekly sequence');
-  await ingest.run();
-  await research.run();
-  await plan.run();
-  await render.run();
-  await gate.run();
-  if (dryRun) {
-    log.warn('dry run — stopping before publish. Approve posts, then run `sha ship`.');
+  // The coordinator owns ordering, retries and escalation; the CLI just asks
+  // for a week and reports what came back.
+  const record = await coordinator.run({ dryRun, stopBefore: 'publisher' });
+
+  if (record.escalations.length) {
+    process.stdout.write('\n  Escalations:\n');
+    for (const e of record.escalations) {
+      process.stdout.write(`    [${e.level}] ${e.agentId}: ${e.message}\n`);
+    }
+  }
+  if (record.halted) {
+    process.stdout.write('\n  Run halted — see the blocker above.\n');
   } else {
     log.info('posts are queued for approval; run `sha ship` once Sha has approved');
   }
@@ -141,6 +147,16 @@ try {
     case 'ship': await ship.run({ dryRun, force }); break;
     case 'learn': await learn.run(); break;
     case 'week': await week({ dryRun }); break;
+    case 'agents': {
+      process.stdout.write('\n  Agent roster (dependency-ordered)\n\n');
+      for (const a of coordinator.explain()) {
+        const flag = a.critical ? '\x1b[33mcritical\x1b[0m' : 'optional';
+        const deg = a.degraded.length ? ` \x1b[33m· degraded: ${a.degraded.join(', ')}\x1b[0m` : '';
+        process.stdout.write(`  ${a.name.padEnd(12)}${flag.padEnd(18)}${a.role}${deg}\n`);
+      }
+      process.stdout.write('\n');
+      break;
+    }
     case 'status': status(); break;
     case 'help': case undefined: process.stdout.write(HELP); break;
     default:

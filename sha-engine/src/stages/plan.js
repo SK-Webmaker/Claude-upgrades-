@@ -39,6 +39,25 @@ export function allocateMix(total, mix) {
 }
 
 /** Can the footage on hand actually support this format? */
+/**
+ * Clips already committed to a post that has not been rejected.
+ *
+ * Footage is only marked `usedInPosts` once a post actually publishes, which
+ * leaves a window where a clip is cut but not yet live. Without this, running
+ * the week twice re-plans the same footage and produces duplicate posts — and
+ * the gate's duplicate rule will not catch it, because that only compares
+ * against posts that have already gone out.
+ */
+export function claimedClipIds(posts) {
+  const dead = new Set(['rejected', 'failed']);
+  const claimed = new Set();
+  for (const p of posts) {
+    if (dead.has(p.status)) continue;
+    for (const id of p.clipIds || []) claimed.add(id);
+  }
+  return claimed;
+}
+
 export function matchFootage(format, sessions, clips, taken) {
   const available = clips.filter((c) => !taken.has(c.id) && !c.usedInPosts?.length);
 
@@ -159,7 +178,11 @@ export async function run({ weekOf = null } = {}) {
     const times = scheduleSlots(total, weekStart);
 
     const slots = [];
-    const taken = new Set();
+    // Start from footage already committed to in-flight posts, so re-running
+    // the week is idempotent rather than duplicating everything.
+    const existingPosts = store.read('posts', []);
+    const taken = claimedClipIds(existingPosts);
+    if (taken.size) log.info(`${taken.size} clip(s) already committed to in-flight posts`);
     let ti = 0;
 
     for (const [type, n] of Object.entries(allocation)) {

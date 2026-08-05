@@ -20,12 +20,13 @@ stated plainly.
 | Platform | Status | Detail |
 | --- | --- | --- |
 | **Instagram Reels** | Fully automatic | Graph API publishes end to end. Capped at 25 API posts per rolling 24h (Reels and Stories share the bucket), 90s max, 9:16. Requires an Instagram **Business** account linked to a Facebook Page. |
-| **TikTok** | One tap | An **unaudited** app can only create `SELF_ONLY` posts — visible to nobody, with the account forced private. So the engine uses Upload-to-Inbox: the finished video lands in Sha's TikTok as a draft and she taps post. |
-| **TikTok after audit** | Fully automatic | Passing TikTok's app review lifts the restriction. Set `publishing.tiktok.auditPassed` to `true` in `config/system.json` and the same code path switches to direct posting. Nothing else changes. |
+| **TikTok** | Fully automatic | Publishes through an **already-audited partner app** (the Higgsfield connector) rather than waiting on our own TikTok review. `DIRECT_POST` at `PUBLIC_TO_EVERYONE` works day one, and a licensed Commercial Music Library track can be attached — something the raw API cannot do for a draft at all. Quotas: 5 posts/minute, 13/24h. |
+| **TikTok fallbacks** | Available | If the broker is ever unavailable, `publishing.tiktok.route` switches to `inbox` (draft + one tap, no audit needed) or `direct` (our own app, once `auditPassed` is true). Same code path. |
 
-Building unattended TikTok posting on an unaudited app produces a system that
-looks like it works and reaches zero people. The inbox flow is the honest
-default.
+Building unattended TikTok posting on an *unaudited* app produces a system that
+looks like it works and reaches zero people — an unaudited client is capped at
+`SELF_ONLY`, which is visible to nobody and forces the account private. Routing
+through an app that has already passed review sidesteps that entirely.
 
 ---
 
@@ -96,6 +97,20 @@ speed-ramps everything after the hook, and burns captions via libass. One
 ffmpeg pass per clip. The finished duration is computed *before* rendering, so
 captions are timed correctly on the first pass instead of rendering twice.
 
+Because Sha is on camera with voice, captions are **word-synced** rather than
+written in advance: `faster-whisper` produces word-level timestamps, and ASS
+`\kf` sweeps highlight each word as she says it. Word timings are remapped
+through the trim and the speed ramp — without that remap, captions drift
+further out of sync the longer a clip runs, which is the single most common way
+an automated caption pipeline produces unusable output.
+
+Framing tracks the subject rather than centre-cropping blindly. Most clipping
+tools use face detection; a colourist's footage is frequently the *back* of a
+head, where face detection finds nothing and silently centres the crop. Tracking
+column edge-energy instead works for a face, a back of a head, or hands in
+foils — and the crop holds still unless the subject genuinely moves, because an
+animated crop on static footage reads as a mistake.
+
 **5 · Gate** — Ten rules, each of which explains its failure in words a human
 can act on. Blockers stop a post dead: not vertical, no captions, no consent
 policy, unset booking link, a near-duplicate of the past three weeks. Warnings
@@ -112,6 +127,56 @@ save 10×, because a like costs nothing and predicts nothing while a save is a
 client deciding they want this done to their own head. Winning formats are
 promoted, losers demoted, with older results decayed so the system tracks what
 is working now.
+
+---
+
+## Agents and the coordinator
+
+Seven specialists, one coordinator that oversees them.
+
+| Agent | Job | Critical |
+|---|---|---|
+| **Librarian** | Takes in footage, dedupes, classifies, groups into appointments | no |
+| **Scout** | Watches what is working in Australian beauty content | no |
+| **Producer** | Decides what gets made this week and why | yes |
+| **Editor** | Cuts footage into finished verticals | yes |
+| **Critic** | Blocks anything that should not reach a client | yes |
+| **Publisher** | Sends approved posts out at the right time | no |
+| **Analyst** | Scores what went out and teaches the Producer | no |
+
+The coordinator does none of the work. It derives the running order from each
+agent's declared requirements rather than a hard-coded sequence, retries
+failures twice, and decides what is worth interrupting Sha about. A *critical*
+agent failing halts the run and says why; a non-critical one failing is noted
+and the run continues, because losing trend data should never cost a week of
+posting. Agents that are missing an optional capability run **degraded** and
+announce it rather than going quiet.
+
+Every run is recorded — steps, retries, degradations, escalations — so an
+automated system stays auditable instead of being a black box that either
+worked or did not.
+
+```bash
+node src/cli.js week          # coordinator runs the week, holds before publish
+```
+
+---
+
+## On the phone
+
+The control room is a PWA. Open it on a phone, add to home screen, and it runs
+standalone with no browser chrome.
+
+- **Add footage** — tap the upload zone, pick clips from the camera roll. They
+  stream straight to disk (up to 2 GB), get ingested automatically, and are
+  classified from the filename. Upload progress is shown, because a 900 MB clip
+  over phone data with no feedback reads as a broken app.
+- **Build this week** — one button runs the whole coordinated pipeline.
+- **Approve** — each cut with its video preview, hook, hashtags and scheduled
+  time, with thumb-sized approve and reject.
+- **Agents** — live status of every specialist as the coordinator drives them.
+
+Verified at 393×852 with zero horizontal overflow.
 
 ---
 
@@ -172,10 +237,13 @@ needs filming. Both light and dark themes.
 npm test
 ```
 
-32 tests covering segment selection, the duration prediction that keeps render
+50 tests covering segment selection, the duration prediction that keeps render
 count at one, mix allocation with no rounding loss, placeholder resolution,
 trend parsing, the scoring weights, every gate rule, ASS generation including
-override-block injection, and both platform adapters' preflight logic.
+override-block injection, both platform adapters' preflight logic, karaoke line-breaking and gap padding,
+word remapping through trims and speed ramps, crop-expression bounds, the
+coordinator's dependency ordering and cycle detection, and the broker's media
+limits and disclosure honesty.
 
 ---
 

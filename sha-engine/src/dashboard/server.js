@@ -7,6 +7,8 @@ import { bus, makeLogger } from '../lib/log.js';
 import * as store from '../lib/store.js';
 import gate from '../stages/gate.js';
 import ingest from '../stages/ingest.js';
+import coordinator from '../agents/coordinator.js';
+import { receiveUpload } from './upload.js';
 import research from '../stages/research.js';
 import plan from '../stages/plan.js';
 import render from '../stages/render.js';
@@ -59,6 +61,12 @@ bus.on('stage', (e) => {
 bus.on('progress', (e) => broadcast('progress', e));
 bus.on('state', () => broadcast('snapshot', buildSnapshot()));
 
+const agentState = {};
+bus.on('agent', (e) => {
+  agentState[e.agentId] = { status: e.status, ts: e.ts };
+  broadcast('agent', e);
+});
+
 function buildSnapshot() {
   const s = store.snapshot();
   const posts = s.posts || [];
@@ -105,6 +113,8 @@ function buildSnapshot() {
     })),
     memory: s.memory || {},
     mix: system.mix,
+    agents: coordinator.explain().map((a) => ({ ...a, ...(agentState[a.id] || { status: 'idle' }) })),
+    runs: store.read('runs', []).slice(-5).reverse(),
     generatedAt: new Date().toISOString(),
   };
 }
@@ -115,6 +125,8 @@ const MIME = {
   '.css': 'text/css; charset=utf-8',
   '.mp4': 'video/mp4',
   '.json': 'application/json',
+  '.webmanifest': 'application/manifest+json',
+  '.svg': 'image/svg+xml',
 };
 
 function sendJson(res, code, body) {
@@ -185,6 +197,34 @@ const server = createServer(async (req, res) => {
     runner()
       .then(() => broadcast('snapshot', buildSnapshot()))
       .catch((err) => log.error(`${stage} failed: ${err.message}`));
+    return;
+  }
+
+  // Phone upload. The one surface Sha touches: pick clips in the camera roll,
+  // they land in the inbox, and the Librarian picks them up on the next run.
+  if (path === '/api/upload' && req.method === 'POST') {
+    try {
+      const result = await receiveUpload(req);
+      log.ok(`upload: ${result.saved.length} file(s)`);
+      if (result.saved.length) {
+        await ingest.run();
+        broadcast('snapshot', buildSnapshot());
+      }
+      return sendJson(res, 200, { ok: true, ...result });
+    } catch (err) {
+      log.error(`upload failed: ${err.message}`);
+      return sendJson(res, 400, { error: err.message });
+    }
+  }
+
+  // Run the whole coordinated week from the phone.
+  if (path === '/api/coordinator' && req.method === 'POST') {
+    const body = await readBody(req);
+    sendJson(res, 202, { started: true });
+    coordinator
+      .run({ dryRun: body.dryRun !== false, only: body.only || null })
+      .then(() => broadcast('snapshot', buildSnapshot()))
+      .catch((err) => log.error(`coordinator failed: ${err.message}`));
     return;
   }
 

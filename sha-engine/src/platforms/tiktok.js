@@ -33,7 +33,76 @@ export const LIMITS = {
   unauditedUsersPer24h: 5,
 };
 
-export const MODES = { INBOX: 'inbox', DIRECT: 'direct' };
+export const MODES = { INBOX: 'inbox', DIRECT: 'direct', BROKER: 'broker' };
+
+/**
+ * The broker route.
+ *
+ * A third option exists and is better than both: publish through an
+ * already-audited partner app (Higgsfield's TikTok connector) instead of
+ * getting our own app audited. Its client has passed TikTok's review, so
+ * DIRECT_POST at PUBLIC_TO_EVERYONE works on day one — no audit wait, no
+ * SELF_ONLY restriction — and it can attach a Commercial Music Library track,
+ * which the raw API cannot do for a draft at all.
+ *
+ * The handoff is deliberate: this engine owns everything up to a finished,
+ * approved MP4 plus caption, and the broker owns the last hop. Publishing
+ * therefore happens through MCP tool calls rather than an HTTP client here,
+ * so what this module does is mark a post broker-ready and record the exact
+ * payload the broker needs.
+ *
+ * Broker quotas (enforced before TikTok is called): 5 posts/minute and
+ * 13 posts/24h rolling. Media: MP4/WebM/MOV, ≤1 GB, 3-600s, ≥360px both
+ * sides, 23-60 fps.
+ */
+export const BROKER = {
+  name: 'higgsfield',
+  auditedByPartner: true,
+  supportsDirectPost: true,
+  supportsCommercialMusic: true,
+  quotas: { perMinute: 5, per24h: 13 },
+  media: { maxBytes: 1073741824, minSec: 3, maxSec: 600, minEdgePx: 360, minFps: 23, maxFps: 60 },
+  steps: [
+    'tiktok_accounts — confirm the account is active',
+    'media_upload_widget or media_import_url — host the render on Higgsfield (TikTok requires a verified source domain)',
+    'tiktok_music_trending — optional, pick a licensed track (DIRECT_POST only)',
+    'tiktok_prepare_publish — validates media, returns required confirmations',
+    'tiktok_publish — mode DIRECT_POST, privacy PUBLIC_TO_EVERYONE',
+    'tiktok_publish_status — confirm it landed',
+  ],
+};
+
+/** Does this render satisfy the broker's media rules? Checked before handoff. */
+export function brokerPreflight(post) {
+  const problems = [];
+  const r = post.render || {};
+  const d = r.durationSec || 0;
+  if (d < BROKER.media.minSec) problems.push(`${d.toFixed(1)}s is under the ${BROKER.media.minSec}s minimum`);
+  if (d > BROKER.media.maxSec) problems.push(`${d.toFixed(1)}s exceeds ${BROKER.media.maxSec}s`);
+  if (r.sizeBytes > BROKER.media.maxBytes) problems.push('over the 1 GB limit');
+  if (Math.min(r.width || 0, r.height || 0) < BROKER.media.minEdgePx) {
+    problems.push(`shortest edge under ${BROKER.media.minEdgePx}px`);
+  }
+  return { ok: problems.length === 0, problems, route: MODES.BROKER };
+}
+
+/** Everything the broker needs, so the handoff carries no guesswork. */
+export function brokerPayload(post) {
+  return {
+    route: BROKER.name,
+    mode: 'DIRECT_POST',
+    privacy_level: 'PUBLIC_TO_EVERYONE',
+    media_type: 'VIDEO',
+    title: buildCaption(post).slice(0, 150),
+    description: buildCaption(post),
+    localFile: post.render?.outFile || null,
+    // Sha's own footage of her own work: not AI-generated, not branded content
+    // for a third party. Both declarations matter to TikTok.
+    is_aigc: false,
+    commercial_content_disclosure: { enabled: false, your_brand: false, branded_content: false },
+    preflight: brokerPreflight(post),
+  };
+}
 
 async function api(path, { method = 'POST', body = null } = {}) {
   const res = await fetch(`${API}${path}`, {
@@ -62,6 +131,9 @@ export function buildCaption(post) {
 
 /** Which mode is legitimately available right now. */
 export function resolveMode() {
+  // Broker first: it reaches a public audience today, where our own unaudited
+  // app cannot reach anyone at all.
+  if (system.publishing.tiktok.route === MODES.BROKER) return MODES.BROKER;
   if (system.publishing.tiktok.auditPassed) return MODES.DIRECT;
   return MODES.INBOX;
 }
@@ -155,4 +227,7 @@ export function auditChecklist() {
   ];
 }
 
-export default { publish, preflight, buildCaption, resolveMode, checkStatus, auditChecklist, LIMITS, MODES };
+export default {
+  publish, preflight, buildCaption, resolveMode, checkStatus, auditChecklist,
+  brokerPreflight, brokerPayload, LIMITS, MODES, BROKER,
+};
