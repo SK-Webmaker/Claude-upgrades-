@@ -1,0 +1,19 @@
+{
+  "name": "sha-engine",
+  "version": "1.0.0",
+  "description": "Growth marketing engine for Hair by Sha - drafts Instagram posts, gates them, publishes on approval via Composio",
+  "type": "module",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server/app.js",
+    "test": "node --test \"tests/*.test.js\"",
+    "cycle": "node scripts/run-cycle.js",
+    "publish-due": "node scripts/publish-due.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
