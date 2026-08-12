@@ -45,6 +45,11 @@ export function gradeFor(engagementRate) {
 export function scoreMedia(media, { followers = 1 } = {}) {
   const n = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
 
+  // Track which metrics were actually present, so downstream advice can tell
+  // "measured zero" from "never returned".
+  const savesMeasured = media.saved_count != null;
+  const sharesMeasured = (media.shares_count ?? media.reposts_count) != null;
+
   const likes = n(media.like_count ?? media.total_like_count);
   const comments = n(media.comments_count ?? media.total_comments_count);
   const saves = n(media.saved_count);
@@ -75,6 +80,8 @@ export function scoreMedia(media, { followers = 1 } = {}) {
     views,
     reach,
     weighted,
+    savesMeasured,
+    sharesMeasured,
     engagementRate,
     followRate,
     grade: band.grade,
@@ -126,13 +133,23 @@ export function summarise(scored, { account = null } = {}) {
     }
   }
 
-  const totalSaves = scored.reduce((a, s) => a + s.saves, 0);
-  const totalShares = scored.reduce((a, s) => a + s.shares, 0);
-  if (totalSaves === 0) {
+  // A metric the API did not return is unmeasured, not zero. Saying "nothing was
+  // saved" when saved_count was simply absent asserts a number nobody read, and
+  // would send her chasing a problem that may not exist.
+  const savesMeasured = scored.some((s) => s.savesMeasured);
+  const sharesMeasured = scored.some((s) => s.sharesMeasured);
+
+  if (savesMeasured && scored.reduce((a, s) => a + s.saves, 0) === 0) {
     actions.push('Nothing was saved. Saves come from useful posts — run an education or aftercare format next.');
   }
-  if (totalShares === 0) {
+  if (sharesMeasured && scored.reduce((a, s) => a + s.shares, 0) === 0) {
     actions.push('Nothing was shared. Shares come from contrast — lead with a bigger before/after.');
+  }
+  if (!savesMeasured || !sharesMeasured) {
+    const missing = [!savesMeasured && 'saves', !sharesMeasured && 'shares'].filter(Boolean);
+    actions.push(
+      `Instagram did not return ${missing.join(' or ')} for these posts, so that signal is unmeasured rather than zero. Engagement below is likes and comments only.`,
+    );
   }
 
   const noComments = scored.filter((s) => s.comments === 0).length;

@@ -262,8 +262,25 @@ describe('self-review against the live account', () => {
     const out = summarise(scored, { account: { followers: 172 } });
     assert.equal(out.n, 2);
     assert.ok(out.grade);
-    assert.ok(out.actions.length);
-    assert.ok(out.actions.some((a) => /saved/i.test(a)), 'zero saves should be called out');
+    assert.ok(out.actions.some((a) => /spread/i.test(a)));
+  });
+
+  test('a metric the API never returned is unmeasured, not zero', () => {
+    // Instagram omits saved_count and shares_count on this account's media.
+    // Reporting "nothing was saved" would assert a number nobody read and send
+    // her chasing a problem that may not exist.
+    const scored = [scoreMedia({ id: '1', like_count: 10 }, { followers: 172 })];
+    const out = summarise(scored, {});
+    assert.equal(scored[0].savesMeasured, false);
+    assert.ok(out.actions.some((a) => /unmeasured rather than zero/.test(a)));
+    assert.equal(out.actions.some((a) => /^Nothing was saved/.test(a)), false);
+  });
+
+  test('a measured zero still gets called out', () => {
+    const scored = [scoreMedia({ id: '1', like_count: 10, saved_count: 0, shares_count: 0 }, { followers: 172 })];
+    const out = summarise(scored, {});
+    assert.equal(scored[0].savesMeasured, true);
+    assert.ok(out.actions.some((a) => /^Nothing was saved/.test(a)));
   });
 
   test('an empty account summarises without throwing', () => {
