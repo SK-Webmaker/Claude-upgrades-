@@ -324,3 +324,20 @@ describe('Composio adapter', () => {
     assert.equal(instagramComposio.LIMITS.dailyPosts, undefined);
   });
 });
+
+describe('the current week is never scored as if it had finished', () => {
+  test('a second run on the same day does not report the week as missed', async () => {
+    // Regression: goals.run() read history[0] as "last week" without checking
+    // the date, so running twice in one day scored the in-progress week and
+    // announced "0 of 5 posts went out" for a week that had barely started.
+    const today = new Date('2026-08-12T09:00:00Z');
+    const out = planWeek({
+      account: { followers: 172 },
+      insights: [],
+      history: [{ weekOf: '2026-08-12', targets: { posts: 5 }, actual: { posts: 0 } }],
+      cadence: 5,
+      now: today,
+    });
+    assert.equal(out.week.scorecard, null, 'the in-progress week must not carry a verdict');
+  });
+});

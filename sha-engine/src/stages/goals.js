@@ -244,8 +244,15 @@ export async function run({
     };
 
     // Close out last week before opening this one.
+    //
+    // Only a week that has actually ended can be scored. Without this guard a
+    // second run on the same day scores the current week as finished and reports
+    // "0 of 5 posts went out" for a week that has barely started.
+    const weekOfToday = now.toISOString().slice(0, 10);
+    const lastWeekEnded = lastWeek && lastWeek.weekOf < weekOfToday;
+
     let scorecard = lastWeek?.scorecard ?? null;
-    if (lastWeek && !lastWeek.scorecard) {
+    if (lastWeekEnded && !lastWeek.scorecard) {
       const published = store
         .read('posts', [])
         .filter((p) => p.publishedAt && new Date(p.publishedAt) >= new Date(lastWeek.weekOf));
@@ -258,8 +265,12 @@ export async function run({
       lastWeek.actual = { ...baseline, posts: published.length };
     }
 
-    const targets = buildTargets({ baseline, lastWeek, cadence: perWeek });
-    const weekOf = now.toISOString().slice(0, 10);
+    const targets = buildTargets({
+      baseline,
+      lastWeek: lastWeekEnded ? lastWeek : null,
+      cadence: perWeek,
+    });
+    const weekOf = weekOfToday;
 
     let week = history.find((w) => w.weekOf === weekOf);
     if (!week) {

@@ -14,9 +14,82 @@ import plan from '../stages/plan.js';
 import render from '../stages/render.js';
 import ship from '../stages/ship.js';
 import learn from '../stages/learn.js';
+import brief from '../stages/brief.js';
+import goals from '../stages/goals.js';
+import review from '../stages/review.js';
 
 const log = makeLogger('dashboard');
 const HERE = dirname(fileURLToPath(import.meta.url));
+
+/**
+ * Commands Sha can type on the dashboard.
+ *
+ * An explicit allowlist, never arbitrary evaluation — this endpoint is reachable
+ * from a browser and the process holds live social credentials.
+ */
+const COMMANDS = {
+  start: {
+    help: 'Run the whole week: review, target, footage, brief, gate',
+    run: async () => {
+      const out = { steps: [] };
+      for (const [label, fn] of [
+        ['review', () => review.run()],
+        ['goals', () => goals.run()],
+        ['ingest', () => ingest.run()],
+        ['research', () => research.run()],
+        ['brief', () => brief.run()],
+        ['gate', () => gate.run()],
+      ]) {
+        try {
+          await fn();
+          out.steps.push({ label, ok: true });
+        } catch (err) {
+          out.steps.push({ label, ok: false, error: err.message });
+        }
+      }
+      const posts = store.read('posts', []);
+      out.waiting = posts.filter((p) => p.status === 'awaiting_approval').length;
+      const p = store.read('plan', { slots: [] });
+      out.toFilm = (p.slots || []).filter((s) => !s.clipIds?.length).length;
+      return out;
+    },
+    done: (r) => {
+      const skipped = r.steps.filter((s) => !s.ok).map((s) => s.label);
+      const note = skipped.length ? ` (${skipped.join(', ')} skipped)` : '';
+      return `Week started${note}. ${r.waiting} waiting for approval, ${r.toFilm} still to film.`;
+    },
+  },
+  review: {
+    help: 'Grade the live Instagram account',
+    run: () => review.run(),
+    done: (r) =>
+      r.unavailable
+        ? `Cannot review: ${r.unavailable}`
+        : `Grade ${r.summary.grade} — ${r.summary.averageEngagement}% average engagement across ${r.reviewed} posts.`,
+  },
+  goals: {
+    help: "Set this week's target",
+    run: () => goals.run(),
+    done: (r) =>
+      r.goals.week.targets.baselineKnown
+        ? `Target set: ${r.goals.week.targets.followers} followers, ${r.goals.week.targets.posts} posts.`
+        : 'No account metrics available, so no growth target was set this week.',
+  },
+  brief: { help: "Write the week's shoot brief", run: () => brief.run(), done: () => 'Shoot brief written.' },
+  gate: { help: 'Run the rules and queue what passes', run: () => gate.run(), done: () => 'Gate run.' },
+  status: {
+    help: 'Where everything stands',
+    run: async () => {
+      const posts = store.read('posts', []);
+      return {
+        waiting: posts.filter((p) => p.status === 'awaiting_approval').length,
+        approved: posts.filter((p) => p.status === 'approved').length,
+        published: posts.filter((p) => p.publishedAt).length,
+      };
+    },
+    done: (r) => `${r.waiting} waiting, ${r.approved} approved, ${r.published} published.`,
+  },
+};
 
 /**
  * Zero-dependency dashboard server.
@@ -112,6 +185,12 @@ function buildSnapshot() {
       results: p.results || {},
     })),
     memory: s.memory || {},
+    goals: (() => {
+      const weeks = store.read('weeks', []);
+      return weeks.length ? { week: weeks[0], lastScorecard: weeks[1]?.scorecard ?? null } : null;
+    })(),
+    review: store.read('review', null),
+    commands: Object.entries(COMMANDS).map(([name, c]) => ({ name: `.${name}`, help: c.help })),
     mix: system.mix,
     agents: coordinator.explain().map((a) => ({ ...a, ...(agentState[a.id] || { status: 'idle' }) })),
     runs: store.read('runs', []).slice(-5).reverse(),
@@ -188,6 +267,41 @@ const server = createServer(async (req, res) => {
   }
 
   if (path === '/api/snapshot') return sendJson(res, 200, buildSnapshot());
+
+  /**
+   * The command surface.
+   *
+   * Sha types `.start` here rather than opening a terminal. Commands are matched
+   * against an explicit allowlist — this endpoint never evaluates arbitrary
+   * input, because it is reachable from a browser on a machine holding live
+   * social credentials.
+   */
+  if (path === '/api/command' && req.method === 'POST') {
+    const body = await readBody(req);
+    const raw = String(body?.command ?? '').trim().toLowerCase();
+    const name = raw.replace(/^[./]/, '');
+    const command = COMMANDS[name];
+
+    if (!command) {
+      return sendJson(res, 400, {
+        ok: false,
+        reply: `I do not know "${raw}". Try: ${Object.keys(COMMANDS).map((c) => `.${c}`).join(', ')}`,
+        known: Object.keys(COMMANDS),
+      });
+    }
+
+    bus.emit('log', { level: 'info', stage: 'command', msg: `> ${raw}` });
+    try {
+      const result = await command.run();
+      const reply = command.done(result);
+      bus.emit('log', { level: 'ok', stage: 'command', msg: reply });
+      broadcast('snapshot', buildSnapshot());
+      return sendJson(res, 200, { ok: true, reply, result });
+    } catch (err) {
+      bus.emit('log', { level: 'error', stage: 'command', msg: err.message });
+      return sendJson(res, 500, { ok: false, reply: `${name} failed: ${err.message}` });
+    }
+  }
 
   if (path === '/api/run' && req.method === 'POST') {
     const { stage } = await readBody(req);
