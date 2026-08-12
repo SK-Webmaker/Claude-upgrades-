@@ -175,6 +175,7 @@
   <span class="chip" id="c-week">—</span>
 </div>
 
+<div id="snapbanner" class="warnbox" style="display:none;margin:12px 12px 0"></div>
 <div class="app">
 
   <!-- LEFT RAIL -->
@@ -451,6 +452,13 @@ function render(s) {
   $('c-ai').textContent = ai ? 'Assistant on' : 'Commands only';
   $('c-week').textContent = s.goals?.week?.weekOf ? 'week ' + s.goals.week.weekOf : 'no week set';
   $('mode').textContent = ai ? 'assistant' : 'commands';
+
+  const banner = document.getElementById('snapbanner');
+  if (s.review?.source === 'snapshot') {
+    banner.style.display = 'block';
+    banner.textContent = 'Showing a snapshot read ' + fmtDay(s.review.at)
+      + ' — not live. Set COMPOSIO_API_KEY on the service and run .review for live numbers.';
+  } else { banner.style.display = 'none'; }
 
   metrics(s); chart(s); bubbles(s); table(s); rail(s); slots(s);
   $('cmds').innerHTML = (s.commands||[]).map(c =>

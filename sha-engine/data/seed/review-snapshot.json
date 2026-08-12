@@ -1,0 +1,371 @@
+{
+  "source": "snapshot",
+  "readAt": "2026-08-12T08:45:00.000Z",
+  "note": "Read live from Instagram via Composio on 12 Aug 2026. This is a point-in-time snapshot, not a live feed. Set COMPOSIO_API_KEY on the service and run .review to replace it with live data.",
+  "account": {
+    "username": "hairbysha_c",
+    "followers": 172,
+    "mediaCount": 39,
+    "accountType": "BUSINESS"
+  },
+  "scores": [
+    {
+      "id": "18275834008291469",
+      "permalink": "https://www.instagram.com/reel/Db7NQJyRcCS/",
+      "timestamp": "2026-08-12T03:35:06+0000",
+      "likes": 7,
+      "comments": 1,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 11,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 6.4,
+      "followRate": null,
+      "grade": "B",
+      "verdict": "Strong. Above the typical range for this account size."
+    },
+    {
+      "id": "17979484956078027",
+      "permalink": "https://www.instagram.com/reel/Db1xM3yzXjs/",
+      "timestamp": "2026-08-10T00:57:48+0000",
+      "likes": 8,
+      "comments": 0,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 8,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 4.65,
+      "followRate": null,
+      "grade": "C",
+      "verdict": "Normal. Working, not winning."
+    },
+    {
+      "id": "18109989317087967",
+      "permalink": "https://www.instagram.com/reel/DbuSqDtTHIE/",
+      "timestamp": "2026-08-07T03:12:08+0000",
+      "likes": 5,
+      "comments": 0,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 5,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 2.91,
+      "followRate": null,
+      "grade": "D",
+      "verdict": "Underperforming. The hook or the format is the likely cause."
+    },
+    {
+      "id": "18465713152116753",
+      "permalink": "https://www.instagram.com/reel/DbjhE7KTIJw/",
+      "timestamp": "2026-08-02T22:45:25+0000",
+      "likes": 14,
+      "comments": 1,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 18,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 10.47,
+      "followRate": null,
+      "grade": "A",
+      "verdict": "Exceptional for a local account. Do more of exactly this."
+    },
+    {
+      "id": "17947413015039745",
+      "permalink": "https://www.instagram.com/reel/DbZdAnHznTA/",
+      "timestamp": "2026-07-30T00:57:15+0000",
+      "likes": 10,
+      "comments": 0,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 10,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 5.81,
+      "followRate": null,
+      "grade": "C",
+      "verdict": "Normal. Working, not winning."
+    },
+    {
+      "id": "18260664004305649",
+      "permalink": "https://www.instagram.com/reel/DbYEU0XzW5x/",
+      "timestamp": "2026-07-29T12:02:53+0000",
+      "likes": 41,
+      "comments": 6,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 65,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 37.79,
+      "followRate": null,
+      "grade": "A",
+      "verdict": "Exceptional for a local account. Do more of exactly this."
+    },
+    {
+      "id": "18130950424627623",
+      "permalink": "https://www.instagram.com/reel/DbDZ012Tmyb/",
+      "timestamp": "2026-07-21T11:29:38+0000",
+      "likes": 18,
+      "comments": 2,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 26,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 15.12,
+      "followRate": null,
+      "grade": "A",
+      "verdict": "Exceptional for a local account. Do more of exactly this."
+    },
+    {
+      "id": "17897223384542583",
+      "permalink": "https://www.instagram.com/reel/Da_rarVzTCa/",
+      "timestamp": "2026-07-20T00:43:12+0000",
+      "likes": 8,
+      "comments": 2,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 16,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 9.3,
+      "followRate": null,
+      "grade": "B",
+      "verdict": "Strong. Above the typical range for this account size."
+    },
+    {
+      "id": "17959289019172003",
+      "permalink": "https://www.instagram.com/reel/Daz2Xjcz6EU/",
+      "timestamp": "2026-07-15T10:31:13+0000",
+      "likes": 11,
+      "comments": 1,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 15,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 8.72,
+      "followRate": null,
+      "grade": "B",
+      "verdict": "Strong. Above the typical range for this account size."
+    },
+    {
+      "id": "18213555136330369",
+      "permalink": "https://www.instagram.com/reel/DaUP64zTAJK/",
+      "timestamp": "2026-07-03T03:55:04+0000",
+      "likes": 5,
+      "comments": 0,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 5,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 2.91,
+      "followRate": null,
+      "grade": "D",
+      "verdict": "Underperforming. The hook or the format is the likely cause."
+    },
+    {
+      "id": "18123207313668109",
+      "permalink": "https://www.instagram.com/reel/DaReE3lTM5j/",
+      "timestamp": "2026-07-02T02:03:47+0000",
+      "likes": 8,
+      "comments": 0,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 8,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 4.65,
+      "followRate": null,
+      "grade": "C",
+      "verdict": "Normal. Working, not winning."
+    },
+    {
+      "id": "18102800543141784",
+      "permalink": "https://www.instagram.com/reel/DaPNPdLz9pd/",
+      "timestamp": "2026-07-01T04:57:22+0000",
+      "likes": 4,
+      "comments": 0,
+      "saves": 0,
+      "shares": 0,
+      "views": 0,
+      "reach": null,
+      "weighted": 4,
+      "savesMeasured": false,
+      "sharesMeasured": false,
+      "engagementRate": 2.33,
+      "followRate": null,
+      "grade": "D",
+      "verdict": "Underperforming. The hook or the format is the likely cause."
+    }
+  ],
+  "summary": {
+    "n": 12,
+    "followers": 172,
+    "averageEngagement": 9.26,
+    "grade": "B",
+    "verdict": "Strong. Above the typical range for this account size.",
+    "best": {
+      "permalink": "https://www.instagram.com/reel/DbYEU0XzW5x/",
+      "engagementRate": 37.79
+    },
+    "worst": {
+      "permalink": "https://www.instagram.com/reel/DaPNPdLz9pd/",
+      "engagementRate": 2.33
+    },
+    "actions": [
+      "Best post ran at 37.79% against 2.33% for the weakest — a 35.46 point spread. Study the top one's first two seconds and repeat that opening.",
+      "Instagram did not return saves or shares for these posts, so that signal is unmeasured rather than zero. Engagement below is likes and comments only."
+    ]
+  },
+  "captionIssues": [
+    {
+      "id": "18275834008291469",
+      "permalink": "https://www.instagram.com/reel/Db7NQJyRcCS/",
+      "bareHashtags": [
+        "SalonBlowout",
+        "PolishedHair",
+        "QuietLuxuryHair",
+        "MelbourneSalon",
+        "HairGoals",
+        "FreshBlowout"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "17979484956078027",
+      "permalink": "https://www.instagram.com/reel/Db1xM3yzXjs/",
+      "bareHashtags": [
+        "GlenIris",
+        "KewHair",
+        "BalwynHair",
+        "CanterburyHair",
+        "SurreyHills",
+        "MelbourneHair"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "18109989317087967",
+      "permalink": "https://www.instagram.com/reel/DbuSqDtTHIE/",
+      "bareHashtags": [
+        "MelbourneSalon",
+        "QuietLuxuryHair",
+        "HairTransformation"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "18465713152116753",
+      "permalink": "https://www.instagram.com/reel/DbjhE7KTIJw/",
+      "bareHashtags": [
+        "MelbourneHair",
+        "QuietLuxuryHair",
+        "HairdresserLife"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "17947413015039745",
+      "permalink": "https://www.instagram.com/reel/DbZdAnHznTA/",
+      "bareHashtags": [
+        "K18Treatment",
+        "HealthyBlonde",
+        "MelbourneHairSalon"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "18260664004305649",
+      "permalink": "https://www.instagram.com/reel/DbYEU0XzW5x/",
+      "bareHashtags": [],
+      "draftArtifact": "Alt caption"
+    },
+    {
+      "id": "18130950424627623",
+      "permalink": "https://www.instagram.com/reel/DbDZ012Tmyb/",
+      "bareHashtags": [
+        "DimensionalColour",
+        "MelbourneSalon",
+        "HealthyHair"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "17897223384542583",
+      "permalink": "https://www.instagram.com/reel/Da_rarVzTCa/",
+      "bareHashtags": [
+        "MelbourneHairdresser",
+        "MelbourneBalayage",
+        "EastMelbourneHair"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "17959289019172003",
+      "permalink": "https://www.instagram.com/reel/Daz2Xjcz6EU/",
+      "bareHashtags": [
+        "MelbourneHairdresser"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "18213555136330369",
+      "permalink": "https://www.instagram.com/reel/DaUP64zTAJK/",
+      "bareHashtags": [
+        "HairCareRoutine",
+        "SalonFavorites",
+        "DryHairSolutions"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "18123207313668109",
+      "permalink": "https://www.instagram.com/reel/DaReE3lTM5j/",
+      "bareHashtags": [
+        "CamberwellHair",
+        "MelbourneHairdresser",
+        "ElevenAustralia"
+      ],
+      "draftArtifact": null
+    },
+    {
+      "id": "18102800543141784",
+      "permalink": "https://www.instagram.com/reel/DaPNPdLz9pd/",
+      "bareHashtags": [
+        "HairTutorial",
+        "BookNow",
+        "HairGoals",
+        "BehindTheChair"
+      ],
+      "draftArtifact": "[YourCityHair]"
+    }
+  ]
+}

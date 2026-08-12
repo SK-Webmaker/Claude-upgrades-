@@ -19,6 +19,21 @@ import goals from '../stages/goals.js';
 import review from '../stages/review.js';
 import chat from './chat.js';
 
+/**
+ * A point-in-time snapshot of the account, read live via Composio and committed
+ * so the console has real numbers to show before the service has its own
+ * credentials. It is only used when no live review exists, and it carries
+ * source:'snapshot' and a readAt date so the UI can say plainly that it is not
+ * live. A live `.review` overwrites it.
+ */
+function loadReviewSnapshot() {
+  try {
+    return JSON.parse(readFileSync(join(HERE, '..', '..', 'data', 'seed', 'review-snapshot.json'), 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
 const log = makeLogger('dashboard');
 const HERE = dirname(fileURLToPath(import.meta.url));
 
@@ -190,8 +205,18 @@ function buildSnapshot() {
       const weeks = store.read('weeks', []);
       return weeks.length ? { week: weeks[0], lastScorecard: weeks[1]?.scorecard ?? null } : null;
     })(),
-    review: store.read('review', null),
-    scores: store.read('scores', []),
+    ...(() => {
+      const live = store.read('review', null);
+      const liveScores = store.read('scores', []);
+      if (live) return { review: { ...live, source: 'live' }, scores: liveScores };
+      const snap = loadReviewSnapshot();
+      if (!snap) return { review: null, scores: [] };
+      return {
+        review: { at: snap.readAt, account: snap.account, summary: snap.summary,
+                  captionIssues: snap.captionIssues, source: 'snapshot', note: snap.note },
+        scores: snap.scores,
+      };
+    })(),
     commands: Object.entries(COMMANDS).map(([name, c]) => ({ name: `.${name}`, help: c.help })),
     chat: { assistant: chat.isAssistantConfigured() },
     mix: system.mix,

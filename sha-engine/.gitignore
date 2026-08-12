@@ -1,5 +1,8 @@
 node_modules/
-data/
+data/*
+!data/seed/
+data/seed/*
+!data/seed/review-snapshot.json
 *.log
 .env
 .DS_Store
