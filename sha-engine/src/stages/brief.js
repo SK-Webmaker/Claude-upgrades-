@@ -1,4 +1,7 @@
 import { POST_STATUS } from '../lib/store.js';
+import { buildPlaybook } from '../lib/playbook.js';
+import { BUSINESS, SERVICES, seasonFor } from '../lib/brand.js';
+import { bodyFor } from '../lib/copy.js';
 
 /**
  * The Producer.
@@ -8,20 +11,17 @@ import { POST_STATUS } from '../lib/store.js';
  * week looks like; the engine tells her what to film, she films it natively.
  */
 
+/**
+ * Brand facts come from `lib/brand.js`, which was populated from her live
+ * Instagram profile and her Kairo booking site — not from anything invented here.
+ */
 export const BRAND = {
-  name: 'Hair by Sha',
+  name: BUSINESS.name,
   suburb: 'Camberwell',
   city: 'Melbourne',
-  bookingUrl: 'https://hairbysha-booking.onrender.com/book',
-  specialty: 'Luxury blonde & colour',
-  nearbySuburbs: [
-    'Hawthorn',
-    'Glen Iris',
-    'Kew',
-    'Balwyn',
-    'Canterbury',
-    'Surrey Hills',
-  ],
+  bookingUrl: BUSINESS.bookingUrl,
+  specialty: BUSINESS.positioning,
+  nearbySuburbs: BUSINESS.serviceSuburbs.filter((s) => s !== 'Camberwell'),
 };
 
 /**
@@ -80,12 +80,19 @@ export function buildHashtags({ local = 6, niche = 5, broad = 2, seed = 0 } = {}
   return [...new Set(tags.map((t) => t.replace(/^#/, '')))].slice(0, 30);
 }
 
-/** Rotating CTAs so the feed does not read like a template. */
+/**
+ * Rotating CTAs so the feed does not read like a template.
+ *
+ * Written to her voice: understated, first person, the free consult named
+ * because it is a real differentiator and it lowers the barrier to a first
+ * booking. One emoji, never a row.
+ */
 const CTAS = [
   `Book your colour consult — link in bio. 📍 ${BRAND.suburb}, ${BRAND.city}`,
   `DM to book, or tap the link in bio. 📍 ${BRAND.suburb}`,
   `Consults are free — book via the link in bio. 📍 ${BRAND.suburb}, ${BRAND.city}`,
   `Booking now — link in bio. 📍 ${BRAND.suburb}`,
+  `Free consult first, always. Link in bio. 📍 ${BRAND.suburb}`,
 ];
 
 /** Cadence -> which weekdays to post on. */
@@ -122,24 +129,35 @@ function fillHook(hook, vars) {
  * Drafts the caption for one slot. Body carries the hook and the substance; the
  * CTA and hashtags are separate fields so the Critic can check each on its own.
  */
-export function draftCaption(format, { asset = null, index = 0 } = {}) {
+export function draftCaption(format, { asset = null, index = 0, now = new Date() } = {}) {
+  const season = seasonFor(now);
+  // Rotate through her real colour menu so a service post never invents a name.
+  const service = SERVICES.colour[index % SERVICES.colour.length];
+
   const vars = {
-    n: asset?.vars?.n ?? '3',
+    n: asset?.vars?.n ?? '8',
     before: asset?.vars?.before ?? 'grown-out',
     after: asset?.vars?.after ?? 'creamy blonde',
     day: asset?.vars?.day ?? 'Thursday',
     time: asset?.vars?.time ?? '2:30pm',
+    season: asset?.vars?.season ?? season.name,
+    service: asset?.vars?.service ?? service.name,
+    month: asset?.vars?.month ?? now.toLocaleString('en-AU', { month: 'long' }),
+    offer: asset?.vars?.offer ?? 'K18 included with any blonde transformation',
   };
 
   const hook = fillHook(format.hooks[index % format.hooks.length], vars);
-  const detail =
-    asset?.notes ??
-    `${format.why} Filmed in ${BRAND.suburb} — real client work, start to finish.`;
+
+  // Audience-facing copy comes from lib/copy.js. `format.why` is internal
+  // ranking rationale and must never reach a caption.
+  const detail = fillHook(bodyFor(format, { index, season, service, asset }), vars);
 
   return {
     body: `${hook}\n\n${detail}`,
     cta: CTAS[index % CTAS.length],
     hashtags: buildHashtags({ seed: index }),
+    // Kept so the playbook can show the filled hook rather than the template.
+    filledHook: hook,
   };
 }
 
@@ -162,6 +180,7 @@ export async function runProducer({
   const available = [...library];
   const drafts = [];
   const shootList = [];
+  const playbooks = [];
 
   formatRanking.slice(0, cadence).forEach((format, i) => {
     const slot = slots[i] ?? null;
@@ -171,13 +190,21 @@ export async function runProducer({
     );
     const asset = matchIdx >= 0 ? available.splice(matchIdx, 1)[0] : null;
 
+    const caption = draftCaption(format, { asset, index: i });
+    // The playbook is produced whether or not media exists yet — an unfilmed
+    // slot needs its guide most of all, since that guide is how it gets filmed.
+    const playbook = buildPlaybook(format, { caption, slot, index: i, asset });
+    playbooks.push(playbook);
+
     shootList.push({
       slot,
       format: format.id,
       label: format.label,
       score: format.score,
       reasons: format.reasons,
-      hook: fillHook(format.hooks[i % format.hooks.length], {}),
+      // Use the caption's filled hook. Re-filling the template with an empty
+      // var map leaves a literal "{n}" in the brief Sha reads off her phone.
+      hook: caption.filledHook,
       shotList: format.shotList,
       mediaType: format.mediaType,
       // Research is consistent on both: the first 1-2 seconds decide the post,
@@ -203,7 +230,8 @@ export async function runProducer({
       media: asset.media,
       altText: asset.altText ?? null,
       coverUrl: asset.coverUrl ?? null,
-      caption: draftCaption(format, { asset, index: i }),
+      caption,
+      playbook,
       status: POST_STATUS.DRAFTED,
     };
 
@@ -214,6 +242,7 @@ export async function runProducer({
     weekOf: now.toISOString().slice(0, 10),
     cadence,
     shootList,
+    playbooks,
     draftCount: drafts.length,
     needsFilming: shootList.filter((s) => s.status === 'NEEDS FILMING').length,
   };

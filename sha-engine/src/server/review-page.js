@@ -88,6 +88,85 @@ function renderPost(post, token) {
   </article>`;
 }
 
+function renderGoals(week, lastScorecard) {
+  if (!week) return '';
+  const t = week.targets ?? {};
+  const rows = [
+    ['Followers', t.followers],
+    ['Posts out', t.posts],
+    ['Saves', t.saves],
+    ['Shares', t.shares],
+  ]
+    .filter(([, v]) => v != null)
+    .map(([label, v]) => `<li><span class="num">${esc(v)}</span><span class="lbl">${esc(label)}</span></li>`)
+    .join('');
+
+  const last = lastScorecard
+    ? `<div class="scorecard">
+         <h3>Last week — ${esc(lastScorecard.verdict)}</h3>
+         <ul class="adjustments">
+           ${lastScorecard.adjustments.map((a) => `<li>${esc(a.say)}</li>`).join('')}
+         </ul>
+       </div>`
+    : '<p class="muted-note">First week — no scorecard yet. Next week gets one.</p>';
+
+  return `
+  <section class="goals">
+    <h2>This week's target</h2>
+    <p class="sub">Projection, not a measurement. Scored at the end of the week.</p>
+    ${
+      t.baselineKnown === false
+        ? `<p class="muted-note">${esc(t.unavailable ?? 'No account metrics available this cycle.')}</p>`
+        : ''
+    }
+    <ul class="targets">${rows}</ul>
+    ${last}
+  </section>`;
+}
+
+function renderPlaybook(pb) {
+  const shots = pb.shots
+    .map(
+      (s) =>
+        `<li><b>${s.seconds}s</b> — ${esc(s.direction)} <em>${esc(s.role)}</em></li>`,
+    )
+    .join('');
+  const study = pb.study.accounts
+    .map((a) => `<li><a href="${esc(a.url)}" target="_blank" rel="noopener">@${esc(a.handle)}</a> — ${esc(a.why)}</li>`)
+    .join('');
+  const browse = pb.study.browse
+    .map(
+      (b) =>
+        `<li>#${esc(b.tag)} — <a href="${esc(b.instagram)}" target="_blank" rel="noopener">Instagram</a> · <a href="${esc(b.tiktok)}" target="_blank" rel="noopener">TikTok</a></li>`,
+    )
+    .join('');
+
+  return `
+  <details class="playbook">
+    <summary>How to shoot this — ${esc(pb.label)}</summary>
+    <p class="hook-line">Say / show first: <b>“${esc(pb.hook.say)}”</b></p>
+    <p class="muted-note">${esc(pb.hook.rule)}</p>
+    <h4>Shots — target ${esc(pb.runtime.targetSeconds)}s</h4>
+    <ol class="shots">${shots}</ol>
+    <h4>Filming</h4>
+    <ul>
+      <li>${esc(pb.framing.orientation)}</li>
+      <li>${esc(pb.framing.light)}</li>
+      <li>${esc(pb.framing.stability)}</li>
+    </ul>
+    <h4>Audio — ${esc(pb.audio.type)}</h4>
+    <p>${esc(pb.audio.how)}</p>
+    <p class="muted-note">${esc(pb.audio.note)}</p>
+    <h4>After you post</h4>
+    <ul>${pb.afterPosting.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
+    <h4>Watch first</h4>
+    <ul>${study}</ul>
+    <ul>${browse}</ul>
+    <p class="muted-note">${esc(pb.study.how)}</p>
+    ${pb.consent ? `<p class="consent">${esc(pb.consent)}</p>` : ''}
+  </details>`;
+}
+
 function renderBrief(brief) {
   if (!brief) return '';
   const rows = brief.shootList
@@ -100,6 +179,11 @@ function renderBrief(brief) {
         <ol>${s.shotList.map((shot) => `<li>${esc(shot)}</li>`).join('')}</ol>
         ${s.spec ? `<p class="spec">${esc(s.spec)}</p>` : ''}
         ${s.consent ? `<p class="consent">${esc(s.consent)}</p>` : ''}
+        ${
+          (brief.playbooks ?? []).find((p) => p.format === s.format)
+            ? renderPlaybook(brief.playbooks.find((p) => p.format === s.format))
+            : ''
+        }
       </li>`,
     )
     .join('');
@@ -111,7 +195,7 @@ function renderBrief(brief) {
   </section>`;
 }
 
-export function renderReviewPage({ posts, published = [], brief = null, token }) {
+export function renderReviewPage({ posts, published = [], brief = null, goals = null, token }) {
   const waiting = posts.filter((p) => p.status === 'awaiting_approval').length;
 
   return `<!doctype html>
@@ -171,8 +255,29 @@ export function renderReviewPage({ posts, published = [], brief = null, token })
            padding:2px 7px; border-radius:20px; background:var(--line); color:var(--muted); }
   li.todo .badge { background: var(--accent); color:#fff; }
   .hook { font-style:italic; color:var(--muted); margin:6px 0; }
-  .spec, .consent { font-size:0.82rem; color:var(--muted); margin:6px 0 0; }
+  .spec, .consent, .muted-note { font-size:0.82rem; color:var(--muted); margin:6px 0 0; }
   .consent { color: var(--accent); }
+  .goals { background:var(--card); border:1px solid var(--line); border-radius:14px;
+           padding:16px; margin-bottom:20px; }
+  .goals h2 { font-size:1.05rem; margin:0 0 2px; }
+  .targets { display:flex; gap:10px; list-style:none; padding:0; margin:14px 0 0; flex-wrap:wrap; }
+  .targets li { flex:1 1 68px; text-align:center; background:var(--bg); border-radius:10px;
+                padding:10px 6px; }
+  .targets .num { display:block; font-size:1.35rem; font-weight:600; }
+  .targets .lbl { font-size:0.72rem; color:var(--muted); }
+  .scorecard { margin-top:16px; border-top:1px solid var(--line); padding-top:12px; }
+  .scorecard h3 { font-size:0.9rem; margin:0 0 6px; text-transform:capitalize; }
+  .adjustments { margin:0; padding-left:18px; font-size:0.88rem; color:var(--muted); }
+  .adjustments li { margin-bottom:6px; }
+  .playbook { margin-top:10px; border-top:1px solid var(--line); padding-top:10px; }
+  .playbook summary { cursor:pointer; font-weight:600; font-size:0.88rem; color:var(--accent); }
+  .playbook h4 { font-size:0.82rem; text-transform:uppercase; letter-spacing:0.04em;
+                 color:var(--muted); margin:14px 0 4px; }
+  .playbook ul, .playbook ol { margin:0; padding-left:18px; font-size:0.87rem; }
+  .playbook li { margin-bottom:4px; }
+  .playbook a { color:var(--accent); }
+  .hook-line { margin:10px 0 0; font-size:0.92rem; }
+  .shots em { color:var(--muted); font-style:normal; font-size:0.8rem; }
   .brief ol { margin:6px 0 0; padding-left:20px; color:var(--muted); font-size:0.87rem; }
   .empty { text-align:center; color:var(--muted); padding:40px 0; }
   .published { font-size:0.85rem; color:var(--muted); }
@@ -184,6 +289,7 @@ export function renderReviewPage({ posts, published = [], brief = null, token })
   <h1>Hair by Sha</h1>
   <p class="sub">${waiting} post${waiting === 1 ? '' : 's'} waiting for you</p>
 
+  ${renderGoals(goals?.week, goals?.lastScorecard)}
   ${renderBrief(brief)}
 
   ${

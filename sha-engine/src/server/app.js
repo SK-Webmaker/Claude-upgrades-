@@ -57,9 +57,18 @@ app.get('/review', requireToken, (req, res) => {
     .sort((a, b) => new Date(b.publish?.publishedAt ?? 0) - new Date(a.publish?.publishedAt ?? 0))
     .slice(0, 5);
 
-  const { briefs } = store.state;
+  const { briefs, weeks } = store.state;
+  const week = weeks?.[0] ?? null;
+  const goals = week ? { week, lastScorecard: weeks?.[1]?.scorecard ?? null } : null;
+
   res.type('html').send(
-    renderReviewPage({ posts, published, brief: briefs?.[0] ?? null, token: req.query.t }),
+    renderReviewPage({
+      posts,
+      published,
+      brief: briefs?.[0] ?? null,
+      goals,
+      token: req.query.t,
+    }),
   );
 });
 

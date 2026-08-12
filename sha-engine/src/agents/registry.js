@@ -4,6 +4,7 @@ import { runProducer } from '../stages/brief.js';
 import { runCritic } from '../stages/gate.js';
 import { runPublisher } from '../stages/ship.js';
 import { runAnalyst } from '../stages/learn.js';
+import { runStrategist } from '../stages/goals.js';
 
 /**
  * The agent pipeline.
@@ -33,9 +34,16 @@ export const AGENTS = [
     run: runLibrarian,
   },
   {
-    name: 'Scout',
-    role: 'Ranks content formats against the reference library and live market research.',
+    name: 'Strategist',
+    role: "Sets the week's target, scores the last one, and moves the next target on the result.",
     requires: ['insights'],
+    produces: ['goals'],
+    run: runStrategist,
+  },
+  {
+    name: 'Scout',
+    role: 'Ranks content formats against the reference library, market research, and last week’s scorecard.',
+    requires: ['insights', 'goals'],
     produces: ['formatRanking'],
     run: runScout,
   },

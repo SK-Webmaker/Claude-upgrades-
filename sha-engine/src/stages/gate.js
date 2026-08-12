@@ -1,5 +1,6 @@
 import { POST_STATUS } from '../lib/store.js';
 import { renderCaption } from '../platforms/instagram-composio.js';
+import { voiceViolations } from '../lib/brand.js';
 
 /**
  * The Critic.
@@ -103,6 +104,13 @@ export function critique(post) {
   }
   if (hashtags.length > MAX_HASHTAGS) {
     add('TOO_MANY_HASHTAGS', 'block', `${hashtags.length} hashtags, Instagram caps at ${MAX_HASHTAGS}`);
+  }
+
+  // --- brand voice -------------------------------------------------------
+  // Her register is understated. Hype language, shouting and emoji rows read as
+  // someone else's account and undercut a luxury positioning.
+  for (const hit of voiceViolations(`${body}\n${cta}`)) {
+    add('OFF_BRAND_VOICE', 'warn', `"${hit.term}" — ${hit.why}`);
   }
 
   // --- conversion --------------------------------------------------------

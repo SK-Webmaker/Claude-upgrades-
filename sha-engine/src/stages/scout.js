@@ -170,6 +170,107 @@ export const FORMAT_LIBRARY = [
     ],
     shotList: ['Recent result photo, or a clean type-led graphic'],
   },
+  {
+    id: 'seasonal_angle',
+    label: 'Seasonal change',
+    mediaType: 'REELS',
+    baseScore: 72,
+    effort: 1,
+    mediaOrigin: 'real',
+    season: true,
+    why: 'Seasonal content performs because people search it. Melbourne seasons — never northern-hemisphere ones.',
+    hooks: [
+      'What {season} does to blonde, and how to get ahead of it.',
+      '{season} in Melbourne means one thing for your colour.',
+      'Booking {season} colour now, before the rush.',
+    ],
+    shotList: [
+      'Hook to camera or over a result, season named on screen',
+      'The problem the season causes — dryness, brassiness, dullness',
+      'The fix, shown on real hair',
+      'Close on the booking CTA',
+    ],
+  },
+  {
+    id: 'service_spotlight',
+    label: 'One service explained',
+    mediaType: 'REELS',
+    baseScore: 70,
+    effort: 1,
+    mediaOrigin: 'real',
+    usesService: true,
+    why: 'Removes the "I don’t know what to book" objection, which is the quiet reason booking pages get abandoned.',
+    hooks: [
+      'What "{service}" actually means, and who it’s for.',
+      'Balayage or foils? Here’s how I decide.',
+      'The difference between {service} and what you probably booked.',
+    ],
+    shotList: [
+      'Name the service on screen in the first second',
+      'Show the technique on real hair',
+      'Who it suits, and who it does not',
+      'Time and price on screen, said plainly',
+    ],
+  },
+  {
+    id: 'offer_promo',
+    label: 'Offer',
+    mediaType: 'REELS',
+    baseScore: 58,
+    effort: 1,
+    mediaOrigin: 'any',
+    why: 'Converts hardest of any format, degrades fastest if repeated. Keep it rare and make it specific.',
+    hooks: [
+      '{offer} — this month only.',
+      'New client? Your first colour comes with something.',
+      'Booking {month}: here’s what’s included.',
+    ],
+    shotList: [
+      'The offer stated on screen in plain words, first second',
+      'The work it applies to, on real hair',
+      'The deadline, said out loud',
+    ],
+  },
+  {
+    id: 'new_client_welcome',
+    label: 'What a first visit is like',
+    mediaType: 'REELS',
+    baseScore: 66,
+    effort: 1,
+    mediaOrigin: 'real',
+    why: 'Nervousness about a new salon is a real booking blocker. Showing the room and the consult defuses it.',
+    hooks: [
+      'What happens when you book a first colour with me.',
+      'Nervous about a new salon? This is the whole process.',
+      'Your free consult, start to finish.',
+    ],
+    shotList: [
+      'Walking into the space — show the room, it is the reassurance',
+      'The consult: reference photos, the honest conversation',
+      'A finished result from a first-time client',
+      'Booking CTA with the free consult named',
+    ],
+  },
+  {
+    id: 'aftercare_routine',
+    label: 'Make it last',
+    mediaType: 'CAROUSEL',
+    baseScore: 64,
+    effort: 1,
+    mediaOrigin: 'real',
+    why: 'Saveable, and it protects her work. A client whose colour lasts rebooks; one whose colour goes brassy blames the salon.',
+    hooks: [
+      'Your blonde should still look good in {n} weeks. Here’s how.',
+      'The wash routine that keeps blonde from going brassy.',
+      'What I actually recommend after a colour, and why.',
+    ],
+    shotList: [
+      'Cover card with the promise',
+      'One tip per card, 3-5 cards',
+      'Product she genuinely stocks, in the salon',
+      'Final card: book your refresh',
+    ],
+  },
 ];
 
 /** How often a format may run, in days. Stops the feed feeling repetitive. */
@@ -179,7 +280,13 @@ const COOLDOWN_DAYS = {
   default: 7,
 };
 
-export function scoreFormats({ insights = [], research = null, recentFormats = [], now = new Date() }) {
+export function scoreFormats({
+  insights = [],
+  research = null,
+  recentFormats = [],
+  formatBias = {},
+  now = new Date(),
+}) {
   // Per-format engagement from the Analyst, when we have it.
   const performance = new Map();
   for (const item of insights) {
@@ -213,6 +320,13 @@ export function scoreFormats({ insights = [], research = null, recentFormats = [
       reasons.push(`${lift >= 0 ? '+' : ''}${lift} from market research`);
     }
 
+    // Last week's scorecard steers this week's mix — this is the compounding loop.
+    if (formatBias[format.id]) {
+      const delta = Math.round(formatBias[format.id]);
+      score += delta;
+      reasons.push(`${delta >= 0 ? '+' : ''}${delta} from last week's scorecard`);
+    }
+
     const last = recentFormats.find((r) => r.format === format.id);
     if (last) {
       const days = (now - new Date(last.postedAt)) / 86_400_000;
@@ -228,7 +342,7 @@ export function scoreFormats({ insights = [], research = null, recentFormats = [
   }).sort((a, b) => b.score - a.score);
 }
 
-export async function runScout({ insights = [], store = null, now = new Date() }) {
+export async function runScout({ insights = [], goals = null, store = null, now = new Date() }) {
   const state = store?.state ?? {};
   const recentFormats = (state.posts ?? [])
     .filter((p) => p.status === 'published' && p.format)
@@ -239,6 +353,7 @@ export async function runScout({ insights = [], store = null, now = new Date() }
     insights,
     research: state.research,
     recentFormats,
+    formatBias: goals?.formatBias ?? {},
     now,
   });
 
