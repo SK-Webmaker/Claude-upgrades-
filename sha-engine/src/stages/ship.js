@@ -1,103 +1,144 @@
-import { randomBytes } from 'node:crypto';
-import { POST_STATUS } from '../lib/store.js';
+import { system, creds, capabilities } from '../lib/config.js';
+import { makeLogger } from '../lib/log.js';
+import * as store from '../lib/store.js';
+import instagramGraph from '../platforms/instagram.js';
+import instagramComposio from '../platforms/instagram-composio.js';
+import tiktok from '../platforms/tiktok.js';
+
+const log = makeLogger('ship');
 
 /**
- * The Publisher.
+ * Instagram now publishes through Composio's OAuth connection when one is
+ * configured. The old raw Graph API token path stays as the fallback so a
+ * missing Composio key degrades rather than breaking the week.
  *
- * Queues gated posts for Sha's review and publishes the ones she taps through.
- *
- * The invariant: nothing becomes public without her explicit approval. It is
- * enforced in three places, deliberately —
- *   1. here, when moving a post to the publish path
- *   2. in `publishApproved`, which only ever selects APPROVED posts
- *   3. inside the adapter's `publish`, which re-checks before calling Instagram
- * Any one of them alone would be a single point of failure.
+ * Both adapters expose the same surface — publish, preflight, quotaRemaining,
+ * fetchInsights — so nothing downstream cares which one is live.
  */
+export function instagramAdapter() {
+  return instagramComposio.isConfigured() ? instagramComposio : instagramGraph;
+}
+
+const instagram = instagramAdapter();
+
+const ADAPTERS = { instagram, tiktok };
 
 /**
- * Publisher stage. Takes gated posts and puts the passing ones into the review
- * queue with an approval token. It publishes nothing itself — publishing happens
- * only after Sha taps, via `publishApproved`.
- */
-export async function runPublisher({ gated = [], store = null }) {
-  const queued = [];
-
-  for (const post of gated) {
-    if (!post.gate?.passed) continue;
-
-    const patch = {
-      status: POST_STATUS.AWAITING_APPROVAL,
-      approval: {
-        token: randomBytes(16).toString('hex'),
-        requestedAt: new Date().toISOString(),
-        approvedAt: null,
-        approvedBy: null,
-      },
-    };
-
-    if (store && post.id) store.patchPost(post.id, patch);
-    queued.push({ ...post, ...patch });
-  }
-
-  return { queued };
-}
-
-/** Records Sha's tap. This is the only way a post becomes publishable. */
-export function approvePost(store, postId, { by = 'sha', token = null } = {}) {
-  const post = store.getPost(postId);
-  if (!post) throw new Error(`No such post: ${postId}`);
-  if (post.status !== POST_STATUS.AWAITING_APPROVAL) {
-    throw new Error(`Post ${postId} is "${post.status}", not awaiting approval`);
-  }
-  if (token && post.approval?.token && token !== post.approval.token) {
-    throw new Error('Invalid approval token');
-  }
-
-  return store.patchPost(postId, {
-    status: POST_STATUS.APPROVED,
-    approval: { ...post.approval, approvedAt: new Date().toISOString(), approvedBy: by },
-  });
-}
-
-export function rejectPost(store, postId, { reason = null } = {}) {
-  const post = store.getPost(postId);
-  if (!post) throw new Error(`No such post: ${postId}`);
-  return store.patchPost(postId, {
-    status: POST_STATUS.REJECTED,
-    rejection: { reason, rejectedAt: new Date().toISOString() },
-  });
-}
-
-/**
- * Publishes approved posts whose scheduled slot has arrived.
+ * Publish approved posts to whichever platforms are due.
  *
- * Run from the cron. A post with no slot publishes as soon as it is approved;
- * a post with a future slot waits for it.
+ * Two things this deliberately does not do: it does not publish anything Sha
+ * has not approved, and it does not silently swallow a failure. A post that
+ * fails to ship is marked failed with the error attached and retried on the
+ * next run, up to a limit — after that it needs a human, and says so.
  */
-export async function publishApproved(store, platform, { now = new Date() } = {}) {
-  const due = store.posts(
-    (p) =>
-      p.status === POST_STATUS.APPROVED &&
-      p.approval?.approvedAt &&
-      (!p.slot || new Date(p.slot) <= now),
-  );
 
-  const results = [];
+const MAX_ATTEMPTS = 3;
 
-  for (const post of due) {
-    try {
-      const result = await platform.publish(post);
-      store.patchPost(post.id, { status: POST_STATUS.PUBLISHED, publish: result });
-      results.push({ id: post.id, ok: true, permalink: result.permalink });
-    } catch (err) {
-      // Leave the post APPROVED so the next cron run retries it. A transient
-      // Meta error should not need Sha to approve the same post twice.
-      store.patchPost(post.id, {
-        publish: { error: err.message, failedAt: new Date().toISOString() },
-      });
-      results.push({ id: post.id, ok: false, error: err.message });
+/** Media must be publicly fetchable — both platforms pull the file themselves. */
+export function resolveMediaUrl(post) {
+  if (post.mediaUrl) return post.mediaUrl;
+  const base = creds.publicMediaBaseUrl;
+  if (!base || !post.render?.outFile) return null;
+  const name = post.render.outFile.split('/').pop();
+  return `${base.replace(/\/$/, '')}/${name}`;
+}
+
+export function isDue(post, now = Date.now()) {
+  if (!post.scheduledFor) return true;
+  return new Date(post.scheduledFor).getTime() <= now;
+}
+
+export async function run({ dryRun = false, force = false } = {}) {
+  log.start({ dryRun });
+  try {
+    const caps = capabilities();
+    const posts = store.read('posts', []);
+
+    const queue = posts.filter(
+      (p) => p.status === 'approved' && (force || isDue(p)) && (p.attempts || 0) < MAX_ATTEMPTS
+    );
+
+    if (!queue.length) {
+      log.info('nothing approved and due');
+      log.done({ shipped: 0 });
+      return { shipped: [], failed: [], skipped: 0 };
     }
-  }
 
-  return results;
+    // Respect Instagram's rolling API cap rather than discovering it via errors.
+    let igBudget = system.publishing.instagram.dailyApiCap;
+    if (!dryRun && caps.instagramPublish) {
+      const quota = await instagram.quotaRemaining();
+      if (quota.known) {
+        igBudget = quota.remaining;
+        log.info(`Instagram quota: ${quota.used}/${quota.cap} used, ${quota.remaining} left`);
+      }
+    }
+
+    const shipped = [];
+    const failed = [];
+
+    for (const post of queue) {
+      post.mediaUrl = resolveMediaUrl(post);
+      post.attempts = (post.attempts || 0) + 1;
+      post.results = post.results || {};
+
+      for (const platform of post.platforms || []) {
+        const adapter = ADAPTERS[platform];
+        if (!adapter) continue;
+        if (post.results[platform]?.ok) continue; // already out on this platform
+        if (!system.publishing[platform]?.enabled) {
+          log.debug(`${platform} disabled in config, skipping`);
+          continue;
+        }
+
+        if (platform === 'instagram' && igBudget <= 0) {
+          log.warn('Instagram daily API budget exhausted — holding for tomorrow');
+          continue;
+        }
+
+        try {
+          const res = await adapter.publish(post, { dryRun });
+          post.results[platform] = { ok: true, ...res, at: new Date().toISOString() };
+          if (platform === 'instagram' && !dryRun) igBudget -= 1;
+          log.ok(`${platform}: ${post.id} ${res.requiresTap ? '→ drafts, awaiting tap' : 'live'}`);
+        } catch (err) {
+          post.results[platform] = { ok: false, error: err.message, at: new Date().toISOString() };
+          log.error(`${platform}: ${post.id} failed — ${err.message}`);
+        }
+      }
+
+      const outcomes = Object.values(post.results);
+      const anyOk = outcomes.some((r) => r.ok);
+      const allOk = outcomes.length > 0 && outcomes.every((r) => r.ok);
+
+      if (allOk) {
+        post.status = 'published';
+        post.publishedAt = new Date().toISOString();
+        shipped.push(post);
+        // Mark the footage consumed so the planner never reuses it.
+        const clips = store.read('footage', []);
+        for (const id of post.clipIds || []) {
+          const c = clips.find((x) => x.id === id);
+          if (c) c.usedInPosts = [...new Set([...(c.usedInPosts || []), post.id])];
+        }
+        store.write('footage', clips);
+      } else if (post.attempts >= MAX_ATTEMPTS) {
+        post.status = 'failed';
+        failed.push(post);
+        log.error(`${post.id} gave up after ${MAX_ATTEMPTS} attempts — needs a human`);
+      } else if (anyOk) {
+        post.status = 'partially_published';
+      }
+
+      store.upsert('posts', post);
+    }
+
+    log.done({ shipped: shipped.length, failed: failed.length, dryRun });
+    return { shipped, failed, skipped: queue.length - shipped.length - failed.length };
+  } catch (err) {
+    log.fail(err);
+    throw err;
+  }
 }
+
+export default { run, resolveMediaUrl, isDue };

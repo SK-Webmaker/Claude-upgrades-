@@ -1,113 +1,95 @@
-import { mkdirSync, readFileSync, writeFileSync, existsSync, renameSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, renameSync } from 'node:fs';
+import { join } from 'node:path';
 import { randomUUID } from 'node:crypto';
+import { paths } from './config.js';
+import { bus } from './log.js';
 
-/** Ships the committed market-research snapshot into a fresh store. */
-function loadResearchSeed() {
-  try {
-    const seed = join(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'research-seed.json');
-    return JSON.parse(readFileSync(seed, 'utf8'));
-  } catch {
-    return null;
+/**
+ * Deliberately a plain JSON store. The whole state of this business's marketing
+ * is a few hundred records; a database would be ceremony. Writes are atomic via
+ * rename so a crash mid-write cannot corrupt the file.
+ */
+
+const FILES = {
+  footage: 'footage.json',
+  trends: 'trends.json',
+  plan: 'plan.json',
+  posts: 'posts.json',
+  scores: 'scores.json',
+  memory: 'memory.json',
+};
+
+function ensureDirs() {
+  for (const dir of [paths.data, paths.inbox, paths.footage, paths.renders, paths.state, paths.logs]) {
+    if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
   }
+}
+
+function file(key) {
+  return join(paths.state, FILES[key] || `${key}.json`);
+}
+
+export function read(key, fallback = []) {
+  ensureDirs();
+  const f = file(key);
+  if (!existsSync(f)) return fallback;
+  try {
+    return JSON.parse(readFileSync(f, 'utf8'));
+  } catch {
+    return fallback;
+  }
+}
+
+export function write(key, value) {
+  ensureDirs();
+  const f = file(key);
+  const tmp = `${f}.${process.pid}.tmp`;
+  writeFileSync(tmp, JSON.stringify(value, null, 2));
+  renameSync(tmp, f);
+  bus.emit('state', { key, ts: Date.now() });
+  return value;
+}
+
+export function upsert(key, record, matchOn = 'id') {
+  const rows = read(key, []);
+  const i = rows.findIndex((r) => r[matchOn] === record[matchOn]);
+  if (i >= 0) rows[i] = { ...rows[i], ...record, updatedAt: new Date().toISOString() };
+  else rows.push({ ...record, createdAt: new Date().toISOString() });
+  write(key, rows);
+  return record;
+}
+
+export function id(prefix = 'x') {
+  return `${prefix}_${randomUUID().slice(0, 8)}`;
 }
 
 /**
- * Flat JSON store on disk. Render gives the service a persistent disk mounted at
- * DATA_DIR, so the queue survives restarts and deploys.
+ * Long-term pattern memory: what actually worked for this salon.
+ * Stage 7 writes here; stage 3 reads it when choosing next week's formats.
  */
-export class Store {
-  constructor(dataDir = process.env.DATA_DIR || join(process.cwd(), 'src', 'data')) {
-    this.dataDir = dataDir;
-    this.file = join(dataDir, 'state.json');
-    mkdirSync(dataDir, { recursive: true });
-    if (!existsSync(this.file)) {
-      this._write({ posts: [], insights: [], research: loadResearchSeed(), briefs: [] });
-    }
-  }
-
-  _read() {
-    return JSON.parse(readFileSync(this.file, 'utf8'));
-  }
-
-  // Write to a temp file then rename, so a crash mid-write can't truncate state.
-  _write(state) {
-    const tmp = `${this.file}.tmp`;
-    mkdirSync(dirname(this.file), { recursive: true });
-    writeFileSync(tmp, JSON.stringify(state, null, 2));
-    renameSync(tmp, this.file);
-  }
-
-  update(fn) {
-    const state = this._read();
-    const next = fn(state) ?? state;
-    this._write(next);
-    return next;
-  }
-
-  get state() {
-    return this._read();
-  }
-
-  posts(filter = () => true) {
-    return this._read().posts.filter(filter);
-  }
-
-  getPost(id) {
-    return this._read().posts.find((p) => p.id === id) ?? null;
-  }
-
-  addPost(post) {
-    const withId = { id: randomUUID(), createdAt: new Date().toISOString(), ...post };
-    this.update((s) => {
-      s.posts.push(withId);
-      return s;
-    });
-    return withId;
-  }
-
-  patchPost(id, patch) {
-    let updated = null;
-    this.update((s) => {
-      const post = s.posts.find((p) => p.id === id);
-      if (!post) return s;
-      Object.assign(post, patch);
-      updated = post;
-      return s;
-    });
-    return updated;
-  }
-
-  saveResearch(research) {
-    this.update((s) => {
-      s.research = { ...research, fetchedAt: new Date().toISOString() };
-      return s;
-    });
-  }
-
-  saveBrief(brief) {
-    this.update((s) => {
-      s.briefs.unshift({ ...brief, createdAt: new Date().toISOString() });
-      s.briefs = s.briefs.slice(0, 26);
-      return s;
-    });
-  }
-
-  saveInsights(insights) {
-    this.update((s) => {
-      s.insights = insights;
-      return s;
-    });
-  }
+export function recallPatterns() {
+  return read('memory', { formats: {}, hooks: {}, sounds: {}, postingTimes: {} });
 }
 
-export const POST_STATUS = Object.freeze({
-  DRAFTED: 'drafted',
-  BLOCKED: 'blocked',
-  AWAITING_APPROVAL: 'awaiting_approval',
-  APPROVED: 'approved',
-  REJECTED: 'rejected',
-  PUBLISHED: 'published',
-  FAILED: 'failed',
-});
+export function rememberPattern(kind, key, delta) {
+  const mem = recallPatterns();
+  mem[kind] = mem[kind] || {};
+  const cur = mem[kind][key] || { n: 0, score: 0 };
+  cur.n += 1;
+  cur.score += delta;
+  cur.avg = cur.score / cur.n;
+  mem[kind][key] = cur;
+  write('memory', mem);
+  return cur;
+}
+
+/** Snapshot for the dashboard's first paint. */
+export function snapshot() {
+  return {
+    footage: read('footage', []),
+    trends: read('trends', { generatedAt: null, items: [] }),
+    plan: read('plan', { weekOf: null, slots: [] }),
+    posts: read('posts', []),
+    memory: recallPatterns(),
+  };
+}

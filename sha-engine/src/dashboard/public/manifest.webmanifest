@@ -1,0 +1,13 @@
+{
+  "name": "Hair by Sha — Control Room",
+  "short_name": "Sha",
+  "description": "Approve this week's posts and add footage from your phone.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E1013",
+  "theme_color": "#0E1013",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

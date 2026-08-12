@@ -1,3 +1,9 @@
+import { system } from '../lib/config.js';
+import { makeLogger } from '../lib/log.js';
+import * as store from '../lib/store.js';
+
+const log = makeLogger('goals');
+
 /**
  * The Strategist.
  *
@@ -205,18 +211,90 @@ export function formatBiasFrom(scorecard) {
  * Runs before the Scout so this week's targets and last week's lessons are
  * available to rank formats against.
  */
-export async function runStrategist({
+export async function run({
+  insights = null,
+  account = null,
+  cadence = null,
+  now = new Date(),
+} = {}) {
+  log.start();
+  try {
+    const scores = insights ?? store.read('scores', []);
+    const history = store.read('weeks', []);
+    const lastWeek = history[0] ?? null;
+    const perWeek = cadence ?? system.cadence.postsPerWeek;
+
+    // Baseline from measured values only.
+    const totals = scores.reduce(
+      (acc, i) => ({
+        saves: acc.saves + (i.saves ?? 0),
+        shares: acc.shares + (i.shares ?? 0),
+        engagement: acc.engagement + (i.engagementRate ?? 0),
+      }),
+      { saves: 0, shares: 0, engagement: 0 },
+    );
+
+    const baseline = {
+      followers: account?.followers ?? lastWeek?.actual?.followers ?? 0,
+      saves: totals.saves,
+      shares: totals.shares,
+      engagementRate: scores.length ? Number((totals.engagement / scores.length).toFixed(2)) : null,
+      reach: account?.reach ?? null,
+      measuredAt: now.toISOString(),
+    };
+
+    // Close out last week before opening this one.
+    let scorecard = lastWeek?.scorecard ?? null;
+    if (lastWeek && !lastWeek.scorecard) {
+      const published = store
+        .read('posts', [])
+        .filter((p) => p.publishedAt && new Date(p.publishedAt) >= new Date(lastWeek.weekOf));
+      scorecard = scoreWeek({
+        targets: lastWeek.targets,
+        actual: { ...baseline, posts: published.length },
+        formatResults: scores,
+      });
+      lastWeek.scorecard = scorecard;
+      lastWeek.actual = { ...baseline, posts: published.length };
+    }
+
+    const targets = buildTargets({ baseline, lastWeek, cadence: perWeek });
+    const weekOf = now.toISOString().slice(0, 10);
+
+    let week = history.find((w) => w.weekOf === weekOf);
+    if (!week) {
+      week = { weekOf, baseline, targets, actual: { posts: 0 }, scorecard: null };
+      history.unshift(week);
+    } else {
+      week.targets = targets;
+      week.baseline = baseline;
+    }
+
+    store.write('weeks', history.slice(0, 52));
+
+    log.done({
+      weekOf,
+      targetFollowers: targets.followers ?? 'n/a',
+      lastVerdict: scorecard?.verdict ?? 'none',
+    });
+
+    return { goals: { week, lastScorecard: scorecard, formatBias: formatBiasFrom(scorecard) } };
+  } catch (err) {
+    log.fail(err);
+    throw err;
+  }
+}
+
+/** Kept for direct use and tests: pure planning with an injected state bag. */
+export function planWeek({
   insights = [],
   account = null,
-  store = null,
-  cadence = Number(process.env.POSTS_PER_WEEK) || 3,
+  history = [],
+  cadence = 3,
   now = new Date(),
 }) {
-  const state = store?.state ?? {};
-  const history = state.weeks ?? [];
   const lastWeek = history[0] ?? null;
 
-  // Baseline from measured values only.
   const totals = insights.reduce(
     (acc, i) => ({
       saves: acc.saves + (i.saves ?? 0),
@@ -233,50 +311,18 @@ export async function runStrategist({
     engagementRate: insights.length
       ? Number((totals.engagement / insights.length).toFixed(2))
       : null,
-    reach: null,
+    reach: account?.reach ?? null,
     measuredAt: now.toISOString(),
   };
 
-  // Close out last week before opening this one.
-  let scorecard = null;
-  if (lastWeek && !lastWeek.scorecard) {
-    scorecard = scoreWeek({
-      targets: lastWeek.targets,
-      actual: { ...baseline, posts: lastWeek.actual?.posts ?? 0 },
-      formatResults: insights,
-    });
-    if (store) {
-      store.update((s) => {
-        s.weeks = s.weeks ?? [];
-        if (s.weeks[0]) {
-          s.weeks[0].scorecard = scorecard;
-          s.weeks[0].actual = { ...baseline, posts: s.weeks[0].actual?.posts ?? 0 };
-        }
-        return s;
-      });
-    }
-  } else if (lastWeek?.scorecard) {
-    scorecard = lastWeek.scorecard;
-  }
-
   const targets = buildTargets({ baseline, lastWeek, cadence });
+  const scorecard = lastWeek?.scorecard ?? null;
 
-  const week = {
-    weekOf: now.toISOString().slice(0, 10),
-    baseline,
-    targets,
-    actual: { posts: 0 },
-    scorecard: null,
+  return {
+    week: { weekOf: now.toISOString().slice(0, 10), baseline, targets, actual: { posts: 0 }, scorecard: null },
+    lastScorecard: scorecard,
+    formatBias: formatBiasFrom(scorecard),
   };
-
-  if (store) {
-    store.update((s) => {
-      s.weeks = s.weeks ?? [];
-      if (s.weeks[0]?.weekOf !== week.weekOf) s.weeks.unshift(week);
-      s.weeks = s.weeks.slice(0, 52);
-      return s;
-    });
-  }
-
-  return { goals: { week, lastScorecard: scorecard, formatBias: formatBiasFrom(scorecard) } };
 }
+
+export default { run, planWeek, buildTargets, scoreWeek, formatBiasFrom, attainment, nextTarget, GROWTH, TRACKED };

@@ -1,19 +1,33 @@
 {
   "name": "sha-engine",
-  "version": "1.0.0",
-  "description": "Growth marketing engine for Hair by Sha - drafts Instagram posts, gates them, publishes on approval via Composio",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Automated content and marketing engine for Hair by Sha, Camberwell VIC",
   "type": "module",
-  "main": "src/index.js",
   "engines": {
     "node": ">=20"
   },
+  "bin": {
+    "sha": "./src/cli.js"
+  },
   "scripts": {
-    "start": "node src/server/app.js",
-    "test": "node --test \"tests/*.test.js\"",
-    "cycle": "node scripts/run-cycle.js",
-    "publish-due": "node scripts/publish-due.js"
+    "dashboard": "node src/dashboard/server.js",
+    "start": "node src/dashboard/server.js",
+    "ingest": "node src/cli.js ingest",
+    "research": "node src/cli.js research",
+    "plan": "node src/cli.js plan",
+    "cut": "node src/cli.js cut",
+    "gate": "node src/cli.js gate",
+    "ship": "node src/cli.js ship",
+    "learn": "node src/cli.js learn",
+    "week": "node src/cli.js week",
+    "start-week": "node src/cli.js start",
+    "review": "node src/cli.js review",
+    "doctor": "node src/cli.js doctor",
+    "test": "node --test tests/*.test.js"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "ffmpeg-static": "^5.2.0",
+    "ffprobe-static": "^3.1.0"
   }
 }

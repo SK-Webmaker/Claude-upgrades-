@@ -1,6 +1,5 @@
 node_modules/
-src/data/state.json
-src/data/state.json.tmp
-src/data/uploads/
+data/
+*.log
 .env
 .DS_Store

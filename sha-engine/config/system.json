@@ -1,0 +1,108 @@
+{
+  "cadence": {
+    "postsPerWeek": 5,
+    "researchDay": "monday",
+    "researchHour": 6,
+    "planHour": 7,
+    "cutHour": 8,
+    "approvalHour": 18,
+    "learnDay": "sunday",
+    "learnHour": 20
+  },
+  "mix": {
+    "transformation": 0.4,
+    "education": 0.25,
+    "personality": 0.2,
+    "offer": 0.15
+  },
+  "video": {
+    "targetSeconds": 24,
+    "minSeconds": 12,
+    "maxSeconds": 45,
+    "hardMaxSeconds": 90,
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "videoBitrate": "6M",
+    "audioBitrate": "128k",
+    "hookMaxSeconds": 2.0
+  },
+  "cut": {
+    "sceneThreshold": 0.28,
+    "minSegmentSeconds": 0.8,
+    "maxSegmentSeconds": 6.0,
+    "rampFactor": 1.6,
+    "rampAfterSecond": 6,
+    "crossfadeSeconds": 0.0,
+    "motionSampleFps": 4
+  },
+  "gate": {
+    "duplicateWindowDays": 21,
+    "duplicateSimilarityThreshold": 0.82,
+    "minResolutionWidth": 720,
+    "requireCaptions": true,
+    "requireConsent": true,
+    "maxHookSeconds": 2.0,
+    "blockOnFailedRules": true
+  },
+  "scoring": {
+    "weights": {
+      "bookingLinkTaps": 5.0,
+      "saves": 3.0,
+      "profileVisits": 2.5,
+      "shares": 1.5,
+      "comments": 1.0,
+      "likes": 0.3,
+      "reach": 0.1
+    },
+    "retentionWeight": 2.0,
+    "minPostsBeforeTrust": 5,
+    "decayHalfLifeDays": 45
+  },
+  "publishing": {
+    "instagram": {
+      "enabled": true,
+      "mode": "auto",
+      "dailyApiCap": 25,
+      "bestSlotsLocal": [
+        "07:30",
+        "12:15",
+        "18:45",
+        "20:00"
+      ]
+    },
+    "tiktok": {
+      "enabled": true,
+      "mode": "direct",
+      "auditPassed": false,
+      "bestSlotsLocal": [
+        "07:00",
+        "12:00",
+        "19:30"
+      ],
+      "route": "broker",
+      "broker": "higgsfield",
+      "note": "Publishing via an already-audited partner app, so DIRECT_POST works without waiting on our own TikTok audit.",
+      "quotas": {
+        "perMinute": 5,
+        "per24h": 13
+      }
+    }
+  },
+  "research": {
+    "region": "AU",
+    "lookbackDays": 7,
+    "competitorWatchlist": [
+      "https://www.instagram.com/hairbysha_c/"
+    ],
+    "creativeCenterUrls": {
+      "hashtags": "https://ads.tiktok.com/business/creativecenter/hashtag/pc/en?countryCode=AU&period=7",
+      "songs": "https://ads.tiktok.com/business/creativecenter/music/pc/en?countryCode=AU&period=7"
+    },
+    "maxTrendsKept": 25
+  },
+  "dashboard": {
+    "port": 4477,
+    "host": "127.0.0.1"
+  }
+}

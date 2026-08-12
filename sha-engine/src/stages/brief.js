@@ -1,253 +1,127 @@
-import { POST_STATUS } from '../lib/store.js';
-import { buildPlaybook } from '../lib/playbook.js';
-import { BUSINESS, SERVICES, seasonFor } from '../lib/brand.js';
-import { bodyFor } from '../lib/copy.js';
+import { brand, system } from '../lib/config.js';
+import { makeLogger } from '../lib/log.js';
+import * as store from '../lib/store.js';
+import { rankFormats, CRAFT_RULES } from './scout.js';
+import { allocateMix, scheduleSlots, resolveHook } from './plan.js';
+
+const log = makeLogger('brief');
 
 /**
- * The Producer.
+ * Write the week's shoot brief.
  *
- * Writes the weekly shoot brief — exactly what Sha films, shot by shot — and
- * drafts a caption for every slot. This is the only place that decides what the
- * week looks like; the engine tells her what to film, she films it natively.
- */
-
-/**
- * Brand facts come from `lib/brand.js`, which was populated from her live
- * Instagram profile and her Kairo booking site — not from anything invented here.
- */
-export const BRAND = {
-  name: BUSINESS.name,
-  suburb: 'Camberwell',
-  city: 'Melbourne',
-  bookingUrl: BUSINESS.bookingUrl,
-  specialty: BUSINESS.positioning,
-  nearbySuburbs: BUSINESS.serviceSuburbs.filter((s) => s !== 'Camberwell'),
-};
-
-/**
- * Hashtag pools. Every tag is stored WITHOUT the "#" and the renderer adds it —
- * that way a tag can never end up as bare text the way it did on the live account.
+ * This replaces the cut stage. The engine no longer renders video, because
+ * moving footage off a phone onto a machine proved to be the thing that
+ * actually broke the workflow. Instead it produces instructions precise enough
+ * that Sha can film and post natively from her phone in a few minutes, with a
+ * reference video to watch first.
  *
- * The mix is deliberate: local tags are small enough for her to actually rank in,
- * niche tags reach intent, broad tags are a minority because a 172-follower
- * account does not win #hairtransformation.
+ * Photo posts are the exception and stay fully automated: images are small
+ * enough to send without friction, and both platforms accept photo posts
+ * through their APIs, so those still go through the approval-then-publish path.
  */
-export const HASHTAG_POOLS = {
-  local: [
-    'CamberwellHair',
-    'CamberwellHairdresser',
-    'HawthornHair',
-    'GlenIrisHair',
-    'KewHair',
-    'BalwynHair',
-    'CanterburyHair',
-    'SurreyHillsHair',
-    'MelbourneHairdresser',
-    'MelbourneHairSalon',
-    'EastMelbourneHair',
-  ],
-  niche: [
-    'BlondeSpecialist',
-    'BalayageMelbourne',
-    'FullHeadFoils',
-    'CreamyBlonde',
-    'DimensionalBlonde',
-    'ColourCorrection',
-    'ToneRefresh',
-    'BrunetteBalayage',
-    'HealthyBlonde',
-    'K18Treatment',
-  ],
-  broad: ['HairTransformation', 'HairGoals', 'BlondeHair', 'HairColour'],
-  branded: ['HairBySha'],
-};
 
-/**
- * Builds a hashtag set: local-weighted, deduped, capped.
- * Returns bare tags; `renderCaption` prefixes them.
- */
-export function buildHashtags({ local = 6, niche = 5, broad = 2, seed = 0 } = {}) {
-  const pick = (pool, n, offset) =>
-    Array.from({ length: Math.min(n, pool.length) }, (_, i) => pool[(offset + i) % pool.length]);
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-  const tags = [
-    ...HASHTAG_POOLS.branded,
-    ...pick(HASHTAG_POOLS.local, local, seed),
-    ...pick(HASHTAG_POOLS.niche, niche, seed),
-    ...pick(HASHTAG_POOLS.broad, broad, seed),
-  ];
-
-  return [...new Set(tags.map((t) => t.replace(/^#/, '')))].slice(0, 30);
+function startOfWeek(d = new Date()) {
+  const date = new Date(d);
+  date.setDate(date.getDate() - ((date.getDay() + 6) % 7));
+  date.setHours(0, 0, 0, 0);
+  return date;
 }
 
-/**
- * Rotating CTAs so the feed does not read like a template.
- *
- * Written to her voice: understated, first person, the free consult named
- * because it is a real differentiator and it lowers the barrier to a first
- * booking. One emoji, never a row.
- */
-const CTAS = [
-  `Book your colour consult — link in bio. 📍 ${BRAND.suburb}, ${BRAND.city}`,
-  `DM to book, or tap the link in bio. 📍 ${BRAND.suburb}`,
-  `Consults are free — book via the link in bio. 📍 ${BRAND.suburb}, ${BRAND.city}`,
-  `Booking now — link in bio. 📍 ${BRAND.suburb}`,
-  `Free consult first, always. Link in bio. 📍 ${BRAND.suburb}`,
-];
-
-/** Cadence -> which weekdays to post on. */
-const SCHEDULE = {
-  2: [2, 5], // Tue, Fri
-  3: [2, 4, 6], // Tue, Thu, Sat
-  4: [1, 3, 5, 6],
-  5: [1, 2, 4, 5, 6],
-  7: [0, 1, 2, 3, 4, 5, 6],
-};
-
-function nextSlots(count, { from = new Date(), hour = 18 } = {}) {
-  const days = SCHEDULE[count] ?? SCHEDULE[3];
-  const slots = [];
-  const cursor = new Date(from);
-  cursor.setHours(hour, 0, 0, 0);
-
-  // Walk forward up to two weeks until we have enough future slots.
-  for (let i = 0; i < 14 && slots.length < count; i += 1) {
-    const day = new Date(cursor);
-    day.setDate(cursor.getDate() + i);
-    if (days.includes(day.getDay()) && day > from) {
-      slots.push(day.toISOString());
-    }
-  }
-  return slots;
-}
-
-function fillHook(hook, vars) {
-  return hook.replace(/\{(\w+)\}/g, (match, key) => vars[key] ?? match);
-}
-
-/**
- * Drafts the caption for one slot. Body carries the hook and the substance; the
- * CTA and hashtags are separate fields so the Critic can check each on its own.
- */
-export function draftCaption(format, { asset = null, index = 0, now = new Date() } = {}) {
-  const season = seasonFor(now);
-  // Rotate through her real colour menu so a service post never invents a name.
-  const service = SERVICES.colour[index % SERVICES.colour.length];
-
-  const vars = {
-    n: asset?.vars?.n ?? '8',
-    before: asset?.vars?.before ?? 'grown-out',
-    after: asset?.vars?.after ?? 'creamy blonde',
-    day: asset?.vars?.day ?? 'Thursday',
-    time: asset?.vars?.time ?? '2:30pm',
-    season: asset?.vars?.season ?? season.name,
-    service: asset?.vars?.service ?? service.name,
-    month: asset?.vars?.month ?? now.toLocaleString('en-AU', { month: 'long' }),
-    offer: asset?.vars?.offer ?? 'K18 included with any blonde transformation',
-  };
-
-  const hook = fillHook(format.hooks[index % format.hooks.length], vars);
-
-  // Audience-facing copy comes from lib/copy.js. `format.why` is internal
-  // ranking rationale and must never reach a caption.
-  const detail = fillHook(bodyFor(format, { index, season, service, asset }), vars);
-
+/** Caption written for the post, ready to paste. */
+function writeCaption(format, scheduledFor) {
+  const tags = [...brand.voice.coreHashtags].slice(0, brand.voice.hashtagCount.max);
+  const hook = resolveHook(format.hook, { scheduledFor });
   return {
-    body: `${hook}\n\n${detail}`,
-    cta: CTAS[index % CTAS.length],
-    hashtags: buildHashtags({ seed: index }),
-    // Kept so the playbook can show the filled hook rather than the template.
-    filledHook: hook,
+    hook,
+    body: format.why,
+    cta: brand.cta.primary,
+    bookingUrl: brand.business.bookingUrl,
+    hashtags: tags,
+    full: `${hook}\n\n${brand.cta.primary}\n${brand.business.bookingUrl}\n\n${tags.join(' ')}`,
   };
 }
 
-/**
- * Producer stage.
- *
- * Pairs the top-ranked formats with whatever media the Librarian has ready.
- * A slot with no matching asset still produces a brief entry — that is the
- * instruction to go film it — but it does not become a draft post, because there
- * is nothing to publish yet.
- */
-export async function runProducer({
-  formatRanking = [],
-  library = [],
-  store = null,
-  cadence = Number(process.env.POSTS_PER_WEEK) || 3,
-  now = new Date(),
-}) {
-  const slots = nextSlots(cadence, { from: now });
-  const available = [...library];
-  const drafts = [];
-  const shootList = [];
-  const playbooks = [];
+export async function run({ weekOf = null } = {}) {
+  log.start();
+  try {
+    const memory = store.recallPatterns();
+    const formats = rankFormats(memory);
+    const weekStart = weekOf ? new Date(weekOf) : startOfWeek();
+    const total = system.cadence.postsPerWeek;
 
-  formatRanking.slice(0, cadence).forEach((format, i) => {
-    const slot = slots[i] ?? null;
+    const allocation = allocateMix(total, system.mix);
+    const times = scheduleSlots(total, weekStart);
+    log.info(`allocating ${total} slots: ${Object.entries(allocation).map(([k, v]) => `${k} ${v}`).join(', ')}`);
 
-    const matchIdx = available.findIndex(
-      (asset) => asset.format === format.id || asset.mediaType === format.mediaType,
-    );
-    const asset = matchIdx >= 0 ? available.splice(matchIdx, 1)[0] : null;
+    const slots = [];
+    let ti = 0;
 
-    const caption = draftCaption(format, { asset, index: i });
-    // The playbook is produced whether or not media exists yet — an unfilmed
-    // slot needs its guide most of all, since that guide is how it gets filmed.
-    const playbook = buildPlaybook(format, { caption, slot, index: i, asset });
-    playbooks.push(playbook);
+    for (const [type, n] of Object.entries(allocation)) {
+      const candidates = formats.filter((f) => f.type === type);
+      for (let i = 0; i < n; i++) {
+        const format = candidates[i % Math.max(1, candidates.length)];
+        if (!format) continue;
+        const scheduledFor = times[ti++] || times[times.length - 1];
 
-    shootList.push({
-      slot,
-      format: format.id,
-      label: format.label,
-      score: format.score,
-      reasons: format.reasons,
-      // Use the caption's filled hook. Re-filling the template with an empty
-      // var map leaves a literal "{n}" in the brief Sha reads off her phone.
-      hook: caption.filledHook,
-      shotList: format.shotList,
-      mediaType: format.mediaType,
-      // Research is consistent on both: the first 1-2 seconds decide the post,
-      // and 15-45s (ideally under 30) is the performing range.
-      spec:
-        format.mediaType === 'REELS'
-          ? 'Keep it 15-30s. The first 2 seconds decide it — lead with the reveal, not the setup.'
-          : null,
-      consent:
-        format.mediaOrigin === 'real'
-          ? 'Get the client’s verbal OK before filming, and again before posting their face.'
-          : null,
-      status: asset ? 'media ready' : 'NEEDS FILMING',
-    });
+        slots.push({
+          id: store.id('slot'),
+          weekOf: weekStart.toISOString().slice(0, 10),
+          day: DAY_NAMES[new Date(scheduledFor).getDay()],
+          scheduledFor,
+          type,
+          formatId: format.id,
+          formatName: format.name,
+          medium: 'video',
+          hook: resolveHook(format.hook, { scheduledFor }),
+          why: format.why,
+          films: format.films,
+          lengthSec: format.lengthSec,
+          reference: format.reference,
+          referenceNote: format.referenceNote,
+          evidence: format.evidence,
+          verified: format.verified,
+          servicePush: format.servicePush,
+          confidence: format.confidence,
+          caption: writeCaption(format, scheduledFor),
+          // Video is filmed and posted by Sha on her phone; the engine
+          // publishes nothing it did not produce.
+          publishedBy: 'sha',
+          status: 'briefed',
+        });
+      }
+    }
 
-    if (!asset) return;
-
-    const post = {
-      format: format.id,
-      formatLabel: format.label,
-      mediaType: format.mediaType,
-      slot,
-      media: asset.media,
-      altText: asset.altText ?? null,
-      coverUrl: asset.coverUrl ?? null,
-      caption,
-      playbook,
-      status: POST_STATUS.DRAFTED,
+    const plan = {
+      weekOf: weekStart.toISOString().slice(0, 10),
+      generatedAt: new Date().toISOString(),
+      objective: brand.positioning.objective,
+      allocation,
+      slots,
+      craftRules: CRAFT_RULES,
+      totalFilmingMinutes: estimateFilmingTime(slots),
     };
 
-    drafts.push(store ? store.addPost(post) : { id: `draft-${i}`, ...post });
-  });
-
-  const brief = {
-    weekOf: now.toISOString().slice(0, 10),
-    cadence,
-    shootList,
-    playbooks,
-    draftCount: drafts.length,
-    needsFilming: shootList.filter((s) => s.status === 'NEEDS FILMING').length,
-  };
-
-  if (store) store.saveBrief(brief);
-
-  return { drafts, brief };
+    store.write('plan', plan);
+    log.ok(`${slots.length} briefs written, ~${plan.totalFilmingMinutes} min of filming`);
+    log.done({ slots: slots.length });
+    return plan;
+  } catch (err) {
+    log.fail(err);
+    throw err;
+  }
 }
+
+/**
+ * Honest estimate of what this costs Sha in time.
+ *
+ * Filming a 20-second clip takes far longer than 20 seconds — setup, a couple
+ * of takes, and posting. Roughly four minutes per video is realistic; claiming
+ * otherwise sets her up to feel behind in week one.
+ */
+function estimateFilmingTime(slots) {
+  return slots.length * 4;
+}
+
+export default { run };

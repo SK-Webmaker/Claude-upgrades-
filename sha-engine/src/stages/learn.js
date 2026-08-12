@@ -1,106 +1,170 @@
-/**
- * The Analyst.
- *
- * Scores what already shipped so the Scout ranks the next week on real numbers
- * rather than assumptions.
- *
- * Engagement rate is measured against followers, not raw likes — on a small
- * local account a post with 40 likes on 172 followers is a genuinely strong
- * result, and raw counts would hide that.
- */
+import { system, brand, capabilities } from '../lib/config.js';
+import { makeLogger } from '../lib/log.js';
+import * as store from '../lib/store.js';
+import instagram from '../platforms/instagram.js';
+
+const log = makeLogger('learn');
 
 /**
- * Weighted score. Saves and shares matter more than likes: a save is intent to
- * come back, a share is reach into a new local network. A like is a reflex.
+ * Close the loop.
+ *
+ * The weighting is the opinionated part. Likes are nearly worthless to a
+ * salon — they cost nothing and predict nothing. A save is somebody deciding
+ * they want this done to their own head, and a tap on the booking link is the
+ * only number that pays rent. So the score is deliberately lopsided toward
+ * intent rather than reach, which is what makes the system optimise for a
+ * full chair instead of a big follower count.
  */
-export function scorePost(media, { followers = 1 } = {}) {
-  const likes = num(media.like_count ?? media.total_like_count);
-  const comments = num(media.comments_count ?? media.total_comments_count);
-  const saves = num(media.saved_count);
-  const shares = num(media.shares_count ?? media.reposts_count);
-  const views = num(media.view_count ?? media.total_views_count);
 
-  const weighted = likes + comments * 4 + saves * 6 + shares * 8;
-  const base = Math.max(followers, 1);
-
-  return {
-    id: media.id,
-    permalink: media.permalink,
-    timestamp: media.timestamp,
-    likes,
-    comments,
-    saves,
-    shares,
-    views,
-    weighted,
-    engagementRate: Number(((weighted / base) * 100).toFixed(2)),
-    score: Number(((weighted / base) * 100).toFixed(2)),
+export function scorePost(metrics, weights = system.scoring.weights) {
+  const m = {
+    bookingLinkTaps: metrics.bookingLinkTaps ?? metrics.website_clicks ?? 0,
+    saves: metrics.saves ?? metrics.saved ?? 0,
+    profileVisits: metrics.profileVisits ?? metrics.profile_visits ?? 0,
+    shares: metrics.shares ?? 0,
+    comments: metrics.comments ?? 0,
+    likes: metrics.likes ?? 0,
+    reach: metrics.reach ?? metrics.plays ?? 0,
   };
+
+  // Normalise engagement against reach so a small account is not punished for
+  // being small — we care about rate, not raw volume.
+  const denom = Math.max(1, m.reach);
+  let score = 0;
+  score += (m.bookingLinkTaps / denom) * 1000 * weights.bookingLinkTaps;
+  score += (m.saves / denom) * 1000 * weights.saves;
+  score += (m.profileVisits / denom) * 1000 * weights.profileVisits;
+  score += (m.shares / denom) * 1000 * weights.shares;
+  score += (m.comments / denom) * 1000 * weights.comments;
+  score += (m.likes / denom) * 1000 * weights.likes;
+  score += Math.log10(1 + m.reach) * weights.reach;
+
+  // Retention: did people actually watch it, or scroll at the hook?
+  if (metrics.avgWatchTimeSec && metrics.durationSec) {
+    const retention = Math.min(1, metrics.avgWatchTimeSec / metrics.durationSec);
+    score += retention * 100 * system.scoring.retentionWeight;
+  }
+
+  return Math.round(score * 100) / 100;
 }
 
-function num(v) {
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
+/** Older results should not outvote what is working now. */
+export function decayWeight(publishedAt, halfLifeDays = system.scoring.decayHalfLifeDays) {
+  const ageDays = (Date.now() - new Date(publishedAt).getTime()) / 86400000;
+  return Math.pow(0.5, ageDays / halfLifeDays);
 }
 
-/**
- * Audits published captions for the two defects found on the live account.
- * Runs against what actually shipped, so regressions surface even if they came
- * from somewhere other than this engine.
- */
-export function auditPublishedCaptions(mediaItems) {
-  const bareTag = /(?:^|\s)((?:[A-Z][a-z0-9]+){2,})(?=\s|$|[.,!?])/g;
-  const findings = [];
+async function collectMetrics(post) {
+  const caps = capabilities();
+  const igId = post.results?.instagram?.id;
 
-  for (const media of mediaItems) {
-    const caption = media.caption ?? '';
-    const bare = [...caption.matchAll(bareTag)].map((m) => m[1]);
-    const artifact = caption.match(/\balt(?:ernative)?\s+caption\b/i);
-
-    if (bare.length || artifact) {
-      findings.push({
-        id: media.id,
-        permalink: media.permalink,
-        bareHashtags: bare,
-        draftArtifact: artifact ? artifact[0] : null,
-      });
+  if (caps.instagramPublish && igId) {
+    try {
+      const raw = await instagram.fetchInsights(igId);
+      return {
+        source: 'instagram_api',
+        reach: raw.reach ?? raw.plays ?? 0,
+        likes: raw.likes ?? 0,
+        comments: raw.comments ?? 0,
+        saves: raw.saved ?? 0,
+        shares: raw.shares ?? 0,
+        avgWatchTimeSec: (raw.ig_reels_avg_watch_time ?? 0) / 1000,
+        durationSec: post.render?.durationSec ?? 0,
+        bookingLinkTaps: post.manualMetrics?.bookingLinkTaps ?? 0,
+        profileVisits: post.manualMetrics?.profileVisits ?? 0,
+      };
+    } catch (err) {
+      log.warn(`could not read Instagram insights for ${post.id}: ${err.message}`);
     }
   }
-  return findings;
+
+  // Sha can type numbers off her phone if the API is not connected yet.
+  if (post.manualMetrics) return { source: 'manual', durationSec: post.render?.durationSec ?? 0, ...post.manualMetrics };
+  return null;
 }
 
-/**
- * Analyst stage. Pulls recent media through the platform adapter, scores it, and
- * maps each published post back to the format that produced it so the Scout can
- * weight formats by outcome.
- */
-export async function runAnalyst({ platform = null, store = null, followers = null }) {
-  if (!platform) return { insights: [] };
-
-  let account = null;
+export async function run({ since = null } = {}) {
+  log.start();
   try {
-    account = await platform.getAccountInfo();
-  } catch {
-    // Fall through — scoring still works with the follower count we were given.
+    const posts = store.read('posts', []);
+    const cutoff = since ? new Date(since).getTime() : Date.now() - 60 * 86400000;
+
+    const published = posts.filter(
+      (p) => p.status === 'published' && p.publishedAt && new Date(p.publishedAt).getTime() > cutoff
+    );
+
+    if (!published.length) {
+      log.info('nothing published in the window to learn from');
+      log.done({ scored: 0 });
+      return { scored: 0, leaderboard: [], gaps: [] };
+    }
+
+    const scored = [];
+    for (const post of published) {
+      const metrics = await collectMetrics(post);
+      if (!metrics) {
+        log.debug(`no metrics available for ${post.id} yet`);
+        continue;
+      }
+      const score = scorePost(metrics);
+      post.metrics = metrics;
+      post.score = score;
+      post.scoredAt = new Date().toISOString();
+      store.upsert('posts', post);
+      scored.push(post);
+    }
+
+    if (!scored.length) {
+      log.warn('no metrics available yet — connect Instagram insights or enter numbers manually');
+      log.done({ scored: 0 });
+      return { scored: 0, leaderboard: [], gaps: ['metrics'] };
+    }
+
+    // Update pattern memory, weighted so recent results dominate.
+    const mean = scored.reduce((a, p) => a + p.score, 0) / scored.length;
+    for (const post of scored) {
+      const delta = (post.score - mean) / Math.max(1, mean) * decayWeight(post.publishedAt);
+      if (post.formatId) store.rememberPattern('formats', post.formatId, delta);
+      if (post.caption?.hook) store.rememberPattern('hooks', post.caption.hook, delta);
+      if (post.sound) store.rememberPattern('sounds', post.sound, delta);
+      const hour = new Date(post.publishedAt).getHours();
+      store.rememberPattern('postingTimes', String(hour), delta);
+    }
+
+    const leaderboard = [...scored]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map((p) => ({
+        id: p.id, format: p.formatName, type: p.type,
+        score: p.score, publishedAt: p.publishedAt,
+        saves: p.metrics?.saves ?? 0, reach: p.metrics?.reach ?? 0,
+      }));
+
+    const memory = store.recallPatterns();
+    const proven = Object.entries(memory.formats || {})
+      .filter(([, v]) => v.n >= system.scoring.minPostsBeforeTrust)
+      .sort((a, b) => b[1].avg - a[1].avg);
+
+    log.ok(`scored ${scored.length} posts, mean ${mean.toFixed(1)}`);
+    if (proven.length) {
+      log.info(`proven formats: ${proven.slice(0, 3).map(([k, v]) => `${k} (${v.avg.toFixed(2)})`).join(', ')}`);
+    }
+
+    const report = {
+      ranAt: new Date().toISOString(),
+      scored: scored.length,
+      meanScore: Math.round(mean * 100) / 100,
+      leaderboard,
+      provenFormats: proven.map(([id, v]) => ({ id, avg: Math.round(v.avg * 100) / 100, n: v.n })),
+    };
+    store.write('scores', report);
+
+    log.done(report);
+    return report;
+  } catch (err) {
+    log.fail(err);
+    throw err;
   }
-
-  const base = followers ?? account?.followers ?? 1;
-  const media = await platform.getRecentMedia(25);
-
-  // Map published Instagram media ids back to the format the engine used.
-  const byMediaId = new Map(
-    (store?.state.posts ?? [])
-      .filter((p) => p.publish?.mediaId)
-      .map((p) => [String(p.publish.mediaId), p.format]),
-  );
-
-  const insights = media.map((item) => ({
-    ...scorePost(item, { followers: base }),
-    format: byMediaId.get(String(item.id)) ?? null,
-  }));
-
-  const captionIssues = auditPublishedCaptions(media);
-  if (store) store.saveInsights(insights);
-
-  return { insights, captionIssues, account };
 }
+
+export default { run, scorePost, decayWeight };

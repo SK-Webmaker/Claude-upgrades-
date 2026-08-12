@@ -1,88 +1,160 @@
-import { mkdirSync, readdirSync, statSync, existsSync, readFileSync } from 'node:fs';
+import { readdirSync, statSync, renameSync, existsSync, mkdirSync } from 'node:fs';
 import { join, extname, basename } from 'node:path';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { probe } from '../lib/ffmpeg.js';
+import { paths } from '../lib/config.js';
+import { makeLogger } from '../lib/log.js';
+import * as store from '../lib/store.js';
+
+const log = makeLogger('ingest');
+const VIDEO_EXT = new Set(['.mp4', '.mov', '.m4v', '.avi', '.mkv', '.webm']);
 
 /**
- * The Librarian.
- *
- * Takes what Sha drops into the uploads directory and turns it into library
- * entries the Producer can pair with a format. Every asset gets a public HTTPS
- * URL, because Meta fetches media server-side — a local path is unpublishable.
- *
- * Sidecar metadata is optional: dropping `myclip.mp4` alone works, and adding
- * `myclip.json` lets her tag the format, notes and alt text.
+ * Sha's only job is dropping clips into the inbox. Everything here is about
+ * making that safe: dedupe by content hash so re-syncing a folder does not
+ * create duplicates, and classify each clip so the planner knows what it has.
  */
 
-const VIDEO_EXT = new Set(['.mp4', '.mov', '.m4v']);
-const IMAGE_EXT = new Set(['.jpg', '.jpeg', '.png', '.webp']);
-
-export function publicUrlFor(filename, baseUrl = process.env.PUBLIC_BASE_URL) {
-  if (!baseUrl) {
-    throw new Error(
-      'PUBLIC_BASE_URL is not set — Instagram cannot fetch media without a public HTTPS URL',
-    );
-  }
-  return `${baseUrl.replace(/\/$/, '')}/media/${encodeURIComponent(filename)}`;
+function hashFile(file) {
+  // Hash the first 2MB plus size — full hashing a 4GB video to detect a
+  // duplicate is not worth the I/O, and this is more than enough to be unique.
+  const fd = readFileSync(file, { flag: 'r' }).subarray(0, 2 * 1024 * 1024);
+  const size = statSync(file).size;
+  return createHash('sha256').update(fd).update(String(size)).digest('hex').slice(0, 16);
 }
 
+/**
+ * Guess what a clip is from its filename. Sha can name files anything, but if
+ * she uses a keyword we pick it up — 'before', 'after', 'foils', 'reveal'.
+ */
 export function classify(filename) {
-  const ext = extname(filename).toLowerCase();
-  if (VIDEO_EXT.has(ext)) return { kind: 'video', mediaType: 'REELS' };
-  if (IMAGE_EXT.has(ext)) return { kind: 'image', mediaType: 'IMAGE' };
-  return null;
+  const n = filename.toLowerCase();
+  const tags = [];
+  const map = {
+    before: ['before', 'bfore', 'start', 'arrival'],
+    after: ['after', 'final', 'finish', 'reveal', 'result'],
+    process: ['foil', 'foils', 'apply', 'paint', 'balayage', 'toner', 'wash', 'rinse', 'blowdry', 'blow'],
+    talking: ['talk', 'speak', 'chat', 'explain', 'tip'],
+  };
+  for (const [tag, words] of Object.entries(map)) {
+    if (words.some((w) => n.includes(w))) tags.push(tag);
+  }
+  if (!tags.length) tags.push('unsorted');
+  return tags;
 }
 
-export async function runLibrarian({
-  uploadsDir = process.env.UPLOADS_DIR || join(process.cwd(), 'src', 'data', 'uploads'),
-  baseUrl = process.env.PUBLIC_BASE_URL,
-  readJson = defaultReadJson,
-} = {}) {
-  mkdirSync(uploadsDir, { recursive: true });
-
-  const files = readdirSync(uploadsDir).filter((f) => !f.startsWith('.') && classify(f));
-
-  // Fail loudly rather than emitting assets with no URL. A library entry Meta
-  // cannot fetch is not a usable asset, and a null URL would only surface later
-  // as a confusing Critic block.
-  if (files.length && !baseUrl) {
-    throw new Error(
-      'PUBLIC_BASE_URL is not set — Instagram cannot fetch media without a public HTTPS URL',
-    );
+/** Group clips shot close together into one appointment. */
+export function groupIntoSessions(clips, gapMinutes = 90) {
+  const sorted = [...clips].sort((a, b) => new Date(a.shotAt) - new Date(b.shotAt));
+  const sessions = [];
+  let current = null;
+  for (const clip of sorted) {
+    const t = new Date(clip.shotAt).getTime();
+    if (!current || t - current.lastTs > gapMinutes * 60 * 1000) {
+      current = { id: store.id('sess'), clips: [], startedAt: clip.shotAt, lastTs: t };
+      sessions.push(current);
+    }
+    current.clips.push(clip.id);
+    current.lastTs = t;
   }
-
-  const library = [];
-
-  for (const file of files) {
-    const info = classify(file);
-    const stem = basename(file, extname(file));
-    const sidecar = readJson(join(uploadsDir, `${stem}.json`)) ?? {};
-
-    // Assets are real client work unless the sidecar explicitly says otherwise.
-    const origin = sidecar.origin ?? 'real';
-    const depicts = sidecar.depicts ?? 'client_result';
-
-    library.push({
-      id: stem,
-      file,
-      mediaType: sidecar.mediaType ?? info.mediaType,
-      format: sidecar.format ?? null,
-      notes: sidecar.notes ?? null,
-      altText: sidecar.altText ?? null,
-      coverUrl: sidecar.coverUrl ?? null,
-      vars: sidecar.vars ?? {},
-      uploadedAt: statSync(join(uploadsDir, file)).mtime.toISOString(),
-      media: [{ url: publicUrlFor(file, baseUrl), kind: info.kind, origin, depicts }],
-    });
-  }
-
-  library.sort((a, b) => new Date(a.uploadedAt) - new Date(b.uploadedAt));
-  return { library };
+  return sessions.map(({ lastTs, ...s }) => s);
 }
 
-function defaultReadJson(path) {
-  if (!existsSync(path)) return null;
+export async function run({ inbox = paths.inbox, dest = paths.footage } = {}) {
+  log.start();
   try {
-    return JSON.parse(readFileSync(path, 'utf8'));
-  } catch {
-    return null;
+    for (const d of [inbox, dest]) if (!existsSync(d)) mkdirSync(d, { recursive: true });
+
+    const existing = store.read('footage', []);
+    const seen = new Set(existing.map((f) => f.hash));
+
+    const files = readdirSync(inbox)
+      .filter((f) => VIDEO_EXT.has(extname(f).toLowerCase()))
+      .map((f) => join(inbox, f));
+
+    if (!files.length) {
+      log.info('inbox is empty — nothing new to ingest');
+      log.done({ added: 0, total: existing.length });
+      return { added: [], skipped: [], total: existing.length };
+    }
+
+    const added = [];
+    const skipped = [];
+
+    for (const [i, file] of files.entries()) {
+      log.progress(Math.round((i / files.length) * 100), basename(file));
+      let hash;
+      try {
+        hash = hashFile(file);
+      } catch (e) {
+        log.warn(`unreadable, skipping: ${basename(file)}`);
+        continue;
+      }
+
+      if (seen.has(hash)) {
+        skipped.push(basename(file));
+        log.debug(`duplicate, skipping: ${basename(file)}`);
+        continue;
+      }
+
+      let meta;
+      try {
+        meta = await probe(file);
+      } catch (e) {
+        log.warn(`not a readable video, skipping: ${basename(file)} (${e.message.split('\n')[0]})`);
+        continue;
+      }
+
+      const stat = statSync(file);
+      const target = join(dest, `${hash}${extname(file).toLowerCase()}`);
+      renameSync(file, target);
+
+      const record = {
+        id: store.id('clip'),
+        hash,
+        file: target,
+        originalName: basename(file),
+        tags: classify(basename(file)),
+        durationSec: Number(meta.durationSec.toFixed(2)),
+        width: meta.width,
+        height: meta.height,
+        isVertical: meta.height >= meta.width,
+        hasAudio: meta.hasAudio,
+        sizeBytes: meta.sizeBytes,
+        shotAt: stat.mtime.toISOString(),
+        consent: null,
+        usedInPosts: [],
+      };
+
+      store.upsert('footage', record);
+      seen.add(hash);
+      added.push(record);
+      log.info(`+ ${record.originalName} · ${record.durationSec}s · ${record.width}x${record.height} · ${record.tags.join(',')}`);
+    }
+
+    const total = store.read('footage', []).length;
+    log.done({ added: added.length, skipped: skipped.length, total });
+    return { added, skipped, total };
+  } catch (err) {
+    log.fail(err);
+    throw err;
   }
 }
+
+/** What the planner can actually build from right now. */
+export function inventory() {
+  const clips = store.read('footage', []);
+  const unused = clips.filter((c) => !c.usedInPosts?.length);
+  const byTag = {};
+  for (const c of unused) for (const t of c.tags) byTag[t] = (byTag[t] || 0) + 1;
+  return {
+    total: clips.length,
+    unused: unused.length,
+    byTag,
+    totalUnusedSeconds: Math.round(unused.reduce((a, c) => a + c.durationSec, 0)),
+    sessions: groupIntoSessions(unused),
+  };
+}
+
+export default { run, inventory, classify, groupIntoSessions };

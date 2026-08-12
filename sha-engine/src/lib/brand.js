@@ -1,30 +1,36 @@
+import { brand } from './config.js';
+
 /**
- * Hair by Sha — brand truth.
+ * Brand adapter.
  *
- * Every value here was read from a live source, not invented:
- *   - profile, bio, handle: Instagram Graph via Composio, 2026-08-11
- *   - address, phone, services, prices: her Kairo booking site, scraped 2026-08-11
- *   - voice rules: derived from her own published captions
+ * `config/brand.json` is the source of truth — it is edited by hand and carries
+ * her real services, prices, voice rules and palette. This module shapes that
+ * file for the content modules and adds only what the JSON cannot express:
+ * southern-hemisphere seasons, Melbourne calendar moments, and the voice check.
  *
- * Prices are real and change. `pricesReadAt` is stamped so a caption built from
- * a stale menu can be spotted rather than quietly published.
+ * Nothing here redefines a fact that lives in the JSON.
  */
 
 export const BUSINESS = {
-  name: 'Hair by Sha',
-  displayName: 'Hair by Sha | Camberwell',
-  handle: 'hairbysha_c',
-  instagram: 'https://www.instagram.com/hairbysha_c/',
-  igUserId: '27461710323507831',
-  address: '1 Prospect Hill Rd, Camberwell, Melbourne VIC 3124',
-  phone: '0452 611 799',
-  bookingUrl: 'https://hairbysha-booking.onrender.com/book',
-  tagline: 'Crafting effortless beauty through personalised colour, style, and care.',
-  positioning: 'Luxury blonde & colour specialist',
-  specialties: ['Balayage', 'Foils', 'Colour transformations'],
-  freeConsult: true,
+  name: brand.business.name,
+  operator: brand.business.operator,
+  displayName: `${brand.business.name} | ${brand.business.suburb}`,
+  handle: brand.business.instagram,
+  instagram: `https://www.instagram.com/${brand.business.instagram}/`,
+  address: brand.business.address,
+  suburb: brand.business.suburb,
+  city: brand.business.city,
+  timezone: brand.business.timezone,
+  phone: brand.business.phone,
+  bookingUrl: brand.business.bookingUrl,
+  website: brand.business.website,
+  tagline: brand.positioning.tagline,
+  positioning: brand.positioning.speciality,
+  credentials: brand.positioning.credentials ?? [],
+  idealClient: brand.positioning.idealClient,
+  priceAnchor: brand.positioning.priceAnchor,
   serviceSuburbs: [
-    'Camberwell',
+    brand.business.suburb,
     'Hawthorn',
     'Glen Iris',
     'Kew',
@@ -35,48 +41,39 @@ export const BUSINESS = {
   stockists: ['ELEVEN Australia', 'K18'],
 };
 
-/**
- * Live service menu. Used by price-transparency and offer posts so a caption
- * never quotes a number that isn't on her booking page.
- */
-export const SERVICES = {
-  pricesReadAt: '2026-08-11',
-  source: BUSINESS.bookingUrl,
-  colour: [
-    { id: 'balayage_lived_in', name: 'Balayage / Lived-in Blonde', from: 340, minutes: 210, note: 'Low-maintenance, seamless blonde. Includes toner and blow wave.' },
-    { id: 'blonde_transformation', name: 'Blonde Transformation (Foils + Root + Cut)', from: 350, minutes: 240 },
-    { id: 'blonde_transformation_k18', name: 'Blonde Transformation + K18', from: 420, minutes: 240 },
-    { id: 'full_blonde', name: 'Full Blonde', from: 320, minutes: 210, note: 'Full head foils for maximum blonde impact. Includes toner and blow wave.' },
-    { id: 'partial_blonde', name: 'Partial Blonde (Foils)', from: 240, minutes: 150, note: 'Soft brightness through the top and sides. Perfect for maintenance blondes.' },
-    { id: 'root_refresh', name: 'Root Colour + Refresh', from: 150, minutes: 105, note: 'Regrowth colour with refreshed ends. Includes blow wave.' },
-    { id: 'toner_gloss', name: 'Toner & Gloss', from: 45, minutes: 45 },
-  ],
-  cuts: [
-    { id: 'cut_blow', name: 'Cut & Blow Wave', from: 110, minutes: 60 },
-    { id: 'restyle', name: 'Restyle Cut', from: 140, minutes: 60 },
-    { id: 'blow_wave', name: 'Blow Wave', from: 55, minutes: 45 },
-  ],
-  treatments: [
-    { id: 'k18', name: 'K18 Treatment', from: 45, minutes: 15 },
-    { id: 'deep_treatment', name: 'Deep Treatment', from: 30, minutes: 30 },
-  ],
-  extensions: [
-    { id: 'ext_refit', name: 'Extensions Move Up / Refit', from: 300, minutes: 150 },
-    { id: 'ext_removal', name: 'Extensions Removal', from: 100, minutes: 90 },
-  ],
-};
+/** Her live service menu, straight from the config. */
+export const SERVICES = brand.positioning.services;
 
 export function allServices() {
-  return [...SERVICES.colour, ...SERVICES.cuts, ...SERVICES.treatments, ...SERVICES.extensions];
+  return SERVICES;
 }
 
 export function serviceById(id) {
-  return allServices().find((s) => s.id === id) ?? null;
+  // The config keys services by name; ids are derived so callers can be stable.
+  return SERVICES.find((s) => slugFor(s) === id) ?? null;
 }
 
-/** "$320" / "3.5 hours" — formatted the way her captions already read. */
+export function slugFor(service) {
+  return service.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+
+/**
+ * The services content should actually drive toward.
+ *
+ * `priceAnchor.note` in the config is explicit: the money is in the $240-$420
+ * colour packages, not the $35 blow dry. Content that spotlights a cheap service
+ * trains the audience to book the cheap service.
+ */
+export function heroServices() {
+  const hero = SERVICES.filter((s) => s.hero);
+  return hero.length ? hero : SERVICES.filter((s) => s.category === 'colour package');
+}
+
 export function priceLabel(service) {
-  return `$${service.from}`;
+  return `${service.from ? 'from ' : ''}$${service.price}`;
 }
 
 export function durationLabel(service) {
@@ -85,60 +82,67 @@ export function durationLabel(service) {
   return Number.isInteger(h) ? `${h} hour${h === 1 ? '' : 's'}` : `${h.toFixed(1)} hours`;
 }
 
-/**
- * Voice, derived from her own captions.
- *
- * The through-line is understatement. Her best-performing line is "Dimension
- * that doesn't scream for attention. Just quietly perfect." Nothing the engine
- * writes should be louder than she is.
- */
+/** Voice rules, lifted from the config so there is one place to edit them. */
 export const VOICE = {
-  register: 'Warm, understated, quietly expert. Never hype.',
-  person: 'First person singular. She is one stylist, not a team.',
-  signatureEmoji: ['✨', '🤍', '📍', '💬'],
-  emojiRule: 'One or two per caption, never a row of them. 🤍 is hers — use it on soft/blonde posts.',
-  ownPhrases: [
-    'creamy blonde',
-    'dimensional',
-    'lived-in',
-    'grows out beautifully',
-    'healthy blonde',
-    'quietly perfect',
-    'we talked it through properly first',
-  ],
-  values: [
-    'Hair health over speed — she will not lift to platinum in one sitting and says so',
-    'Consultation first, free, no pressure',
-    'Colour that grows out well, not just colour that looks good today',
-  ],
-  avoid: [
-    'OBSESSED', 'STUNNING', 'GORGEOUS', 'to die for', 'slay', 'bestie',
-    'exclamation stacking (!!!)', 'ALL CAPS words',
-    'discount language that cheapens the positioning — "cheap", "bargain"',
-  ],
-  signOff: `📍 ${BUSINESS.name}, Camberwell`,
+  persona: brand.voice.persona,
+  use: brand.voice.use ?? [],
+  avoid: brand.voice.avoid ?? [],
+  emojiMax: brand.voice.emojiMax ?? 2,
+  hashtagCount: brand.voice.hashtagCount ?? { min: 4, max: 8 },
+  coreHashtags: brand.voice.coreHashtags ?? [],
+  onCamera: brand.voice.onCamera,
 };
 
-/** Caption checks specific to her voice, layered on the Critic's generic rules. */
+export const CTA = brand.cta;
+export const LOOK = brand.look;
+export const CONSENT = brand.consent;
+
+/**
+ * Checks a caption against her voice rules.
+ *
+ * Returns findings rather than throwing — the Critic decides severity. Voice is
+ * a warning, not a blocker: it is her account and her call.
+ */
 export function voiceViolations(text) {
   const found = [];
+
   for (const banned of VOICE.avoid) {
-    if (!/^[a-z ]+$/i.test(banned)) continue;
-    const re = new RegExp(`\\b${banned.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
-    if (re.test(text)) found.push({ term: banned, why: 'off-brand for an understated luxury positioning' });
+    // Config mixes literal words with descriptions like "excessive emoji";
+    // only the word-shaped entries can be matched directly.
+    if (!/^[a-z0-9 '!]+$/i.test(banned)) continue;
+    const escaped = banned.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const re = new RegExp(`(^|\\W)${escaped}(\\W|$)`, 'i');
+    if (re.test(text)) {
+      found.push({ term: banned, why: 'on the brand’s avoid list' });
+    }
   }
-  if (/!{2,}/.test(text)) found.push({ term: '!!', why: 'exclamation stacking — she does not write this way' });
-  if (/\b[A-Z]{4,}\b/.test(text.replace(/\b(K18|DM|CTA|VIC)\b/g, ''))) {
+
+  if (/!{2,}/.test(text)) {
+    found.push({ term: '!!', why: 'exclamation stacking — she does not write this way' });
+  }
+
+  // K18, DM, VIC and AU are legitimate; anything else in caps is shouting.
+  const caps = text.replace(/\b(K18|DM|CTA|VIC|AU|IG)\b/g, '');
+  if (/\b[A-Z]{4,}\b/.test(caps)) {
     found.push({ term: 'ALL CAPS', why: 'shouting is off-brand' });
   }
+
   const emoji = [...text].filter((c) => /\p{Extended_Pictographic}/u.test(c));
-  if (emoji.length > 4) found.push({ term: `${emoji.length} emoji`, why: 'one or two, never a row' });
+  if (emoji.length > VOICE.emojiMax) {
+    found.push({
+      term: `${emoji.length} emoji`,
+      why: `brand config caps emoji at ${VOICE.emojiMax}`,
+    });
+  }
+
   return found;
 }
 
 /**
- * Melbourne seasons, so seasonal posts land in the right hemisphere.
- * Getting this backwards is the classic mistake for AU salon content.
+ * Southern-hemisphere seasons.
+ *
+ * Melbourne, not the northern default. Getting this backwards is the standard
+ * way an automated content system embarrasses an Australian business.
  */
 export const SEASONS = [
   { months: [12, 1, 2], name: 'Summer', angles: ['sun and chlorine protection', 'beach-proof blonde', 'party season colour', 'holiday-ready gloss'] },
@@ -157,7 +161,7 @@ export const LOCAL_MOMENTS = [
   { month: 11, name: 'Spring Racing Carnival', angle: 'race day hair — book early, the week fills' },
   { month: 12, name: 'Christmas parties', angle: 'party season gloss and blow waves' },
   { month: 2, name: 'Wedding season', angle: 'bridal trials and guest hair' },
-  { month: 9, name: 'Grand Final / spring', angle: 'refresh before the warm months' },
+  { month: 9, name: 'Grand Final and early spring', angle: 'refresh before the warm months' },
 ];
 
 export function momentsFor(date = new Date()) {
@@ -165,4 +169,22 @@ export function momentsFor(date = new Date()) {
   return LOCAL_MOMENTS.filter((x) => x.month === m || x.month === m + 1);
 }
 
-export default { BUSINESS, SERVICES, VOICE, SEASONS, LOCAL_MOMENTS, allServices, serviceById, priceLabel, durationLabel, seasonFor, momentsFor, voiceViolations };
+export default {
+  BUSINESS,
+  SERVICES,
+  VOICE,
+  CTA,
+  LOOK,
+  CONSENT,
+  SEASONS,
+  LOCAL_MOMENTS,
+  allServices,
+  serviceById,
+  slugFor,
+  heroServices,
+  priceLabel,
+  durationLabel,
+  seasonFor,
+  momentsFor,
+  voiceViolations,
+};

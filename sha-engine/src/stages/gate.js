@@ -1,29 +1,170 @@
-import { POST_STATUS } from '../lib/store.js';
-import { renderCaption } from '../platforms/instagram-composio.js';
-import { voiceViolations } from '../lib/brand.js';
+import { brand, system, capabilities } from '../lib/config.js';
+import { makeLogger } from '../lib/log.js';
+import * as store from '../lib/store.js';
+
+const log = makeLogger('gate');
 
 /**
- * The Critic.
+ * The stage that stops slop reaching a client.
  *
- * Nothing reaches Sha's review page, and nothing reaches the public, without
- * passing every blocking rule here.
+ * Two tiers. Automated rules catch the mechanical failures — wrong aspect,
+ * missing captions, no consent, a near-duplicate of something posted a
+ * fortnight ago. Anything that survives goes to Sha as a batch preview, and
+ * her rejection reason is fed back into pattern memory so the planner stops
+ * producing that kind of slot.
  *
- * Two of these rules exist because both defects were found live on the account:
- *
- *   BARE_HASHTAG   — every published caption lost its "#" after the fifth tag.
- *                    Roughly half of each post's discovery surface was dead text.
- *   DRAFT_ARTIFACT — the top-performing post shipped with the literal words
- *                    "Alt caption (shorter, quieter tone)" in the live caption.
- *
- * Severity: 'block' stops the post. 'warn' is surfaced on the review page but
- * still lets Sha decide.
+ * Every rule returns a reason a human can act on. "Failed validation" helps
+ * nobody at 6pm on a Monday.
  */
 
-const MAX_CAPTION = 2200;
-const MIN_HASHTAGS = 3;
-const MAX_HASHTAGS = 30;
+export const RULES = [
+  {
+    id: 'vertical',
+    severity: 'blocker',
+    check: (post) => post.render?.width && post.render.height >= post.render.width,
+    fail: 'Not vertical. Reels and TikTok both need 9:16 or it gets letterboxed into irrelevance.',
+  },
+  {
+    id: 'resolution',
+    severity: 'blocker',
+    check: (post) => (post.render?.width || 0) >= system.gate.minResolutionWidth,
+    fail: (post) => `Only ${post.render?.width}px wide. Below ${system.gate.minResolutionWidth}px looks soft on a phone.`,
+  },
+  {
+    id: 'duration',
+    severity: 'blocker',
+    check: (post) => {
+      const d = post.render?.durationSec || 0;
+      return d >= system.video.minSeconds && d <= system.video.hardMaxSeconds;
+    },
+    fail: (post) => `Runs ${post.render?.durationSec?.toFixed(1)}s. Needs to sit between ${system.video.minSeconds}s and ${system.video.hardMaxSeconds}s.`,
+  },
+  {
+    id: 'captions',
+    severity: 'blocker',
+    check: (post) => !system.gate.requireCaptions || (post.captions?.length > 0),
+    fail: 'No captions burned in. Most of the feed watches on mute.',
+  },
+  {
+    id: 'hook-length',
+    severity: 'warning',
+    check: (post) => {
+      const first = post.captions?.[0];
+      return !first || first.start <= system.gate.maxHookSeconds;
+    },
+    fail: `Hook lands later than ${system.gate.maxHookSeconds}s. The scroll decision is already made by then.`,
+  },
+  {
+    id: 'consent',
+    severity: 'blocker',
+    check: (post, ctx) => {
+      if (!system.gate.requireConsent) return true;
+      if (!ctx.consentPolicySet) return false;
+      if (brand.consent.policy === 'blanket_at_booking') return true;
+      return (post.clipIds || []).every((id) => {
+        const clip = ctx.clips.find((c) => c.id === id);
+        return clip?.consent === true;
+      });
+    },
+    fail: (post, ctx) => ctx.consentPolicySet
+      ? 'A clip in this post has no recorded client consent.'
+      : 'No consent policy configured yet — set brand.consent.policy before anything with a client in it ships.',
+  },
+  {
+    id: 'booking-url',
+    severity: 'blocker',
+    check: (post, ctx) => !post.caption?.cta || ctx.bookingUrlSet,
+    fail: 'The call to action points at a booking link that has not been set.',
+  },
+  {
+    id: 'not-duplicate',
+    severity: 'blocker',
+    check: (post, ctx) => {
+      const cutoff = Date.now() - system.gate.duplicateWindowDays * 86400000;
+      const recent = ctx.posts.filter(
+        (p) => p.id !== post.id && p.publishedAt && new Date(p.publishedAt).getTime() > cutoff
+      );
+      return !recent.some(
+        (p) => p.formatId === post.formatId && overlapRatio(p.clipIds, post.clipIds) > system.gate.duplicateSimilarityThreshold
+      );
+    },
+    fail: `Too close to something posted in the last ${system.gate.duplicateWindowDays} days.`,
+  },
+  {
+    id: 'voice',
+    severity: 'warning',
+    check: (post) => {
+      const text = [post.caption?.hook, post.caption?.body, ...(post.captions || []).map((c) => c.text)]
+        .filter(Boolean).join(' ').toLowerCase();
+      return !brand.voice.avoid.some((w) => text.includes(w.toLowerCase()));
+    },
+    fail: (post) => {
+      const text = [post.caption?.hook, post.caption?.body].filter(Boolean).join(' ').toLowerCase();
+      const hit = brand.voice.avoid.find((w) => text.includes(w.toLowerCase()));
+      return `Caption uses "${hit}", which is on the do-not-say list.`;
+    },
+  },
+  {
+    // Found live on the account: every published caption lost its "#" after the
+    // fifth tag, so the rest published as plain words reaching nobody. A
+    // CamelCase run sitting loose in the text is an unhashed hashtag, not prose.
+    id: 'bare-hashtag',
+    severity: 'blocker',
+    check: (post) => bareTags(post).length === 0,
+    fail: (post) => {
+      const bare = bareTags(post);
+      return `${bare.length} hashtag(s) lost their "#" and will reach nobody: ${bare.slice(0, 6).join(', ')}`;
+    },
+  },
+  {
+    // Found live on the account: her best-performing post published with the
+    // literal text "Alt caption (shorter, quieter tone)" in it.
+    id: 'draft-artifact',
+    severity: 'blocker',
+    check: (post) => !draftArtifact(post),
+    fail: (post) => `Drafting leftover in the caption: "${draftArtifact(post)}"`,
+  },
+  {
+    id: 'hashtag-count',
+    severity: 'warning',
+    check: (post) => {
+      const n = (post.caption?.hashtags || []).length;
+      const { min, max } = brand.voice.hashtagCount;
+      return n === 0 || (n >= min && n <= max);
+    },
+    fail: (post) => {
+      const n = (post.caption?.hashtags || []).length;
+      const { min, max } = brand.voice.hashtagCount;
+      return `${n} hashtags — brand config asks for ${min}-${max}.`;
+    },
+  },
+  {
+    id: 'cta-frequency',
+    severity: 'warning',
+    check: (post, ctx) => {
+      if (post.type !== 'offer') return true;
+      const recent = ctx.posts.filter((p) => p.publishedAt).slice(-10);
+      if (recent.length < 5) return true;
+      const offers = recent.filter((p) => p.type === 'offer').length;
+      return offers / recent.length <= brand.cta.frequencyCap;
+    },
+    fail: 'Too many offer posts recently. The feed starts reading as an ad channel.',
+  },
+];
 
-// Leftovers from a drafting tool that must never reach a caption.
+/** Caption text as one string, for the text-level rules. */
+function captionText(post) {
+  return [post.caption?.hook, post.caption?.body, post.caption?.cta].filter(Boolean).join('\n');
+}
+
+/** CamelCase runs loose in the text — hashtags that lost their "#". */
+const BARE_TAG = /(?:^|\s)((?:[A-Z][a-z0-9]+){2,})(?=\s|$|[.,!?])/g;
+
+export function bareTags(post) {
+  return [...captionText(post).matchAll(BARE_TAG)].map((m) => m[1]);
+}
+
+/** Scaffolding a drafting tool leaves behind and must never publish. */
 const DRAFT_ARTIFACT_PATTERNS = [
   /\balt(?:ernative)?\s+caption\b/i,
   /\boption\s+[a-d]\b/i,
@@ -32,154 +173,113 @@ const DRAFT_ARTIFACT_PATTERNS = [
   /\bdraft\s*\d*\s*:/i,
   /\[(?:insert|your|client|todo|tbd)[^\]]*\]/i,
   /\{\{.*?\}\}/,
+  /\{[a-z]+\}/,
   /\blorem ipsum\b/i,
   /\bTODO\b/,
   /\bas an ai\b/i,
 ];
 
-// A CamelCase run like "MelbourneHairdresser" sitting loose in the text is an
-// unhashed hashtag, not prose.
-const BARE_TAG = /(?:^|\s)((?:[A-Z][a-z0-9]+){2,})(?=\s|$|[.,!?])/g;
-
-const CTA_PATTERNS = [
-  /link in bio/i,
-  /\bdm\b/i,
-  /book(?:ing|\s+(?:now|online|via|your))/i,
-  /https?:\/\//i,
-];
-
-export function critique(post) {
-  const violations = [];
-  const add = (rule, severity, message) => violations.push({ rule, severity, message });
-
-  const caption = post.caption ?? {};
-  const body = typeof caption === 'string' ? caption : (caption.body ?? '');
-  const cta = typeof caption === 'string' ? '' : (caption.cta ?? '');
-  const hashtags = typeof caption === 'string' ? [] : (caption.hashtags ?? []);
-  const rendered = renderCaption(caption);
-
-  // --- caption content ---------------------------------------------------
-  if (!body.trim()) {
-    add('EMPTY_CAPTION', 'block', 'Caption body is empty');
-  }
-
-  if (rendered.length > MAX_CAPTION) {
-    add(
-      'CAPTION_TOO_LONG',
-      'block',
-      `Caption is ${rendered.length} characters, Instagram allows ${MAX_CAPTION}`,
-    );
-  }
-
+export function draftArtifact(post) {
+  const text = captionText(post);
   for (const pattern of DRAFT_ARTIFACT_PATTERNS) {
-    const hit = `${body}\n${cta}`.match(pattern);
-    if (hit) {
-      add('DRAFT_ARTIFACT', 'block', `Drafting leftover in caption: "${hit[0].trim()}"`);
-    }
+    const hit = text.match(pattern);
+    if (hit) return hit[0].trim();
   }
-
-  // --- hashtag integrity -------------------------------------------------
-  const bare = [...`${body}\n${cta}`.matchAll(BARE_TAG)].map((m) => m[1]);
-  if (bare.length) {
-    add(
-      'BARE_HASHTAG',
-      'block',
-      `${bare.length} hashtag(s) missing their "#" and reaching nobody: ${bare.slice(0, 6).join(', ')}`,
-    );
-  }
-
-  const malformed = hashtags.filter((t) => !/^#?[A-Za-z0-9_]+$/.test(t));
-  if (malformed.length) {
-    add('MALFORMED_HASHTAG', 'block', `Invalid hashtag(s): ${malformed.join(', ')}`);
-  }
-
-  const normalised = hashtags.map((t) => t.replace(/^#/, '').toLowerCase());
-  const dupes = normalised.filter((t, i) => normalised.indexOf(t) !== i);
-  if (dupes.length) {
-    add('DUPLICATE_HASHTAG', 'warn', `Repeated hashtag(s): ${[...new Set(dupes)].join(', ')}`);
-  }
-
-  if (hashtags.length < MIN_HASHTAGS) {
-    add('TOO_FEW_HASHTAGS', 'block', `Only ${hashtags.length} hashtags, want at least ${MIN_HASHTAGS}`);
-  }
-  if (hashtags.length > MAX_HASHTAGS) {
-    add('TOO_MANY_HASHTAGS', 'block', `${hashtags.length} hashtags, Instagram caps at ${MAX_HASHTAGS}`);
-  }
-
-  // --- brand voice -------------------------------------------------------
-  // Her register is understated. Hype language, shouting and emoji rows read as
-  // someone else's account and undercut a luxury positioning.
-  for (const hit of voiceViolations(`${body}\n${cta}`)) {
-    add('OFF_BRAND_VOICE', 'warn', `"${hit.term}" — ${hit.why}`);
-  }
-
-  // --- conversion --------------------------------------------------------
-  if (!CTA_PATTERNS.some((p) => p.test(`${body} ${cta}`))) {
-    add('NO_CTA', 'block', 'No booking call to action — the post cannot convert');
-  }
-
-  // --- media -------------------------------------------------------------
-  const media = post.media ?? [];
-  if (!media.length) {
-    add('NO_MEDIA', 'block', 'Post has no media attached');
-  }
-  for (const item of media) {
-    if (!/^https:\/\//i.test(item.url ?? '')) {
-      add('MEDIA_NOT_HTTPS', 'block', `Media must be a public HTTPS URL: ${item.url ?? '(missing)'}`);
-    }
-  }
-  if (post.mediaType === 'CAROUSEL' && (media.length < 2 || media.length > 10)) {
-    add('CAROUSEL_SIZE', 'block', `Carousels need 2-10 items, got ${media.length}`);
-  }
-
-  // --- authenticity ------------------------------------------------------
-  // Real client results must be real. AI imagery is fine for title cards, promo
-  // graphics, product shots and b-roll, but never as a hair result.
-  const fakeResult = media.find((m) => m.origin === 'ai' && m.depicts === 'client_result');
-  if (fakeResult) {
-    add(
-      'AI_RESULT_IMAGERY',
-      'block',
-      'AI-generated imagery cannot be presented as a real client result',
-    );
-  }
-
-  const blocking = violations.filter((v) => v.severity === 'block');
-  return { passed: blocking.length === 0, violations, blocking };
+  return null;
 }
 
-/**
- * Critic stage. Runs every draft through `critique`, plus a live fetch check on
- * media URLs when a platform adapter is available — a URL Meta cannot fetch is
- * the most common publish failure and it is cheap to catch here.
- */
-export async function runCritic({ drafts = [], platform = null, store = null }) {
-  const gated = [];
+function overlapRatio(a = [], b = []) {
+  if (!a.length || !b.length) return 0;
+  const setA = new Set(a);
+  const shared = b.filter((x) => setA.has(x)).length;
+  return shared / Math.max(a.length, b.length);
+}
 
-  for (const post of drafts) {
-    const result = critique(post);
-    const violations = [...result.violations];
+export function evaluate(post, ctx) {
+  const results = RULES.map((rule) => {
+    let passed;
+    try {
+      passed = Boolean(rule.check(post, ctx));
+    } catch {
+      passed = false;
+    }
+    return {
+      id: rule.id,
+      severity: rule.severity,
+      passed,
+      reason: passed ? null : (typeof rule.fail === 'function' ? rule.fail(post, ctx) : rule.fail),
+    };
+  });
 
-    if (result.passed && platform) {
-      for (const item of post.media ?? []) {
-        const expect = post.mediaType === 'REELS' ? 'video' : 'image';
-        const check = await platform.verifyMediaUrl(item.url, { expect });
-        if (!check.ok) {
-          violations.push({ rule: 'MEDIA_UNFETCHABLE', severity: 'block', message: check.reason });
-        }
+  const blockers = results.filter((r) => !r.passed && r.severity === 'blocker');
+  const warnings = results.filter((r) => !r.passed && r.severity === 'warning');
+
+  return {
+    results,
+    blockers,
+    warnings,
+    verdict: blockers.length ? 'blocked' : warnings.length ? 'needs_review' : 'pass',
+  };
+}
+
+export async function run() {
+  log.start();
+  try {
+    const caps = capabilities();
+    const posts = store.read('posts', []);
+    const clips = store.read('footage', []);
+    const ctx = { posts, clips, ...caps };
+
+    const pending = posts.filter((p) => p.status === 'cut' || p.status === 'gated');
+    if (!pending.length) {
+      log.info('nothing waiting at the gate');
+      log.done({ checked: 0 });
+      return { checked: 0, awaitingApproval: [], blocked: [] };
+    }
+
+    const awaitingApproval = [];
+    const blocked = [];
+
+    for (const post of pending) {
+      const report = evaluate(post, ctx);
+      post.gate = { ...report, checkedAt: new Date().toISOString() };
+      post.status = report.verdict === 'blocked' ? 'blocked' : 'awaiting_approval';
+      store.upsert('posts', post);
+
+      if (report.verdict === 'blocked') {
+        blocked.push(post);
+        log.warn(`blocked ${post.id}: ${report.blockers.map((b) => b.reason).join(' | ')}`);
+      } else {
+        awaitingApproval.push(post);
+        const w = report.warnings.length ? ` (${report.warnings.length} warning)` : '';
+        log.info(`ready for Sha: ${post.id} · ${post.formatName}${w}`);
       }
     }
 
-    const blocking = violations.filter((v) => v.severity === 'block');
-    const passed = blocking.length === 0;
-    const patch = {
-      gate: { passed, violations, checkedAt: new Date().toISOString() },
-      status: passed ? POST_STATUS.AWAITING_APPROVAL : POST_STATUS.BLOCKED,
-    };
-
-    if (store && post.id) store.patchPost(post.id, patch);
-    gated.push({ ...post, ...patch });
+    log.done({ checked: pending.length, awaitingApproval: awaitingApproval.length, blocked: blocked.length });
+    return { checked: pending.length, awaitingApproval, blocked };
+  } catch (err) {
+    log.fail(err);
+    throw err;
   }
-
-  return { gated };
 }
+
+/** Called from the dashboard when Sha taps approve or reject. */
+export function decide(postId, decision, reason = null) {
+  const posts = store.read('posts', []);
+  const post = posts.find((p) => p.id === postId);
+  if (!post) throw new Error(`No post ${postId}`);
+
+  post.status = decision === 'approve' ? 'approved' : 'rejected';
+  post.decision = { by: 'sha', decision, reason, at: new Date().toISOString() };
+  store.upsert('posts', post);
+
+  // A rejection is training data — demote the format so the planner learns.
+  if (decision === 'reject' && post.formatId) {
+    store.rememberPattern('formats', post.formatId, -1);
+    log.info(`noted rejection of ${post.formatId}${reason ? `: ${reason}` : ''}`);
+  }
+  return post;
+}
+
+export default { run, evaluate, decide, RULES, bareTags, draftArtifact };
