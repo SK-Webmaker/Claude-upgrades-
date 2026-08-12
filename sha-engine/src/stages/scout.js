@@ -71,6 +71,10 @@ export const CRAFT_RULES = [
 export const REFERENCE_LIBRARY = [
   {
     id: 'brass-fix',
+    // Audience-facing. `why` below is internal ranking rationale and must
+    // never reach a caption.
+    says:
+      'Years of box dye lifted out and re-toned. We went slowly and checked the hair at every stage — that is the only way it comes out this bright and still feels like hair.',
     type: 'transformation',
     name: 'The brass correction',
     hook: 'Three years of box dye. Watch.',
@@ -89,6 +93,10 @@ export const REFERENCE_LIBRARY = [
   },
   {
     id: 'grey-blend',
+    // Audience-facing. `why` below is internal ranking rationale and must
+    // never reach a caption.
+    says:
+      'Blending rather than covering. The regrowth softens instead of forming a line, so you are not back in the chair every four weeks.',
     type: 'transformation',
     name: 'Grey blending, not covering',
     hook: 'You do not have to cover the grey.',
@@ -107,6 +115,10 @@ export const REFERENCE_LIBRARY = [
   },
   {
     id: 'myth-buster',
+    // Audience-facing. `why` below is internal ranking rationale and must
+    // never reach a caption.
+    says:
+      'Purple shampoo tones the surface. It cannot lift the warmth sitting underneath — that needs a toner in the chair.',
     type: 'education',
     name: 'The myth, corrected',
     hook: 'Purple shampoo is not fixing your brass.',
@@ -130,6 +142,10 @@ export const REFERENCE_LIBRARY = [
   },
   {
     id: 'ten-second-skill',
+    // Audience-facing. `why` below is internal ranking rationale and must
+    // never reach a caption.
+    says:
+      'The part nobody sees. Placement decides the result long before any colour goes on.',
     type: 'education',
     name: 'Ten seconds of pure skill',
     hook: 'No talking. Just the hands.',
@@ -147,6 +163,10 @@ export const REFERENCE_LIBRARY = [
   },
   {
     id: 'price-honesty',
+    // Audience-facing. `why` below is internal ranking rationale and must
+    // never reach a caption.
+    says:
+      'Four hours in the chair, professional product, and twenty years of knowing when to stop. That is what the price is.',
     type: 'personality',
     name: 'What it actually costs, and why',
     hook: 'This took four hours. Here is where the money goes.',
@@ -165,6 +185,10 @@ export const REFERENCE_LIBRARY = [
   },
   {
     id: 'chair-open',
+    // Audience-facing. `why` below is internal ranking rationale and must
+    // never reach a caption.
+    says:
+      'One colour appointment open this week. If you have been meaning to book, this is the easy one to take.',
     type: 'offer',
     name: 'Chair is open',
     hook: '{day} just opened up.',

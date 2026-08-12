@@ -35,11 +35,16 @@ function writeCaption(format, scheduledFor) {
   const hook = resolveHook(format.hook, { scheduledFor });
   return {
     hook,
-    body: format.why,
+    // Audience-facing copy only. `format.why` is internal ranking rationale —
+    // wiring it in here published "capped at 15% of slots so the feed never
+    // reads as an ad channel" straight to her followers.
+    body: format.says ?? '',
     cta: brand.cta.primary,
     bookingUrl: brand.business.bookingUrl,
     hashtags: tags,
-    full: `${hook}\n\n${brand.cta.primary}\n${brand.business.bookingUrl}\n\n${tags.join(' ')}`,
+    full: [hook, format.says, `${brand.cta.primary}\n${brand.business.bookingUrl}`, tags.join(' ')]
+      .filter(Boolean)
+      .join('\n\n'),
   };
 }
 

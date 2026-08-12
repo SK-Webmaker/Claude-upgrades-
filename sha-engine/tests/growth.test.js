@@ -358,3 +358,25 @@ describe('the current week is never scored as if it had finished', () => {
     assert.equal(out.week.scorecard, null, 'the in-progress week must not carry a verdict');
   });
 });
+
+describe('captions never carry internal ranking rationale', () => {
+  test('every reference format has audience-facing copy distinct from its why', async () => {
+    const { REFERENCE_LIBRARY } = await import('../src/stages/scout.js');
+    for (const f of REFERENCE_LIBRARY) {
+      assert.ok(f.says, `${f.id} needs audience-facing copy`);
+      assert.notEqual(f.says, f.why, `${f.id} must not reuse its internal why`);
+    }
+  });
+
+  test('the paste-ready caption contains no strategy language', async () => {
+    // Regression: writeCaption used format.why, which published lines like
+    // "capped at 15% of slots so the feed never reads as an ad channel".
+    const brief = await import('../src/stages/brief.js');
+    const plan = await brief.default.run();
+    for (const slot of plan.slots) {
+      assert.notEqual(slot.caption.body, slot.why, `${slot.formatId} leaked its why`);
+      assert.doesNotMatch(slot.caption.full, /slots|ad channel|watch-through|highest-intent|earns saves/i,
+        `${slot.formatId} caption reads as strategy notes`);
+    }
+  });
+});
