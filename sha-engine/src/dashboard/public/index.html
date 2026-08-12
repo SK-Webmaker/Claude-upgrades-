@@ -3,227 +3,240 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#12100E">
+<meta name="theme-color" content="#0A0908">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <title>Gloss — Hair by Sha</title>
 <style>
-  /* Palette comes from config/brand.json look{} — her real accent, not invented. */
+  /*
+   * Dark operations console. Accent colours are her real brand values from
+   * config/brand.json look{} — gold #B07C33, violet #6A5B8C — lifted for
+   * legibility on near-black, which the print values are not built for.
+   */
   :root {
-    --ink: #12100E;
-    --gold: #B07C33;
-    --violet: #6A5B8C;
-    --paper: #FBF9F6;
-    --card: #FFFFFF;
-    --line: #E8E2D9;
-    --muted: #6E665C;
-    --ok: #2F6F4F;
-    --warn: #B4772F;
-    --bad: #A8412C;
-    --radius: 14px;
-    --shadow: 0 1px 2px rgba(18,16,14,.04), 0 8px 24px rgba(18,16,14,.06);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ink: #F4F0EA; --paper: #14120F; --card: #1D1A16; --line: #2E2820;
-      --muted: #9C9385; --gold: #D6A25C; --violet: #A292C4;
-      --ok: #6FBF95; --warn: #E0A45C; --bad: #E0806A;
-      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
-    }
+    --bg: #0A0908;
+    --panel: #121110;
+    --panel-2: #171614;
+    --line: #262320;
+    --line-2: #322E29;
+    --text: #F2EEE8;
+    --dim: #8A8177;
+    --faint: #5C554D;
+    --gold: #D2A159;
+    --violet: #9B87C4;
+    --green: #4FBF87;
+    --amber: #E0A45C;
+    --red: #E0715A;
+    --cyan: #5FB8C9;
   }
   * { box-sizing: border-box; }
-  html, body { margin:0; padding:0; }
+  html, body { margin:0; padding:0; background: var(--bg); }
   body {
-    background: var(--paper); color: var(--ink);
-    font: 15px/1.5 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+    font: 13px/1.45 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--gold); }
+  a { color: var(--gold); text-decoration: none; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 
-  /* ---------- shell ---------- */
-  .topbar {
-    position: sticky; top: 0; z-index: 20;
-    display: flex; align-items: center; gap: 14px;
-    padding: 12px 20px;
-    background: color-mix(in srgb, var(--paper) 88%, transparent);
-    backdrop-filter: saturate(1.4) blur(12px);
-    border-bottom: 1px solid var(--line);
+  /* ---------- chrome ---------- */
+  .bar {
+    display:flex; align-items:center; gap:12px; padding:10px 16px;
+    border-bottom:1px solid var(--line); position:sticky; top:0; z-index:30;
+    background:rgba(10,9,8,.86); backdrop-filter: blur(14px) saturate(1.3);
   }
-  .mark {
-    width: 34px; height: 34px; border-radius: 9px; flex: none;
-    background: linear-gradient(145deg, var(--gold), var(--violet));
-    display: grid; place-items: center;
-    color: #fff; font-weight: 700; font-size: 14px; letter-spacing: -.02em;
+  .logo { height:26px; display:block; }
+  .sep { width:1px; height:20px; background:var(--line-2); }
+  .who { color:var(--dim); font-size:12px; }
+  .who b { color:var(--text); font-weight:600; }
+  .grow { flex:1; }
+  .chip {
+    font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
+    padding:4px 9px; border-radius:5px; border:1px solid var(--line-2);
+    color:var(--faint); white-space:nowrap; display:inline-flex; gap:6px; align-items:center;
   }
-  .brandname { font-weight: 650; letter-spacing: -.01em; }
-  .brandsub { color: var(--muted); font-size: 12px; }
-  .spacer { flex: 1; }
-  .pill {
-    font-size: 11px; padding: 4px 10px; border-radius: 999px;
-    border: 1px solid var(--line); color: var(--muted); white-space: nowrap;
-  }
-  .pill.live { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, var(--line)); }
-  .pill.off  { color: var(--muted); }
+  .chip::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; }
+  .chip.on { color:var(--green); border-color:rgba(79,191,135,.35); }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 22px 20px 80px; }
-  .grid { display: grid; gap: 18px; grid-template-columns: 1fr; }
-  @media (min-width: 900px) { .grid { grid-template-columns: 1.15fr .85fr; } }
+  .app { padding:12px; display:grid; gap:12px; grid-template-columns: 1fr; }
+  @media (min-width:1000px){ .app { grid-template-columns: 260px 1fr 340px; align-items:start; } }
 
-  .card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: var(--radius); box-shadow: var(--shadow);
-    overflow: hidden;
+  .panel { background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  .panel > h3 {
+    margin:0; padding:9px 12px; font-size:10.5px; font-weight:600;
+    letter-spacing:.09em; text-transform:uppercase; color:var(--faint);
+    border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px;
   }
-  .card > header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px; border-bottom: 1px solid var(--line);
-  }
-  .card h2 { font-size: 14px; margin: 0; font-weight: 620; letter-spacing: -.01em; }
-  .card .body { padding: 16px; }
-  .hint { color: var(--muted); font-size: 12.5px; margin: 0; }
+  .panel > h3 .grow { flex:1; }
+  .pad { padding:12px; }
+  .stack { display:grid; gap:12px; }
 
-  /* ---------- hero numbers ---------- */
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px,1fr)); gap: 10px; }
-  .stat { background: var(--paper); border-radius: 11px; padding: 12px; border: 1px solid var(--line); }
-  .stat .n { font-size: 24px; font-weight: 660; letter-spacing: -.02em; line-height: 1.1; }
-  .stat .k { font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .stat.accent .n { color: var(--gold); }
+  /* ---------- hero metrics ---------- */
+  .metrics { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:12px; }
+  .metric { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:12px 13px; }
+  .metric .lbl { font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); }
+  .metric .val { font-size:30px; font-weight:600; letter-spacing:-.03em; margin-top:6px; line-height:1; }
+  .metric .sub { font-size:11px; color:var(--dim); margin-top:5px; }
+  .up { color:var(--green); } .down { color:var(--red); } .flat { color:var(--dim); }
+  .metric.hero .val { background:linear-gradient(100deg,var(--gold),var(--violet));
+                      -webkit-background-clip:text; background-clip:text; color:transparent; }
 
-  .gradebox { display:flex; align-items:center; gap:14px; }
-  .grade {
-    width: 54px; height: 54px; border-radius: 13px; flex: none;
-    display: grid; place-items: center; font-size: 26px; font-weight: 700;
-    background: linear-gradient(145deg, var(--gold), var(--violet)); color: #fff;
+  /* ---------- charts ---------- */
+  svg { display:block; width:100%; }
+  .axis { stroke:var(--line-2); stroke-width:1; }
+  .gridline { stroke:var(--line); stroke-width:1; stroke-dasharray:2 4; }
+  .tick { fill:var(--faint); font-size:9px; font-family:ui-monospace,monospace; }
+  .dot { cursor:pointer; }
+  .dot:hover { r:5.5; }
+
+  /* ---------- table ---------- */
+  .tbl { width:100%; border-collapse:collapse; font-size:12px; }
+  .tbl th {
+    text-align:left; font-size:10px; letter-spacing:.07em; text-transform:uppercase;
+    color:var(--faint); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--line);
+    position:sticky; top:0; background:var(--panel); z-index:2;
   }
-  .grade.none { background: var(--line); color: var(--muted); font-size: 15px; }
+  .tbl td { padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .tbl tr:hover td { background:var(--panel-2); }
+  .tbl .num { text-align:right; font-family:ui-monospace,monospace; }
+  .scroll { max-height:420px; overflow:auto; }
+  .trunc { max-width:280px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+  .tag { font-size:10px; padding:2px 7px; border-radius:4px; white-space:nowrap;
+         border:1px solid transparent; font-weight:600; letter-spacing:.02em; }
+  .t-a { color:var(--green); background:rgba(79,191,135,.12); border-color:rgba(79,191,135,.3); }
+  .t-b { color:var(--cyan);  background:rgba(95,184,201,.12); border-color:rgba(95,184,201,.3); }
+  .t-c { color:var(--dim);   background:rgba(138,129,119,.12); border-color:var(--line-2); }
+  .t-d { color:var(--amber); background:rgba(224,164,92,.12); border-color:rgba(224,164,92,.3); }
+  .t-f { color:var(--red);   background:rgba(224,113,90,.12); border-color:rgba(224,113,90,.3); }
+
+  /* ---------- rail ---------- */
+  .rail-sec { padding:11px 12px; border-bottom:1px solid var(--line); }
+  .rail-sec:last-child { border-bottom:0; }
+  .rail-sec .k { font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); margin-bottom:8px; }
+  .row { display:flex; justify-content:space-between; gap:8px; font-size:12px; padding:4px 0; color:var(--dim); }
+  .row b { color:var(--text); font-weight:600; font-family:ui-monospace,monospace; }
+  .meter { height:3px; border-radius:2px; background:var(--line); overflow:hidden; margin-top:5px; }
+  .meter i { display:block; height:100%; background:linear-gradient(90deg,var(--gold),var(--violet)); }
+
+  /* ---------- slots ---------- */
+  .slot { padding:11px 12px; border-bottom:1px solid var(--line); }
+  .slot:last-child { border-bottom:0; }
+  .slot .hd { display:flex; gap:8px; align-items:baseline; }
+  .slot .nm { font-weight:600; font-size:12.5px; }
+  .slot .dy { color:var(--faint); font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; }
+  .slot .hk { color:var(--gold); font-size:12px; margin:6px 0 0; }
+  .slot .fl { margin:7px 0 0; padding-left:15px; color:var(--dim); font-size:11.5px; }
+  .slot .fl li { margin-bottom:2px; }
+  .slot .mt { display:flex; gap:6px; flex-wrap:wrap; margin-top:8px; }
 
   /* ---------- chat ---------- */
-  .chat { display: flex; flex-direction: column; height: 460px; }
-  .log { flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
-  .msg { max-width: 86%; padding: 9px 12px; border-radius: 12px; font-size: 13.5px; white-space: pre-wrap; word-break: break-word; }
-  .msg.me { align-self: flex-end; background: var(--ink); color: var(--paper); border-bottom-right-radius: 4px; }
-  .msg.sys { align-self: flex-start; background: var(--paper); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
-  .msg.err { align-self: flex-start; background: color-mix(in srgb, var(--bad) 10%, var(--card)); border: 1px solid color-mix(in srgb, var(--bad) 35%, var(--line)); }
-  .msg .who { display:block; font-size: 10.5px; opacity:.6; margin-bottom: 3px; text-transform: uppercase; letter-spacing:.05em; }
-  .composer { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: var(--card); }
-  .composer input {
-    flex: 1; padding: 11px 13px; border-radius: 10px; border: 1px solid var(--line);
-    background: var(--paper); color: var(--ink); font: inherit; font-size: 14px;
-  }
-  .composer input:focus { outline: 2px solid color-mix(in srgb, var(--gold) 45%, transparent); outline-offset: 1px; }
-  .composer button {
-    padding: 11px 18px; border-radius: 10px; border: 0; cursor: pointer;
-    background: var(--ink); color: var(--paper); font: inherit; font-weight: 600;
-  }
-  .composer button:disabled { opacity: .45; cursor: default; }
-  .quick { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 12px 12px; }
-  .quick button {
-    font-size: 12px; padding: 6px 11px; border-radius: 999px; cursor: pointer;
-    border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-family: inherit;
-  }
-  .quick button:hover { border-color: var(--gold); color: var(--gold); }
+  .chat { display:flex; flex-direction:column; height:400px; }
+  .log { flex:1; overflow-y:auto; padding:12px; display:flex; flex-direction:column; gap:8px; }
+  .msg { max-width:90%; padding:8px 10px; border-radius:8px; font-size:12.5px; white-space:pre-wrap; word-break:break-word; }
+  .msg.me { align-self:flex-end; background:linear-gradient(120deg,rgba(210,161,89,.2),rgba(155,135,196,.2));
+            border:1px solid var(--line-2); }
+  .msg.sys { align-self:flex-start; background:var(--panel-2); border:1px solid var(--line); }
+  .msg .w { display:block; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); margin-bottom:3px; }
+  .cmp { display:flex; gap:7px; padding:10px; border-top:1px solid var(--line); }
+  .cmp input { flex:1; background:var(--bg); border:1px solid var(--line-2); border-radius:7px;
+               padding:9px 11px; color:var(--text); font:inherit; }
+  .cmp input:focus { outline:none; border-color:var(--gold); }
+  .cmp button { background:linear-gradient(120deg,var(--gold),var(--violet)); border:0; color:#0A0908;
+                border-radius:7px; padding:9px 15px; font:inherit; font-weight:700; cursor:pointer; }
+  .cmp button:disabled { opacity:.4; cursor:default; }
+  .cmds { display:flex; gap:5px; flex-wrap:wrap; padding:0 10px 10px; }
+  .cmds button { font:inherit; font-size:11px; font-family:ui-monospace,monospace; cursor:pointer;
+                 background:var(--panel-2); border:1px solid var(--line-2); color:var(--dim);
+                 border-radius:5px; padding:4px 8px; }
+  .cmds button:hover { color:var(--gold); border-color:var(--gold); }
 
-  /* ---------- queue ---------- */
-  .post { border: 1px solid var(--line); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
-  .post header { display: flex; justify-content: space-between; gap: 10px; padding: 11px 13px; border-bottom: 1px solid var(--line); }
-  .post .fmt { font-weight: 600; font-size: 13px; }
-  .post .when { font-size: 11.5px; color: var(--muted); }
-  .post .cap { padding: 12px 13px; font-size: 13px; }
-  .post .cap .hook { font-weight: 600; margin-bottom: 6px; }
-  .post .tags { color: var(--muted); font-size: 12px; margin-top: 8px; word-break: break-word; }
-  .post .acts { display: flex; gap: 8px; padding: 0 13px 13px; }
-  .post .acts button { flex:1; padding: 10px; border-radius: 9px; border: 0; cursor: pointer; font: inherit; font-weight: 600; font-size: 13px; }
-  .approve { background: var(--ok); color: #fff; }
-  .skip { background: transparent; color: var(--muted); border: 1px solid var(--line) !important; }
-  .blockers { margin: 0; padding: 10px 13px 10px 30px; font-size: 12.5px; color: var(--bad);
-              background: color-mix(in srgb, var(--bad) 7%, transparent); }
+  /* ---------- feed ---------- */
+  .feed { max-height:190px; overflow-y:auto; font-family:ui-monospace,monospace; font-size:11px; }
+  .feed div { padding:3px 12px; border-bottom:1px solid rgba(38,35,32,.5); color:var(--dim); }
+  .feed .lv { display:inline-block; width:42px; color:var(--faint); }
+  .feed .ok .lv{color:var(--green)} .feed .warn .lv{color:var(--amber)} .feed .error .lv{color:var(--red)}
 
-  /* ---------- shoot list ---------- */
-  .slot { border-top: 1px solid var(--line); padding: 12px 0; }
-  .slot:first-child { border-top: 0; padding-top: 0; }
-  .slot .row { display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
-  .slot .name { font-weight: 600; font-size: 13.5px; }
-  .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; padding: 3px 8px;
-           border-radius: 999px; background: var(--line); color: var(--muted); white-space: nowrap; }
-  .badge.todo { background: var(--gold); color: #fff; }
-  .slot .hookline { font-style: italic; color: var(--muted); font-size: 13px; margin: 6px 0 0; }
-  .slot ol { margin: 8px 0 0; padding-left: 20px; font-size: 12.5px; color: var(--muted); }
-
-  /* ---------- activity ---------- */
-  .feed { font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; max-height: 240px; overflow-y: auto; }
-  .feed div { padding: 2px 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 50%, transparent); }
-  .feed .lv { display:inline-block; width: 46px; color: var(--muted); }
-  .feed .ok .lv { color: var(--ok); }
-  .feed .warn .lv { color: var(--warn); }
-  .feed .error .lv { color: var(--bad); }
-  .empty { color: var(--muted); font-size: 13px; text-align: center; padding: 26px 0; }
+  .empty { color:var(--faint); font-size:12px; text-align:center; padding:26px 12px; line-height:1.6; }
+  .empty b { color:var(--dim); }
+  .warnbox { margin:12px; padding:10px 12px; border-radius:8px; font-size:12px;
+             background:rgba(224,164,92,.08); border:1px solid rgba(224,164,92,.3); color:var(--amber); }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="mark">G</div>
-  <div>
-    <div class="brandname">Gloss</div>
-    <div class="brandsub" id="sub">Hair by Sha</div>
-  </div>
-  <div class="spacer"></div>
-  <span class="pill" id="pill-ig">Instagram</span>
-  <span class="pill" id="pill-chat">Chat</span>
+<div class="bar">
+  <img class="logo" src="/brand/gloss-logo.png" alt="Gloss">
+  <div class="sep"></div>
+  <div class="who"><b id="acct">Hair by Sha</b> <span id="hand"></span></div>
+  <div class="grow"></div>
+  <span class="chip" id="c-ig">Instagram</span>
+  <span class="chip" id="c-ai">Assistant</span>
+  <span class="chip" id="c-week">—</span>
 </div>
 
-<div class="wrap">
-  <div class="grid">
-    <div>
-      <!-- WEEK -->
-      <section class="card" style="margin-bottom:18px">
-        <header><h2>This week</h2><div class="spacer"></div><span class="pill" id="weekof"></span></header>
-        <div class="body">
-          <div class="stats" id="stats"></div>
-          <p class="hint" style="margin-top:12px" id="targetnote"></p>
-        </div>
-      </section>
+<div class="app">
 
-      <!-- QUEUE -->
-      <section class="card" style="margin-bottom:18px">
-        <header><h2>Waiting for your approval</h2><div class="spacer"></div><span class="pill" id="qcount">0</span></header>
-        <div class="body" id="queue"><div class="empty">Nothing waiting yet. Type <b>.start</b> to begin the week.</div></div>
-      </section>
+  <!-- LEFT RAIL -->
+  <div class="stack">
+    <div class="panel">
+      <h3>Week target</h3>
+      <div id="rail-target"></div>
+    </div>
+    <div class="panel">
+      <h3>Pipeline</h3>
+      <div id="rail-pipe"></div>
+    </div>
+    <div class="panel">
+      <h3>Content mix</h3>
+      <div class="rail-sec" id="rail-mix"></div>
+    </div>
+  </div>
 
-      <!-- SHOOT LIST -->
-      <section class="card">
-        <header><h2>What to film</h2></header>
-        <div class="body" id="shoot"><div class="empty">No brief yet.</div></div>
-      </section>
+  <!-- CENTRE -->
+  <div class="stack">
+    <div class="metrics" id="metrics"></div>
+
+    <div class="panel">
+      <h3>Engagement per post <span class="grow"></span><span id="chart-note" style="color:var(--faint);text-transform:none;letter-spacing:0"></span></h3>
+      <div id="chart"></div>
     </div>
 
-    <div>
-      <!-- CHAT -->
-      <section class="card" style="margin-bottom:18px">
-        <header><h2>Ask Gloss</h2><div class="spacer"></div><span class="pill" id="chatmode">commands</span></header>
-        <div class="chat">
-          <div class="log" id="chatlog">
-            <div class="msg sys"><span class="who">Gloss</span>Type <b>.start</b> to run the week — I'll review the account, set the target, write the brief and queue anything ready for you.</div>
-          </div>
-          <div class="quick" id="quick"></div>
-          <form class="composer" id="composer">
-            <input id="input" placeholder="Type .start, or ask a question" autocomplete="off">
-            <button id="send" type="submit">Send</button>
-          </form>
+    <div class="panel">
+      <h3>Format performance <span class="grow"></span><span style="color:var(--faint);text-transform:none;letter-spacing:0">sized by engagement</span></h3>
+      <div id="bubbles"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Published posts <span class="grow"></span><span id="tbl-count" style="color:var(--faint);text-transform:none;letter-spacing:0"></span></h3>
+      <div class="scroll"><table class="tbl" id="tbl"></table></div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="stack">
+    <div class="panel">
+      <h3>Ask Gloss <span class="grow"></span><span id="mode" style="color:var(--faint);text-transform:none;letter-spacing:0"></span></h3>
+      <div class="chat">
+        <div class="log" id="log">
+          <div class="msg sys"><span class="w">Gloss</span>Type <b>.start</b> to run the week — I review the account, set the target, write the brief and queue anything ready for you.</div>
         </div>
-      </section>
+        <div class="cmds" id="cmds"></div>
+        <form class="cmp" id="cmp">
+          <input id="in" placeholder=".start" autocomplete="off" spellcheck="false">
+          <button id="go" type="submit">Run</button>
+        </form>
+      </div>
+    </div>
 
-      <!-- LAST REVIEW -->
-      <section class="card" style="margin-bottom:18px">
-        <header><h2>Account report</h2></header>
-        <div class="body" id="report"><div class="empty">Not reviewed yet.</div></div>
-      </section>
+    <div class="panel">
+      <h3>This week's shoot <span class="grow"></span><span id="film-count" style="color:var(--faint);text-transform:none;letter-spacing:0"></span></h3>
+      <div id="slots"></div>
+    </div>
 
-      <!-- ACTIVITY -->
-      <section class="card">
-        <header><h2>Activity</h2></header>
-        <div class="body"><div class="feed" id="feed"></div></div>
-      </section>
+    <div class="panel">
+      <h3>Activity</h3>
+      <div class="feed" id="feed"></div>
     </div>
   </div>
 </div>
@@ -231,163 +244,256 @@
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-let history = [];
-let snap = null;
+const nf = (n) => Number(n).toLocaleString('en-AU');
+let hist = [], snap = null;
 
-function fmtWhen(iso) {
-  if (!iso) return 'unscheduled';
-  try {
-    return new Date(iso).toLocaleString('en-AU', {
-      weekday:'short', day:'numeric', month:'short', hour:'numeric', minute:'2-digit',
-      timeZone: snap?.business?.timezone || 'Australia/Melbourne',
-    });
-  } catch { return iso; }
+const gradeCls = (g) => ({A:'t-a',B:'t-b',C:'t-c',D:'t-d',F:'t-f'}[g] || 't-c');
+
+function fmtDay(iso) {
+  if (!iso) return '—';
+  try { return new Date(iso).toLocaleDateString('en-AU',{day:'numeric',month:'short',
+        timeZone: snap?.business?.timezone || 'Australia/Melbourne'}); }
+  catch { return iso.slice(0,10); }
 }
 
+/* ------------------------------------------------------------------ metrics */
+function metrics(s) {
+  const r = s.review?.summary, acct = s.review?.account, t = s.goals?.week?.targets;
+  const waiting = s.posts.filter(p => p.status === 'awaiting_approval').length;
+  const slots = s.plan?.slots || [];
+  const toFilm = slots.filter(x => !x.clipIds?.length).length;
+
+  const followers = acct?.followers ?? null;
+  const target = t?.followers ?? null;
+  const delta = (followers != null && target != null) ? target - followers : null;
+
+  const cards = [
+    { hero:1, lbl:'Followers', val: followers != null ? nf(followers) : '—',
+      sub: delta != null ? `<span class="up">▲ ${delta} to target</span>` : 'connect Instagram to read' },
+    { lbl:'Engagement', val: r ? r.averageEngagement + '%' : '—',
+      sub: r ? `grade <span class="tag ${gradeCls(r.grade)}">${r.grade}</span>` : 'not reviewed yet' },
+    { lbl:'Awaiting you', val: waiting, sub: waiting ? 'ready to approve' : 'nothing queued' },
+    { lbl:'To film', val: toFilm, sub: slots.length ? `of ${slots.length} slots` : 'no brief yet' },
+    { lbl:'Clips ready', val: s.footage?.unused ?? 0, sub: `${s.footage?.seconds ?? 0}s unused` },
+  ];
+  $('metrics').innerHTML = cards.map(c => `
+    <div class="metric ${c.hero?'hero':''}">
+      <div class="lbl">${esc(c.lbl)}</div>
+      <div class="val">${c.val}</div>
+      <div class="sub">${c.sub}</div>
+    </div>`).join('');
+}
+
+/* -------------------------------------------------------------- line chart */
+function chart(s) {
+  const pts = [...(s.scores || [])]
+    .filter(p => p.timestamp)
+    .sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  if (pts.length < 2) {
+    $('chart').innerHTML = `<div class="empty">No published history yet.<br>
+      Run <b>.review</b> once Instagram is connected and every post lands here.</div>`;
+    $('chart-note').textContent = '';
+    return;
+  }
+  $('chart-note').textContent = `${pts.length} posts`;
+
+  const W = 720, H = 210, P = { t:14, r:14, b:24, l:34 };
+  const max = Math.max(...pts.map(p => p.engagementRate), 1) * 1.15;
+  const x = i => P.l + (i / (pts.length - 1)) * (W - P.l - P.r);
+  const y = v => H - P.b - (v / max) * (H - P.t - P.b);
+
+  const line = pts.map((p,i) => `${i?'L':'M'}${x(i).toFixed(1)},${y(p.engagementRate).toFixed(1)}`).join('');
+  const area = `${line}L${x(pts.length-1).toFixed(1)},${H-P.b}L${x(0).toFixed(1)},${H-P.b}Z`;
+  const rows = [0, max/2, max].map(v =>
+    `<line class="gridline" x1="${P.l}" x2="${W-P.r}" y1="${y(v)}" y2="${y(v)}"/>
+     <text class="tick" x="4" y="${y(v)+3}">${v.toFixed(0)}%</text>`).join('');
+
+  const dots = pts.map((p,i) => `<circle class="dot" cx="${x(i).toFixed(1)}" cy="${y(p.engagementRate).toFixed(1)}"
+      r="3" fill="${p.engagementRate >= 10 ? 'var(--green)' : p.engagementRate >= 6 ? 'var(--cyan)' : 'var(--gold)'}"
+      onclick="window.open('${esc(p.permalink||'#')}','_blank')">
+      <title>${esc(fmtDay(p.timestamp))} · ${p.engagementRate}% · ${p.likes} likes, ${p.comments} comments</title>
+      </circle>`).join('');
+
+  const labels = pts.filter((_,i)=> i===0 || i===pts.length-1 || i===Math.floor(pts.length/2))
+    .map(p => { const i = pts.indexOf(p);
+      return `<text class="tick" x="${x(i)}" y="${H-8}" text-anchor="middle">${esc(fmtDay(p.timestamp))}</text>`; }).join('');
+
+  $('chart').innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="height:210px">
+    <defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D2A159" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#D2A159" stop-opacity="0"/></linearGradient></defs>
+    ${rows}<path d="${area}" fill="url(#fill)"/>
+    <path d="${line}" fill="none" stroke="#D2A159" stroke-width="1.8" stroke-linejoin="round"/>
+    ${dots}${labels}</svg>`;
+}
+
+/* ----------------------------------------------------------- format bubbles */
+function bubbles(s) {
+  const by = new Map();
+  for (const p of s.scores || []) {
+    const k = p.format || 'unattributed';
+    const cur = by.get(k) || { n:0, total:0 };
+    cur.n++; cur.total += p.engagementRate;
+    by.set(k, cur);
+  }
+  const items = [...by.entries()].map(([k,v]) => ({ k, avg: v.total/v.n, n: v.n }))
+    .sort((a,b) => b.avg - a.avg).slice(0,6);
+
+  if (!items.length) {
+    $('bubbles').innerHTML = `<div class="empty">Format performance appears once posts published by Gloss
+      have been reviewed.<br>Posts made before the system started are not attributed to a format.</div>`;
+    return;
+  }
+
+  const W = 720, H = 200, max = Math.max(...items.map(i => i.avg), 1);
+  const step = W / items.length;
+  const circles = items.map((it,i) => {
+    const r = 22 + (it.avg / max) * 46;
+    const cx = step * i + step/2, cy = H/2;
+    return `<g><circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#bub${i%3})" opacity=".9"/>
+      <text x="${cx}" y="${cy-1}" text-anchor="middle" fill="#0A0908" font-size="15" font-weight="700">${it.avg.toFixed(1)}%</text>
+      <text x="${cx}" y="${cy+13}" text-anchor="middle" fill="rgba(10,9,8,.7)" font-size="9">${it.n} post${it.n===1?'':'s'}</text>
+      <text x="${cx}" y="${H-6}" text-anchor="middle" class="tick">${esc(it.k)}</text></g>`;
+  }).join('');
+
+  $('bubbles').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="height:200px">
+    <defs>
+      <radialGradient id="bub0"><stop offset="0" stop-color="#F0C880"/><stop offset="1" stop-color="#B07C33"/></radialGradient>
+      <radialGradient id="bub1"><stop offset="0" stop-color="#B9A6DC"/><stop offset="1" stop-color="#6A5B8C"/></radialGradient>
+      <radialGradient id="bub2"><stop offset="0" stop-color="#7FD8C0"/><stop offset="1" stop-color="#2F8F6B"/></radialGradient>
+    </defs>${circles}</svg>`;
+}
+
+/* -------------------------------------------------------------------- table */
+function table(s) {
+  const rows = [...(s.scores || [])].sort((a,b) => b.engagementRate - a.engagementRate);
+  $('tbl-count').textContent = rows.length ? `${rows.length} results` : '';
+  if (!rows.length) {
+    $('tbl').innerHTML = `<tr><td><div class="empty">Nothing reviewed yet.<br>
+      Set <b>COMPOSIO_API_KEY</b> on the service, then run <b>.review</b>.</div></td></tr>`;
+    return;
+  }
+  $('tbl').innerHTML = `<thead><tr>
+      <th>Post</th><th>Date</th><th>Format</th><th class="num">Likes</th>
+      <th class="num">Comments</th><th class="num">Engagement</th><th>Grade</th>
+    </tr></thead><tbody>${rows.map(p => `<tr>
+      <td class="trunc"><a href="${esc(p.permalink||'#')}" target="_blank" rel="noopener">${esc((p.permalink||'').replace(/^https:\\/\\/www\\.instagram\\.com/,'')||p.id)}</a></td>
+      <td>${esc(fmtDay(p.timestamp))}</td>
+      <td>${esc(p.format || '—')}</td>
+      <td class="num">${nf(p.likes)}</td>
+      <td class="num">${nf(p.comments)}</td>
+      <td class="num">${p.engagementRate}%</td>
+      <td><span class="tag ${gradeCls(p.grade)}">${esc(p.grade)}</span></td>
+    </tr>`).join('')}</tbody>`;
+}
+
+/* --------------------------------------------------------------------- rail */
+function rail(s) {
+  const t = s.goals?.week?.targets, card = s.goals?.lastScorecard;
+  $('rail-target').innerHTML = t?.baselineKnown === false
+    ? `<div class="warnbox">${esc(t.unavailable)}</div>`
+    : `<div class="rail-sec">
+         ${[['Followers',t?.followers],['Posts out',t?.posts],['Saves',t?.saves],['Shares',t?.shares]]
+           .filter(([,v]) => v != null)
+           .map(([k,v]) => `<div class="row"><span>${k}</span><b>${nf(v)}</b></div>`).join('')}
+         <div class="row" style="color:var(--faint);font-size:11px;padding-top:8px">Projection · scored at week end</div>
+       </div>` + (card ? `<div class="rail-sec"><div class="k">Last week — ${esc(card.verdict)}</div>
+         ${card.adjustments.map(a=>`<div style="color:var(--dim);font-size:11.5px;margin-bottom:6px">${esc(a.say)}</div>`).join('')}
+       </div>` : '');
+
+  const stages = Object.entries(s.stages || {});
+  $('rail-pipe').innerHTML = `<div class="rail-sec">${stages.map(([k,v]) => {
+    const c = v.status === 'ok' ? 'var(--green)' : v.status === 'running' ? 'var(--gold)'
+            : v.status === 'failed' ? 'var(--red)' : 'var(--faint)';
+    return `<div class="row"><span style="color:${c}">${esc(k)}</span>
+      <b style="color:${c};font-size:11px">${esc(v.status)}</b></div>`;
+  }).join('')}</div>`;
+
+  const mix = s.plan?.allocation || {};
+  const total = Object.values(mix).reduce((a,b)=>a+b,0) || 1;
+  $('rail-mix').innerHTML = Object.keys(mix).length
+    ? Object.entries(mix).map(([k,v]) => `<div class="row"><span>${esc(k)}</span><b>${v}</b></div>
+        <div class="meter"><i style="width:${(v/total*100).toFixed(0)}%"></i></div>`).join('')
+    : '<div style="color:var(--faint);font-size:12px">No brief yet — run <b>.brief</b>.</div>';
+}
+
+/* -------------------------------------------------------------------- slots */
+function slots(s) {
+  const list = s.plan?.slots || [];
+  const toFilm = list.filter(x => !x.clipIds?.length).length;
+  $('film-count').textContent = list.length ? `${toFilm} to film · ~${list.length*4} min` : '';
+  $('slots').innerHTML = list.length ? list.map(sl => `
+    <div class="slot">
+      <div class="hd"><span class="nm">${esc(sl.formatName||sl.type)}</span>
+        <span class="grow"></span><span class="dy">${esc(sl.day||'')}</span></div>
+      <p class="hk">“${esc(sl.hook||'')}”</p>
+      <ol class="fl">${(sl.films||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ol>
+      <div class="mt">
+        ${sl.servicePush ? `<span class="tag t-c">${esc(sl.servicePush)}</span>` : ''}
+        ${sl.lengthSec ? `<span class="tag t-c">${sl.lengthSec[0]}–${sl.lengthSec[1]}s</span>` : ''}
+        ${sl.reference ? `<a class="tag t-b" href="${esc(sl.reference)}" target="_blank" rel="noopener">watch reference</a>` : ''}
+      </div>
+    </div>`).join('') : '<div class="empty">No brief yet. Type <b>.start</b>.</div>';
+}
+
+/* ------------------------------------------------------------------- render */
 function render(s) {
   snap = s;
-  $('sub').textContent = `${s.business.name} · @${s.business.instagram}`;
+  $('acct').textContent = s.business.name;
+  $('hand').textContent = '@' + s.business.instagram;
 
-  const igLive = s.capabilities?.instagramPublish;
-  $('pill-ig').className = 'pill ' + (igLive ? 'live' : 'off');
-  $('pill-ig').textContent = igLive ? 'Instagram connected' : 'Instagram not connected';
+  const ig = s.capabilities?.instagramPublish || Boolean(s.review?.account);
+  $('c-ig').className = 'chip' + (ig ? ' on' : '');
+  $('c-ig').textContent = ig ? 'Instagram live' : 'Instagram not connected';
+  const ai = s.chat?.assistant;
+  $('c-ai').className = 'chip' + (ai ? ' on' : '');
+  $('c-ai').textContent = ai ? 'Assistant on' : 'Commands only';
+  $('c-week').textContent = s.goals?.week?.weekOf ? 'week ' + s.goals.week.weekOf : 'no week set';
+  $('mode').textContent = ai ? 'assistant' : 'commands';
 
-  const assistant = s.chat?.assistant;
-  $('pill-chat').className = 'pill ' + (assistant ? 'live' : 'off');
-  $('pill-chat').textContent = assistant ? 'Assistant on' : 'Commands only';
-  $('chatmode').textContent = assistant ? 'assistant' : 'commands';
-
-  // week
-  const t = s.goals?.week?.targets;
-  $('weekof').textContent = s.goals?.week?.weekOf ? 'week of ' + s.goals.week.weekOf : '—';
-  const waiting = s.posts.filter(p => p.status === 'awaiting_approval');
-  const toFilm = (s.plan?.slots || []).filter(x => !x.clipIds?.length);
-  const stats = [
-    ['accent', t?.followers ?? '—', 'Follower target'],
-    ['', t?.posts ?? s.mix ? (t?.posts ?? '—') : '—', 'Posts planned'],
-    ['', waiting.length, 'Awaiting you'],
-    ['', toFilm.length, 'To film'],
-    ['', s.footage?.unused ?? 0, 'Clips ready'],
-  ];
-  $('stats').innerHTML = stats.map(([cls,n,k]) =>
-    `<div class="stat ${cls}"><div class="n">${esc(n)}</div><div class="k">${esc(k)}</div></div>`).join('');
-  $('targetnote').textContent = t?.baselineKnown === false
-    ? (t.unavailable || '')
-    : 'Targets are projections, scored at the end of the week.';
-
-  // queue
-  $('qcount').textContent = waiting.length;
-  $('queue').innerHTML = waiting.length ? waiting.map(p => {
-    const c = p.caption || {};
-    const tags = (c.hashtags || []).map(h => h.startsWith('#') ? h : '#' + h).join(' ');
-    const blockers = (p.gate?.blockers || []);
-    return `<div class="post">
-      <header><span class="fmt">${esc(p.formatName || p.type || 'Post')}</span>
-      <span class="when">${esc(fmtWhen(p.scheduledFor))}</span></header>
-      <div class="cap">
-        <div class="hook">${esc(c.hook || '')}</div>
-        <div>${esc(c.body || '')}</div>
-        ${tags ? `<div class="tags">${esc(tags)}</div>` : ''}
-      </div>
-      ${blockers.length ? `<ul class="blockers">${blockers.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>` : ''}
-      <div class="acts">
-        <button class="approve" onclick="decide('${p.id}','approve')">Approve</button>
-        <button class="skip" onclick="decide('${p.id}','reject')">Skip</button>
-      </div>
-    </div>`;
-  }).join('') : '<div class="empty">Nothing waiting. Type <b>.start</b> to begin the week.</div>';
-
-  // shoot list
-  const slots = s.plan?.slots || [];
-  $('shoot').innerHTML = slots.length ? slots.map(sl => `
-    <div class="slot">
-      <div class="row">
-        <span class="name">${esc(sl.formatName || sl.type || 'Slot')}</span>
-        <span class="badge ${sl.clipIds?.length ? '' : 'todo'}">${sl.clipIds?.length ? 'footage ready' : 'needs filming'}</span>
-      </div>
-      ${sl.hook ? `<p class="hookline">"${esc(sl.hook)}"</p>` : ''}
-      ${Array.isArray(sl.shots) && sl.shots.length ? `<ol>${sl.shots.map(x=>`<li>${esc(typeof x==='string'?x:(x.direction||x.what||''))}</li>`).join('')}</ol>` : ''}
-    </div>`).join('') : '<div class="empty">No brief yet.</div>';
-
-  // report
-  const r = s.review;
-  $('report').innerHTML = r?.summary ? `
-    <div class="gradebox">
-      <div class="grade">${esc(r.summary.grade)}</div>
-      <div>
-        <div style="font-weight:600">${esc(r.summary.averageEngagement)}% average engagement</div>
-        <div class="hint">${esc(r.summary.verdict)}</div>
-      </div>
-    </div>
-    <ul style="margin:14px 0 0;padding-left:18px;font-size:13px">
-      ${(r.summary.actions||[]).map(a=>`<li style="margin-bottom:5px">${esc(a)}</li>`).join('')}
-    </ul>`
-    : '<div class="empty">Not reviewed yet. Type <b>.review</b>.</div>';
-
-  // quick commands
-  $('quick').innerHTML = (s.commands || []).map(c =>
-    `<button title="${esc(c.help)}" onclick="quick('${esc(c.name)}')">${esc(c.name)}</button>`).join('');
+  metrics(s); chart(s); bubbles(s); table(s); rail(s); slots(s);
+  $('cmds').innerHTML = (s.commands||[]).map(c =>
+    `<button title="${esc(c.help)}" onclick="run('${esc(c.name)}')">${esc(c.name)}</button>`).join('');
 }
 
+/* --------------------------------------------------------------------- chat */
 function bubble(text, cls, who) {
   const d = document.createElement('div');
   d.className = 'msg ' + cls;
-  d.innerHTML = `<span class="who">${esc(who)}</span>${esc(text)}`;
-  $('chatlog').appendChild(d);
-  $('chatlog').scrollTop = $('chatlog').scrollHeight;
+  d.innerHTML = `<span class="w">${esc(who)}</span>${esc(text)}`;
+  $('log').appendChild(d); $('log').scrollTop = $('log').scrollHeight;
   return d;
 }
-
 async function send(text) {
   if (!text.trim()) return;
-  bubble(text, 'me', 'You');
-  $('input').value = '';
-  $('send').disabled = true;
-  const pending = bubble('working…', 'sys', 'Gloss');
+  bubble(text, 'me', 'You'); $('in').value = ''; $('go').disabled = true;
+  const p = bubble('working…', 'sys', 'Gloss');
   try {
-    const res = await fetch('/api/chat', {
-      method: 'POST', headers: {'content-type':'application/json'},
-      body: JSON.stringify({ message: text, history }),
-    });
+    const res = await fetch('/api/chat', { method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({ message:text, history:hist }) });
     const out = await res.json();
-    pending.innerHTML = `<span class="who">Gloss</span>${esc(out.reply || '(no reply)')}`;
-    if (out.mode === 'assistant' && Array.isArray(out.history)) history = out.history;
+    p.innerHTML = `<span class="w">Gloss</span>${esc(out.reply || '(no reply)')}`;
+    if (out.mode === 'assistant' && Array.isArray(out.history)) hist = out.history;
     refresh();
-  } catch (err) {
-    pending.className = 'msg err';
-    pending.innerHTML = `<span class="who">Gloss</span>${esc(err.message)}`;
-  } finally {
-    $('send').disabled = false;
-    $('input').focus();
-  }
+  } catch (e) {
+    p.innerHTML = `<span class="w">Gloss</span>${esc(e.message)}`;
+  } finally { $('go').disabled = false; $('in').focus(); }
 }
+window.run = (c) => send(c);
 
-window.quick = (cmd) => send(cmd);
-window.decide = async (postId, decision) => {
-  await fetch('/api/decide', {
-    method:'POST', headers:{'content-type':'application/json'},
-    body: JSON.stringify({ postId, decision }),
-  });
-  refresh();
-};
-
-async function refresh() {
-  const res = await fetch('/api/snapshot');
-  render(await res.json());
-}
+async function refresh() { render(await (await fetch('/api/snapshot')).json()); }
 
 const es = new EventSource('/events');
 es.addEventListener('snapshot', e => render(JSON.parse(e.data)));
 es.addEventListener('log', e => {
-  const l = JSON.parse(e.data);
-  const d = document.createElement('div');
+  const l = JSON.parse(e.data), d = document.createElement('div');
   d.className = l.level || 'info';
   d.innerHTML = `<span class="lv">${esc(l.level||'')}</span>${esc(l.msg||'')}`;
   $('feed').prepend(d);
-  while ($('feed').childNodes.length > 120) $('feed').lastChild.remove();
+  while ($('feed').childNodes.length > 100) $('feed').lastChild.remove();
 });
-
-$('composer').addEventListener('submit', e => { e.preventDefault(); send($('input').value); });
+$('cmp').addEventListener('submit', e => { e.preventDefault(); send($('in').value); });
 refresh();
 </script>
 </body>

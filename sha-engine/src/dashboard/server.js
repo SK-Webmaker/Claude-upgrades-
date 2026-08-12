@@ -191,6 +191,7 @@ function buildSnapshot() {
       return weeks.length ? { week: weeks[0], lastScorecard: weeks[1]?.scorecard ?? null } : null;
     })(),
     review: store.read('review', null),
+    scores: store.read('scores', []),
     commands: Object.entries(COMMANDS).map(([name, c]) => ({ name: `.${name}`, help: c.help })),
     chat: { assistant: chat.isAssistantConfigured() },
     mix: system.mix,
