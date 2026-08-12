@@ -1,74 +1,50 @@
 services:
   - type: web
-    name: sha-engine
+    name: gloss-sha
     runtime: node
     plan: starter
     rootDir: sha-engine
     buildCommand: npm ci --omit=dev
-    startCommand: npm start
-    healthCheckPath: /healthz
+    startCommand: npm run dashboard
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: DATA_DIR
+        value: /var/data
+      # Instagram fetches media from this URL, so it must be the service's own.
+      - key: PUBLIC_MEDIA_BASE_URL
+        sync: false
+      - key: COMPOSIO_API_KEY
+        sync: false
+      - key: COMPOSIO_CONNECTED_ACCOUNT_ID
+        sync: false
+      - key: IG_USER_ID
+        value: me
+      # Optional. Without it the chat box falls back to the command allowlist.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: FIRECRAWL_API_KEY
+        sync: false
     disk:
-      name: sha-engine-data
+      name: gloss-data
       mountPath: /var/data
       sizeGB: 5
-    envVars:
-      - key: DATA_DIR
-        value: /var/data
-      - key: UPLOADS_DIR
-        value: /var/data/uploads
-      # Must match the service's own public URL — Instagram fetches media from it.
-      - key: PUBLIC_BASE_URL
-        sync: false
-      - key: COMPOSIO_API_KEY
-        sync: false
-      - key: COMPOSIO_CONNECTED_ACCOUNT_ID
-        sync: false
-      - key: IG_USER_ID
-        value: me
-      - key: POSTS_PER_WEEK
-        value: "3"
-      # Long random string. Anyone holding it can approve posts.
-      - key: REVIEW_TOKEN
-        generateValue: true
 
-  # Weekly: research, brief, draft, gate, queue for approval. Publishes nothing.
+  # Weekly kick-off. Reviews, sets the target, briefs, gates. Publishes nothing.
   - type: cron
-    name: sha-engine-cycle
+    name: gloss-start-week
     runtime: node
     plan: starter
     rootDir: sha-engine
-    schedule: "0 22 * * 0"
+    schedule: "0 20 * * 0"
     buildCommand: npm ci --omit=dev
-    startCommand: npm run cycle
+    startCommand: node src/cli.js .start
     envVars:
       - key: DATA_DIR
         value: /var/data
-      - key: UPLOADS_DIR
-        value: /var/data/uploads
-      - key: PUBLIC_BASE_URL
+      - key: PUBLIC_MEDIA_BASE_URL
         sync: false
       - key: COMPOSIO_API_KEY
         sync: false
       - key: COMPOSIO_CONNECTED_ACCOUNT_ID
         sync: false
-      - key: POSTS_PER_WEEK
-        value: "3"
-
-  # Hourly: publish anything Sha approved whose slot has arrived.
-  - type: cron
-    name: sha-engine-publish
-    runtime: node
-    plan: starter
-    rootDir: sha-engine
-    schedule: "0 * * * *"
-    buildCommand: npm ci --omit=dev
-    startCommand: npm run publish-due
-    envVars:
-      - key: DATA_DIR
-        value: /var/data
-      - key: COMPOSIO_API_KEY
-        sync: false
-      - key: COMPOSIO_CONNECTED_ACCOUNT_ID
-        sync: false
-      - key: IG_USER_ID
-        value: me

@@ -1,13 +1,10 @@
 {
-  "name": "Hair by Sha — Control Room",
-  "short_name": "Sha",
-  "description": "Approve this week's posts and add footage from your phone.",
+  "name": "Gloss — Hair by Sha",
+  "short_name": "Gloss",
+  "description": "The marketing studio for Hair by Sha, Camberwell.",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0E1013",
-  "theme_color": "#0E1013",
-  "icons": [
-    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
-  ]
+  "background_color": "#FBF9F6",
+  "theme_color": "#12100E",
+  "icons": [{ "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
 }

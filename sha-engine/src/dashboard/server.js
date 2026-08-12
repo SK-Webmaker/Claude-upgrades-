@@ -17,6 +17,7 @@ import learn from '../stages/learn.js';
 import brief from '../stages/brief.js';
 import goals from '../stages/goals.js';
 import review from '../stages/review.js';
+import chat from './chat.js';
 
 const log = makeLogger('dashboard');
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -191,6 +192,7 @@ function buildSnapshot() {
     })(),
     review: store.read('review', null),
     commands: Object.entries(COMMANDS).map(([name, c]) => ({ name: `.${name}`, help: c.help })),
+    chat: { assistant: chat.isAssistantConfigured() },
     mix: system.mix,
     agents: coordinator.explain().map((a) => ({ ...a, ...(agentState[a.id] || { status: 'idle' }) })),
     runs: store.read('runs', []).slice(-5).reverse(),
@@ -303,6 +305,21 @@ const server = createServer(async (req, res) => {
     }
   }
 
+  if (path === '/api/chat' && req.method === 'POST') {
+    const body = await readBody(req);
+    try {
+      const out = await chat.handle({
+        history: Array.isArray(body?.history) ? body.history : [],
+        message: body?.message,
+        commands: COMMANDS,
+      });
+      if (out.ran?.length) broadcast('snapshot', buildSnapshot());
+      return sendJson(res, 200, out);
+    } catch (err) {
+      return sendJson(res, 500, { mode: 'error', reply: err.message });
+    }
+  }
+
   if (path === '/api/run' && req.method === 'POST') {
     const { stage } = await readBody(req);
     const runner = RUNNERS[stage];
@@ -372,5 +389,5 @@ const server = createServer(async (req, res) => {
 
 const { port, host } = system.dashboard;
 server.listen(port, host, () => {
-  process.stdout.write(`\n  ${brand.business.name} control room\n  http://${host}:${port}\n\n`);
+  process.stdout.write(`\n  ${brand.business.name} — Gloss studio\n  http://${host}:${port}\n\n`);
 });
