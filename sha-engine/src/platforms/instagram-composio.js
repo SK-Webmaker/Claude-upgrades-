@@ -71,6 +71,10 @@ function composioCreds() {
   return {
     apiKey: process.env.COMPOSIO_API_KEY || null,
     connectedAccountId: process.env.COMPOSIO_CONNECTED_ACCOUNT_ID || null,
+    // Composio requires the user id alongside a connected account: executing
+    // with connected_account_id alone returns
+    // ActionExecute_ConnectedAccountEntityIdRequired.
+    userId: process.env.COMPOSIO_USER_ID || 'sha',
     // "me" resolves the authenticated account, which avoids the mismatch between
     // the id GET_USER_INFO returns and the one the media edge pages against.
     igUserId: creds.instagram.userId || 'me',
@@ -85,11 +89,12 @@ export function isConfigured() {
 
 /** POST /api/v3/tools/execute/{tool_slug} */
 async function execute(toolSlug, args) {
-  const { apiKey, connectedAccountId } = composioCreds();
+  const { apiKey, connectedAccountId, userId } = composioCreds();
   if (!apiKey) throw new Error('COMPOSIO_API_KEY is not set — cannot reach Instagram');
 
   const body = { arguments: args };
   if (connectedAccountId) body.connected_account_id = connectedAccountId;
+  if (userId) body.user_id = userId;
 
   const res = await fetch(`${COMPOSIO_BASE}/api/v3/tools/execute/${toolSlug}`, {
     method: 'POST',
