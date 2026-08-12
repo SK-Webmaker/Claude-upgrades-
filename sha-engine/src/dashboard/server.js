@@ -387,7 +387,15 @@ const server = createServer(async (req, res) => {
   res.end(readFileSync(full));
 });
 
-const { port, host } = system.dashboard;
+/**
+ * Locally this binds to 127.0.0.1 from config, which is the right default for a
+ * process holding live social credentials. A hosting platform sets PORT and
+ * routes to the container from outside, so a loopback bind there is unreachable
+ * and every request 502s — when PORT is provided, bind all interfaces.
+ */
+const port = Number(process.env.PORT) || system.dashboard.port;
+const host = process.env.HOST || (process.env.PORT ? '0.0.0.0' : system.dashboard.host);
+
 server.listen(port, host, () => {
   process.stdout.write(`\n  ${brand.business.name} — Gloss studio\n  http://${host}:${port}\n\n`);
 });
