@@ -16,8 +16,8 @@ const log = makeLogger('instagram-composio');
  * ---------------------------------------------------------------------------
  * What Composio exposes, and what it does not
  *
- *   INSTAGRAM_POST_IG_USER_MEDIA          -> creates a media *container*
- *   INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH  -> publishes that container
+ *   INSTAGRAM_CREATE_MEDIA_CONTAINER  -> creates a media *container*
+ *   INSTAGRAM_CREATE_POST             -> publishes that container
  *
  * There is no draft creation. A container is an invisible server-side staging
  * handle: it never appears in the Instagram app, Sha cannot see or tap it, and
@@ -66,6 +66,30 @@ export const LIMITS = {
 };
 
 const COMPOSIO_BASE = process.env.COMPOSIO_BASE_URL || 'https://backend.composio.dev';
+
+/**
+ * Tool slugs.
+ *
+ * Composio's REST API and its MCP connector expose the same Instagram toolkit
+ * under different names. This adapter was first written against the MCP names
+ * (the INSTAGRAM_*_IG_* family), which do not exist on the REST
+ * side — every call returned "Tool not found". These are the REST slugs,
+ * confirmed by listing /api/v3/tools?toolkit_slug=instagram against the live
+ * project.
+ *
+ * Note there is no content-publishing-limit tool in the REST set, so the daily
+ * quota cannot be read here. `quotaRemaining()` reports that honestly rather
+ * than guessing a cap.
+ */
+const TOOL = {
+  userInfo: 'INSTAGRAM_GET_USER_INFO',
+  userMedia: 'INSTAGRAM_GET_USER_MEDIA',
+  createContainer: 'INSTAGRAM_CREATE_MEDIA_CONTAINER',
+  publish: 'INSTAGRAM_CREATE_POST',
+  postStatus: 'INSTAGRAM_GET_POST_STATUS',
+  postInsights: 'INSTAGRAM_GET_POST_INSIGHTS',
+  userInsights: 'INSTAGRAM_GET_USER_INSIGHTS',
+};
 
 function composioCreds() {
   return {
@@ -230,7 +254,7 @@ export async function publish(post, { dryRun = false, maxWaitSeconds = 180 } = {
   const { igUserId } = composioCreds();
 
   log.info(`creating container for ${post.id}`);
-  const container = await execute('INSTAGRAM_POST_IG_USER_MEDIA', {
+  const container = await execute(TOOL.createContainer, {
     ig_user_id: igUserId,
     caption,
     ...(video
@@ -244,7 +268,7 @@ export async function publish(post, { dryRun = false, maxWaitSeconds = 180 } = {
   // publish tool polls to FINISHED internally; images are near-instant, video
   // commonly needs 30-120s.
   log.info(`publishing container ${container.id}`);
-  const published = await execute('INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH', {
+  const published = await execute(TOOL.publish, {
     ig_user_id: igUserId,
     creation_id: container.id,
     max_wait_seconds: video ? maxWaitSeconds : 30,
@@ -252,15 +276,13 @@ export async function publish(post, { dryRun = false, maxWaitSeconds = 180 } = {
 
   if (!published?.id) throw new Error('publish returned no media id');
 
+  // The REST toolkit has no single-media read, so the permalink is recovered
+  // from the media list. Cosmetic only — the post is already live either way.
   let permalink = null;
   try {
-    const media = await execute('INSTAGRAM_GET_IG_MEDIA', {
-      ig_media_id: published.id,
-      fields: 'id,permalink,media_type,timestamp',
-    });
-    permalink = media?.permalink ?? null;
+    const recent = await recentMedia(5);
+    permalink = recent.find((m) => String(m.id) === String(published.id))?.permalink ?? null;
   } catch (err) {
-    // The post is already live; a missing permalink is cosmetic.
     log.warn(`published, but could not read permalink: ${err.message}`);
   }
 
@@ -284,36 +306,16 @@ export async function publish(post, { dryRun = false, maxWaitSeconds = 180 } = {
  * changes.
  */
 export async function quotaRemaining() {
-  if (!isConfigured()) return { known: false, remaining: null };
-  try {
-    const data = await execute('INSTAGRAM_GET_IG_USER_CONTENT_PUBLISHING_LIMIT', {
-      ig_user_id: composioCreds().igUserId,
-    });
-    // Usage comes back as a list under data.data, not a flat object.
-    const entry = Array.isArray(data?.data) ? data.data[0] : data;
-    const used = entry?.quota_usage ?? 0;
-    const cap = entry?.config?.quota_total ?? LIMITS.dailyPostsFallback;
-    return { known: true, used, cap, remaining: Math.max(0, cap - used) };
-  } catch (err) {
-    log.warn(`could not read publishing quota: ${err.message}`);
-    return { known: false, remaining: null };
-  }
+  // Composio's REST toolkit exposes no content-publishing-limit tool, so the
+  // rolling 24h cap cannot be read here. Reporting known:false lets ship.js
+  // fall back to its configured budget rather than acting on a guessed number.
+  return { known: false, remaining: null, reason: 'no publishing-limit tool in the REST toolkit' };
 }
 
 /** Per-post metrics for the Analyst. */
 export async function fetchInsights(mediaId) {
-  // Composio validates `metric` as an array — a comma-separated string fails.
-  const metric = [
-    'reach',
-    'likes',
-    'comments',
-    'saved',
-    'shares',
-    'total_interactions',
-    'ig_reels_video_view_total_time',
-    'ig_reels_avg_watch_time',
-  ];
-  const data = await execute('INSTAGRAM_GET_IG_MEDIA_INSIGHTS', { ig_media_id: mediaId, metric });
+  const metric = ['reach', 'likes', 'comments', 'saved', 'shares', 'total_interactions'];
+  const data = await execute(TOOL.postInsights, { ig_media_id: mediaId, metric });
   const rows = Array.isArray(data?.data) ? data.data : (data?.data?.data ?? []);
   const out = {};
   for (const row of rows) out[row.name] = row.values?.[0]?.value ?? 0;
@@ -322,11 +324,11 @@ export async function fetchInsights(mediaId) {
 
 /** Recent published media with engagement, for the review stage. */
 export async function recentMedia(limit = 25) {
-  const data = await execute('INSTAGRAM_GET_IG_USER_MEDIA', {
+  // The REST tool declares only ig_user_id, limit, after and graph_api_version
+  // — it has no `fields` parameter, so the field list is whatever it returns.
+  const data = await execute(TOOL.userMedia, {
     ig_user_id: composioCreds().igUserId,
     limit,
-    fields:
-      'id,caption,media_type,media_product_type,permalink,timestamp,like_count,comments_count,view_count,saved_count,shares_count,total_like_count,total_comments_count',
   });
   // Items can be double-wrapped under data.data; parsing only the outer layer
   // looks like an empty account.
@@ -338,7 +340,7 @@ export async function recentMedia(limit = 25) {
 
 /** Account identity and whether it can publish at all. */
 export async function accountInfo() {
-  const data = await execute('INSTAGRAM_GET_USER_INFO', { ig_user_id: composioCreds().igUserId });
+  const data = await execute(TOOL.userInfo, { ig_user_id: composioCreds().igUserId });
   return {
     id: data.id,
     username: data.username,
