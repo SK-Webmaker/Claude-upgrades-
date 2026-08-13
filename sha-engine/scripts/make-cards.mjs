@@ -28,7 +28,7 @@ import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
-const OUT = process.argv[2] || join(ROOT, 'data', 'cards');
+const OUT = process.argv[2] || join(ROOT, 'content', 'cards');
 const W = 1080;
 const H = 1350; // 4:5 — the tallest ratio Instagram shows in-feed uncropped
 
@@ -103,7 +103,7 @@ function html({ kind, eyebrow, headline, sub, detail, footer }) {
         <div class="incl">
           <div class="row"><span>Foils, root to end</span><span>2 hr 30</span></div>
           <div class="row"><span>Toner to finish</span><span>45 min</span></div>
-          <div class="row"><span>Blow wave</span><span>Included</span></div>
+          <div class="row"><span>Blow wave to finish</span><span>Included</span></div>
         </div>
         <div style="height:44px"></div>
         <p class="sub">${sub}</p>
@@ -208,9 +208,9 @@ export const CARDS = [
     file: 'w1-price.png',
     kind: 'price',
     eyebrow: 'What it actually costs',
-    headline: 'A full head of<br>foils is',
+    headline: 'A full head of<br>foils starts at',
     detail: '$320',
-    sub: 'One booking, one price. Nothing added at the counter.',
+    sub: 'Three and a half hours, one price. Nothing gets added at the counter.',
     footer: 'Hair by Sha · Camberwell',
   },
   {

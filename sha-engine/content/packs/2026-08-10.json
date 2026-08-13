@@ -1,0 +1,227 @@
+{
+  "weekOf": "2026-08-10",
+  "authoredBy": "gloss",
+  "title": "Say the price, correct the myth, earn the save",
+  "thesis": "The account's last 25 posts averaged 7.5% engagement on 175 followers, which is a healthy rate on a small base. What it is missing is a reason to send a post to somebody else. All three posts this week are built to be forwarded or saved rather than liked: a price nobody else in Camberwell publishes, a correction to something most blondes believe, and a list that is only useful if you keep it.",
+  "posts": [
+    {
+      "id": "w1-price",
+      "day": "Monday",
+      "postAt": "2026-08-17T08:00:00+10:00",
+      "type": "offer",
+      "medium": "image",
+      "title": "What a full head of foils actually costs",
+      "image": "w1-price.png",
+      "imageAlt": "Dark card reading: a full head of foils starts at $320, with a breakdown of foils, toner and blow wave.",
+      "whyItWorks": "Nobody local publishes a number. A price post is the single most saved and most forwarded thing a service business can put out, because the person deciding is almost never the person who saw it first — they screenshot it for a partner or a friend. Publishing the breakdown also kills the 'how much is a full head?' DM before it is sent, which is the DM that most often goes unanswered for two days and loses the booking.",
+      "caption": {
+        "hook": "A full head of foils at my chair is $320.",
+        "body": "That is three and a half hours: foils root to end, a toner to finish, and a blow wave. One price, quoted before you sit down.\n\nI would rather you know the number now than find it at the counter. Colour at that price should still feel like hair in twelve weeks, so K18 goes through anywhere the lift has been heavy.\n\nIf your blonde has grown out and you have been putting off asking, this is the answer.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#blondemelbourne",
+          "#salonpricing"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to the first comment with the booking link. Instagram suppresses links in the caption, not in comments."
+      ]
+    },
+    {
+      "id": "w1-myth",
+      "day": "Wednesday",
+      "postAt": "2026-08-19T18:30:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Purple shampoo does not fix brass",
+      "image": "w1-myth.png",
+      "imageAlt": "Cream card with 'purple shampoo fixes brass' struck through, and the correction underneath.",
+      "whyItWorks": "A correction post gives the reader something to send. Almost every blonde owns a purple shampoo and believes it is doing more than it is, so the post lands as news rather than advice — and news is what gets forwarded. It also does the selling without an offer in it: the answer to the problem happens to be a $45 service.",
+      "caption": {
+        "hook": "Purple shampoo is not fixing your brass.",
+        "body": "It deposits violet pigment on the outside of the hair. Brass is warmth sitting underneath, exposed when the colour lifted, and pigment on top cannot reach it.\n\nWhat does reach it is a toner or gloss in the chair. Forty five minutes, $45, and the tone is reset properly rather than masked.\n\nPurple shampoo still has a job. Once a week, after the toner, to hold what you paid for. More often than that and you go flat and dull, which is a different problem and a longer appointment to undo.\n\nIf your blonde has gone warm and you were about to buy another bottle, book the toner instead.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#blondehairmelbourne",
+          "#tonedblonde",
+          "#haireducation"
+        ]
+      },
+      "howToPost": [
+        "Single 4:5 photo.",
+        "Pin this one to the top of the profile for the week — it is the post most likely to be sent to a friend.",
+        "When someone comments 'so what do I use', answer with the once-a-week line rather than the booking link. The link goes in the second reply."
+      ]
+    },
+    {
+      "id": "w1-aftercare",
+      "day": "Friday",
+      "postAt": "2026-08-21T07:30:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Four things quietly costing you weeks",
+      "image": "w1-aftercare.png",
+      "imageAlt": "Dark card listing four aftercare mistakes that shorten the life of a colour.",
+      "whyItWorks": "Saves are weighted six times a like in this system's own scoring, and a numbered list is the format people actually save. Each item is specific enough to act on tonight, which is what separates a saved list from a scrolled one. It also sets up the six-to-eight week toner rebook without asking for it.",
+      "caption": {
+        "hook": "Four things quietly costing you weeks of colour.",
+        "body": "01 Washing hotter than lukewarm. Heat opens the cuticle and the toner leaves with the water.\n\n02 Shampooing more than twice a week. Every wash is a small strip.\n\n03 Straightening with no heat protectant. Two hundred degrees on bare hair oxidises the tone in one pass.\n\n04 Leaving eight weeks between toners. Six to eight is the window. Past that you are paying me to correct rather than maintain, and that is the more expensive appointment.\n\nNone of these are dramatic on their own. Together they are the difference between colour that holds twelve weeks and colour that has gone warm by week six.",
+        "cta": "Save this for your next wash day, then book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#haircaretips",
+          "#blondemaintenance"
+        ]
+      },
+      "howToPost": [
+        "Single 4:5 photo.",
+        "Post this one in the morning — aftercare saves happen before work, not at night.",
+        "Add it to a highlight called Colour Care so it keeps working after the week ends."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w1-v1",
+      "title": "The toner reveal, wet to dry",
+      "lengthSec": [12, 18],
+      "difficulty": "Easiest. One client, one phone, no editing beyond a trim.",
+      "whyItWorks": "Before-and-after transformation is one of the small set of repeatable formats that still carries distribution rather than being a one-off creative bet. The wet-to-dry version works better than the usual before-and-after because the wet shot looks worse than where the client started, so the payoff is bigger for the same result.",
+      "references": [
+        {
+          "what": "Transformation, UGC talking head and educational listicle are named as the formats that repeat, versus one-off creative experiments",
+          "url": "https://creatorflow.so/blog/instagram-content-formats-guide/"
+        },
+        {
+          "what": "Salons filming the process — foils, toning, reveal — with the price in the caption, as a booking driver",
+          "url": "https://www.iconixlive.com/post/5-instagram-reels-ideas-that-actually-drive-salon-bookings"
+        }
+      ],
+      "hook": "Show the wet, brassy hair in the first half second. No intro, no face, no talking.",
+      "shots": [
+        "0.0–2.0s — Wet hair at the basin, toner just rinsed. Hold the phone at chest height, film down the length. This is the frame that has to look bad.",
+        "2.0–5.0s — One cut to the mid-blow-dry, brush passing through. Keep the sound of the dryer.",
+        "5.0–9.0s — Finished, dry, in the window light near the front. Slow pan down the length once.",
+        "9.0–14.0s — Client turns her head. That single turn is the payoff — do not cut away from it."
+      ],
+      "onScreenText": [
+        "0.5s — Forty five minutes",
+        "5.0s — Toner and gloss, $45",
+        "10.0s — Camberwell"
+      ],
+      "audio": "Use whatever is trending in the Reels audio tab that day, at low volume under the dryer. Do not talk over it.",
+      "caption": {
+        "hook": "Forty five minutes between these two frames.",
+        "body": "Toner and gloss, no lightener, no damage. This is what a maintenance appointment looks like when the colour underneath is still good.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#tonedblonde",
+          "#hairtransformation"
+        ]
+      },
+      "watchFor": "If the first frame shows dry hair, the format stops working. The wet shot is the whole mechanism."
+    },
+    {
+      "id": "w1-v2",
+      "title": "Answer one real DM out loud",
+      "lengthSec": [20, 30],
+      "difficulty": "Medium. Needs her face and voice, no editing.",
+      "whyItWorks": "Instagram now treats a DM share — one viewer sending the video to one specific person — as the strongest quality signal a Reel can generate. A question answered plainly is the most sendable thing a specialist can make, because the viewer knows exactly who needs to hear it. A quick genuine answer to a common client question also positions the stylist as the expert rather than the service, and that content gets saved and shared far more than a promotion does.",
+      "references": [
+        {
+          "what": "DM shares are the primary quality signal for Reels, and the hook that makes a viewer think 'I need to send this to someone' is the highest-performing structure",
+          "url": "https://flowcast.space/blog/instagram-reels-hooks-that-work-in-2026"
+        },
+        {
+          "what": "A genuine answer to a common client question outperforms promotional content on saves and shares",
+          "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"
+        }
+      ],
+      "hook": "Read the question out loud in the first two seconds. Not 'hi guys' — the question, immediately.",
+      "shots": [
+        "Set the phone on the station at eye height, portrait, salon behind. One take.",
+        "0.0–2.0s — 'Someone asked me why her balayage went orange after six weeks.' Say it straight to camera.",
+        "2.0–18.0s — Answer it. Name the actual cause: the underlying warm pigment was exposed by the lift, and the toner that covered it has washed out. Talk to one person, not an audience.",
+        "18.0–25.0s — 'That is a toner, not a full colour. Forty five minutes.' Stop there. Do not add an outro."
+      ],
+      "onScreenText": [
+        "0.0s — Burn the question itself across the top for the whole video. Most of the feed watches on mute, so if the question is not on screen the video does not exist.",
+        "Add captions for the whole answer. Kinetic captions, not the small default ones."
+      ],
+      "audio": "Her voice only. No music underneath — it competes with speech and drops retention.",
+      "caption": {
+        "hook": "Why blonde goes orange at six weeks, and what it actually takes to fix.",
+        "body": "This is the question I get most. The short version is that the warmth was always in the hair — lifting exposed it, and the toner that covered it has washed out. It is a forty five minute fix, not a full colour.\n\nSend this to whoever has been complaining about their blonde.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#blondehairmelbourne",
+          "#haireducation"
+        ]
+      },
+      "watchFor": "The explicit 'send this to' line in the caption is not filler. It is the instruction that turns a view into the share the ranking actually counts."
+    },
+    {
+      "id": "w1-v3",
+      "title": "Three and a half hours in ten seconds",
+      "lengthSec": [10, 15],
+      "difficulty": "Hardest to film, easiest to reuse. One long appointment, then it can be recut for months.",
+      "whyItWorks": "It pays off the Monday price post with proof. A number on its own invites 'that seems like a lot'; the same number over a timelapse of three and a half hours of sectioning answers the objection without arguing. Showing the technique rather than only the finished result builds credibility a photo cannot, and clients researching a specific service look for exactly this before they book.",
+      "references": [
+        {
+          "what": "Showing the actual technique — the blend being mixed, the sectioning — builds credibility a finished photo cannot, and is what clients look for before booking a specific service",
+          "url": "https://www.iconixlive.com/post/5-instagram-reels-ideas-that-actually-drive-salon-bookings"
+        },
+        {
+          "what": "Jump cuts to remove dead air; on-screen text so the message lands on mute",
+          "url": "https://invideo.io/blog/instagram-reels-guide/"
+        }
+      ],
+      "hook": "Open on the finished blonde for half a second, then cut hard back to the first foil. Result first, process second.",
+      "shots": [
+        "Prop the phone on a shelf behind the chair before the appointment starts. Portrait. Do not move it.",
+        "Record 4–5 separate 10-second clips across the appointment: first section, foils going in halfway, foils full head, toner at the basin, blow dry.",
+        "0.0–0.5s — The finished result.",
+        "0.5–8.0s — The clips in order, sped up to roughly 8x. Hard cuts, no transitions.",
+        "8.0–12.0s — Back to the finished result, held."
+      ],
+      "onScreenText": [
+        "0.5s — 3 hours 30 minutes",
+        "4.0s — Full head of foils",
+        "8.0s — Toner and blow wave included",
+        "10.0s — $320"
+      ],
+      "audio": "Trending audio with a clear beat. Cut on the beat — the sped-up sections land harder when they do.",
+      "caption": {
+        "hook": "Three and a half hours, compressed into ten seconds.",
+        "body": "Full head of foils, root to end, toner to finish, blow wave. The price is $320 and this is what is inside it.\n\nIf you have wondered why a full head costs what it does, this is the honest version.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#blondemelbourne"
+        ]
+      },
+      "watchFor": "Ask the client before the appointment, not during. Consent is on file at booking, but a phone on a shelf for three hours deserves a spoken heads up."
+    }
+  ]
+}

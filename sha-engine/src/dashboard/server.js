@@ -19,6 +19,7 @@ import brief from '../stages/brief.js';
 import goals from '../stages/goals.js';
 import review from '../stages/review.js';
 import chat from './chat.js';
+import pack from '../lib/pack.js';
 
 /**
  * A point-in-time snapshot of the account, read live via Composio and committed
@@ -68,12 +69,24 @@ const COMMANDS = {
       out.waiting = posts.filter((p) => p.status === 'awaiting_approval').length;
       const p = store.read('plan', { slots: [] });
       out.toFilm = (p.slots || []).filter((s) => !s.clipIds?.length).length;
+      // The finished posts are the point of the command. Everything above is
+      // the account read and the shoot brief that surround them.
+      try {
+        const week = pack.current();
+        out.ready = week?.posts?.length ?? 0;
+        out.guides = week?.videoGuides?.length ?? 0;
+        out.packWeek = week?.weekOf ?? null;
+      } catch (err) {
+        out.steps.push({ label: 'pack', ok: false, error: err.message });
+        out.ready = 0;
+        out.guides = 0;
+      }
       return out;
     },
     done: (r) => {
       const skipped = r.steps.filter((s) => !s.ok).map((s) => s.label);
       const note = skipped.length ? ` (${skipped.join(', ')} skipped)` : '';
-      return `Week started${note}. ${r.waiting} waiting for approval, ${r.toFilm} still to film.`;
+      return `${r.ready} finished posts and ${r.guides} video guides ready${note}. ${r.toFilm} slots still to film.`;
     },
   },
   review: {
@@ -217,6 +230,17 @@ function buildSnapshot() {
                   captionIssues: snap.captionIssues, source: 'snapshot', note: snap.note },
         scores: snap.scores,
       };
+    })(),
+    week: (() => {
+      try {
+        const w = pack.current();
+        if (!w) return null;
+        return { ...w, error: null };
+      } catch (err) {
+        // A pack that fails the Critic must be visible, not silently absent —
+        // otherwise the console shows an empty week and nobody knows why.
+        return { error: err.message, posts: [], videoGuides: [] };
+      }
     })(),
     commands: Object.entries(COMMANDS).map(([name, c]) => ({ name: `.${name}`, help: c.help })),
     chat: { assistant: chat.isAssistantConfigured() },
@@ -451,6 +475,16 @@ const server = createServer(async (req, res) => {
     } catch (err) {
       return sendJson(res, 400, { error: err.message });
     }
+  }
+
+  // Finished post images. Served from content/, which ships with the deploy,
+  // not from the data disk.
+  if (path.startsWith('/card/')) {
+    const name = decodeURIComponent(path.slice('/card/'.length)).replace(/[^\w.-]/g, '');
+    const file = join(pack.CARDS, name);
+    if (!name.endsWith('.png') || !existsSync(file)) { res.writeHead(404); return res.end('Not found'); }
+    res.writeHead(200, { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=300' });
+    return res.end(readFileSync(file));
   }
 
   if (path.startsWith('/preview/')) {

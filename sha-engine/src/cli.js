@@ -14,6 +14,7 @@ import coordinator from './agents/coordinator.js';
 import goals from './stages/goals.js';
 import review from './stages/review.js';
 import brief from './stages/brief.js';
+import pack from './lib/pack.js';
 
 const log = makeLogger('cli');
 
@@ -98,8 +99,35 @@ async function startWeek({ dryRun = false } = {}) {
     }
   }
 
-  process.stdout.write(`\n  Approve on the dashboard, then: sha ship${dryRun ? ' --dry-run' : ''}\n\n`);
-  return { steps: done, waiting: waiting.length, toFilm: toFilm.length };
+  // The finished posts, printed last because they are the part she acts on.
+  let week = null;
+  try {
+    week = pack.current();
+  } catch (err) {
+    process.stdout.write(`\n  \x1b[33mThis week's pack did not pass the Critic\x1b[0m — ${err.message}\n`);
+  }
+
+  if (week) {
+    process.stdout.write(`\n  Ready to post — ${week.title}\n\n`);
+    for (const p of week.posts) {
+      const img = p.imageReady ? p.image : `${p.image} (not rendered yet)`;
+      process.stdout.write(`    ${p.day.padEnd(10)} ${p.title}\n`);
+      process.stdout.write(`               ${img}\n`);
+    }
+    process.stdout.write(`\n  Video guides for the week\n\n`);
+    for (const g of week.videoGuides) {
+      process.stdout.write(`    ${g.title} — ${g.lengthSec[0]}-${g.lengthSec[1]}s, ${g.difficulty}\n`);
+    }
+  }
+
+  process.stdout.write(`\n  Open the console to copy the captions, then: sha ship${dryRun ? ' --dry-run' : ''}\n\n`);
+  return {
+    steps: done,
+    waiting: waiting.length,
+    toFilm: toFilm.length,
+    ready: week?.posts?.length ?? 0,
+    guides: week?.videoGuides?.length ?? 0,
+  };
 }
 
 /** Grades the live account and prints the scorecard. */

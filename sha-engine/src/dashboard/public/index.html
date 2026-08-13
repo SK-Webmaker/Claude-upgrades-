@@ -148,6 +148,34 @@
   .out .ok .lv { color:var(--lime); } .out .warn .lv { color:var(--amber); }
   .out .error .lv { color:var(--red); }
 
+  /* ── this week: finished posts ────────────────────────────── */
+  .post { display:grid; grid-template-columns:300px 1fr; gap:0; margin-bottom:16px; }
+  @media (max-width:900px){ .post { grid-template-columns:1fr; } }
+  .post .shot { border-right:1px solid var(--border); background:var(--bg); padding:20px;
+                display:flex; align-items:flex-start; justify-content:center; }
+  @media (max-width:900px){ .post .shot { border-right:0; border-bottom:1px solid var(--border); } }
+  .post .shot img { width:100%; max-width:260px; display:block; border-radius:2px;
+                    border:1px solid var(--border); }
+  .post .body { padding:20px; min-width:0; }
+  .post .day { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase;
+               letter-spacing:.15em; color:var(--lime); }
+  .post h3 { font-family:'Outfit',sans-serif; font-weight:600; font-size:16px; margin:6px 0 0; }
+  .post .why { font-size:12.5px; color:var(--muted); line-height:1.65; margin:10px 0 0; }
+  .caption { font-size:13px; line-height:1.6; white-space:pre-wrap; word-break:break-word;
+             background:var(--bg); border:1px solid var(--border); border-radius:2px;
+             padding:14px; margin:14px 0 0; max-height:340px; overflow-y:auto; }
+  .acts { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .steps { margin:14px 0 0; padding-left:18px; font-size:12px; color:var(--muted); line-height:1.7; }
+  .guide .shots { margin:12px 0 0; padding:0; list-style:none; font-size:12.5px; line-height:1.6; }
+  .guide .shots li { padding:8px 0 8px 14px; border-left:2px solid var(--border); margin-bottom:2px; }
+  .guide .shots li:hover { border-left-color:var(--lime); }
+  .refs { margin:14px 0 0; font-size:12px; color:var(--muted); line-height:1.6; }
+  .refs a { word-break:break-all; }
+  .kv { display:flex; gap:8px; font-size:11px; font-family:'JetBrains Mono',monospace;
+        color:var(--muted); margin-top:8px; flex-wrap:wrap; }
+  .kv span { border:1px solid var(--border); border-radius:2px; padding:2px 8px; }
+  .lede { font-size:13px; color:var(--muted); line-height:1.75; margin:0; }
+
   .empty { color:var(--muted); font-size:13px; text-align:center; padding:32px 20px; line-height:1.7; }
   .alert { padding:12px 16px; border-radius:2px; font-size:12.5px; margin-bottom:16px;
            background:rgba(255,178,62,.08); border:1px solid rgba(255,178,62,.3); color:var(--amber); }
@@ -163,6 +191,7 @@
     <nav>
       <p class="navlbl">Workspace</p>
       <button class="on" data-view="dashboard">▦&nbsp; Dashboard</button>
+      <button data-view="week">★&nbsp; This Week</button>
       <button data-view="queue">◈&nbsp; Approval Queue</button>
       <button data-view="shoot">✦&nbsp; Shoot Brief</button>
       <button data-view="posts">▤&nbsp; Published</button>
@@ -220,6 +249,9 @@
         </div>
       </section>
 
+      <!-- THIS WEEK: the finished posts and the video guides -->
+      <section class="view" id="v-week"><div id="week"></div></section>
+
       <!-- QUEUE -->
       <section class="view" id="v-queue"><div class="card"><div id="queue"></div></div></section>
 
@@ -264,6 +296,11 @@ let snap = null, busy = false;
 
 const VIEWS = {
   dashboard: ['Dashboard', () => `${snap?.business?.name ?? ''} · ${liveLabel()}`],
+  week:      ['This Week', () => {
+    const w = snap?.week;
+    if (!w || w.error) return 'no pack loaded';
+    return `${w.posts.length} finished posts · ${w.videoGuides.length} video guides · week of ${w.weekOf}`;
+  }],
   queue:     ['Approval Queue', () => `${countWaiting()} post(s) waiting for Sha`],
   shoot:     ['Shoot Brief', () => `${(snap?.plan?.slots||[]).length} slots this week`],
   posts:     ['Published', () => `${(snap?.scores||[]).length} posts reviewed`],
@@ -510,6 +547,106 @@ window.decide = async (postId, decision) => {
   refresh();
 };
 
+/* ── this week ─────────────────────────────────────────────── */
+/*
+ * The finished work: three posts with the image made and the caption written,
+ * plus the video guides. Captions are held in a map rather than inlined into
+ * onclick attributes — they contain quotes, newlines and hashes, and escaping
+ * them into an attribute is how a caption ends up published with a stray
+ * backslash in it.
+ */
+const CAPS = new Map();
+window.copyCap = async (key, btn) => {
+  try {
+    await navigator.clipboard.writeText(CAPS.get(key) || '');
+    const was = btn.textContent;
+    btn.textContent = 'copied';
+    setTimeout(() => { btn.textContent = was; }, 1400);
+  } catch { alert('Copy failed — select the caption and copy it by hand.'); }
+};
+
+function weekView(s) {
+  const w = s.week;
+  const el = $('week');
+  if (!w) {
+    el.innerHTML = `<div class="card"><p class="empty">No pack for this week yet.<br>
+      Run <span class="fm">.start</span> once one has been written.</p></div>`;
+    return;
+  }
+  if (w.error) {
+    el.innerHTML = `<div class="card"><p class="empty">This week's pack was rejected by the Critic,
+      so nothing is shown rather than showing something broken.<br><br>
+      <span class="fm">${esc(w.error)}</span></p></div>`;
+    return;
+  }
+
+  CAPS.clear();
+  const parts = [];
+
+  parts.push(`<div class="card" style="margin-bottom:16px">
+    <div class="chd"><div><h2>${esc(w.title)}</h2>
+      <p class="p">week of ${esc(w.weekOf)} · authored, not generated</p></div></div>
+    <div class="pad"><p class="lede">${esc(w.thesis)}</p></div>
+  </div>`);
+
+  if (w.missingImages?.length) {
+    parts.push(`<div class="alert">Captions are finished but ${w.missingImages.length} image(s)
+      have not been rendered: <span class="fm">${esc(w.missingImages.join(', '))}</span></div>`);
+  }
+
+  for (const p of w.posts) {
+    CAPS.set(p.id, p.caption.full);
+    parts.push(`<div class="card post">
+      <div class="shot">${p.imageReady
+        ? `<img src="${esc(p.imageUrl)}" alt="${esc(p.imageAlt)}">`
+        : `<p class="empty">not rendered</p>`}</div>
+      <div class="body">
+        <p class="day">${esc(p.day)} · ${esc(p.type)}</p>
+        <h3>${esc(p.title)}</h3>
+        <p class="why">${esc(p.whyItWorks)}</p>
+        <div class="caption">${esc(p.caption.full)}</div>
+        <div class="acts">
+          <button class="btn" onclick="copyCap('${esc(p.id)}', this)">Copy caption</button>
+          ${p.imageReady ? `<a class="btn ghost" href="${esc(p.imageUrl)}" download="${esc(p.image)}">Download image</a>` : ''}
+        </div>
+        <ol class="steps">${(p.howToPost||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+      </div>
+    </div>`);
+  }
+
+  parts.push(`<div class="card" style="margin:24px 0 16px">
+    <div class="chd"><div><h2>Video guides</h2>
+      <p class="p">film these yourself · each one references a format that is working elsewhere</p></div></div>
+  </div>`);
+
+  for (const g of w.videoGuides) {
+    CAPS.set(g.id, g.caption.full);
+    parts.push(`<div class="card guide" style="margin-bottom:16px">
+      <div class="chd"><div><h2>${esc(g.title)}</h2>
+        <p class="p">${esc(g.difficulty)}</p></div>
+        <span class="badge b-b">${g.lengthSec[0]}-${g.lengthSec[1]}s</span></div>
+      <div class="pad">
+        <p class="why">${esc(g.whyItWorks)}</p>
+        <div class="kv"><span>hook</span></div>
+        <p class="why" style="color:var(--text)">${esc(g.hook)}</p>
+        <ul class="shots">${(g.shots||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+        <div class="kv"><span>on screen</span></div>
+        <ul class="shots">${(g.onScreenText||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+        <div class="kv"><span>audio</span></div>
+        <p class="why">${esc(g.audio)}</p>
+        <div class="caption">${esc(g.caption.full)}</div>
+        <div class="acts"><button class="btn" onclick="copyCap('${esc(g.id)}', this)">Copy caption</button></div>
+        <p class="refs"><strong style="color:var(--text)">Watch for:</strong> ${esc(g.watchFor)}</p>
+        <p class="refs">${(g.references||[]).map(r=>
+          `${esc(r.what)} — <a href="${esc(r.url)}" target="_blank" rel="noreferrer">${esc(r.url)}</a>`
+        ).join('<br><br>')}</p>
+      </div>
+    </div>`);
+  }
+
+  el.innerHTML = parts.join('');
+}
+
 /* ── render ────────────────────────────────────────────────── */
 function render(s) {
   snap = s;
@@ -528,7 +665,7 @@ function render(s) {
   $('cmds2').innerHTML = `<button onclick="run('.start')">.start</button>` + cmdHtml;
 
   metrics(s); chart(s); bars(s); target(s); actions(s);
-  queue(s); shoot(s); posts(s); defects(s);
+  weekView(s); queue(s); shoot(s); posts(s); defects(s);
   setView(current);
 }
 
@@ -543,7 +680,13 @@ function setView(v) {
 }
 document.querySelectorAll('nav button').forEach(b =>
   b.addEventListener('click', () => setView(b.dataset.view)));
-$('startbtn').addEventListener('click', () => { setView('run'); run('.start'); });
+// .start runs in the Run view so the stages are visible while they go, then
+// lands on the week — the finished posts are what she opened the console for.
+$('startbtn').addEventListener('click', async () => {
+  setView('run');
+  await run('.start');
+  setView('week');
+});
 
 async function refresh() { render(await (await fetch('/api/snapshot')).json()); }
 

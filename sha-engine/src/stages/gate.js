@@ -1,4 +1,5 @@
 import { brand, system, capabilities } from '../lib/config.js';
+import { voiceViolations } from '../lib/brand.js';
 import { makeLogger } from '../lib/log.js';
 import * as store from '../lib/store.js';
 
@@ -93,15 +94,13 @@ export const RULES = [
   {
     id: 'voice',
     severity: 'warning',
-    check: (post) => {
-      const text = [post.caption?.hook, post.caption?.body, ...(post.captions || []).map((c) => c.text)]
-        .filter(Boolean).join(' ').toLowerCase();
-      return !brand.voice.avoid.some((w) => text.includes(w.toLowerCase()));
-    },
+    // Delegates to brand.voiceViolations, which matches on word boundaries.
+    // A bare substring test flagged any caption containing "water", "later" or
+    // "generate", because "ate" is on the avoid list.
+    check: (post) => voiceViolations(voiceText(post)).length === 0,
     fail: (post) => {
-      const text = [post.caption?.hook, post.caption?.body].filter(Boolean).join(' ').toLowerCase();
-      const hit = brand.voice.avoid.find((w) => text.includes(w.toLowerCase()));
-      return `Caption uses "${hit}", which is on the do-not-say list.`;
+      const [first] = voiceViolations(voiceText(post));
+      return `Caption uses "${first.term}" — ${first.why}.`;
     },
   },
   {
@@ -155,6 +154,11 @@ export const RULES = [
 /** Caption text as one string, for the text-level rules. */
 function captionText(post) {
   return [post.caption?.hook, post.caption?.body, post.caption?.cta].filter(Boolean).join('\n');
+}
+
+/** Caption plus anything burned onto the video — voice applies to both. */
+function voiceText(post) {
+  return [captionText(post), ...(post.captions || []).map((c) => c.text)].filter(Boolean).join('\n');
 }
 
 /** CamelCase runs loose in the text — hashtags that lost their "#". */
