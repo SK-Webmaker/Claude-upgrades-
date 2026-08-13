@@ -1,50 +1,79 @@
+# Blueprint for Gloss.
+#
+# Deploy this from Render's Blueprints tab, not by hand-creating a service.
+# A service created through the API or the New-Web-Service form cannot have a
+# disk attached afterwards, which is why the existing gloss-sha has no Disks
+# option in its settings. A Blueprint attaches the disk at creation.
+#
+# Without the disk, data/ lives inside the deploy and is wiped by the next one:
+# the account review, the week's plan and the approval queue all disappear, and
+# the engine can never score a week against the one before it.
+
 services:
   - type: web
-    name: gloss-sha
+    name: gloss
     runtime: node
-    plan: starter
+    plan: starter          # disks require starter or above; free will not work
+    region: oregon
     rootDir: sha-engine
-    buildCommand: npm ci --omit=dev
-    startCommand: npm run dashboard
+    # npm ci needs a committed lockfile and this package has none.
+    buildCommand: npm install --omit=dev
+    startCommand: node src/dashboard/server.js
+    healthCheckPath: /healthz
+    autoDeploy: true
+    branch: claude/sha-instagram-composio-34njw7
+
+    disk:
+      name: gloss-data
+      mountPath: /var/data
+      sizeGB: 1
+
     envVars:
-      - key: PORT
-        value: "10000"
       - key: DATA_DIR
         value: /var/data
-      # Instagram fetches media from this URL, so it must be the service's own.
+      - key: PORT
+        value: "10000"
+      - key: NODE_VERSION
+        value: "22"
+      - key: IG_USER_ID
+        value: me
+      # Instagram fetches media from this URL server-side, so it has to be the
+      # service's own public address. Set it once Render assigns the hostname.
       - key: PUBLIC_MEDIA_BASE_URL
         sync: false
       - key: COMPOSIO_API_KEY
         sync: false
       - key: COMPOSIO_CONNECTED_ACCOUNT_ID
         sync: false
-      - key: IG_USER_ID
-        value: me
-      # Optional. Without it the chat box falls back to the command allowlist.
-      - key: ANTHROPIC_API_KEY
-        sync: false
+      - key: COMPOSIO_USER_ID
+        value: sha
+      # Guards POST /api/plan. The route is closed entirely when this is unset.
+      - key: PLAN_TOKEN
+        generateValue: true
       - key: FIRECRAWL_API_KEY
         sync: false
-    disk:
-      name: gloss-data
-      mountPath: /var/data
-      sizeGB: 5
 
-  # Weekly kick-off. Reviews, sets the target, briefs, gates. Publishes nothing.
+  # Weekly kick-off: review the account, set the target, brief, gate.
+  # Publishes nothing — that still needs Sha's tap.
   - type: cron
-    name: gloss-start-week
+    name: gloss-week
     runtime: node
     plan: starter
+    region: oregon
     rootDir: sha-engine
-    schedule: "0 20 * * 0"
-    buildCommand: npm ci --omit=dev
+    schedule: "0 20 * * 0"        # Sunday 20:00 UTC — Monday morning Melbourne
+    buildCommand: npm install --omit=dev
     startCommand: node src/cli.js .start
     envVars:
       - key: DATA_DIR
         value: /var/data
-      - key: PUBLIC_MEDIA_BASE_URL
-        sync: false
+      - key: IG_USER_ID
+        value: me
       - key: COMPOSIO_API_KEY
         sync: false
       - key: COMPOSIO_CONNECTED_ACCOUNT_ID
+        sync: false
+      - key: COMPOSIO_USER_ID
+        value: sha
+      - key: PUBLIC_MEDIA_BASE_URL
         sync: false
