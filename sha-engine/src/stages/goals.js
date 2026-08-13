@@ -234,8 +234,15 @@ export async function run({
       { saves: 0, shares: 0, engagement: 0 },
     );
 
+    // `.start` runs review immediately before this, so the follower count is
+    // already on disk. Without this fall-back the target came out "unavailable"
+    // on a cycle where the account had just been read successfully.
+    const storedReview = store.read('review', null);
+    const knownFollowers =
+      account?.followers ?? storedReview?.account?.followers ?? lastWeek?.actual?.followers ?? 0;
+
     const baseline = {
-      followers: account?.followers ?? lastWeek?.actual?.followers ?? 0,
+      followers: knownFollowers,
       saves: totals.saves,
       shares: totals.shares,
       engagementRate: scores.length ? Number((totals.engagement / scores.length).toFixed(2)) : null,
