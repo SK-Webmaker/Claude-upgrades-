@@ -177,6 +177,11 @@ const DRAFT_ARTIFACT_PATTERNS = [
   /\blorem ipsum\b/i,
   /\bTODO\b/,
   /\bas an ai\b/i,
+  // Cross-platform caption leaks: a caption written for another network,
+  // pasted in whole. Live example on /reel/DYMTLSPzFOP/ — "TikTok caption:".
+  /\b(?:tiktok|instagram|facebook|reels?)\s+caption\s*:/i,
+  // A literal "Hashtags:" label — scaffolding, not something she would write.
+  /^\s*hashtags\s*:/im,
 ];
 
 export function draftArtifact(post) {

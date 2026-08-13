@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import { timingSafeEqual } from 'node:crypto';
 import { readFileSync, existsSync, statSync, createReadStream } from 'node:fs';
 import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -329,6 +330,62 @@ const server = createServer(async (req, res) => {
       bus.emit('log', { level: 'error', stage: 'command', msg: err.message });
       return sendJson(res, 500, { ok: false, reply: `${name} failed: ${err.message}` });
     }
+  }
+
+  /**
+   * Plan ingest.
+   *
+   * Lets the week's plan be written by an operator who has actually looked at
+   * the account — researched what is working, read last week's numbers, chosen
+   * the formats — rather than only by the deterministic brief generator. The
+   * engine still owns scoring, gating and the approval invariant; this only
+   * replaces the authoring of the slots.
+   *
+   * Token-guarded. Without PLAN_TOKEN set the route is closed entirely rather
+   * than open, because it writes the content Sha is asked to approve.
+   */
+  if (path === '/api/plan' && req.method === 'POST') {
+    const token = process.env.PLAN_TOKEN;
+    if (!token) return sendJson(res, 503, { error: 'PLAN_TOKEN is not set — plan ingest is disabled' });
+
+    const body = await readBody(req);
+    const supplied = String(body?.token ?? '');
+    const a = Buffer.from(supplied);
+    const b = Buffer.from(token);
+    if (a.length !== b.length || !timingSafeEqual(a, b)) {
+      return sendJson(res, 401, { error: 'bad token' });
+    }
+
+    const plan = body?.plan;
+    if (!plan || !Array.isArray(plan.slots) || !plan.slots.length) {
+      return sendJson(res, 400, { error: 'plan.slots must be a non-empty array' });
+    }
+
+    // Every incoming slot goes through the same Critic the generator's output
+    // does. An authored plan gets no exemption from the caption rules.
+    const rejected = [];
+    for (const slot of plan.slots) {
+      const probe = { caption: slot.caption ?? {}, formatId: slot.formatId, clipIds: [] };
+      const bare = gate.bareTags(probe);
+      const artifact = gate.draftArtifact(probe);
+      if (bare.length || artifact) {
+        rejected.push({ slot: slot.formatId ?? slot.type, bare, artifact });
+      }
+    }
+    if (rejected.length) {
+      return sendJson(res, 422, { error: 'plan rejected by the Critic', rejected });
+    }
+
+    const stored = {
+      ...plan,
+      weekOf: plan.weekOf ?? new Date().toISOString().slice(0, 10),
+      generatedAt: new Date().toISOString(),
+      authoredBy: plan.authoredBy ?? 'operator',
+    };
+    store.write('plan', stored);
+    bus.emit('log', { level: 'ok', stage: 'plan', msg: `plan ingested: ${stored.slots.length} slots` });
+    broadcast('snapshot', buildSnapshot());
+    return sendJson(res, 200, { ok: true, slots: stored.slots.length, weekOf: stored.weekOf });
   }
 
   if (path === '/api/chat' && req.method === 'POST') {

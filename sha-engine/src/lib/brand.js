@@ -121,8 +121,11 @@ export function voiceViolations(text) {
     found.push({ term: '!!', why: 'exclamation stacking — she does not write this way' });
   }
 
-  // K18, DM, VIC and AU are legitimate; anything else in caps is shouting.
-  const caps = text.replace(/\b(K18|DM|CTA|VIC|AU|IG)\b/g, '');
+  // Legitimate capitals: her stockist brand names, service shorthand and
+  // place codes. ELEVEN Australia is a real product line she carries — without
+  // it here the voice rule blocks every product post she writes.
+  const ALLOWED_CAPS = /\b(K18|ELEVEN|DM|CTA|VIC|AU|IG|SMS|UV)\b/g;
+  const caps = text.replace(ALLOWED_CAPS, '');
   if (/\b[A-Z]{4,}\b/.test(caps)) {
     found.push({ term: 'ALL CAPS', why: 'shouting is off-brand' });
   }
