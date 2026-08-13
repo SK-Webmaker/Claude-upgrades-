@@ -4,15 +4,26 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
+/**
+ * Where state lives.
+ *
+ * DATA_DIR points this at a mounted disk. Without it everything is written
+ * under the repo, which on an ephemeral host means the store is wiped on every
+ * deploy — the account review, the week's plan and the approval queue all
+ * disappear, and the system cannot learn across releases because it never
+ * remembers a previous week.
+ */
+const DATA = process.env.DATA_DIR || join(ROOT, 'data');
+
 export const paths = {
   root: ROOT,
   config: join(ROOT, 'config'),
-  data: join(ROOT, 'data'),
-  inbox: join(ROOT, 'data', 'inbox'),
-  footage: join(ROOT, 'data', 'footage'),
-  renders: join(ROOT, 'data', 'renders'),
-  state: join(ROOT, 'data', 'state'),
-  logs: join(ROOT, 'data', 'logs'),
+  data: DATA,
+  inbox: join(DATA, 'inbox'),
+  footage: join(DATA, 'footage'),
+  renders: join(DATA, 'renders'),
+  state: join(DATA, 'state'),
+  logs: join(DATA, 'logs'),
 };
 
 function readJson(file) {
