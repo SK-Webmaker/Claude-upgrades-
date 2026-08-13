@@ -380,3 +380,34 @@ describe('captions never carry internal ranking rationale', () => {
     }
   });
 });
+
+describe('an authored plan is not overwritten by the generator', () => {
+  test('brief keeps a plan authored for the same week', async () => {
+    // Regression: running .start regenerated the brief and silently replaced a
+    // plan written from real account analysis with the default rotation.
+    const store = await import('../src/lib/store.js');
+    const brief = (await import('../src/stages/brief.js')).default;
+
+    const monday = new Date();
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+    monday.setHours(0, 0, 0, 0);
+    const weekOf = monday.toISOString().slice(0, 10);
+
+    const authored = {
+      weekOf,
+      authoredBy: 'test',
+      slots: [{ id: 'slot_authored', formatId: 'mine', hook: 'Mine.', caption: {} }],
+    };
+    store.write('plan', authored);
+
+    const out = await brief.run();
+    assert.equal(out.slots.length, 1);
+    assert.equal(out.slots[0].id, 'slot_authored');
+    assert.equal(out.authoredBy, 'test');
+
+    // force still regenerates, so the escape hatch works.
+    const forced = await brief.run({ force: true });
+    assert.ok(forced.slots.length >= 1);
+    assert.equal(forced.authoredBy, undefined);
+  });
+});

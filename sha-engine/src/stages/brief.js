@@ -48,9 +48,23 @@ function writeCaption(format, scheduledFor) {
   };
 }
 
-export async function run({ weekOf = null } = {}) {
+export async function run({ weekOf = null, force = false } = {}) {
   log.start();
   try {
+    // An authored plan wins.
+    //
+    // When someone has actually read the account and written this week's slots
+    // — via POST /api/plan — regenerating would silently replace that judgement
+    // with the default rotation. The generator is the fallback, not the
+    // authority. Pass force to override deliberately.
+    const existing = store.read('plan', null);
+    const thisWeek = (weekOf ? new Date(weekOf) : startOfWeek()).toISOString().slice(0, 10);
+    if (!force && existing?.authoredBy && existing.weekOf === thisWeek && existing.slots?.length) {
+      log.info(`keeping the authored plan for ${thisWeek} (${existing.slots.length} slots, by ${existing.authoredBy})`);
+      log.done({ slots: existing.slots.length, authored: true });
+      return existing;
+    }
+
     const memory = store.recallPatterns();
     const formats = rankFormats(memory);
     const weekStart = weekOf ? new Date(weekOf) : startOfWeek();
