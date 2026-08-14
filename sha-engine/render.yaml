@@ -1,13 +1,20 @@
 # Blueprint for Gloss.
 #
 # Deploy this from Render's Blueprints tab, not by hand-creating a service.
-# A service created through the API or the New-Web-Service form cannot have a
-# disk attached afterwards, which is why the existing gloss-sha has no Disks
-# option in its settings. A Blueprint attaches the disk at creation.
+# The existing gloss-sha was created through the New-Web-Service form and sits
+# outside any project, which is why its settings show no Disks section. A
+# Blueprint creates the service inside a project and attaches the disk at
+# creation, the same way hairbysha-booking got its /var/data.
 #
-# Without the disk, data/ lives inside the deploy and is wiped by the next one:
-# the account review, the week's plan and the approval queue all disappear, and
-# the engine can never score a week against the one before it.
+# Without the disk, data/ lives inside the deploy and is wiped by the next one.
+# The week's posts survive either way — those ship in content/ — but the
+# scoring history in data/state does not, and without it the engine can never
+# compare a week against the one before it.
+#
+# There is deliberately no cron service here. A Render disk attaches to exactly
+# one service, so a separate cron container would write its state to a path
+# that no longer persists and that the console cannot read. The week starts
+# when Sha presses .start.
 
 services:
   - type: web
@@ -19,7 +26,6 @@ services:
     # npm ci needs a committed lockfile and this package has none.
     buildCommand: npm install --omit=dev
     startCommand: node src/dashboard/server.js
-    healthCheckPath: /healthz
     autoDeploy: true
     branch: claude/sha-instagram-composio-34njw7
 
@@ -31,8 +37,6 @@ services:
     envVars:
       - key: DATA_DIR
         value: /var/data
-      - key: PORT
-        value: "10000"
       - key: NODE_VERSION
         value: "22"
       - key: IG_USER_ID
@@ -51,29 +55,4 @@ services:
       - key: PLAN_TOKEN
         generateValue: true
       - key: FIRECRAWL_API_KEY
-        sync: false
-
-  # Weekly kick-off: review the account, set the target, brief, gate.
-  # Publishes nothing — that still needs Sha's tap.
-  - type: cron
-    name: gloss-week
-    runtime: node
-    plan: starter
-    region: oregon
-    rootDir: sha-engine
-    schedule: "0 20 * * 0"        # Sunday 20:00 UTC — Monday morning Melbourne
-    buildCommand: npm install --omit=dev
-    startCommand: node src/cli.js .start
-    envVars:
-      - key: DATA_DIR
-        value: /var/data
-      - key: IG_USER_ID
-        value: me
-      - key: COMPOSIO_API_KEY
-        sync: false
-      - key: COMPOSIO_CONNECTED_ACCOUNT_ID
-        sync: false
-      - key: COMPOSIO_USER_ID
-        value: sha
-      - key: PUBLIC_MEDIA_BASE_URL
         sync: false
