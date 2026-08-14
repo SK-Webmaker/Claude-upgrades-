@@ -33,7 +33,7 @@ one click from the dashboard.
    |---|---|
    | `COMPOSIO_API_KEY` | the rotated key (see below) |
    | `COMPOSIO_CONNECTED_ACCOUNT_ID` | same as on `gloss-sha` |
-   | `PUBLIC_MEDIA_BASE_URL` | leave blank for now — step 6 |
+   | `PUBLIC_MEDIA_BASE_URL` | leave blank for now — step 7 |
    | `FIRECRAWL_API_KEY` | optional; without it `.research` runs on cached data |
 
 7. Once it deploys, Render assigns a hostname like `https://gloss.onrender.com`.
