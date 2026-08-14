@@ -4,11 +4,12 @@ Instagram's API cannot edit a published caption — Meta exposes no endpoint for
 it. Captions **are** editable in the app: open the post, tap `⋯` → **Edit**,
 replace the caption, tick.
 
-All 20 replacements were checked against the Critic: no bare hashtags, no
+All 23 replacements were checked against the Critic: no bare hashtags, no
 drafting artifacts, inside the 4–8 hashtag band and 2-emoji cap from
 `config/brand.json`.
 
-Audited live on 14 Aug 2026 — **20 of the last 25 posts** carry a defect.
+Audited live on 14 Aug 2026 — **23 of the last 25 posts** carry a defect,
+and 225 hashtags across them reach nobody.
 
 ---
 
@@ -384,6 +385,82 @@ Hair-up styling is available in Camberwell for weddings, formals and race days. 
 
 ---
 
+## 21 · 14 May — reel
+
+https://www.instagram.com/reel/DYUxJP-z-pu/
+
+**Problem:** the hashtag block is welded to the last sentence with no space
+(`appointment 🤍#hairbysha`), and 5 tags lost their "#" — `melbournemums`,
+`camberwell3124`, `glenirishairdresser`, `hawthornhairdresser`,
+`canterburyhairdresser`. Graded D at 2.8%: a price list with no reason to read it.
+
+```
+New here? These are the welcome prices.
+
+Blow wave from $55
+Cut and blow wave from $85
+Regrowth colour and blow wave from $145
+Gloss or toner refresh and blow wave from $95
+Event hair and hair-up from $130
+
+Prospect Hill Road, Camberwell. Call 0452 611 799 or send me a message and I will find you a time.
+
+#hairbysha #camberwellhairdresser #camberwellhair #melbourneblowwave #melbournemums #glenirishairdresser
+```
+
+---
+
+## 22 · 14 May — photo
+
+https://www.instagram.com/p/DYUwrHZzDfV/
+
+**Problem:** the same caption posted again as a photo, this time with **22** tags
+stripped of "#" — the worst single instance on the account. Graded D at 2.3%.
+
+Use the replacement from #21. Two posts one hour apart carrying the same caption
+is its own problem, so if you would rather only fix one, fix the reel and delete
+the photo.
+
+```
+New here? These are the welcome prices.
+
+Blow wave from $55
+Cut and blow wave from $85
+Regrowth colour and blow wave from $145
+Gloss or toner refresh and blow wave from $95
+Event hair and hair-up from $130
+
+Prospect Hill Road, Camberwell. Call 0452 611 799 or send me a message and I will find you a time.
+
+#hairbysha #camberwellhair #camberwellsalon #melbourneblowwave #workingmums #hawthornhairdresser
+```
+
+---
+
+## 23 · 13 May
+
+https://www.instagram.com/reel/DYRlNykT0IX/
+
+**Problem:** the caption is **nothing but hashtags** — there is no sentence in it
+at all — and the very first word lost its "#" too, so the post opens with the
+bare word `camberwellhairdresser`. 17 tags dead in total.
+
+⚠️ I cannot see what this video shows, so the first line below is a guess based
+on the tags it carried. Check it matches before you paste it, and change the
+opening sentence if it does not.
+
+```
+A blonde that still looks like hair up close.
+
+Soft through the mids, brighter at the ends, toned so it reads warm-neutral rather than white. The health of the hair sets the ceiling on how bright I can safely go, and that conversation happens before any lightener does.
+
+Book at the link in bio. Camberwell.
+
+#hairbysha #camberwellhairdresser #melbournecolourist #balayagemelbourne #softblonde #healthyhair
+```
+
+---
+
 ## Why this keeps happening
 
 The fault is upstream of the account: something in the drafting flow strips
@@ -394,7 +471,7 @@ text.
 Gloss now blocks all of it. `bare-hashtag` and `draft-artifact` are both
 **blockers**, so no post carrying either can reach the approval queue.
 
-Two of these took a second pass to find. `bare-hashtag` originally matched only
+Five of these took a second pass to find. `bare-hashtag` originally matched only
 CamelCase runs, because a CamelCase run in prose is always a tag — but her
 lowercase tags are individually indistinguishable from ordinary words. They are
 now caught by position instead: a run of long lowercase tokens trailing the last
