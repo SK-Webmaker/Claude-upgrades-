@@ -1,3 +1,9 @@
 node_modules/
 .DS_Store
 *.log
+
+# Local Ruflo/claude-flow tooling state — daemon state, swarm memory db,
+# metrics snapshots. Changes on every run of `ruflo doctor`/`status` and has
+# nothing to do with the project; committing it just leaves the tree dirty.
+.claude-flow/
+.swarm/
