@@ -11,6 +11,11 @@
 # scoring history in data/state does not, and without it the engine can never
 # compare a week against the one before it.
 #
+# This file lives at the repository root, not in sha-engine/. Render's
+# Blueprint form defaults its Blueprint Path to render.yaml at the root and
+# reports "not found" for anything else unless the path is typed in by hand.
+# rootDir below is what points the build at sha-engine/.
+#
 # There is deliberately no cron service here. A Render disk attaches to exactly
 # one service, so a separate cron container would write its state to a path
 # that no longer persists and that the console cannot read. The week starts

@@ -20,9 +20,13 @@ one click from the dashboard.
 1. Open **https://dashboard.render.com/blueprints** → **New Blueprint Instance**
 2. Pick the repo `SK-Webmaker/Claude-upgrades-`
 3. Set the branch to `claude/sha-instagram-composio-34njw7`
-4. Render reads `sha-engine/render.yaml` and shows a service called **gloss**
-   with a 1 GB disk at `/var/data`. Approve it.
-5. It will ask for the four values marked `sync: false`. Three of them you
+4. Leave **Blueprint Path** empty. `render.yaml` is at the repository root, which
+   is where that field already looks. (It used to sit in `sha-engine/`, which is
+   why the form reported "Blueprint file render.yaml not found" — the file was
+   there, just not where Render looks by default.)
+5. Render shows a service called **gloss** with a 1 GB disk at `/var/data`.
+   Approve it.
+6. It will ask for the four values marked `sync: false`. Three of them you
    already have on `gloss-sha`:
 
    | Variable | Value |
@@ -32,13 +36,13 @@ one click from the dashboard.
    | `PUBLIC_MEDIA_BASE_URL` | leave blank for now — step 6 |
    | `FIRECRAWL_API_KEY` | optional; without it `.research` runs on cached data |
 
-6. Once it deploys, Render assigns a hostname like `https://gloss.onrender.com`.
+7. Once it deploys, Render assigns a hostname like `https://gloss.onrender.com`.
    Put that exact URL into `PUBLIC_MEDIA_BASE_URL` and redeploy. Instagram
    fetches media server-side, so this has to be the service's own public
    address or publishing fails at the container step.
-7. Check `https://gloss.onrender.com` loads and shows **This Week**, then run
+8. Check `https://gloss.onrender.com` loads and shows **This Week**, then run
    `.review` once to populate the disk.
-8. Delete `gloss-sha`.
+9. Delete `gloss-sha`.
 
 `PLAN_TOKEN` is generated automatically — you never need to see it. It guards
 `POST /api/plan`, and that route stays closed while it is unset.
