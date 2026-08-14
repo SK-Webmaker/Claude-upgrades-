@@ -503,13 +503,18 @@ function posts(s) {
 function defects(s) {
   const d = s.review?.captionIssues || [];
   $('defsub').textContent = d.length ? `${d.length} posts · fix by hand in the app` : 'none';
+  // The published text is shown alongside the defect. Naming the defect
+  // without it means opening Instagram in another tab to find out which
+  // caption is meant, and that is the step where these stop getting fixed.
   $('dtable').innerHTML = d.length ? `<thead><tr>
-      <th>Post</th><th style="text-align:right">Bare tags</th><th>Artifact</th>
+      <th>Post</th><th style="text-align:right">Bare tags</th><th>Artifact</th><th>Published caption</th>
     </tr></thead><tbody>${d.map(x=>`<tr>
       <td><a href="${esc(x.permalink||'#')}" target="_blank" rel="noopener" class="fm"
-        style="font-size:12px">${esc((x.permalink||'').replace('https://www.instagram.com','')||x.id)}</a></td>
+        style="font-size:12px">${esc((x.permalink||'').replace('https://www.instagram.com','')||x.id)}</a>
+        <div class="s" style="color:var(--muted)">${esc(fmtDay(x.timestamp))}</div></td>
       <td class="n" style="text-align:right;color:${x.bareHashtags?.length?'var(--red)':'var(--muted)'}">${x.bareHashtags?.length||0}</td>
       <td style="font-size:12px;color:var(--amber)">${esc(x.draftArtifact||'—')}</td>
+      <td><div class="caption" style="margin:0;max-height:150px;font-size:12px">${esc(x.caption||'—')}</div></td>
     </tr>`).join('')}</tbody>`
     : `<tr><td><div class="empty">No defects. Every published caption is clean.</div></td></tr>`;
 }

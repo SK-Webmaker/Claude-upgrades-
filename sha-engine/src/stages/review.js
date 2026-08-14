@@ -100,6 +100,12 @@ export function auditPublished(mediaItems) {
       findings.push({
         id: media.id,
         permalink: media.permalink,
+        timestamp: media.timestamp ?? null,
+        // The published text, so the console can show what actually has to be
+        // replaced. Naming the defect without showing the caption means
+        // opening Instagram in another tab to find out what it is talking
+        // about, which is the step that stops these getting fixed.
+        caption: media.caption ?? '',
         bareHashtags: bare,
         draftArtifact: artifact,
       });
