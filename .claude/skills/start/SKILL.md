@@ -11,7 +11,7 @@ video guides she can film, and a projection that builds on last week.
 Read `CLAUDE.md` first if it is not already in context — the business, voice,
 prices, invariants and account history are all there. Do not guess any of it.
 
-**Budget: this should take one pass, not an exploration.** Roughly 15–25 tool
+**Budget: this should take one pass, not an exploration.** Roughly 18–28 tool
 calls. Batch shell commands. Do not re-read files already in context. If a step
 fails, say so and continue — a partial week delivered beats a perfect week
 abandoned.
@@ -29,29 +29,64 @@ fails, **say so once, plainly, quote its fix, and carry on** — everything exce
 the account read still works and the week is still worth producing. Do not stall
 waiting for a key, and never invent numbers to fill the gap.
 
-`sha-notes.md` is Sha's own input: which posts she actually published last week,
-what she is booked out on, what she wants more of, what happened in the chair.
-**Read it before writing anything.** If the weekly questions are unanswered, ask
-them at the end of the run rather than blocking on them.
+`sha-notes.md` carries the standing context — which days need filling, what she
+wants more of, what to avoid. Read it before writing anything.
 
 Then read the newest file in `content/memory/` for the follower count, grade and
 engagement rate to score against, and the newest pack in `content/packs/` for
 what last week promised.
 
-## Step 1 · Read the live account
+## Step 1 · Read the account, and check what she actually posted
 
 ```bash
-cd sha-engine && node src/cli.js review
+cd sha-engine && node src/cli.js posted
 ```
 
-This calls Instagram through Composio and grades the last 25 posts.
+This does both jobs in one call: grades the last 25 posts through Composio, then
+matches the captions the system wrote last week against what is really on the
+account. It reports each authored post as published (with its likes, comments,
+engagement rate and lift against the account's own average) or not published.
 
-Then **compare against `content/memory/`**: followers gained, engagement moved,
-which of last week's three posts actually went up, and whether the specific
-prediction made last week held. Write that comparison down — it is the part that
-makes the system compound rather than restart every week.
+**Read the distinction carefully.** "Not published" is an unrun experiment, not
+a failed format. Treating the two the same is how a good idea gets abandoned
+because she was busy that Wednesday. If something did not go up, that is a
+question for Step 1.5, not a verdict.
 
-Note honestly if saves and shares came back unmeasured. Unmeasured is not zero.
+Then compare against `content/memory/`: followers gained, engagement moved, and
+whether last week's specific prediction held. Write that comparison down — it is
+what makes the system compound rather than restart every week.
+
+Note honestly if saves and shares came back unmeasured. This account has never
+returned them through the API. Unmeasured is not zero, and views often come back
+empty for reels too — say so rather than reporting a zero.
+
+*Firecrawl cannot help here.* Instagram blocks scraping and would give no
+engagement figures even if it did not; the Composio read is the only source of
+real numbers. Firecrawl is for Step 2, researching other accounts and formats.
+
+## Step 1.5 · Ask her, then write the answers down
+
+Use `AskUserQuestion` — one call, all four. She is answering on a phone between
+clients, so these must be tappable, not an essay.
+
+1. **Which days need filling this week?** Options: Mon/Tue · Wed/Thu · Fri/Sat ·
+   Evenly booked. Multi-select. **This changes what gets written** — see Step 3.
+2. **Did you film any of the video guides?** Options: yes, one · yes, more than
+   one · no time · they looked too hard. The last answer means the guides are
+   wrong, not that she is.
+3. **Anything from the chair worth posting?** Options: a client question I keep
+   answering · a colour correction that went well · a product someone asked
+   about · nothing this week. Free text is where the best posts come from.
+4. **Anything to avoid this week?** Options: nothing · a price is changing ·
+   I am away part of the week · something else.
+
+If any authored post did not go up, add a fifth question asking why — wrong
+tone, no time, did not like the image. That single answer is the most useful
+sentence the system can be given.
+
+**Append the answers to `content/context/sha-notes.md`** under a dated heading,
+newest first. Do not overwrite the history; the pattern across weeks is the
+point. Update the standing-context section only when an answer changes it.
 
 ## Step 2 · Research what is working
 
@@ -78,9 +113,38 @@ shape, adjust with evidence:
 | Myth correction | Lands as news, not advice. Sells a service without an offer in it. |
 | Saveable list | Saves score 6× a like. Sets up the rebook. |
 | Seasonal | Only when the moment is real and close. |
+| Quiet-day fill | When a day needs filling. See below. |
 | Offer | Sparingly — `cta-frequency` caps these so the feed does not read as ads. |
 
 Do not repeat a format used in the last two weeks. Check previous packs.
+
+### Filling the quiet days
+
+If Step 1.5 named days that need filling, **one of the three posts is written to
+drive bookings onto those days**, and the other two carry it in the call to
+action. This is the difference between marketing and posting: an empty Wednesday
+is money already lost, and a generic "book now" does not move anyone to a
+Wednesday.
+
+How to do it without sounding desperate:
+
+- **Name the day and the number, not the discount.** "Two Wednesday afternoons
+  open this week" is scarcity that happens to be true. Never invent a number —
+  if she said Wed/Thu but gave no count, write "Wednesday and Thursday are the
+  quiet ones this week" and leave it there.
+- **Give the day a reason to suit her.** Mid-week is genuinely better for a long
+  colour appointment: the salon is calmer, and a four-hour balayage on a Saturday
+  is a worse experience for everyone. Say that — it is true and it reframes the
+  quiet day as the good slot rather than the leftover one.
+- **Attach it to the service she wants more of**, from the standing context.
+  A quiet Wednesday filled with a $45 toner is worth a fraction of the same
+  Wednesday filled with a $340 balayage.
+- **Never discount.** Sha has 20+ years and a specialist position; a price cut to
+  fill a day trains her audience to wait for one. Scarcity and convenience, not
+  price. If she explicitly asks for a promotion, that is her call — otherwise do
+  not introduce one.
+- **Do not run it two weeks running.** If the same day is still empty next week,
+  the problem is demand, not the caption, and the honest thing is to say so.
 
 ### Write the captions
 

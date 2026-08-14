@@ -1,10 +1,8 @@
 # What Sha tells the system
 
-`/start` reads this file every week. It is the only place the system learns
-things it cannot see from Instagram — what she actually posted, what is booked,
-and what she wants more of. Two minutes to update; it changes what gets made.
-
-Leave a line blank if you do not know. Blank is fine — a guess is not.
+`/start` reads this file, then asks the weekly questions in chat and writes the
+answers back here. You never have to fill it in by hand — but you can, and
+anything already here is used as-is.
 
 ---
 
@@ -12,53 +10,52 @@ Leave a line blank if you do not know. Blank is fine — a guess is not.
 
 Last updated: **not yet filled in**
 
-**What she wants more of right now**
-> (e.g. "more balayage, fewer blow waves" — colour work is the higher-margin
-> chair time. Or "Tuesdays and Wednesdays are dead.")
+**Days that need filling**
+> The important one. If Wednesdays and Thursdays are dead, posts get written to
+> drive bookings *onto those days* — "two Wednesday spots left this week" beats
+> a generic "book now", and it fills the gap that actually costs money.
+> Write the day names, or "none" if the week is evenly booked.
 
 _
 
-**What she does not want to be asked for**
-> (e.g. "not doing extensions any more", "no kids' cuts")
+**Services she wants more of**
+> Chair time is not equal. A balayage is 3.5 hours at $340; a blow wave is 45
+> minutes at $55. If she wants the colour work, the posts should sell colour.
+
+_
+
+**Services she does not want asked for**
+> (e.g. "no more extensions", "no kids' cuts")
 
 _
 
 **Anything coming up**
-> (a holiday, a price change, a new product line, a wedding-season push)
+> A holiday, a price change, a new product line, a wedding or race-day push.
 
 _
 
-**How she feels about being on camera**
-> Config says `face_and_voice`. If that is wrong, the video guides need to change
-> — the talking-head format is one of the strongest and it needs her face.
+**On camera**
+> Config says `face_and_voice`. If that is wrong the video guides change — the
+> talking-head format is one of the strongest available and it needs her face.
 
 _
 
 ---
 
-## Weekly check-in
+## Weekly answers
 
-Answer these three each week before `/start`. They are what make week 2 smarter
-than week 1 rather than just newer.
+`/start` asks these each week and appends the answers below. Newest first.
 
-**1. Which of last week's three posts did you actually publish?**
-> If one did not go up, say why — wrong tone, no time, did not like the image.
-> That is the most useful sentence in the whole file.
+The published/not-published check is now automatic — `node src/cli.js posted`
+matches the captions the system wrote against what is actually on the account,
+so nobody has to remember. The questions are for what the API cannot see.
 
-_
+### Week of 2026-08-10
 
-**2. Did you film any of the video guides? How did it go?**
-> Including "no, no time" — if the guides are consistently too hard to film,
-> they are the wrong guides.
-
-_
-
-**3. Anything happen in the chair worth posting about?**
-> A client question you answered three times. A colour correction that went
-> well. A product someone asked about. These make the best posts and the
-> system cannot see them.
-
-_
+- **Days needing filling:** _not yet asked_
+- **Filmed any guides:** _not yet asked_
+- **From the chair:** _not yet asked_
+- **Anything to avoid:** _not yet asked_
 
 ---
 

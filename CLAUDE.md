@@ -171,6 +171,16 @@ These are not preferences. They have each been paid for once already.
    northern-seasons caption.
 5. **Prices come from `brand.json`.** Never from memory.
 6. **Instagram only.**
+7. **Never discount to fill a quiet day.** She has 20+ years and a specialist
+   position. A price cut to fill a Wednesday teaches her audience to wait for
+   one. Fill quiet days with scarcity and convenience — "two Wednesday
+   afternoons open", "mid-week is the calm slot for a four-hour colour" — not
+   with money off. If Sha asks for a promotion that is her call; never introduce
+   one unprompted.
+8. **"Not posted" is not "it failed."** `src/lib/attribution.js` matches the
+   captions the system wrote against what is actually on the account. A post
+   that never went up is an unrun experiment. Conflating the two is how a good
+   format gets dropped because she had a busy Wednesday.
 
 ---
 
@@ -185,6 +195,7 @@ sha-engine/
   content/memory/*.json    Account baselines to score against
   content/context/sha-notes.md  Sha's own weekly input — read at every /start
   src/lib/pack.js          Loads a pack, validates every caption, throws if bad
+  src/lib/attribution.js   Matches authored posts to what is live on the account
   src/lib/brand.js         Voice rules, seasons, local moments
   src/stages/review.js     Reads the live account via Composio, grades it
   src/stages/gate.js       The Critic — all caption rules live here

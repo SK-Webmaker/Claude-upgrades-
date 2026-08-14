@@ -15,6 +15,7 @@ import goals from './stages/goals.js';
 import review from './stages/review.js';
 import brief from './stages/brief.js';
 import pack from './lib/pack.js';
+import attribution from './lib/attribution.js';
 
 const log = makeLogger('cli');
 
@@ -33,6 +34,7 @@ sha — content engine for ${brand.business.name}, ${brand.business.suburb} ${br
   sha learn               Score what published and update pattern memory
   sha .start              Start the week: review, target, ingest, brief, gate
   sha review              Grade the live Instagram account and say what to change
+  sha posted              Which of last week's authored posts actually went up
   sha goals               Set this week's target from last week's result
   sha week [--dry-run]    Coordinator runs the full week end to end
   sha agents              Show the agent roster and what each one needs
@@ -166,6 +168,43 @@ async function reviewReport({ quiet = false } = {}) {
   return out;
 }
 
+/**
+ * Reconciles the last pack against the account.
+ *
+ * The system hands over three finished posts a week and then has no idea which
+ * of them she used. Without this, "that format flopped" and "she never posted
+ * it" look identical, and the next week corrects for the wrong thing.
+ */
+async function postedReport() {
+  const week = pack.current();
+  if (!week) {
+    process.stdout.write('\n  No pack to check against.\n\n');
+    return { authored: 0 };
+  }
+
+  const out = await review.run();
+  if (out.unavailable) {
+    process.stdout.write(`\n  Cannot check: ${out.unavailable}\n\n`);
+    return { unavailable: out.unavailable };
+  }
+
+  const result = attribution.reconcile(week, {
+    media: out.scored,
+    accountAverage: out.summary?.averageEngagement ?? null,
+  });
+
+  process.stdout.write(`\n  Week of ${result.weekOf} — against an account average of ${out.summary?.averageEngagement}%\n\n`);
+  process.stdout.write(attribution.summarise(result));
+  process.stdout.write('\n');
+
+  const unmeasured = result.rows.some((r) => r.published && !r.savesMeasured);
+  if (unmeasured) {
+    process.stdout.write('  Saves and shares came back unmeasured — that is missing data, not zero.\n');
+  }
+  process.stdout.write('\n');
+  return result;
+}
+
 async function doctor() {
   const caps = capabilities();
   const inv = ingest.inventory();
@@ -272,6 +311,7 @@ try {
     }
     case 'ship': await ship.run({ dryRun, force }); break;
     case 'learn': await learn.run(); break;
+    case 'posted': await postedReport(); break;
     case 'review': await reviewReport(); break;
     case 'goals': await goals.run(); break;
     // `.start` is the weekly kick-off. Accepted with or without the dot so it

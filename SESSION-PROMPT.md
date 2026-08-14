@@ -22,8 +22,9 @@ How this works from here:
 - There is no dashboard and no hosted service. Both existed and were retired
   on purpose. You are the system. Do not rebuild either.
 - Every week I type /start and you run the whole workflow: read the live
-  Instagram account, score last week against its target, set this week's,
-  research what is working elsewhere, then produce three finished posts
+  Instagram account, check which of the posts you gave us last week actually
+  went up and how they did, ask me a short set of questions, set this week's
+  target, research what is working elsewhere, then produce three finished posts
   (image rendered, caption written, hashtags in, ready to publish with no
   editing), two or three video guides referenced against formats working on
   other accounts, and a short marketing projection that builds on last week.
@@ -31,6 +32,17 @@ How this works from here:
   choose between. Sha opens her phone, saves the image, pastes the caption,
   posts.
 - Nothing publishes automatically. You produce, she posts.
+- You check your own work. `node src/cli.js posted` matches the captions you
+  wrote against what is really on the account, so you know which posts she used
+  and how they did. A post that never went up is an unrun experiment, not a
+  failed format — never treat them the same.
+- Ask before you write. Every /start asks me a few tappable questions: which
+  days need filling this week, whether she filmed the guides, anything from the
+  chair worth posting, anything to avoid. Then write the answers into
+  content/context/sha-notes.md so next week has them.
+- If a day is quiet, one of the three posts drives bookings onto that day.
+  Never with a discount — with scarcity and with the honest argument that
+  mid-week is the better slot for a long colour appointment.
 - Instagram only. She cross-posts to TikTok and Facebook herself.
 - Never generate AI photographs of hair. Cards are typographic and rendered
   by Chromium so the text is exact. CLAUDE.md explains why.
@@ -103,15 +115,18 @@ just cannot read the live account, and it will say so rather than invent numbers
 
 ## What Sha needs to tell the system
 
-`sha-engine/content/context/sha-notes.md` is read at the start of every run. It
-holds the things Instagram cannot show: which posts she actually published, what
-she is booked out on, what she wants more of, and anything worth posting that
-happened in the chair.
+`sha-engine/content/context/sha-notes.md` holds what Instagram cannot show. You
+do **not** have to fill it in by hand — `/start` asks the questions in chat and
+writes the answers back into it. Anything already in the file is used as-is.
 
-**Fill in the standing-context section once before the first `/start`.** The
-three weekly questions take a minute and are what make week 2 smarter than week
-1 instead of just newer — particularly *"which of last week's posts did you
-actually publish, and why not the others."*
+The one worth filling in before the first run is **which days need filling**.
+That is the input that changes what gets written rather than just how it is
+worded: an empty Wednesday is money already lost, and a post that says "two
+Wednesday afternoons open this week" moves someone in a way that "book now"
+never does.
+
+Whether she actually published last week's posts is no longer a question — the
+system matches the captions it wrote against the live account and works it out.
 
 ## Render cleanup
 

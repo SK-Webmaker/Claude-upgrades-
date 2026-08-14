@@ -72,6 +72,10 @@ export function scoreMedia(media, { followers = 1 } = {}) {
     id: media.id,
     permalink: media.permalink,
     timestamp: media.timestamp,
+    // Kept so attribution can match an authored caption back to the post that
+    // carried it. Without this the matcher has nothing to compare and reports
+    // every post as unpublished, which is worse than not checking at all.
+    caption: media.caption ?? '',
     mediaType: media.media_product_type ?? media.media_type,
     likes,
     comments,
