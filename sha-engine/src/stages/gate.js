@@ -164,8 +164,40 @@ function voiceText(post) {
 /** CamelCase runs loose in the text — hashtags that lost their "#". */
 const BARE_TAG = /(?:^|\s)((?:[A-Z][a-z0-9]+){2,})(?=\s|$|[.,!?])/g;
 
+/**
+ * Lowercase hashtags that lost their "#".
+ *
+ * BARE_TAG only catches CamelCase, because a CamelCase run in prose is always
+ * a tag. Her lowercase tags — "softblonde hairtransformation blondehighlights"
+ * — are individually indistinguishable from words, so they are caught by
+ * position instead: a run of them trailing the last real hashtag on a line.
+ *
+ * Found live on /reel/DZSD5vSTjfN/ and /reel/DYmVgmlTObF/, where the "#" was
+ * lost after the fifth tag and the rest published as plain text. The audit had
+ * flagged both only for the "Hashtags:" label and missed ten dead tags.
+ *
+ * Three tokens of eight characters or more is the threshold. Real tags in this
+ * niche are long compounds; prose that happens to follow a hashtag ("book now
+ * open") is short words and does not trip it.
+ */
+function looseLowercaseTags(text) {
+  const found = [];
+  for (const line of text.split('\n')) {
+    const lastHash = line.lastIndexOf('#');
+    if (lastHash === -1) continue;
+    const after = line.slice(lastHash + 1).replace(/^\S+/, ''); // drop the tag itself
+    const tokens = after.split(/\s+/).filter(Boolean);
+    if (tokens.length < 3) continue;
+    if (!tokens.every((t) => /^[a-z0-9]+$/.test(t))) continue;
+    if (tokens.filter((t) => t.length >= 8).length < 3) continue;
+    found.push(...tokens);
+  }
+  return found;
+}
+
 export function bareTags(post) {
-  return [...captionText(post).matchAll(BARE_TAG)].map((m) => m[1]);
+  const text = captionText(post);
+  return [...[...text.matchAll(BARE_TAG)].map((m) => m[1]), ...looseLowercaseTags(text)];
 }
 
 /** Scaffolding a drafting tool leaves behind and must never publish. */
@@ -186,6 +218,9 @@ const DRAFT_ARTIFACT_PATTERNS = [
   /\b(?:tiktok|instagram|facebook|reels?)\s+caption\s*:/i,
   // A literal "Hashtags:" label — scaffolding, not something she would write.
   /^\s*hashtags\s*:/im,
+  // "Or shorter:" / "Or:" introducing a second caption. Live on
+  // /reel/DYmVgmlTObF/, which published both versions one after the other.
+  /^\s*or\s+(?:shorter|longer|simply)?\s*:/im,
 ];
 
 export function draftArtifact(post) {

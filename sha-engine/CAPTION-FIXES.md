@@ -4,11 +4,11 @@ Instagram's API cannot edit a published caption — Meta exposes no endpoint for
 it. Captions **are** editable in the app: open the post, tap `⋯` → **Edit**,
 replace the caption, tick.
 
-All 18 replacements were checked against the Critic: no bare hashtags, no
+All 20 replacements were checked against the Critic: no bare hashtags, no
 drafting artifacts, inside the 4–8 hashtag band and 2-emoji cap from
 `config/brand.json`.
 
-Audited live on 13 Aug 2026 — **18 of the last 25 posts** carry a defect.
+Audited live on 14 Aug 2026 — **20 of the last 25 posts** carry a defect.
 
 ---
 
@@ -340,6 +340,50 @@ DM to book your appointment. 📍 Camberwell
 
 ---
 
+## 19 · 7 Jun
+
+https://www.instagram.com/reel/DZSD5vSTjfN/
+
+**Problem:** a "Hashtags:" label published, plus 5 lowercase tags stripped of "#"
+— `softblonde`, `hairtransformation`, `beforeandafterhair`, `blondehighlights`,
+`camberwell`. The first audit caught only the label; the lowercase tags were
+invisible to a CamelCase-only check.
+
+```
+Soft blonde refresh. ✨
+
+A blend through the mids and brighter ends, finished with a creamy toner so it reads natural rather than stark.
+
+This is the one for anyone who wants brightness without a hard regrowth line to manage in six weeks. Lived-in blonde is a maintenance decision as much as a colour one.
+
+Book at the link in bio. Camberwell.
+
+#hairbysha #camberwellhairdresser #melbournehairdresser #livedinblonde #softblonde #blondehighlights
+```
+
+---
+
+## 20 · 21 May
+
+https://www.instagram.com/reel/DYmVgmlTObF/
+
+**Problem:** two captions published one after the other, separated by "Or shorter:",
+plus 10 lowercase tags stripped of "#" — `hairupstyle`, `updohairstyle`,
+`softupdo`, `eventhair`, `formalhair`, `weddingguesthair`, `bridalhair`,
+`dayhair`, `balwynhair`. The word `race` was also left stranded from `#racedayhair`.
+
+```
+Natural texture to a soft romantic upstyle. 🤎
+
+Left loose enough to move, pinned firmly enough to last a whole day. The texture is set the night before, not on the morning — that is the part that makes it hold through a race day or a reception.
+
+Hair-up styling is available in Camberwell for weddings, formals and race days. Book well ahead for spring — those weekends fill first.
+
+#hairbysha #camberwellhairdresser #melbournehairdresser #softupdo #weddingguesthair #racedayhair
+```
+
+---
+
 ## Why this keeps happening
 
 The fault is upstream of the account: something in the drafting flow strips
@@ -349,3 +393,10 @@ text.
 
 Gloss now blocks all of it. `bare-hashtag` and `draft-artifact` are both
 **blockers**, so no post carrying either can reach the approval queue.
+
+Two of these took a second pass to find. `bare-hashtag` originally matched only
+CamelCase runs, because a CamelCase run in prose is always a tag — but her
+lowercase tags are individually indistinguishable from ordinary words. They are
+now caught by position instead: a run of long lowercase tokens trailing the last
+real hashtag on a line. `draft-artifact` also learned "Or shorter:", which is
+how post 20 came to publish two captions at once.

@@ -77,3 +77,32 @@ describe('the week pack', () => {
     assert.equal(weekOf(new Date('2026-08-16T23:00:00Z')), '2026-08-10'); // Sunday
   });
 });
+
+describe('the Critic catches the two defects the first audit missed', () => {
+  test('lowercase tags trailing a hashtag block are stripped hashtags', () => {
+    const problems = checkCaption({
+      hook: 'Soft blonde refresh.',
+      body: '#hairbysha #camberwellhairdresser #livedinblonde softblonde hairtransformation blondehighlights',
+      hashtags: ['#a', '#b', '#c', '#d'],
+    });
+    assert.ok(problems.some((p) => p.includes('softblonde')), problems.join('; '));
+  });
+
+  test('prose after a hashtag is not mistaken for one', () => {
+    const problems = checkCaption({
+      hook: 'A hook.',
+      body: 'Come and see me in #camberwell — book now open',
+      hashtags: ['#a', '#b', '#c', '#d'],
+    });
+    assert.deepEqual(problems, []);
+  });
+
+  test('a second caption introduced by "Or shorter:" is a drafting leftover', () => {
+    const problems = checkCaption({
+      hook: 'Before to after.',
+      body: 'A soft romantic upstyle.\n\nOr shorter:\n\nThe power of a soft upstyle.',
+      hashtags: ['#a', '#b', '#c', '#d'],
+    });
+    assert.ok(problems.some((p) => p.includes('Or shorter:')), problems.join('; '));
+  });
+});
