@@ -120,7 +120,7 @@ async function startWeek({ dryRun = false } = {}) {
     }
   }
 
-  process.stdout.write(`\n  Open the console to copy the captions, then: sha ship${dryRun ? ' --dry-run' : ''}\n\n`);
+  process.stdout.write(`\n  Captions are in content/packs/, images in content/cards/${dryRun ? ' --dry-run' : ''}\n\n`);
   return {
     steps: done,
     waiting: waiting.length,

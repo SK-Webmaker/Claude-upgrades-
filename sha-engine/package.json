@@ -2,7 +2,7 @@
   "name": "sha-engine",
   "version": "1.1.0",
   "private": true,
-  "description": "Automated content and marketing engine for Hair by Sha, Camberwell VIC",
+  "description": "Weekly content and marketing engine for Hair by Sha, Camberwell VIC \u2014 driven from a Claude Code session",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -11,8 +11,6 @@
     "sha": "./src/cli.js"
   },
   "scripts": {
-    "dashboard": "node src/dashboard/server.js",
-    "start": "node src/dashboard/server.js",
     "ingest": "node src/cli.js ingest",
     "research": "node src/cli.js research",
     "plan": "node src/cli.js plan",
@@ -24,7 +22,8 @@
     "start-week": "node src/cli.js start",
     "review": "node src/cli.js review",
     "doctor": "node src/cli.js doctor",
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "start": "node src/cli.js .start"
   },
   "dependencies": {
     "ffmpeg-static": "^5.2.0",

@@ -48,7 +48,7 @@ Requires Node 20+. `ffmpeg` and `ffprobe` arrive via npm — no system install.
 ## Daily use
 
 ```bash
-npm run dashboard          # control room at http://127.0.0.1:4477
+node src/cli.js .start     # the weekly run
 node src/cli.js week       # the full Monday sequence
 ```
 
@@ -203,7 +203,7 @@ pattern memory, so the planner stops producing what Sha keeps turning down.
 do-not-say list the gate enforces), CTA, caption styling, consent policy.
 
 `config/system.json` — cadence, content mix, video specs, cut tuning, gate
-thresholds, scoring weights, publishing modes, dashboard port.
+thresholds, scoring weights, publishing modes.
 
 Credentials come from the environment only and are never committed:
 
@@ -221,7 +221,9 @@ PUBLIC_MEDIA_BASE_URL=   # renders must be publicly fetchable — both platforms
 
 ## The control room
 
-`npm run dashboard` serves a live interface at `http://127.0.0.1:4477`.
+There is no dashboard. It existed, was deployed to Render, and was retired on
+14 Aug 2026 - it cost more upkeep than it returned. The system runs from a
+Claude Code session; the weekly command is `/start`. See `../CLAUDE.md`.
 
 Pipeline stages animate as they run, streamed over server-sent events rather
 than polling. The approval queue shows each cut with its video preview, hook,
@@ -256,7 +258,6 @@ src/
   lib/            config, logging + event bus, state store, ffmpeg, subtitles
   stages/         ingest, research, plan, cut, render, gate, ship, learn
   platforms/      instagram, tiktok
-  dashboard/      SSE server + control room UI
 tests/
 data/             runtime state, footage, renders (gitignored)
 ```

@@ -235,3 +235,25 @@ credentials is exactly the target such injections aim at.
 - **TikTok / Facebook** — no automated path, by choice. Content lands in Sha's
   Instagram drafts; she posts it there and cross-posts manually. The Higgsfield
   broker route stays in the code as the option if that changes.
+
+---
+
+## 14 Aug 2026 — the dashboard is retired
+
+Sha never opened it. It was built, deployed to Render as `gloss-sha`, rebuilt
+once on the Plexus design, fixed through a bind failure, a missing disk, a
+stale capability check and a Blueprint path error — and across all of that the
+only thing that ever reached her was three PNGs and three captions.
+
+The system now runs inside a Claude Code session. `/start` is the whole
+interface. `src/dashboard/`, `render.yaml` and `RENDER-SETUP.md` are gone;
+everything that produced the actual work — the Critic, the review, the pack
+loader, the card renderer — is untouched and still under test.
+
+What this buys: no hosting bill, no deploy step between a change and the work,
+no state to lose. What it costs: nothing that was being used.
+
+Final live read before the service was retired is committed at
+`content/memory/baseline-2026-08-14.json` — 176 followers, grade B, 7.48%
+average engagement across 25 posts, 23 of them still carrying caption defects.
+That file is the baseline week two gets scored against.
