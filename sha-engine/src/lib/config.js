@@ -47,6 +47,11 @@ export const creds = {
     accessToken: process.env.TIKTOK_ACCESS_TOKEN || null,
     clientKey: process.env.TIKTOK_CLIENT_KEY || null,
   },
+  composio: {
+    apiKey: process.env.COMPOSIO_API_KEY || null,
+    connectedAccountId: process.env.COMPOSIO_CONNECTED_ACCOUNT_ID || null,
+    userId: process.env.COMPOSIO_USER_ID || 'sha',
+  },
   firecrawl: {
     apiKey: process.env.FIRECRAWL_API_KEY || null,
   },
@@ -56,7 +61,12 @@ export const creds = {
 /** Which capabilities are actually live right now. */
 export function capabilities() {
   return {
-    instagramPublish: Boolean(creds.instagram.userId && creds.instagram.accessToken && creds.publicMediaBaseUrl),
+    // Publishing goes through Composio now, not a raw Graph token. This still
+    // tested for IG_ACCESS_TOKEN, so a fully configured service reported
+    // instagramPublish:false while .review was reading the live account fine.
+    instagramPublish: Boolean(
+      creds.composio.apiKey && creds.composio.connectedAccountId && creds.publicMediaBaseUrl,
+    ),
     tiktokPublish: Boolean(creds.tiktok.accessToken),
     tiktokDirectPost: Boolean(creds.tiktok.accessToken && system.publishing.tiktok.auditPassed),
     liveResearch: Boolean(creds.firecrawl.apiKey),
