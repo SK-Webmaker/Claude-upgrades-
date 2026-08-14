@@ -49,8 +49,27 @@ function chromiumPath() {
   return candidates.find((p) => p && existsSync(p)) || undefined;
 }
 
-/** One card. `kind` picks the layout. */
-function html({ kind, eyebrow, headline, sub, detail, footer }) {
+/**
+ * One card. `kind` picks the layout.
+ *
+ * `rows` (price), `answer` and `steps` (myth) are the parts of each layout that
+ * are specific to the week's content rather than to the design. They were
+ * hardcoded — the foils breakdown and the purple-shampoo correction lived in
+ * the template — which meant every week's cards needed a renderer edit to say
+ * anything new. They default to the week 1 text, so those cards still render
+ * exactly as they did.
+ */
+function html({ kind, eyebrow, headline, sub, detail, footer, rows, answer, steps }) {
+  const priceRows = rows || [
+    { label: 'Foils, root to end', value: '2 hr 30' },
+    { label: 'Toner to finish', value: '45 min' },
+    { label: 'Blow wave to finish', value: 'Included' },
+  ];
+  const mythAnswer = answer || 'It tones the surface. It cannot lift the warmth underneath.';
+  const mythSteps = steps || [
+    { label: 'In the chair', text: 'A toner or gloss, about forty five minutes, every six to eight weeks.' },
+    { label: 'At home', text: 'Purple shampoo once a week to hold it. Not to fix it.' },
+  ];
   const shared = `
     ${FONTS}
     *{margin:0;padding:0;box-sizing:border-box}
@@ -101,9 +120,9 @@ function html({ kind, eyebrow, headline, sub, detail, footer }) {
         <p class="num">${detail}</p>
         <div style="height:56px"></div>
         <div class="incl">
-          <div class="row"><span>Foils, root to end</span><span>2 hr 30</span></div>
-          <div class="row"><span>Toner to finish</span><span>45 min</span></div>
-          <div class="row"><span>Blow wave to finish</span><span>Included</span></div>
+          ${priceRows
+            .map((r) => `<div class="row"><span>${r.label}</span><span>${r.value}</span></div>`)
+            .join('')}
         </div>
         <div style="height:44px"></div>
         <p class="sub">${sub}</p>
@@ -148,12 +167,13 @@ function html({ kind, eyebrow, headline, sub, detail, footer }) {
       <div class="grow-sm"></div>
       <h1>${struck}</h1>
       <div style="height:46px"></div>
-      <p class="answer">It tones the surface. It cannot lift the warmth underneath.</p>
+      <p class="answer">${mythAnswer}</p>
       <div style="height:40px"></div>
       <p class="sub">${sub}</p>
       <div class="steps">
-        <div class="step"><b>In the chair</b><span>A toner or gloss, about forty five minutes, every six to eight weeks.</span></div>
-        <div class="step"><b>At home</b><span>Purple shampoo once a week to hold it. Not to fix it.</span></div>
+        ${mythSteps
+          .map((s) => `<div class="step"><b>${s.label}</b><span>${s.text}</span></div>`)
+          .join('')}
       </div>
       <div class="grow"></div>
       <p><span class="tag">${detail}</span></p>
@@ -205,31 +225,44 @@ function html({ kind, eyebrow, headline, sub, detail, footer }) {
 
 export const CARDS = [
   {
-    file: 'w1-price.png',
-    kind: 'price',
-    eyebrow: 'What it actually costs',
-    headline: 'A full head of<br>foils starts at',
-    detail: '$320',
-    sub: 'Three and a half hours, one price. Nothing gets added at the counter.',
-    footer: 'Hair by Sha · Camberwell',
-  },
-  {
-    file: 'w1-myth.png',
+    file: 'w2-midweek.png',
     kind: 'myth',
     eyebrow: 'Correcting a myth',
-    headline: 'Purple shampoo<br>fixes brass',
-    detail: 'Toner & Gloss · $45',
-    sub: 'Brass sits under the surface, not on it. Lifting it takes a toner in the chair and about forty five minutes.',
+    headline: 'Saturday is the<br>best day for<br>a big colour',
+    answer: 'The chair is the same. The room around it is not.',
+    steps: [
+      {
+        label: 'Mid-week',
+        text: 'The salon is quiet. Three and a half hours runs at your pace, not the room’s.',
+      },
+      { label: 'This week', text: 'Wednesday and Thursday are the quiet ones.' },
+    ],
+    detail: 'Wednesday & Thursday',
+    sub: 'A long colour is a better appointment on a calm day. Same chair, same hands, more room to think.',
     footer: 'Hair by Sha · Camberwell',
   },
   {
-    file: 'w1-aftercare.png',
+    file: 'w2-spring.png',
+    kind: 'price',
+    eyebrow: 'Before spring',
+    headline: 'A lived-in<br>blonde starts at',
+    detail: '$340',
+    rows: [
+      { label: 'Hand-painted balayage', value: '2 hr 30' },
+      { label: 'Toner to finish', value: '45 min' },
+      { label: 'Blow wave', value: 'Included' },
+    ],
+    sub: 'Three and a half hours, one price. Built to grow out softly, so you are not back in six weeks. Wednesday and Thursday are the quiet ones this week.',
+    footer: 'Hair by Sha · Camberwell',
+  },
+  {
+    file: 'w2-winter.png',
     kind: 'list',
-    eyebrow: 'Make your colour last',
-    headline: 'Four things<br>quietly costing<br>you weeks',
+    eyebrow: 'What winter did',
+    headline: 'Four things<br>winter did to<br>your hair',
     detail:
-      'Washing hotter than lukewarm | Shampooing more than twice a week | Straightening with no heat protectant | Eight weeks between toners',
-    sub: 'Save this one. It is the four-week difference between a colour that holds and one that goes brassy.',
+      'Ducted heating pulling moisture out | Showers hotter than lukewarm | Friction where a beanie sits | Treatments skipped until summer',
+    sub: 'Save this one, then tell me which of the four sounds like you. Heat-damaged hair takes colour differently, and knowing before you sit down changes what I do in the chair.',
     footer: 'Hair by Sha · Camberwell',
   },
 ];

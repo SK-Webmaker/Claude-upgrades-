@@ -1,0 +1,46 @@
+{
+  "capturedAt": "2026-08-14T06:20:00.000Z",
+  "weekOf": "2026-08-17",
+  "note": "Week 2 starting state, read live through Composio after the credential and read-path fixes. Numbers are identical to baseline-2026-08-14.json because nothing was published in between — this is a flat line from an unrun week, not a decline. Score week 3 against this file.",
+  "account": {
+    "username": "hairbysha_c",
+    "followers": 176,
+    "postsReviewed": 25
+  },
+  "summary": {
+    "averageEngagement": 7.48,
+    "grade": "B",
+    "verdict": "Unchanged. Strong rate for the size; the constraint is reach and volume, not engagement.",
+    "savesMeasured": false,
+    "sharesMeasured": false,
+    "note": "Instagram returned no saves or shares again. Unmeasured, not zero — never grade a post down for it."
+  },
+  "attribution": {
+    "weekReviewed": "2026-08-10",
+    "authored": 3,
+    "published": 0,
+    "posts": [
+      { "id": "w1-price", "title": "What a full head of foils actually costs", "published": false },
+      { "id": "w1-myth", "title": "Purple shampoo does not fix brass", "published": false },
+      { "id": "w1-aftercare", "title": "Four things quietly costing you weeks", "published": false }
+    ],
+    "reason": "Tone felt off, she never saw the files, and she was still working out how the system ran. Unrun experiments, not failed formats — do not retire these shapes on this evidence.",
+    "guidesFilmed": 0
+  },
+  "captionDefects": {
+    "postsCarryingDefect": 23,
+    "ofLastPosts": 25,
+    "deadHashtags": 225,
+    "fixesWritten": 23,
+    "fixesApplied": 0,
+    "fixesFile": "CAPTION-FIXES.md",
+    "note": "No caption-edit API exists. Must be fixed by hand in the app."
+  },
+  "predictionForNextWeek": {
+    "targetFollowers": 183,
+    "basis": "~4% weekly growth on 176, from src/stages/goals.js",
+    "engagementBarToBeat": 7.48,
+    "conditional": "Assumes all three posts are published. If nothing goes up again, followers and engagement will be flat for a second week and the problem is handover, not content.",
+    "questionToAnswer": "Did the mid-week post move any bookings onto a Wednesday or Thursday? If those days are still empty next week, the constraint is demand rather than the caption — say so instead of running the format again."
+  }
+}

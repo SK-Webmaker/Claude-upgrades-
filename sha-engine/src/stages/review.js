@@ -191,7 +191,7 @@ export function summarise(scored, { account = null } = {}) {
 export async function run({ limit = 25 } = {}) {
   log.start();
   try {
-    if (!instagramComposio.isConfigured()) {
+    if (!instagramComposio.canRead()) {
       log.warn('Composio is not configured — cannot read the account, so nothing is graded.');
       log.done({ reviewed: 0 });
       return { reviewed: 0, summary: null, unavailable: 'Composio not configured' };

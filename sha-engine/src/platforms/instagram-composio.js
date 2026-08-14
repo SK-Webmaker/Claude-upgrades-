@@ -105,7 +105,21 @@ function composioCreds() {
   };
 }
 
-/** True when this adapter can actually reach Instagram. */
+/**
+ * True when this adapter can READ the account.
+ *
+ * Reading needs the key and nothing else. PUBLIC_MEDIA_BASE_URL is a publishing
+ * requirement — Instagram fetches media server-side — and gating the read on it
+ * meant a correctly configured account reported "Composio is not configured"
+ * and graded nothing, while the key was valid and the account was reachable.
+ * Same shape as the instagramPublish bug noted in config.js: a capability
+ * tested against a credential belonging to a different capability.
+ */
+export function canRead() {
+  return Boolean(composioCreds().apiKey);
+}
+
+/** True when this adapter can PUBLISH — which additionally needs a public media URL. */
 export function isConfigured() {
   const c = composioCreds();
   return Boolean(c.apiKey && creds.publicMediaBaseUrl);
@@ -360,6 +374,7 @@ export default {
   accountInfo,
   verifyMediaUrl,
   isConfigured,
+  canRead,
   isVideoPost,
   recentMedia,
   LIMITS,

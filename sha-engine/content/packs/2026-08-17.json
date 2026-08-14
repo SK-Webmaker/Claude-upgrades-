@@ -1,0 +1,227 @@
+{
+  "weekOf": "2026-08-17",
+  "authoredBy": "gloss",
+  "title": "Say it the way you'd say it in the chair, and fill the quiet days",
+  "thesis": "Week 1 produced three posts and none of them went up. The reason was not the formats — the audience never saw them. It was that the tone read as written copy rather than as Sha talking, and the files never reached her phone. So week 2 keeps the formats, rewrites the voice into speech (contractions, first person, one reader), and hands the images over directly. The second job is Wednesday and Thursday: those are the quiet days this week, so one post is built to drive bookings onto them and the other two carry it. No discount anywhere — scarcity and a better appointment, not money off.",
+  "projection": "The account sat still this week at 176 followers and 7.48% average engagement, because nothing was published — that is a flat line from an unrun week, not a decline. If all three go up, the growth model puts the target at roughly 183 followers by 24 Aug (~4% on 176) and the bar to beat is 7.48% average engagement. The one thing to change is the voice: every caption here uses contractions and speaks to one person, because 'tone felt off' was the stated reason week 1 stayed in the folder. What this sets up for next week is the first real signal the system has ever had — three published posts whose engagement can be scored against a known baseline, and an answer to whether the quiet-day post actually moved bookings onto a Wednesday. If Wednesday is still empty next week, the problem is demand rather than the caption, and the honest thing will be to say so instead of running it again.",
+  "posts": [
+    {
+      "id": "w2-midweek",
+      "day": "Monday",
+      "postAt": "2026-08-17T08:00:00+10:00",
+      "type": "offer",
+      "medium": "image",
+      "title": "Saturday isn't the best day for a big colour",
+      "image": "w2-midweek.png",
+      "imageAlt": "Cream card with the line 'Saturday is the best day for a big colour' struck through in gold, answered by 'The chair is the same. The room around it is not.' Below, two rows: mid-week the salon is quiet, and this week Wednesday and Thursday are the quiet ones.",
+      "whyItWorks": "This is the post that has a job beyond reach: Wednesday and Thursday are empty and an empty chair is money already lost. It fills them without discounting, which matters because a price cut to fill a day teaches a 20-year specialist's audience to wait for one. Instead it reframes the quiet day as the better appointment, which is true — a three-and-a-half hour colour genuinely is a worse experience in a salon running flat out. Striking through a belief the reader holds is also the strongest opening this account has: the myth shape reads as news rather than advice, and news gets forwarded.",
+      "caption": {
+        "hook": "Saturday isn't the best time for a big colour. Wednesday is.",
+        "body": "I know the weekend feels like the sensible pick. But a balayage is three and a half hours in the chair, and on a Saturday the whole salon is flat out around you.\n\nMid-week it's calm. You get the full appointment at your own pace, and there's time to talk properly about what we're doing before I start mixing.\n\nWednesday and Thursday are the quiet ones this week.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#camberwellhairdresser"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to the first comment with the booking link. Instagram suppresses links in the caption, not in comments.",
+        "This one is time-sensitive. It only works if it goes up before Wednesday."
+      ]
+    },
+    {
+      "id": "w2-spring",
+      "day": "Tuesday",
+      "postAt": "2026-08-18T18:00:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "A lived-in blonde starts at $340",
+      "image": "w2-spring.png",
+      "imageAlt": "Dark card reading 'A lived-in blonde starts at $340', with a breakdown of hand-painted balayage, toner and blow wave, and a note that Wednesday and Thursday are the quiet ones this week.",
+      "whyItWorks": "Nobody local publishes a number, so a price post is the most screenshotted and forwarded thing a service business can put out — the person who decides is often not the person who saw it. It also kills the 'how much is a balayage?' DM before it is sent, which is the DM that sits unanswered for two days and loses the booking. Timing is the other half: spring starts on 1 September, so this runs in the fortnight when someone is deciding whether to walk into the season with the colour they have been carrying since June. It points at the $340 band rather than the $45 one, which is what makes filling a Wednesday actually worth filling.",
+      "caption": {
+        "hook": "Spring is two weeks away and your colour is still on winter settings.",
+        "body": "Winter does a specific thing to colour. Heating running constantly, showers hotter than they should be, hair under a beanie half the week — by August it has all pulled the tone flat.\n\nA lived-in blonde starts at $340. That's foils placed where the light actually hits, a toner to sort the tone, and a blow wave. Three and a half hours, and it's built to grow out softly so you're not back in six weeks.\n\nIf you want to walk into September looking like the season changed with you, the next fortnight is when to do it.",
+        "cta": "Book at the link in bio — Wednesday and Thursday are the quiet ones",
+        "hashtags": [
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#livedinblonde"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to the first comment with the booking link."
+      ]
+    },
+    {
+      "id": "w2-winter",
+      "day": "Friday",
+      "postAt": "2026-08-21T08:00:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Four things winter did to your hair",
+      "image": "w2-winter.png",
+      "imageAlt": "Dark card headed 'Four things winter did to your hair', listing ducted heating pulling moisture out, showers hotter than lukewarm, friction where a beanie sits, and treatments skipped until summer.",
+      "whyItWorks": "Saves are weighted six times a like in the engine's own scoring, and a numbered list is the only format that is useless unless you keep it. This one is also diagnostic rather than instructional — it asks the reader to identify which of the four is theirs, which turns a save into a DM and a DM into a consultation. It sells the treatment work and the K18 add-on without an offer in it, and it sets up the rebook by giving her something specific to ask about when they next sit down.",
+      "caption": {
+        "hook": "Winter has done four things to your hair. Only one of them is obvious.",
+        "body": "Save this one before your next appointment.\n\nThe dryness you can see is the last thing to show up — the rest has been building since June, and it changes how your hair takes colour.\n\nTell me which of these sounds like you and I'll change what I do in the chair. If the ends are fragile, K18 goes in before the lift, not after.",
+        "cta": "DM me your hair goals",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#k18",
+          "#haircaremelbourne"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Answer the DMs this one generates. That is the whole point of it."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w2-v1",
+      "title": "Why I would rather do your colour on a Wednesday",
+      "lengthSec": [15, 22],
+      "difficulty": "Easiest. No client, no timing, phone propped against the mirror. One take, film it between appointments.",
+      "whyItWorks": "Faceless salon brands are losing engagement, and stylist-to-camera clips are one of the formats still carrying distribution — which matters here because Sha has confirmed she is happy on camera with her voice. It is also the cheapest guide in the pack to film, and 'no time' was the stated reason none of week 1's guides were shot. The content does real work: it is the same quiet-day argument as Monday's post, but a person saying it is far more persuasive than a card, because the claim is about what the appointment feels like.",
+      "references": [
+        {
+          "what": "Faceless brands losing engagement in 2026; stylist spotlights and behind-the-chair chat clips named as what is working for salons",
+          "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"
+        },
+        {
+          "what": "Educational to-camera content positioning the stylist as the expert, versus finished-photo posts",
+          "url": "https://www.daysmart.com/salon/blog/instagram-marketing-for-hair-nail-salons-the-ultimate-guide/"
+        }
+      ],
+      "hook": "Start already mid-sentence, looking straight down the lens. No greeting, no 'hi guys', no intro card. The first words out are 'Saturday is the worst day to get a big colour done' — say it flatly, like you are disagreeing with someone.",
+      "shots": [
+        "0.0–3.0s — Phone propped at eye height against the mirror, you in frame from the chest up, salon behind you. Say the line. Do not smile into it.",
+        "3.0–9.0s — Same frame, no cut. 'A balayage is three and a half hours. On a Saturday the whole room is flat out around you.'",
+        "9.0–16.0s — Same frame. 'Mid-week it's quiet. You get the whole appointment at your own pace, and I'm not rushing the toner.'",
+        "16.0–20.0s — Last line, then stop recording without a sign-off. 'Wednesday and Thursday are the quiet ones this week.'"
+      ],
+      "onScreenText": [
+        "0.5s — Saturday is the worst day for a big colour",
+        "8.0s — 3.5 hours in the chair",
+        "16.0s — Wednesday & Thursday · Camberwell"
+      ],
+      "audio": "Your own voice, no music underneath. A talking-head clip with a trending track over it reads as an ad; dry audio reads as a person. Film somewhere without the dryer running.",
+      "caption": {
+        "hook": "The honest answer to when you should book a long colour.",
+        "body": "Most people ask for a Saturday because that's the day that feels free. I get it. But three and a half hours in a salon that's flat out is a different appointment to three and a half hours in a quiet one.\n\nMid-week I'm not watching a clock that belongs to someone else. The toner gets the time it needs, and you actually get a conversation before I start mixing.",
+        "cta": "Book at the link in bio — Wednesday and Thursday are the quiet ones",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#balayagemelbourne",
+          "#camberwellhairdresser"
+        ]
+      },
+      "watchFor": "The temptation is to open with 'hi guys, so a lot of people ask me'. That opening is why the clip dies at two seconds. Start on the claim."
+    },
+    {
+      "id": "w2-v2",
+      "title": "The one to send, not to like",
+      "lengthSec": [18, 25],
+      "difficulty": "Easy. You and a client already in the chair, or your own hair. Phone propped, one take, hands in the hair.",
+      "whyItWorks": "A DM share is the strongest signal a Reel generates, and this account has never deliberately asked for one — the caption here names who to send it to, which is the difference between a post that is liked and a post that is forwarded to a specific person. The content is the Friday card in spoken form, but the mechanism is different: the four things are diagnostic, so the viewer is looking for themselves in the list while you talk, which is what holds a viewer past the three-second mark.",
+      "references": [
+        {
+          "what": "Educational 'why your colour fades fast' content named as what positions a colourist as the expert and drives research-stage bookings",
+          "url": "https://www.iconixlive.com/post/5-instagram-reels-ideas-that-actually-drive-salon-bookings"
+        },
+        {
+          "what": "Winter dryness and breakage, and treating it heading into spring, as the seasonal concern in this market",
+          "url": "https://makeupbylian.com.au/seasonal-hair-care-how-to-protect-your-hair-from-melbournes-elements/"
+        }
+      ],
+      "hook": "First half second is your hands lifting a section of dry mid-length into the light, before you say anything. Then: 'If you've had a beanie on since June, this is you.'",
+      "shots": [
+        "0.0–2.0s — Close on the hands, lifting a section of mid-length. No face yet. This frame has to show the texture.",
+        "2.0–8.0s — Pull back to you in frame, still holding the section. Count the first two on your fingers: ducted heating, showers too hot.",
+        "8.0–15.0s — Same frame. Third and fourth: friction where the beanie sits, and treatments skipped because it is not summer.",
+        "15.0–22.0s — Drop the section, look at the lens. 'Three of those four are fixable before spring.' Stop recording."
+      ],
+      "onScreenText": [
+        "0.5s — Four things winter did",
+        "3.0s — 1. Ducted heating  2. Showers too hot",
+        "9.0s — 3. Beanie friction  4. Skipped treatments",
+        "16.0s — Three of the four are fixable"
+      ],
+      "audio": "Your voice, with a quiet trending track underneath at low volume. Most of the feed watches on mute, so the on-screen text carries the four points — the voice is for the people who turn it on.",
+      "caption": {
+        "hook": "Send this to the friend who has been wearing a beanie since June.",
+        "body": "Winter damage doesn't show up as damage. It shows up as colour that goes flat faster than it used to, and ends that won't hold a tone.\n\nFour things did it: ducted heating, showers hotter than lukewarm, friction where the beanie sits, and treatments skipped because it isn't summer. Three of those four are fixable before spring.\n\nIf you know exactly whose hair I just described, send it to her.",
+        "cta": "DM me your hair goals",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#k18",
+          "#haircaremelbourne"
+        ]
+      },
+      "watchFor": "If the first frame is your face instead of the hair, the send-me mechanism breaks — people forward a clip about hair, not a clip of a person talking. Lead with the section in your hand."
+    },
+    {
+      "id": "w2-v3",
+      "title": "Where the paint actually goes",
+      "lengthSec": [12, 18],
+      "difficulty": "Moderate. Needs a balayage client and the phone propped over your shoulder. No talking, so it can be filmed on a busy day.",
+      "whyItWorks": "Showing the technique rather than the finished result is what clients researching a specific service look for before booking, and it builds credibility a finished photo cannot. It is also the guide that most directly supports Tuesday's $340 post: someone who has watched the paint being placed understands what three and a half hours buys, which is the single hardest thing to communicate about a price at this level. Silent and audio-led means it can be shot mid-appointment without breaking the client's experience.",
+      "references": [
+        {
+          "what": "Technique demonstrations — colour being mixed and applied — named as building credibility a finished photo cannot, for clients researching before booking",
+          "url": "https://www.iconixlive.com/post/5-instagram-reels-ideas-that-actually-drive-salon-bookings"
+        },
+        {
+          "what": "Demand shifting toward softer, low-maintenance blondes and away from heavy foiling",
+          "url": "https://www.egsalon.com.au/post/melbourne-hair-trends-to-watch-in-2026-style-hair-health-and-smarter-choices"
+        }
+      ],
+      "hook": "Open on the brush already loaded and touching the hair. No setup shot, no bowl, no hands-in-gloves preamble — the first frame is pigment meeting a section.",
+      "shots": [
+        "0.0–3.0s — Over-shoulder, close. Brush laying colour down one section. Let the whole stroke play out.",
+        "3.0–7.0s — Same angle, one section further back. Show the gap you leave at the root — that gap is the entire point of the format.",
+        "7.0–11.0s — Pull back slightly to show three finished sections sitting together, so the placement reads as a pattern rather than as one stripe.",
+        "11.0–15.0s — Cut straight to the blow-dried finish in window light. One slow pan down the length, no turn, no smile to camera."
+      ],
+      "onScreenText": [
+        "0.5s — Hand-painted, not foiled",
+        "4.0s — The gap at the root is deliberate",
+        "8.0s — This is why it grows out soft",
+        "12.0s — Lived-in blonde, from $340"
+      ],
+      "audio": "Trending audio from the Reels tab that day, at full volume. There is no speech in this one, so the track is doing the retention work.",
+      "caption": {
+        "hook": "The gap I leave at the root is the whole reason it grows out soft.",
+        "body": "Hand-painted colour goes where the light would naturally hit, and stops short of the root on purpose. That gap is what stops you getting a hard line in eight weeks.\n\nIt's slower than foils and it is not the cheaper option. It's the one you want if you would rather come back in four months than in six weeks.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#livedinblonde"
+        ]
+      },
+      "watchFor": "Do not film the mixing bowl. Every salon films the bowl and it is the part nobody watches — the stroke on the hair is the shot."
+    }
+  ]
+}
