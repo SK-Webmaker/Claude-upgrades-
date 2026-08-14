@@ -5,6 +5,24 @@ import { fileURLToPath } from 'node:url';
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 /**
+ * Load .env if it is there.
+ *
+ * Node 22 does this natively, so it costs no dependency. Real environment
+ * variables already set are left alone — loadEnvFile does not overwrite them —
+ * so an explicit `COMPOSIO_API_KEY=… node …` still wins over the file.
+ *
+ * The point is that credentials live in one gitignored file instead of being
+ * pasted into a chat every time a session starts.
+ */
+try {
+  const envFile = join(ROOT, '.env');
+  if (existsSync(envFile)) process.loadEnvFile(envFile);
+} catch {
+  // An unreadable or malformed .env should not stop the engine starting —
+  // check-creds.mjs is what reports credential problems, with a fix attached.
+}
+
+/**
  * Where state lives.
  *
  * DATA_DIR points this at a mounted disk. Without it everything is written

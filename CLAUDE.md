@@ -183,6 +183,7 @@ sha-engine/
   content/packs/<date>.json  The week's finished posts + video guides
   content/cards/*.png      Rendered post images, 1080×1350
   content/memory/*.json    Account baselines to score against
+  content/context/sha-notes.md  Sha's own weekly input — read at every /start
   src/lib/pack.js          Loads a pack, validates every caption, throws if bad
   src/lib/brand.js         Voice rules, seasons, local moments
   src/stages/review.js     Reads the live account via Composio, grades it
@@ -191,6 +192,7 @@ sha-engine/
   scripts/make-cards.mjs   Renders the week's cards via Playwright/Chromium
   scripts/fetch-fonts.mjs  Re-inlines the brand faces
   scripts/check-fixes.mjs  Runs CAPTION-FIXES.md back through the Critic
+  scripts/check-creds.mjs  Verifies the Composio key and finds the account id
   CAPTION-FIXES.md         23 replacement captions for published defects
   JOURNAL.md               Running log of decisions
 ```
@@ -232,9 +234,13 @@ checkCaption({ hook, body, cta, hashtags });   // [] means clean
 Read from the environment only, never committed. Set these in the session before
 running anything that touches the live account:
 
+Credentials live in `sha-engine/.env`, which is gitignored and loaded
+automatically by `config.js`. Copy `.env.example` and fill it in. Run
+`node scripts/check-creds.mjs` to verify before anything else.
+
 | Variable | What it is |
 |---|---|
-| `COMPOSIO_API_KEY` | Composio → Settings → **Project Settings** → API Keys. The *account-level* API Keys page issues keys that 401 on every endpoint — this cost hours once. |
+| `COMPOSIO_API_KEY` | **Must start `ak_`** — Composio → Settings → **Project Settings** → API Keys. A `ck_` key from the account-level page 401s on every endpoint, and fails silently in the worst way: `/connected_accounts` answers "0 accounts" rather than "bad key", which reads as Instagram not being connected. Three `ck_` keys have been tried and rejected. |
 | `COMPOSIO_CONNECTED_ACCOUNT_ID` | Composio → Connected Accounts → the Instagram entry |
 | `COMPOSIO_USER_ID` | `sha` |
 | `FIRECRAWL_API_KEY` | Optional. Without it, research falls back to web search. |

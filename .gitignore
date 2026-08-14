@@ -7,3 +7,8 @@ node_modules/
 # nothing to do with the project; committing it just leaves the tree dirty.
 .claude-flow/
 .swarm/
+
+# Credentials. Never committed — see sha-engine/.env.example
+.env
+*.env
+!*.env.example

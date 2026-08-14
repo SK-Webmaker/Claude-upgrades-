@@ -21,15 +21,22 @@ abandoned.
 ## Step 0 · Orient (2 calls)
 
 ```bash
-cd sha-engine && ls content/packs/ && cat content/memory/*.json | head -60
+cd sha-engine && node scripts/check-creds.mjs; ls content/packs/; cat content/context/sha-notes.md
 ```
 
-Establish: what week is it (Monday-anchored), what did last week's pack promise,
-and what is the last known follower count and grade.
+`check-creds.mjs` says in two seconds whether the live read will work. If it
+fails, **say so once, plainly, quote its fix, and carry on** — everything except
+the account read still works and the week is still worth producing. Do not stall
+waiting for a key, and never invent numbers to fill the gap.
 
-If `COMPOSIO_API_KEY` is not set in the environment, say so plainly and skip to
-Step 2 — everything except the live read still works, and the week is still
-worth producing. Do not stall waiting for a key.
+`sha-notes.md` is Sha's own input: which posts she actually published last week,
+what she is booked out on, what she wants more of, what happened in the chair.
+**Read it before writing anything.** If the weekly questions are unanswered, ask
+them at the end of the run rather than blocking on them.
+
+Then read the newest file in `content/memory/` for the follower count, grade and
+engagement rate to score against, and the newest pack in `content/packs/` for
+what last week promised.
 
 ## Step 1 · Read the live account
 

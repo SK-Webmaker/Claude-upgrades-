@@ -55,23 +55,63 @@ Then wait. I will type /start when I am ready.
 
 ---
 
-## What you need to have set before `/start` touches the live account
+## Setting the credentials — do this once
 
-These go in the session environment (or a `.env` you keep out of git):
+Credentials live in a gitignored `.env` file, not in chat. Paste a key into a
+chat and it is in a transcript forever; two have been already, and both now need
+to be treated as public.
 
-| Variable | Where to get it |
+```bash
+cd sha-engine
+cp .env.example .env
+# open .env, fill in COMPOSIO_API_KEY
+node scripts/check-creds.mjs
+```
+
+`check-creds.mjs` tells you in about two seconds whether the key works, and if
+it does, prints the connected account ID for you to paste back in. Run it before
+`/start` any time something looks off.
+
+### The Composio key — the part that keeps going wrong
+
+Composio issues two shapes of key and **only one of them works**:
+
+| Prefix | Where it comes from | Works? |
+|---|---|---|
+| `ak_…` | Settings → **Project Settings** → API Keys | **yes** |
+| `ck_…` | the account-level API Keys page | no — 401s on every endpoint |
+
+The `ck_o2nb…eS2l` key from 14 Aug is a `ck_` key and was rejected. Two before
+it were as well. If you take one thing from this file: **the key must start
+`ak_`, and it comes from Project Settings.**
+
+The trap is that a `ck_` key does not fail in an obvious place — the connected
+accounts endpoint answers "0 accounts" instead of "wrong key", which reads like
+Instagram is not connected and sends you looking in the wrong place entirely.
+`check-creds.mjs` now checks an endpoint that fails properly and names the
+prefix it saw.
+
+| Variable | Notes |
 |---|---|
-| `COMPOSIO_API_KEY` | app.composio.dev → Settings → **Project Settings** → API Keys. **Not** the account-level API Keys page — those 401 on everything. |
-| `COMPOSIO_CONNECTED_ACCOUNT_ID` | app.composio.dev → Connected Accounts → the Instagram entry |
+| `COMPOSIO_API_KEY` | must start `ak_` |
+| `COMPOSIO_CONNECTED_ACCOUNT_ID` | leave blank; check-creds finds and prints it |
 | `COMPOSIO_USER_ID` | `sha` |
-| `FIRECRAWL_API_KEY` | Optional. Without it, research uses web search instead. |
+| `FIRECRAWL_API_KEY` | optional — without it, research uses web search |
 
-Rotate the Composio key before you paste it anywhere — the old one was shared in
-chat. Same for the Anthropic key, which nothing in Gloss reads any more.
+Without any of this, `/start` still produces the week's posts and guides. It
+just cannot read the live account, and it will say so rather than invent numbers.
 
-Without these, `/start` still produces the week's posts and guides; it just
-cannot read the live account, and it will tell you so rather than inventing
-numbers.
+## What Sha needs to tell the system
+
+`sha-engine/content/context/sha-notes.md` is read at the start of every run. It
+holds the things Instagram cannot show: which posts she actually published, what
+she is booked out on, what she wants more of, and anything worth posting that
+happened in the chair.
+
+**Fill in the standing-context section once before the first `/start`.** The
+three weekly questions take a minute and are what make week 2 smarter than week
+1 instead of just newer — particularly *"which of last week's posts did you
+actually publish, and why not the others."*
 
 ## Render cleanup
 
