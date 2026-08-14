@@ -15,6 +15,23 @@
  *
  *   node scripts/check-creds.mjs
  */
+import { existsSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// Load .env the same way config.js does, rather than importing config.js.
+// Standing alone matters: this script has to be able to report a credential
+// problem even when a malformed brand.json would stop config.js loading at all.
+// Without this the checker read a bare environment and said "not set" for a key
+// that was sitting in .env — the same wrong-direction failure as the ck_ trap.
+const ENV_FILE = join(dirname(fileURLToPath(import.meta.url)), '..', '.env');
+try {
+  if (existsSync(ENV_FILE)) process.loadEnvFile(ENV_FILE);
+} catch {
+  // Malformed .env: fall through to the environment and let the checks below
+  // report what is actually missing.
+}
+
 const BASE = process.env.COMPOSIO_BASE_URL || 'https://backend.composio.dev';
 const KEY = process.env.COMPOSIO_API_KEY || '';
 const ACCOUNT = process.env.COMPOSIO_CONNECTED_ACCOUNT_ID || '';
@@ -32,6 +49,15 @@ let fatal = false;
 if (!KEY) {
   bad('COMPOSIO_API_KEY is not set');
   console.log('        Put it in sha-engine/.env — see .env.example\n');
+  process.exit(1);
+}
+
+if (KEY === 'ak_replace_me') {
+  // The .env.example placeholder is ak_-shaped, so it clears the prefix check
+  // and would otherwise be reported as a rejected key — sending you to
+  // regenerate a key that was never pasted in.
+  bad('COMPOSIO_API_KEY is still the placeholder from .env.example');
+  console.log('        Paste the real ak_ key into sha-engine/.env.\n');
   process.exit(1);
 }
 
