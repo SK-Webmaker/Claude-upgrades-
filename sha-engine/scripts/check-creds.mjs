@@ -116,6 +116,37 @@ if (!fatal) {
         }
       }
     }
+
+    // Gmail powers /send — the weekly handover email to Sha. It is optional:
+    // without it the week still gets produced, it just has to be handed over by
+    // hand, which is how week 1 ended up unpublished. Reported as a warning
+    // rather than a failure so a missing inbox never blocks the content.
+    const gmail = items.filter((a) =>
+      String(a.toolkit?.slug || a.appName || '').toLowerCase().includes('gmail'),
+    );
+    if (!gmail.length) {
+      warn('No Gmail connected — /send cannot email the week to Sha yet');
+      console.log('        Connect Gmail in the same Composio project, under user id');
+      console.log(`        "${USER}" so one COMPOSIO_USER_ID covers both.`);
+    } else {
+      for (const a of gmail) {
+        const live = String(a.status || '').toUpperCase() === 'ACTIVE';
+        (live ? ok : warn)(`Gmail connected account ${a.id} — status ${a.status}`);
+        if (!process.env.COMPOSIO_GMAIL_ACCOUNT_ID) {
+          console.log(`        Set COMPOSIO_GMAIL_ACCOUNT_ID=${a.id}`);
+        } else if (process.env.COMPOSIO_GMAIL_ACCOUNT_ID !== a.id) {
+          warn(
+            `COMPOSIO_GMAIL_ACCOUNT_ID is ${process.env.COMPOSIO_GMAIL_ACCOUNT_ID}, but the live one is ${a.id}`,
+          );
+        }
+      }
+      // An address to send to is as load-bearing as the connection itself.
+      if (!process.env.SHA_EMAIL) {
+        warn('SHA_EMAIL not set — /send has a working inbox but nowhere to send');
+      } else {
+        ok(`SHA_EMAIL = ${process.env.SHA_EMAIL}`);
+      }
+    }
   } catch (err) {
     warn(`Could not list connected accounts: ${err.message}`);
   }
