@@ -104,6 +104,33 @@ Max 2 emoji. 4–8 hashtags. Core tags: `#melbournehairdresser` `#camberwellhair
 Legitimate capitals that are **not** shouting: K18, ELEVEN (ELEVEN Australia, a
 line she stocks), DM, CTA, VIC, AU, IG, SMS, UV.
 
+### Music — she is on a BUSINESS account
+
+`baseline-2026-08-14.json` records `accountType: BUSINESS`. That is not a
+detail, it decides what audio she can legally use:
+
+- **Business accounts get the Meta Sound Collection only** — a royalty-free
+  library. Meta's licensing deals with the labels cover *personal,
+  non-commercial* use, which a salon is not.
+- **The trending chart music every "trending Reels audio" listicle recommends
+  is unavailable to her.** Naming one is worse than naming none: it either does
+  not appear in her picker, or the Reel gets muted or pulled after posting.
+- Instagram's audio fingerprinting got stricter in 2026 and now catches
+  AI-generated audio, background music and TikTok-watermarked reuse. Filming a
+  Reel with a song playing in the salon is a real risk, not a theoretical one.
+
+So: **suggest Meta Sound Collection tracks, or suggest nothing.** Give her a
+mood and a search term for the in-app library rather than a song title lifted
+from a blog, unless she has switched to a Creator account.
+
+Switching to Creator unlocks the full licensed library and takes about thirty
+seconds, reversibly. What it costs her: the public address on the profile and
+the wider business CTA buttons. Both account types keep **Book Now**. For a
+chair renter who is already out-ranked at her own address by the host salon,
+losing the address display costs less than it would a standalone salon — so
+this is a genuine option, not a trap. It is her call, and it is not something
+to switch on her behalf.
+
 ---
 
 ## 3 · Where the account actually stands

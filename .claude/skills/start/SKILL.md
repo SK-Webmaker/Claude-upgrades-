@@ -190,7 +190,13 @@ guide needs:
 - **A shot list with timings**, filmable on a phone in a working salon. She is
   alone in the chair with a client; nothing requiring a second person.
 - **On-screen text with timings.** Most of the feed watches on mute.
-- **An audio note.**
+- **An audio note, with a real suggestion.** She is on a **BUSINESS** account —
+  see CLAUDE.md §2 — so she is limited to the Meta Sound Collection and cannot
+  use trending chart music. Give a mood plus a search term for the in-app
+  library, never a song title copied from a trending-audio blog: those are
+  licensed for personal accounts and will be muted or pulled on hers. Say when
+  a clip is stronger with no music at all — a talking head with a track under
+  it reads as an ad.
 - **A written caption**, Critic-validated like any other.
 - **Real references with URLs** — what format this is, and where it is working.
 - **A "watch for"** — the one thing that breaks it.
