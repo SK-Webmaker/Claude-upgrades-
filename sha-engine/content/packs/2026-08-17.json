@@ -94,36 +94,65 @@
   "videoGuides": [
     {
       "id": "w2-v1",
-      "title": "Why I would rather do your colour on a Wednesday",
-      "lengthSec": [15, 22],
-      "difficulty": "Easiest. No client, no timing, phone propped against the mirror. One take, film it between appointments.",
-      "whyItWorks": "Faceless salon brands are losing engagement, and stylist-to-camera clips are one of the formats still carrying distribution — which matters here because Sha has confirmed she is happy on camera with her voice. It is also the cheapest guide in the pack to film, and 'no time' was the stated reason none of week 1's guides were shot. The content does real work: it is the same quiet-day argument as Monday's post, but a person saying it is far more persuasive than a card, because the claim is about what the appointment feels like.",
-      "references": [
+      "title": "Three reasons your colour looks flat right now",
+      "lengthSec": [
+        20,
+        30
+      ],
+      "difficulty": "Easiest. No client needed. Phone propped against the mirror, you talking to camera, one take between appointments.",
+      "copyThis": {
+        "url": "https://www.tiktok.com/@freddie.yeah/video/7322779126706867489",
+        "creator": "Freddie.yeah",
+        "whatItIs": "A stylist to camera opening on \"Never blonde enough? Here are 3 reasons why\", then counting the reasons off with each one captioned on screen as it is said.",
+        "whyItCopies": "This is the numbered-explainer format, and it is the single most repeated shape among colourists getting reach right now. It works because the opening line is a problem the viewer already has, so they stay for the diagnosis. Nothing in it needs a client, a second person, or an edit — which matters, because no time was the reason last week's guides never got filmed.",
+        "howToCopy": [
+          "Watch it once at full speed, then once with the sound off. The second pass is the one that matters — notice she never introduces herself and the first frame is already the claim.",
+          "Prop your phone at eye height against the mirror. Stand so the salon is behind you, not a blank wall.",
+          "Say your version of her opening line straight down the lens, flatly: \"Three reasons your colour looks flat right now.\"",
+          "Count the three on your fingers as you say them: heating drying the cuticle, showers too hot washing the toner out early, and stretching to eight or nine weeks because nobody sees it under a beanie.",
+          "Stop recording on the last word. No sign-off, no \"hope that helps\" — she does not do one, and it is why the clip loops.",
+          "Add the three on-screen captions below in the Reels editor as you go. Do not use the auto-captions on their own; the numbers need to land as text."
+        ]
+      },
+      "alsoWatch": [
         {
-          "what": "Faceless brands losing engagement in 2026; stylist spotlights and behind-the-chair chat clips named as what is working for salons",
-          "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"
+          "url": "https://www.tiktok.com/@unitfourhair/video/7518293408729910550",
+          "creator": "unitfourhair",
+          "what": "Same format applied to brass — \"Why your blonde is turning brassy\", reasons listed in the caption and spoken to camera. Useful for how she paces the list."
         },
         {
-          "what": "Educational to-camera content positioning the stylist as the expert, versus finished-photo posts",
-          "url": "https://www.daysmart.com/salon/blog/instagram-marketing-for-hair-nail-salons-the-ultimate-guide/"
+          "url": "https://www.tiktok.com/@mirellamanelli/video/7673242739810503950",
+          "creator": "Mirella Manelli",
+          "what": "Title-as-thesis version: \"This is why your blonde highlights turn brassy.\" Shows how flat the delivery can be and still hold."
         }
       ],
-      "hook": "Start already mid-sentence, looking straight down the lens. No greeting, no 'hi guys', no intro card. The first words out are 'Saturday is the worst day to get a big colour done' — say it flatly, like you are disagreeing with someone.",
+      "references": [
+        {
+          "what": "Primary format reference — numbered to-camera explainer, verified live",
+          "url": "https://www.tiktok.com/@freddie.yeah/video/7322779126706867489"
+        },
+        {
+          "what": "Same format on brass, verified live",
+          "url": "https://www.tiktok.com/@unitfourhair/video/7518293408729910550"
+        }
+      ],
+      "hook": "Start already on the claim, looking down the lens. No greeting, no name, no \"so a lot of you have been asking\". First words out: \"Three reasons your colour looks flat right now.\"",
       "shots": [
-        "0.0–3.0s — Phone propped at eye height against the mirror, you in frame from the chest up, salon behind you. Say the line. Do not smile into it.",
-        "3.0–9.0s — Same frame, no cut. 'A balayage is three and a half hours. On a Saturday the whole room is flat out around you.'",
-        "9.0–16.0s — Same frame. 'Mid-week it's quiet. You get the whole appointment at your own pace, and I'm not rushing the toner.'",
-        "16.0–20.0s — Last line, then stop recording without a sign-off. 'Wednesday and Thursday are the quiet ones this week.'"
+        "0.0–4.0s — Propped phone, you from the chest up, salon behind. Say the opening line. Do not smile into it.",
+        "4.0–11.0s — Same frame, no cut. Reason one: ducted heating drying the cuticle so it stops reflecting light.",
+        "11.0–18.0s — Reason two: showers hotter than lukewarm, opening the cuticle and taking the toner with them.",
+        "18.0–26.0s — Reason three: stretching to eight or nine weeks because it is under a beanie anyway. Then stop recording mid-breath."
       ],
       "onScreenText": [
-        "0.5s — Saturday is the worst day for a big colour",
-        "8.0s — 3.5 hours in the chair",
-        "16.0s — Wednesday & Thursday · Camberwell"
+        "0.5s — 3 reasons your colour looks flat",
+        "5.0s — 1. Ducted heating",
+        "12.0s — 2. Showers too hot",
+        "19.0s — 3. Nine weeks between appointments"
       ],
-      "audio": "Your own voice, no music underneath. A talking-head clip with a trending track over it reads as an ad; dry audio reads as a person. Film somewhere without the dryer running.",
+      "audio": "Your own voice, no music. Freddie has no track under his either — a talking-head with a trending song over it reads as an ad. Film away from the dryer.",
       "caption": {
-        "hook": "The honest answer to when you should book a long colour.",
-        "body": "Most people ask for a Saturday because that's the day that feels free. I get it. But three and a half hours in a salon that's flat out is a different appointment to three and a half hours in a quiet one.\n\nMid-week I'm not watching a clock that belongs to someone else. The toner gets the time it needs, and you actually get a conversation before I start mixing.",
+        "hook": "Three reasons your colour looks flat right now.",
+        "body": "It's not you, and it's not the colour I put in. Winter does this every year.\n\nHeating running all day dries the cuticle so it stops reflecting light. Showers hotter than lukewarm open it further and take your toner with them. And most people stretch to eight or nine weeks through winter, because nobody's seeing it under a beanie anyway.\n\nAll three are fixable in one appointment.",
         "cta": "Book at the link in bio — Wednesday and Thursday are the quiet ones",
         "hashtags": [
           "#melbournehairdresser",
@@ -133,41 +162,71 @@
           "#camberwellhairdresser"
         ]
       },
-      "watchFor": "The temptation is to open with 'hi guys, so a lot of people ask me'. That opening is why the clip dies at two seconds. Start on the claim."
+      "watchFor": "The instinct is to open with \"hi guys, so a lot of people ask me this\". Freddie never does, and that is the whole reason his clip survives the first two seconds. Start on the claim."
     },
     {
       "id": "w2-v2",
-      "title": "The one to send, not to like",
-      "lengthSec": [18, 25],
-      "difficulty": "Easy. You and a client already in the chair, or your own hair. Phone propped, one take, hands in the hair.",
-      "whyItWorks": "A DM share is the strongest signal a Reel generates, and this account has never deliberately asked for one — the caption here names who to send it to, which is the difference between a post that is liked and a post that is forwarded to a specific person. The content is the Friday card in spoken form, but the mechanism is different: the four things are diagnostic, so the viewer is looking for themselves in the list while you talk, which is what holds a viewer past the three-second mark.",
-      "references": [
+      "title": "Four things winter did to your hair",
+      "lengthSec": [
+        25,
+        40
+      ],
+      "difficulty": "Easy. Your own hair or a client already in the chair. Phone propped, one take, hands in the hair. No editing beyond captions.",
+      "copyThis": {
+        "url": "https://www.tiktok.com/@haileygrahamm/video/7210190382628343045",
+        "creator": "hailey graham",
+        "whatItIs": "A stylist walking through four named types of hair damage, one at a time, holding hair to camera as she names each. Numbered, diagnostic, and built so the viewer is looking for themselves in the list.",
+        "whyItCopies": "A numbered damage explainer is the most forwarded shape in this niche, because the viewer is not just learning — they are sorting themselves into one of the categories, and then sending it to somebody they have diagnosed. That is the DM share, which is the strongest signal a Reel makes and something this account has never deliberately asked for.",
+        "howToCopy": [
+          "Watch it once and count how long she spends on each of the four. It is roughly even, and none of them run long — that pacing is the format.",
+          "Note that she holds actual hair up while naming each one. Do not talk over a static shot of your face; the hair has to be in frame.",
+          "Prop the phone. Start on your hands lifting a dry mid-length section into the light, before you say a word.",
+          "Name your four in order: ducted heating, showers hotter than lukewarm, friction where the beanie sits, treatments skipped because it is not summer.",
+          "Swap her generic \"heat damage\" for the Melbourne-specific version. Ducted heating and beanies are what makes this yours rather than a repost of hers.",
+          "End on the line that earns the share: three of the four are fixable before spring. Then ask for the send in the caption, not out loud."
+        ]
+      },
+      "alsoWatch": [
         {
-          "what": "Educational 'why your colour fades fast' content named as what positions a colourist as the expert and drives research-stage bookings",
-          "url": "https://www.iconixlive.com/post/5-instagram-reels-ideas-that-actually-drive-salon-bookings"
+          "url": "https://www.tiktok.com/@themanechoice/video/7558103773739044127",
+          "creator": "The Mane Choice",
+          "what": "Seasonal-breakage version with a trichologist explaining why hair breaks more in the cold months. Northern hemisphere, so their autumn is your August — the mechanism transfers, the season name does not."
         },
         {
-          "what": "Winter dryness and breakage, and treating it heading into spring, as the seasonal concern in this market",
-          "url": "https://makeupbylian.com.au/seasonal-hair-care-how-to-protect-your-hair-from-melbournes-elements/"
+          "url": "https://www.tiktok.com/@kaseyleeblondespecialist/video/7530214829534088455",
+          "creator": "KASEY LEE",
+          "what": "Same diagnostic shape run on one real client in the chair, if you would rather do it on a head than on your own hair."
         }
       ],
-      "hook": "First half second is your hands lifting a section of dry mid-length into the light, before you say anything. Then: 'If you've had a beanie on since June, this is you.'",
+      "references": [
+        {
+          "what": "Primary format reference — four named types of damage, verified live",
+          "url": "https://www.tiktok.com/@haileygrahamm/video/7210190382628343045"
+        },
+        {
+          "what": "Seasonal breakage explainer, verified live",
+          "url": "https://www.tiktok.com/@themanechoice/video/7558103773739044127"
+        }
+      ],
+      "hook": "First half second is your hands lifting a section of dry mid-length into the light, before you say anything. Then: \"If you have had a beanie on since June, this is you.\"",
       "shots": [
-        "0.0–2.0s — Close on the hands, lifting a section of mid-length. No face yet. This frame has to show the texture.",
-        "2.0–8.0s — Pull back to you in frame, still holding the section. Count the first two on your fingers: ducted heating, showers too hot.",
-        "8.0–15.0s — Same frame. Third and fourth: friction where the beanie sits, and treatments skipped because it is not summer.",
-        "15.0–22.0s — Drop the section, look at the lens. 'Three of those four are fixable before spring.' Stop recording."
+        "0.0–2.0s — Close on the hands, lifting a section. No face yet. This frame has to show the texture.",
+        "2.0–10.0s — Pull back to you in frame, still holding the section. One and two: ducted heating, showers too hot.",
+        "10.0–20.0s — Three and four: friction where the beanie sits, and treatments skipped because it is not summer.",
+        "20.0–28.0s — Drop the section, look at the lens: \"Three of those four are fixable before spring.\" Stop."
       ],
       "onScreenText": [
         "0.5s — Four things winter did",
-        "3.0s — 1. Ducted heating  2. Showers too hot",
-        "9.0s — 3. Beanie friction  4. Skipped treatments",
-        "16.0s — Three of the four are fixable"
+        "3.0s — 1. Ducted heating",
+        "8.0s — 2. Showers hotter than lukewarm",
+        "13.0s — 3. Friction where a beanie sits",
+        "18.0s — 4. Treatments skipped until summer",
+        "23.0s — Three of the four are fixable"
       ],
-      "audio": "Your voice, with a quiet trending track underneath at low volume. Most of the feed watches on mute, so the on-screen text carries the four points — the voice is for the people who turn it on.",
+      "audio": "Your voice, with a quiet trending track underneath at low volume. Most of the feed watches on mute, so the on-screen text carries the four points and the voice is for whoever turns it on.",
       "caption": {
         "hook": "Send this to the friend who has been wearing a beanie since June.",
-        "body": "Winter damage doesn't show up as damage. It shows up as colour that goes flat faster than it used to, and ends that won't hold a tone.\n\nFour things did it: ducted heating, showers hotter than lukewarm, friction where the beanie sits, and treatments skipped because it isn't summer. Three of those four are fixable before spring.\n\nIf you know exactly whose hair I just described, send it to her.",
+        "body": "Winter damage doesn't turn up as damage. It turns up as colour that goes flat faster than it used to, and ends that won't hold a tone.\n\nFour things did it: ducted heating, showers hotter than lukewarm, friction where the beanie sits, and treatments skipped because it isn't summer. Three of those four are fixable before spring.\n\nIf you know exactly whose hair I just described, send it to her.",
         "cta": "DM me your hair goals",
         "hashtags": [
           "#melbournehairdresser",
@@ -177,41 +236,69 @@
           "#haircaremelbourne"
         ]
       },
-      "watchFor": "If the first frame is your face instead of the hair, the send-me mechanism breaks — people forward a clip about hair, not a clip of a person talking. Lead with the section in your hand."
+      "watchFor": "If the first frame is your face instead of hair, the send-me mechanism breaks — people forward a clip about hair, not a clip of a person talking. Lead with the section in your hand."
     },
     {
       "id": "w2-v3",
       "title": "Where the paint actually goes",
-      "lengthSec": [12, 18],
-      "difficulty": "Moderate. Needs a balayage client and the phone propped over your shoulder. No talking, so it can be filmed on a busy day.",
-      "whyItWorks": "Showing the technique rather than the finished result is what clients researching a specific service look for before booking, and it builds credibility a finished photo cannot. It is also the guide that most directly supports Tuesday's $340 post: someone who has watched the paint being placed understands what three and a half hours buys, which is the single hardest thing to communicate about a price at this level. Silent and audio-led means it can be shot mid-appointment without breaking the client's experience.",
-      "references": [
+      "lengthSec": [
+        15,
+        25
+      ],
+      "difficulty": "Moderate. Needs a balayage client and the phone propped over your shoulder. Silent, so it can be filmed on a busy day without breaking the appointment.",
+      "copyThis": {
+        "url": "https://www.tiktok.com/@alfredo_lewis/video/7344439984574942510",
+        "creator": "Alfredo Lewis",
+        "whatItIs": "Close, over-the-shoulder shots of freehand balayage being painted on, letting whole brush strokes play out uncut, then cutting to the finished blow-dry. No talking.",
+        "whyItCopies": "Technique footage is what someone researching a service watches before they book, and it does something a finished photo cannot — it makes the time visible. That is the missing half of Tuesday's $340 post: a price only reads as fair once you have watched where the three and a half hours goes. It is also silent, so it survives a busy day.",
+        "howToCopy": [
+          "Watch how long he holds a single stroke. Most stylists cut every half second; he does not, and that is why it reads as skill rather than as an edit.",
+          "Prop the phone over your shoulder, close enough that the section fills the frame. Do not shoot the whole head.",
+          "Open on the brush already loaded and touching the hair. No mixing bowl, no gloves going on, no setup.",
+          "Film three or four separate strokes on different sections. You only need one good one, but you will not know which until you look.",
+          "Get one shot that clearly shows the gap you leave at the root. That gap is the entire argument of the video and it is the thing clients do not know about.",
+          "Cut straight to the finished blow-dry in window light. One slow pan down the length. No turn to camera, no smile."
+        ]
+      },
+      "alsoWatch": [
         {
-          "what": "Technique demonstrations — colour being mixed and applied — named as building credibility a finished photo cannot, for clients researching before booking",
-          "url": "https://www.iconixlive.com/post/5-instagram-reels-ideas-that-actually-drive-salon-bookings"
+          "url": "https://www.tiktok.com/@looks.by.lilyc/video/7541461257019313421",
+          "creator": "The Edgycator",
+          "what": "Explains painting in V and W shapes and why the shape matters. Useful if you would rather talk over the technique than run it silent."
         },
         {
-          "what": "Demand shifting toward softer, low-maintenance blondes and away from heavy foiling",
-          "url": "https://www.egsalon.com.au/post/melbourne-hair-trends-to-watch-in-2026-style-hair-health-and-smarter-choices"
+          "url": "https://www.tiktok.com/@dvcolour/video/7347495447612706053",
+          "creator": "dvcolour",
+          "what": "Step-by-step surface-painting balayage on a brunette, leaving the natural root out. Closest to a lived-in blonde on darker hair."
         }
       ],
-      "hook": "Open on the brush already loaded and touching the hair. No setup shot, no bowl, no hands-in-gloves preamble — the first frame is pigment meeting a section.",
+      "references": [
+        {
+          "what": "Primary format reference — freehand balayage painting, uncut strokes, verified live",
+          "url": "https://www.tiktok.com/@alfredo_lewis/video/7344439984574942510"
+        },
+        {
+          "what": "Painting shape explained on camera, verified live",
+          "url": "https://www.tiktok.com/@looks.by.lilyc/video/7541461257019313421"
+        }
+      ],
+      "hook": "Open on the brush already loaded and touching the hair. The first frame is pigment meeting a section — no bowl, no gloves, no preamble.",
       "shots": [
-        "0.0–3.0s — Over-shoulder, close. Brush laying colour down one section. Let the whole stroke play out.",
-        "3.0–7.0s — Same angle, one section further back. Show the gap you leave at the root — that gap is the entire point of the format.",
-        "7.0–11.0s — Pull back slightly to show three finished sections sitting together, so the placement reads as a pattern rather than as one stripe.",
-        "11.0–15.0s — Cut straight to the blow-dried finish in window light. One slow pan down the length, no turn, no smile to camera."
+        "0.0–4.0s — Over-shoulder, close. One brush stroke laying colour down a section. Let the whole stroke play out uncut.",
+        "4.0–8.0s — Same angle, a section further back. Show the gap left at the root clearly.",
+        "8.0–13.0s — Pull back slightly so three finished sections sit together and the placement reads as a pattern, not one stripe.",
+        "13.0–18.0s — Cut to the blow-dried finish in window light. One slow pan down the length."
       ],
       "onScreenText": [
         "0.5s — Hand-painted, not foiled",
-        "4.0s — The gap at the root is deliberate",
-        "8.0s — This is why it grows out soft",
-        "12.0s — Lived-in blonde, from $340"
+        "5.0s — The gap at the root is deliberate",
+        "9.0s — This is why it grows out soft",
+        "14.0s — Lived-in blonde, from $340"
       ],
       "audio": "Trending audio from the Reels tab that day, at full volume. There is no speech in this one, so the track is doing the retention work.",
       "caption": {
         "hook": "The gap I leave at the root is the whole reason it grows out soft.",
-        "body": "Hand-painted colour goes where the light would naturally hit, and stops short of the root on purpose. That gap is what stops you getting a hard line in eight weeks.\n\nIt's slower than foils and it is not the cheaper option. It's the one you want if you would rather come back in four months than in six weeks.",
+        "body": "Hand-painted colour goes where the light would naturally hit, and it stops short of the root on purpose. That gap is what stops you getting a hard line in eight weeks.\n\nIt's slower than foils and it isn't the cheaper option. It's the one you want if you'd rather come back in four months than in six.",
         "cta": "Book at the link in bio",
         "hashtags": [
           "#balayagemelbourne",
@@ -221,7 +308,7 @@
           "#livedinblonde"
         ]
       },
-      "watchFor": "Do not film the mixing bowl. Every salon films the bowl and it is the part nobody watches — the stroke on the hair is the shot."
+      "watchFor": "Do not film the mixing bowl. Every salon films the bowl and it is the part nobody watches — Alfredo starts on the hair and so should you."
     }
   ]
 }
