@@ -1,90 +1,82 @@
-# Facebook ads — round 1
+# Facebook ads — round 2
 
-Two ads, built to fill **Thursday and Friday**. Ready to run: creative rendered,
-copy written to Meta's character limits, targeting and budget specified.
+Two ads built on Sha's own client photography. Creative rendered, copy written
+to Meta's limits, targeting and budget specified.
 
-> **One thing to check before you spend money.** You asked for Thursday and
-> Friday. Sha told the system on 14 Aug that **Wednesday and Thursday** were her
-> quiet days, and this week's organic posts say Wednesday and Thursday. The July
-> growth plan says Thursday and Friday are her ~16 bookable hours. These ads say
-> **Thursday and Friday** because that is what you asked for most recently — but
-> if it is actually Wednesday and Thursday, tell me and I will re-render. It is
-> a one-word change in two files and it is worse than useless if it is wrong.
-
----
-
-## The deliberate deviation from the playbook
-
-Every salon-ads guide says the same thing: run a **new-client discount**.
-"First blowout $15. Book in 60 seconds." That is the standard advice and it
-works.
-
-**These ads do not do it**, because invariant 7 says never discount to fill a
-quiet day — a price cut on a 20-year specialist teaches her audience to wait for
-the next one, and it attracts the client who came for $15 and never returns at
-$340.
-
-So the conversion lever is **certainty instead of cheapness**. What premium
-service ads actually convert on is [outcome and transformation rather than
-price](https://www.blab.co/blog/how-to-position-your-business-to-attract-premium-clients),
-and the thing nobody local offers is a number before you sit down. Ad 1 sells
-the absence of a nasty surprise. Ad 2 sells being told the truth about your hair,
-including when the honest answer is the $45 toner rather than the $340 balayage.
-
-**Watch for:** if both ads underperform on cost-per-click against the ~$0.70
-[2025 traffic benchmark](https://www.graphed.com/blog/facebook-ads-for-hair-salons),
-the no-discount stance is the first suspect. That is a real trade and it is Sha's
-call, not a bug to fix silently.
+> **Check this before you spend money.** You asked for **Thursday and Friday**.
+> Sha told the system on 14 Aug that **Wednesday and Thursday** were her quiet
+> days, and this week's organic posts say Wednesday and Thursday. The July growth
+> plan says Thursday and Friday are her ~16 bookable hours. These say Thursday
+> and Friday because that is what you asked for — but if it is wrong it is a
+> one-word change and a re-render, and it is worse than useless if it is wrong.
 
 ---
 
-## Ad 1 · Price certainty → **Book Now**
+## What changed from round 1, and why
 
-**Creative:** `ad-01-price.png` (1080×1350)
+Round 1 was a typographic card in her brand palette — the same system as the
+organic posts. That was the mistake. A card works **in feed, for people who
+already follow her**, where the brand is established and the job is to be saved.
+To a stranger mid-scroll it is a slide with words on it.
 
-**Primary text** — the first ~125 characters show before "… see more", so the
-hook is front-loaded:
+These are built on **her actual work**: real client photography from her own
+website, upscaled 2× through Picsart so a 4:5 crop out of a 9:16 original stays
+sharp, warm-graded toward her palette, with a fine gold rule and a light film
+grain so the type and the photograph sit in the same material world.
+
+**Invariant 2 is intact, and this is precisely what it is for.** The rule bans
+AI photographs of hair — not photographs. Every strand here is colour Sha
+actually did. That is also why these cannot be mistaken for AI: they are a real
+room, real light, a real client.
+
+Two deliberately different layouts so the pair does not read as one template:
+
+| | Ad 1 | Ad 2 |
+|---|---|---|
+| Layout | Full-bleed hero, ink scrim, type set into the base | Editorial spread — photo above, cream plate below |
+| Feel | Dark, cinematic, desire-led | Light, magazine, trust-led |
+| Job | Make her want the colour | Make her comfortable ringing |
+
+---
+
+## Ad 1 · Lived-in blonde → **Book Now**
+
+**Creative:** `ad-01-lived-in.png` (1080×1350)
+
+**Primary text** — first ~125 characters show before "… see more":
 
 ```
-You shouldn't have to ask what it costs. A lived-in blonde with me starts at $340 — quoted before you sit down, nothing added at the counter.
+The point of a hand-painted blonde isn't how it looks on the day. It's how it looks in December, when you haven't been back yet.
 
-Three and a half hours: hand-painted balayage, a toner to finish, and a blow wave. Built to grow out softly, so you're not back in six weeks.
+A lived-in blonde starts at $340 — quoted before you sit down, nothing added at the counter. Three and a half hours: hand-painted balayage, a toner to finish, and a blow wave.
 
-20+ years, K18 certified, colour only. Thursday and Friday are the quiet days — you get the whole appointment at your own pace.
+It's placed where the light would naturally hit and stops short of the root on purpose, so you get no hard line at eight weeks.
 
-Camberwell, five minutes from Glen Iris, Canterbury and Surrey Hills.
+20+ years, K18 certified, colour only. Camberwell — Thursday and Friday are the quiet days.
 ```
 
-**Headline** (26 chars): `Lived-in blonde, from $340`
+**Headline** (34): `Still looks deliberate in December`
+**Description** (27): `Camberwell · Thu & Fri open`
+**CTA:** **Book Now**
+**Destination:** `https://hairbysha-booking.onrender.com/book?utm_source=facebook&utm_medium=cpc&utm_campaign=r2-livedin`
 
-**Description** (27 chars): `Camberwell · Thu & Fri open`
+## Ad 2 · The straight answer → **Call Now**
 
-**Call to action:** **Book Now**
-**Destination:** `https://hairbysha-booking.onrender.com/book?utm_source=facebook&utm_medium=cpc&utm_campaign=w2-price`
-
----
-
-## Ad 2 · Talk first → **Call Now**
-
-**Creative:** `ad-02-call.png` (1080×1350)
+**Creative:** `ad-02-straight-answer.png` (1080×1350)
 
 **Primary text:**
 
 ```
-If you've been putting off colour because you don't know what to ask for, ring me. I'll tell you what your hair can take and what it can't.
+If you've been putting off colour because you don't know what to ask for, ring me. I'll tell you what your hair can take, and what it can't.
 
-No upsell. If all you need is a $45 toner, that's what I'll book you in for — I'd rather you came back for four years than spend big once.
+No upsell. Some weeks the honest answer is a $45 toner rather than a $340 balayage, and I'd rather you came back for four years than spent big once.
 
-20+ years, K18 certified, colour only. Thursday and Friday are the quiet days.
-
-Camberwell.
+20+ years, K18 certified, colour only. Camberwell — Thursday and Friday are the quiet days.
 ```
 
-**Headline** (24 chars): `Talk to a colourist first`
-
-**Description** (22 chars): `Camberwell · Thu & Fri`
-
-**Call to action:** **Call Now**
+**Headline** (27): `Ask what your hair can take`
+**Description** (22): `Camberwell · Thu & Fri`
+**CTA:** **Call Now**
 **Destination:** `0452 611 799`
 
 ---
@@ -98,69 +90,72 @@ Camberwell.
 | Optimisation | Landing page views | Call placements |
 | Daily budget | $12 | $8 |
 
-**Why Traffic and not Leads for Ad 1.** Leads normally converts better for
-salons, but it costs more —
-[~$1.92 CPC against ~$0.70 on traffic, ~$27.66 per lead](https://www.graphed.com/blog/facebook-ads-for-hair-salons)
-— and a lead form adds a step she then has to chase. She already has a booking
-system. Sending straight to Kairo is the shorter path. Revisit if Ad 1 gets
-clicks but no bookings.
+**Why Traffic, not Leads, for Ad 1.** Leads usually converts better for salons
+but costs roughly triple per click
+([~$1.92 vs ~$0.70, ~$27.66 per lead](https://www.graphed.com/blog/facebook-ads-for-hair-salons))
+and adds a form she then has to chase. She already has Kairo. Straight there is
+the shorter path.
 
-**Optimise for landing page views, not link clicks.** Link clicks counts the tap;
-landing page views counts the page actually loading. On a small budget the
-difference is most of your money.
+**Optimise for landing page views, not link clicks.** Clicks counts the tap;
+landing page views counts the page loading. On this budget that gap is most of
+the money.
 
 ### Targeting
 
-- **Location:** drop a pin on 1 Prospect Hill Rd, Camberwell VIC 3124, radius
-  **8 km**. That covers Glen Iris, Hawthorn, Canterbury, Balwyn, Surrey Hills
-  and Kew. `brand.json` says 12 km, which reaches into the CBD and buys people
-  who will not drive it.
-- **Critical:** set it to **"People living in this location"**, not the default
-  "People living in or recently in". The default buys everyone who drove through
-  Camberwell once.
-- **Age:** 28–55. **Gender:** women.
-- **Interests:** leave **empty** to start. The radius already makes this a small
-  audience, and stacking interests on top starves delivery. Add
-  beauty/haircare interests only if the audience is under ~50k.
+- **Location:** pin 1 Prospect Hill Rd, Camberwell VIC 3124, radius **8 km** —
+  covers Glen Iris, Hawthorn, Canterbury, Balwyn, Surrey Hills, Kew.
+  `brand.json` says 12 km, which reaches the CBD and buys people who will not
+  drive it.
+- **Set "People living in this location"**, not the default "living in or
+  recently in", which buys everyone who drove through once.
+- **Age** 28–55, **women**.
+- **Interests: leave empty.** The radius already makes this small; stacking
+  interests starves delivery. Add beauty/haircare only if the audience is
+  under ~50k.
 
-### Budget and reading the result
+### Budget
 
-Start at **$20/day total** and leave it alone for **7 days**. Meta's learning
-phase needs ~50 events before delivery stabilises; changing budget or creative
-resets it, which is the single most common way a small account burns money.
-
-At $20/day you are buying roughly 25–30 landing page views a day. Judge it on
-**bookings in Kairo**, not on likes.
+**$20/day total, untouched for 7 days.** The learning phase needs ~50 events and
+editing budget or creative resets it — the most common way a small account burns
+money. Judge on **bookings in Kairo**, not likes.
 
 ---
 
-## The measurement gap — read this
+## The measurement gap
 
-**There is no Meta Pixel on the Kairo booking page.** So Meta cannot see a
+**There is no Meta Pixel on the Kairo booking page.** Meta cannot see a
 completed booking, cannot optimise toward people likely to book, and cannot
 report cost-per-booking. It optimises for clicks and hopes.
 
-Two ways to close it, in order of effort:
+1. **UTMs** *(already on the Ad 1 link, works today)* — count Facebook-sourced
+   bookings by hand from Kairo's referrer data. Crude, free, honest.
+2. **Install the Pixel on Kairo** — self-hosted, so it is a script tag plus a
+   `Schedule` event on the confirmation screen. Then Meta optimises for actual
+   bookings, which materially outperforms click-optimisation.
 
-1. **UTM only** *(already in the Ad 1 link above, works today)* — if Kairo
-   records a referrer or you can see it in its analytics, you can count bookings
-   that came from Facebook by hand. Crude, free, honest.
-2. **Install the Pixel on Kairo** — Kairo is self-hosted, so this is a script tag
-   in the booking page template plus a `Purchase` or `Schedule` event on the
-   confirmation screen. Then Meta can optimise for actual bookings, which
-   typically outperforms click-optimisation by a wide margin.
-
-Until one of those exists, treat the numbers as directional. Do not conclude the
-ads failed because the dashboard shows no conversions — it cannot show them.
+Until one exists the numbers are directional. Do not read "no conversions" as
+failure — the dashboard cannot show them.
 
 ---
 
-## Before you press publish
+## Before you publish
 
-- [ ] Confirm **Thursday and Friday** is right (see the warning at the top)
-- [ ] Check she can actually take the bookings those days
-- [ ] Ad 2's phone number goes to a phone she answers during work hours — a Call
-      Now ad that rings out costs the same as one that converts
-- [ ] Kairo booking page loads on mobile and shows Thursday/Friday availability
-- [ ] Meta Business Suite has a payment method and the ad account is not
-      restricted
+- [ ] Confirm **Thursday and Friday** is right
+- [ ] She can actually take bookings those days
+- [ ] Ad 2's number goes to a phone she answers in work hours — a Call Now ad
+      that rings out costs the same as one that converts
+- [ ] Kairo loads on mobile and shows Thu/Fri availability
+- [ ] Payment method set, ad account not restricted
+
+## Next round
+
+The single highest-value thing she can give us is a **before/after pair** on one
+client. Transformation is the highest-converting creative in this category and
+nothing else substitutes for it — everything here is one finished result, which
+is the strongest thing buildable from the four photos that exist.
+
+Also worth knowing: `photo-updo.jpg` is her warmest work but carries **a third
+party's face reflected in the salon mirror**, so it is not usable behind ad
+spend without that person's consent. `photo-layers.jpg` is cooler and flatter
+and its tight crop read as a wall of hair with no shape. Both ads therefore draw
+on `photo-balayage.jpg`, cropped to different regions.

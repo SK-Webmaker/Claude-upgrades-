@@ -75,18 +75,49 @@ Say so in the handover. If cost-per-click comes in badly above benchmark, the
 no-discount stance is the first suspect — that is a real trade for Sha to make
 knowingly, not a bug to fix silently.
 
-## No AI photographs of hair
+## Build on the photograph, never on a card
 
-Invariant 2, and it bites harder in paid than organic: an AI "result" in an ad
-is a claim about work she did not do, shown to strangers, with money behind it.
-Typographic, rendered by Chromium, text exact.
+**The first round of these ads was a typographic card and it was rejected.**
+Same palette, same layout language, same system as the organic posts. The
+feedback was that it looked like the posts, and that was correct.
 
-**Say this in the handover every time:** a real photo of her own work will
-almost certainly beat a typographic card, because
-[before/after transformation is the highest-converting salon creative there
-is](https://www.graphed.com/blog/facebook-ads-for-salons). The cards are the
-strongest thing that can be built *without* photography. The moment she supplies
-real client photos, test them against these.
+A card works **in feed, for people who already follow her** — the brand is
+established and the job is to be saved. To a stranger mid-scroll it is a slide
+with words on it. [Transformation imagery is the highest-converting creative in
+this category](https://www.graphed.com/blog/facebook-ads-for-salons) and nothing
+typographic substitutes for showing the colour.
+
+`content/photos/` holds her real client work. Use it. The method that produced
+round 2:
+
+1. Upscale 2× through Picsart (`picsart_enhance`) — the originals are 9:16, so a
+   4:5 crop lands under 1080 wide and ships soft otherwise. Picsart needs a
+   **public URL**: push to the repo and use the raw.githubusercontent link.
+2. Crop into the hair. The salon backgrounds are busy — plants, mirrors,
+   posters. Zoom and reposition until the colour work fills the frame.
+3. Warm-grade toward the palette: `saturate(1.12) contrast(1.05)` plus a gold
+   wash on `soft-light` at ~14%.
+4. Add film grain. It is the detail that stops the overlay reading as a template
+   — it puts type and photograph in the same material world.
+5. **Ramp the scrim hard, not evenly.** A gentle gradient fails both jobs at
+   once: it muddies the hair *and* leaves the type on moving texture. Hold it
+   near-clear to ~44%, then drop fast.
+
+**Invariant 2 is intact and this is what it is for.** It bans AI photographs of
+hair, not photographs. Every strand must be work Sha actually did — which is
+also why real photos cannot read as AI.
+
+### Check the photo before using it
+
+- **Faces.** `brand.json` → `consent` is `blanket_at_booking` with
+  `requireFaceBlurWithoutConsent: true`. Check reflections too: `photo-updo.jpg`
+  is her warmest work but carries a third party's face in the salon mirror, so
+  it is unusable behind ad spend.
+- **Does it show a shape?** A crop tight enough to lose the silhouette reads as
+  a wall of hair. `photo-layers.jpg` failed this way.
+
+**Ask for a before/after pair every time.** It is the single highest-value asset
+she can supply and none of the existing four photos is one.
 
 ---
 
