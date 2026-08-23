@@ -183,6 +183,23 @@
       "note": "Colour packages are the money. Content should drive toward the $240-$420 band, not the $35 blow dry."
     }
   },
+  "promotions": [
+    {
+      "id": "half-foil-package-2026-08",
+      "name": "Half foil + blow dry + treatment + toner",
+      "price": 250,
+      "from": false,
+      "limitedTime": true,
+      "requestedBy": "operator, 23 Aug 2026",
+      "includes": [
+        { "item": "Half foil", "note": "brightness through the top and sides" },
+        { "item": "Toner", "standalonePrice": 45 },
+        { "item": "Deep treatment", "standalonePrice": 30 },
+        { "item": "Blow dry", "standalonePrice": 35 }
+      ],
+      "note": "Priced as a bundle. Booked separately the nearest equivalents in this file come to roughly $350 (Partial Blonde from $240 + toner $45 + treatment $30 + blow dry $35), so this is a real saving, not a rounded one. Invariant 7 forbids introducing a discount unprompted — this one was explicitly asked for by the operator, which the invariant allows. Do not extend it, repeat it weekly, or invent further offers off the back of it."
+    }
+  ],
   "voice": {
     "persona": "A calm, expert colourist who explains why things happen to hair. Warm but not gushing. Speaks to a client, not an audience.",
     "onCamera": "face_and_voice",
