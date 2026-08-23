@@ -56,6 +56,21 @@ The published/not-published check is now automatic — `node src/cli.js posted`
 matches the captions the system wrote against what is actually on the account,
 so nobody has to remember. The questions are for what the API cannot see.
 
+### Week of 2026-08-24
+
+- **Days needing filling:** Wednesday, Thursday **and Friday**. Both Wed/Thu and
+  Thu/Fri were selected, so Thursday is the constant and all three get named.
+- **Filmed any guides:** No — and explicitly *not* because the guides were wrong.
+  She ran out of time. Third week running that no video has been filmed.
+- **Posted:** 2 of 3. `w2-spring` ($340 lived-in blonde) never went up.
+- **New photos:** yes, being sent. Until they land, the gallery scrape from her
+  own website is the library.
+- **Promotion (operator's call):** $250 half foil + toner + treatment + blow dry,
+  **limited time**. Recorded in `brand.json` → `promotions`. Invariant 7 allows it
+  because it was explicitly asked for; it is not to be extended or repeated
+  unprompted.
+- **Focus requested:** blow waves, hard, all week.
+
 ### Week of 2026-08-17
 
 - **Days needing filling:** Wednesday and Thursday.
@@ -96,3 +111,10 @@ Append a dated line each week rather than overwriting, so patterns show up.
   lived-in blonde at $340 before spring, four things winter did. Three video
   guides, two of them talking-head now that face and voice are confirmed.
   Still 23 published captions carrying defects, none fixed yet.
+- **23 Aug 2026** — week 3 run, and the first week with real published numbers.
+  Both cards that went up scored **1 like each — 0.56%, grade F**. The live read
+  settles the format question: **video 8.11% across 22 posts, images 1.11%
+  across 3**, and those three images are the only stills on the account. Cards
+  retired; every post this week is built on her own photography. Pulled 15 real
+  photos off hairbyshacamberwell.com to make that possible. Followers 176 to 180
+  against a predicted 183. Caption defects 23 to 22 — one fixed.

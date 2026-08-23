@@ -1,0 +1,308 @@
+{
+  "weekOf": "2026-08-24",
+  "authoredBy": "gloss",
+  "title": "Stop making cards. Show the work.",
+  "thesis": "Two posts went up last week and scored 1 like each — 0.56%, grade F, against a 7.27% account average. The live read explains it without ambiguity: video averages 8.11% here across 22 posts, images average 1.11% across 3, and those 3 images are the only stills on the account. The typographic card is the problem, not the writing on it. So every post this week is built on a photograph of Sha's actual work, pulled from her own gallery, with type set into the image rather than instead of it. Four posts as asked: two promotional (blow wave from $55, and the $250 half-foil package), one education, and one that is deliberately almost bare — a near-wordless photograph, run as a controlled test of whether stills fail here or whether text density does.",
+  "projection": "Followers moved 176 to 180 (+4) against a predicted 183, so the growth model is roughly right and slightly optimistic. Average engagement slipped 7.48% to 7.27%, dragged down by the two F-grade cards. Target for 31 Aug is about 187 followers; the bar that matters is not the 7.27% account average but the 1.11% image average — anything above that says photo-led stills work, anything at 0.56% again says stills are dead here regardless of design and the answer is video or nothing. The single number to read next week is w3-brunette, the near-bare photograph: if it beats the three busier cards, the problem was text density and the next fortnight gets much simpler. What this sets up is the first genuine A/B the account has ever run.",
+  "posts": [
+    {
+      "id": "w3-blowwave",
+      "day": "Monday",
+      "postAt": "2026-08-24T08:00:00+10:00",
+      "type": "offer",
+      "medium": "image",
+      "title": "A blow wave is forty five minutes",
+      "image": "w3-blowwave.png",
+      "imageAlt": "Long glossy blonde hair, freshly blow-dried, over a dark gradient carrying the words \"Forty five minutes and the week looks handled\" and \"from $55\".",
+      "whyItWorks": "The blow wave is the cheapest thing on the menu and that is exactly why it earns a slot this week. It is 45 minutes, which is the only service that fits the gaps a three-and-a-half hour colour cannot — a quiet Wednesday with a two-hour hole takes two blow waves and nothing else. It is also the lowest-friction way for a stranger in Camberwell to try her chair for the first time, which is how a $55 booking becomes a $340 one three months later. The photograph is doing the selling: the gloss on a fresh blow-dry is the product, and no typographic card can show it.",
+      "caption": {
+        "hook": "You don't need a colour appointment. Sometimes you just need forty five minutes.",
+        "body": "A blow wave with me starts at $55. It's the one I'd book myself if I had something on Friday night and no intention of thinking about my hair before it.\n\nForty five minutes, and it holds three to five days if you look after it. It's also the only thing I can slot into the gaps a colour can't — which this week means Wednesday, Thursday and Friday.\n\nNo colour, no commitment. Just hair that's been done properly by someone who does this all day.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#blowwave",
+          "#melbournecolourist",
+          "#camberwellhairdresser"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to your own first comment with the booking link. Instagram suppresses links in the caption, not in comments.",
+        "Time-sensitive — it needs to be up Monday to move bookings onto Wednesday."
+      ]
+    },
+    {
+      "id": "w3-package",
+      "day": "Tuesday",
+      "postAt": "2026-08-25T18:00:00+10:00",
+      "type": "offer",
+      "medium": "image",
+      "title": "Half foil, toner, treatment and blow dry — $250",
+      "image": "w3-package.png",
+      "imageAlt": "Sha's gloved hand painting a foil into a client's sectioned hair, above a cream panel itemising half foil, toner at $45, treatment at $30 and blow dry at $35 struck through, totalling $250.",
+      "whyItWorks": "Itemising the bundle and striking through the component prices does the arithmetic for the reader instead of asking her to trust a number. That matters more than usual here because invariant 7 forbids discounting, and this is the one exception the operator explicitly asked for — so it has to read as a genuine package rather than a price cut, or it teaches the audience to wait for the next one. The photograph shows the foil actually going in, which is the strongest proof available that this is skilled work and not a deal.",
+      "caption": {
+        "hook": "Half foil, toner, treatment and a blow dry. $250 together.",
+        "body": "Booked separately that's about $350, so this is a real saving rather than a rounded one.\n\nHalf foil brightens through the top and the sides, where the light actually hits — it's the one to ask for if you want to look lifted without committing to a full head. The toner sorts the tone, the treatment goes in while it processes, and the blow dry means you leave with it looking like it should.\n\nIt's a limited run. Wednesday, Thursday and Friday are the quiet days if you want time in the chair.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#melbournecolourist",
+          "#foilsmelbourne",
+          "#camberwellhairdresser"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to your own first comment with the booking link. Instagram suppresses links in the caption, not in comments.",
+        "If you have an end date for the promotion, add it to the caption — a real deadline converts far better than \"limited run\"."
+      ]
+    },
+    {
+      "id": "w3-lasting",
+      "day": "Thursday",
+      "postAt": "2026-08-27T08:00:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Five days from one blow wave",
+      "image": "w3-lasting.png",
+      "imageAlt": "Long blonde waves above a cream panel headed \"Five days from one blow wave\", listing five aftercare steps.",
+      "whyItWorks": "A numbered list is the only format that is useless unless it is kept, and saves are weighted six times a like in the engine's own scoring. It also does a second job that no other post this week does: it makes the $55 blow wave look like better value, because a service that lasts five days is priced differently in the reader's head than one that lasts two. Education that raises the perceived value of the thing you are selling is worth more than another offer.",
+      "caption": {
+        "hook": "Your blow wave should last five days. Most of them die on day two.",
+        "body": "Almost none of that is the blow wave. It's friction and water.\n\nThe one people skip is the cool-down — hair sets as it cools, so brushing a section out while it's still warm undoes the shape you just sat there for. The rest is a shower cap, a silk pillowcase, and dry shampoo on day two before it looks like it needs it.\n\nAnd stop touching it. That's oil from your hands, not the style giving up.",
+        "cta": "DM me your hair goals",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#blowwave",
+          "#melbournecolourist",
+          "#haircaremelbourne"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to your own first comment with the booking link. Instagram suppresses links in the caption, not in comments.",
+        "Answer the DMs this one generates — that is the whole point of it."
+      ]
+    },
+    {
+      "id": "w3-brunette",
+      "day": "Saturday",
+      "postAt": "2026-08-29T09:00:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Not everyone should go blonde",
+      "image": "w3-brunette.png",
+      "imageAlt": "Rich dark brunette waves with caramel dimension, one line of type reading \"Not everyone should go blonde\".",
+      "whyItWorks": "This is the controlled experiment and the reason it is worth a slot. It carries roughly a fifth of the text of the other three — a photograph with one line on it — so if it outperforms them, the problem was never images, it was text density, and the design gets much simpler from here. It also earns its place on merit: refusing to sell the more expensive service is the single most credible thing a colourist can say, and it broadens the feed past blonde, which every other post this week is about.",
+      "caption": {
+        "hook": "Not everyone should go blonde.",
+        "body": "I end up saying this most weeks, usually to someone holding a photo of a blonde whose hair started three shades lighter than hers.\n\nGoing lighter is not free. You pay for it in condition, and on plenty of hair the honest answer is depth and shine instead — a gloss, the right tone, a proper cut. You leave looking more expensive, and your ends are still there in a year.\n\nIf you don't know which one you are, ask me before you book rather than after.",
+        "cta": "DM me your hair goals",
+        "hashtags": [
+          "#melbournecolourist",
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#brunettehair",
+          "#camberwellhairdresser"
+        ]
+      },
+      "howToPost": [
+        "Download the image, post it as a single 4:5 photo.",
+        "Paste the caption exactly as written — the hashtags are already in it.",
+        "Reply to your own first comment with the booking link. Instagram suppresses links in the caption, not in comments.",
+        "Post this one with no edits at all. Its whole job is to be the least designed thing in the grid."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w3-v1",
+      "title": "The last thirty seconds of a blow wave",
+      "lengthSec": [
+        10,
+        15
+      ],
+      "difficulty": "Zero extra time. You are already doing the blow wave — prop the phone on the station and film the end of it. One shot, no edit.",
+      "copyThis": {
+        "url": "https://www.tiktok.com/@only1aliya/video/7483282170073681183",
+        "creator": "aliya",
+        "whatItIs": "A blowout reveal that opens on the finished movement rather than a before shot, letting one continuous shot of the hair falling do all the work. Roughly 158k likes.",
+        "whyItCopies": "No time was the reason none of last week's guides got filmed, so this one costs none. The brush pass at the end of a blow wave is the most watchable ten seconds in the whole appointment and it happens whether or not a phone is pointed at it. It is also the exact product the Monday post is selling: gloss and movement, which a still can only suggest.",
+        "howToCopy": [
+          "Prop the phone against the mirror or the station before you start the last section. Do not hold it — you need both hands.",
+          "Film the final brush pass, root to end, in one continuous shot. Do not cut.",
+          "Get the light behind or beside the hair, never in front. Shine is the subject and flat front light kills it.",
+          "Let her turn her head once at the end. That single movement is the payoff.",
+          "Stop recording while it is still moving. Ending on stillness kills the loop."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://www.tiktok.com/@alfredo_lewis/video/7344439984574942510",
+          "creator": "Alfredo Lewis",
+          "what": "For how long to hold a single uncut shot — most stylists cut every half second and it reads as editing rather than skill."
+        }
+      ],
+      "references": [
+        {
+          "what": "Primary format reference — blowout reveal in continuous shot, verified live",
+          "url": "https://www.tiktok.com/@only1aliya/video/7483282170073681183"
+        }
+      ],
+      "hook": "First frame is hair already moving under the brush. No before shot, no face, no intro card.",
+      "shots": [
+        "0.0–4.0s — Close, over the shoulder. Final brush pass root to end, one continuous move.",
+        "4.0–8.0s — Same shot, pull back slightly so the whole length and the shape read.",
+        "8.0–12.0s — She turns her head once. Stop recording mid-movement."
+      ],
+      "onScreenText": [
+        "0.5s — 45 minutes",
+        "5.0s — Blow wave, from $55",
+        "10.0s — Camberwell · Wed, Thu, Fri"
+      ],
+      "audio": "She is on a BUSINESS account, so the Meta Sound Collection only — the trending chart tracks in every listicle are licensed for personal accounts and will get the Reel muted. Search the in-app library for \"soft\" or \"ambient\" and filter to Calm. Nothing with a hard beat; percussion fights the movement of the hair. Keep the dryer audible underneath if it is still running.",
+      "caption": {
+        "hook": "Forty five minutes, and this is the last thirty seconds of it.",
+        "body": "A blow wave starts at $55 and it is the appointment I recommend most often to people who think they need something bigger.\n\nIt holds three to five days if you look after it. This week Wednesday, Thursday and Friday are the quiet ones, which is when I can fit one in without you waiting.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#melbournehairdresser",
+          "#camberwellhair",
+          "#blowwave",
+          "#melbournecolourist",
+          "#camberwellhairdresser"
+        ]
+      },
+      "watchFor": "If the phone is in your hand the shot wobbles and it reads as a snapshot rather than as her work. Prop it, every time."
+    },
+    {
+      "id": "w3-v2",
+      "title": "The foil going in",
+      "lengthSec": [
+        10,
+        15
+      ],
+      "difficulty": "Zero extra time, but needs a foil client. Phone propped over your shoulder, silent, no edit. Film it on a day you are foiling anyway.",
+      "copyThis": {
+        "url": "https://www.tiktok.com/@alfredo_lewis/video/7344439984574942510",
+        "creator": "Alfredo Lewis",
+        "whatItIs": "Close over-the-shoulder colour application with whole strokes left uncut, then a cut to the finished result. No talking.",
+        "whyItCopies": "It is the missing half of Tuesday's $250 post. A package price only reads as good value once someone has watched the work that goes into it — the itemised card proves the arithmetic, the video proves the craft. Silent means it can be filmed mid-appointment without breaking the client's experience.",
+        "howToCopy": [
+          "Watch how long he holds one stroke before cutting. That patience is the format.",
+          "Prop the phone over your shoulder, close enough that the section fills the frame. Not the whole head.",
+          "Open on the brush already loaded and touching the hair — no bowl, no gloves going on, no setup.",
+          "Film three or four separate foils. You only need one, but you will not know which until you look.",
+          "Cut to the finished blow-dry at the end if you have it. If not, end on a clean foil in place."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://www.tiktok.com/@freddie.yeah/video/7322779126706867489",
+          "creator": "Freddie.yeah",
+          "what": "If you would rather talk over it than run it silent — his pacing is the model."
+        }
+      ],
+      "references": [
+        {
+          "what": "Primary format reference — uncut colour application, verified live",
+          "url": "https://www.tiktok.com/@alfredo_lewis/video/7344439984574942510"
+        }
+      ],
+      "hook": "Open on foil already in the hair and the brush mid-stroke. The first frame is work happening.",
+      "shots": [
+        "0.0–5.0s — Over-shoulder, close. One foil taken from section to sealed, uncut.",
+        "5.0–10.0s — Same angle, one section further back, so the placement reads as a pattern.",
+        "10.0–14.0s — Pull back to show several foils sitting together. Stop."
+      ],
+      "onScreenText": [
+        "0.5s — Half foil",
+        "5.0s — Toner, treatment and blow dry included",
+        "10.0s — $250 together · normally about $350"
+      ],
+      "audio": "No speech in this one, so the track carries retention. Meta Sound Collection — search \"minimal\" or \"ambient\". Avoid anything with a vocal; the foil and the hands are the subject.",
+      "caption": {
+        "hook": "This is what $250 actually buys you.",
+        "body": "Half foil through the top and sides, a toner to finish, a deep treatment while it processes, and a blow dry so you leave with it looking right.\n\nBooked separately it comes to about $350. It is a limited run, and Wednesday to Friday are the quiet days.",
+        "cta": "Book at the link in bio",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#melbournecolourist",
+          "#foilsmelbourne",
+          "#camberwellhairdresser"
+        ]
+      },
+      "watchFor": "Do not film the mixing bowl. Every salon films the bowl and it is the part nobody watches — the stroke on the hair is the shot."
+    },
+    {
+      "id": "w3-v3",
+      "title": "Not everyone should go blonde",
+      "lengthSec": [
+        18,
+        25
+      ],
+      "difficulty": "Easiest of the three. No client, no timing. Phone propped against the mirror between appointments, one take, no edit.",
+      "copyThis": {
+        "url": "https://www.tiktok.com/@freddie.yeah/video/7322779126706867489",
+        "creator": "Freddie.yeah",
+        "whatItIs": "A stylist to camera opening straight on the claim, then counting reasons off with each one captioned on screen as it is said. No introduction.",
+        "whyItCopies": "It is the spoken version of Saturday's post, and a person saying \"I will talk you out of this\" is far more persuasive than a card saying it. This is also the format that has never been filmed despite being offered twice — it needs no client, no setup and no editing, so if it does not get shot this week the guides need rethinking rather than repeating.",
+        "howToCopy": [
+          "Watch it once at speed, then once on mute. Notice he never introduces himself — the first frame is already the claim.",
+          "Prop the phone at eye height on the mirror, salon behind you rather than a blank wall.",
+          "Say the line flatly, straight down the lens: \"Not everyone should go blonde.\"",
+          "Give the two reasons on your fingers — what lift costs in condition, and what depth and shine does instead.",
+          "Stop recording on the last word. No sign-off. That is why his loops."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://www.tiktok.com/@haileygrahamm/video/7210190382628343045",
+          "creator": "hailey graham",
+          "what": "For pacing a numbered point to camera without letting any one of them run long."
+        }
+      ],
+      "references": [
+        {
+          "what": "Primary format reference — numbered to-camera explainer, verified live",
+          "url": "https://www.tiktok.com/@freddie.yeah/video/7322779126706867489"
+        }
+      ],
+      "hook": "Straight down the lens, mid-thought, no greeting: \"Not everyone should go blonde.\"",
+      "shots": [
+        "0.0–4.0s — Propped phone, you from the chest up. Say the line. Do not smile into it.",
+        "4.0–12.0s — Same frame, no cut. What going lighter costs in condition.",
+        "12.0–20.0s — What depth and shine does instead — gloss, tone, a proper cut.",
+        "20.0–24.0s — \"Ask me before you book, not after.\" Stop."
+      ],
+      "onScreenText": [
+        "0.5s — Not everyone should go blonde",
+        "6.0s — Lift costs you condition",
+        "14.0s — Sometimes the answer is depth and shine"
+      ],
+      "audio": "Your voice, no music. Freddie has none under his and that is why it reads as a person rather than an ad. The Meta Sound Collection has nothing that improves a talking head — silence is the right call here.",
+      "caption": {
+        "hook": "I talk someone out of going blonde most weeks.",
+        "body": "Usually it is someone holding a photo of a blonde whose hair started three shades lighter than hers.\n\nLift is not free — you pay for it in condition. On plenty of hair the honest answer is depth and shine instead, and you walk out looking more expensive with your ends still intact.\n\nAsk me before you book rather than after.",
+        "cta": "DM me your hair goals",
+        "hashtags": [
+          "#melbournecolourist",
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#brunettehair",
+          "#camberwellhairdresser"
+        ]
+      },
+      "watchFor": "The instinct is to open with \"hi guys, so a lot of people ask me\". That opening is why a clip dies at two seconds. Start on the claim."
+    }
+  ]
+}

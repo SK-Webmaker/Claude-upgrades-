@@ -1,0 +1,40 @@
+{
+  "capturedAt": "2026-08-23T09:31:06.089Z",
+  "weekOf": "2026-08-24",
+  "note": "First week with real published numbers. Score week 4 against this.",
+  "account": { "username": "hairbysha_c", "followers": 180, "postsReviewed": 25, "mediaCount": 41 },
+  "summary": {
+    "averageEngagement": 7.27,
+    "grade": "B",
+    "previousWeek": { "followers": 176, "averageEngagement": 7.48 },
+    "delta": { "followers": 4, "engagement": -0.21 },
+    "savesMeasured": false,
+    "sharesMeasured": false
+  },
+  "formatSplit": {
+    "note": "The finding that changed the design. Stills are not underperforming slightly, they are the three worst items on the account.",
+    "video": { "n": 22, "averageEngagement": 8.11 },
+    "image": { "n": 3, "averageEngagement": 1.11 },
+    "ratio": "video outperforms image 7.3x"
+  },
+  "attribution": {
+    "weekReviewed": "2026-08-17",
+    "authored": 3,
+    "published": 2,
+    "posts": [
+      { "id": "w2-midweek", "published": true, "engagementRate": 0.56, "grade": "F", "likes": 1, "comments": 0, "permalink": "https://www.instagram.com/p/DcGIeamTIBT/" },
+      { "id": "w2-spring", "published": false },
+      { "id": "w2-winter", "published": true, "engagementRate": 0.56, "grade": "F", "likes": 1, "comments": 0, "permalink": "https://www.instagram.com/p/DcLkit4zYjB/" }
+    ],
+    "guidesFilmed": 0,
+    "reason": "No time. Explicitly not because the guides were wrong — third week running with no video filmed. If week 4 is the same, the guides need to cost less, not be rewritten."
+  },
+  "captionDefects": { "postsCarryingDefect": 22, "ofLastPosts": 25, "previously": 23, "fixesApplied": 1, "fixesFile": "CAPTION-FIXES.md" },
+  "predictionForNextWeek": {
+    "targetFollowers": 187,
+    "basis": "~4% weekly growth on 180",
+    "barToBeat": 1.11,
+    "barNote": "The image average, not the 7.27% account average. Anything above 1.11% says photo-led stills work; another 0.56% says stills are dead here regardless of design.",
+    "experiment": "w3-brunette carries ~a fifth of the text of the other three. If the near-bare photograph beats them, the problem was text density, not images."
+  }
+}

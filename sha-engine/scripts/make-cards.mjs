@@ -1,25 +1,44 @@
 #!/usr/bin/env node
 /**
- * Renders finished post images.
+ * Renders the week's post images.
  *
- * These are typographic editorial cards, not AI photographs of hair. That is a
- * deliberate choice: an AI-generated "result" shown on a colourist's feed
- * misrepresents work she did not do, and Instagram auto-labels detected AI
- * imagery, which on a local service business costs more trust than the reach
- * is worth. Text-led cards are also what the education and price posts in this
- * niche actually look like when they perform.
+ * ---------------------------------------------------------------------------
+ * Why this file was rewritten on 23 Aug 2026
  *
- * Typography is rendered by Chromium rather than generated, so the text is
- * exact. Image models reliably mangle real words, and a price card with a
- * malformed dollar figure is worse than no card.
+ * The first two weeks rendered typographic cards — ink and cream, Fraunces
+ * display type, no photograph. Two of them were published. They scored **1 like
+ * each: 0.56%, grade F**, against an account average of 7.27%.
  *
- * Fonts are inlined from assets/fonts/brand-fonts.css as base64 woff2. Chromium
- * cannot reach fonts.googleapis.com from inside the sandbox or from Render's
- * build network, and a silent fallback to Liberation Serif is the difference
- * between a card that looks designed and one that looks like a school handout.
- * Regenerate that file with scripts/fetch-fonts.mjs if the faces ever change.
+ * The live read that week put the reason beyond argument:
  *
- * Palette is her own, from config/brand.json look{}.
+ *     VIDEO  n=22   avg engagement 8.11%
+ *     IMAGE  n=3    avg engagement 1.11%
+ *
+ * Video outperforms stills 7.3x here, and the three worst-performing items on
+ * the whole account are the only three stills on it. CLAUDE.md said this from
+ * the beginning — "stills have never out-performed a reel on this account" —
+ * and the cards were built anyway.
+ *
+ * The lever available to a still is that it shows the work. Every layout below
+ * is built on a photograph of Sha's actual colour, from her own gallery, with
+ * type set into it rather than instead of it. Same conclusion the ads reached a
+ * week earlier; this brings the organic posts into line with it.
+ *
+ * Invariant 2 is untouched and this is the point of it: it bans AI photographs
+ * of hair, not photographs.
+ *
+ * ---------------------------------------------------------------------------
+ * Layouts
+ *
+ *   hero-price   full-bleed photo, ink scrim, a price carried in gold
+ *   bundle       photo over a cream plate itemising what a package includes
+ *   steps        photo over a cream plate carrying a numbered, saveable list
+ *   statement    full-bleed photo, one line of type, almost nothing else
+ *
+ * `statement` is deliberately the least designed thing here. It is a controlled
+ * test of the actual question: do stills fail on this account, or do *text
+ * cards* fail? If the near-bare photograph beats the three busier ones, the
+ * answer is text density and the next fortnight gets much simpler.
  */
 import { chromium } from 'playwright';
 import { mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
@@ -29,8 +48,9 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const OUT = process.argv[2] || join(ROOT, 'content', 'cards');
+const PHOTOS = join(ROOT, 'content', 'photos');
 const W = 1080;
-const H = 1350; // 4:5 — the tallest ratio Instagram shows in-feed uncropped
+const H = 1350; // 4:5 — tallest ratio Instagram shows in-feed uncropped
 
 const INK = '#12100E';
 const GOLD = '#B07C33';
@@ -39,231 +59,240 @@ const CREAM = '#F6F1E9';
 
 const FONTS = readFileSync(join(ROOT, 'assets', 'fonts', 'brand-fonts.css'), 'utf8');
 
-/**
- * The installed Chromium is revision 1194; playwright 1.62 looks for 1234 and
- * fails with a bare "Error" that names no path. Prefer the symlink the image
- * provides, fall back to whatever playwright resolves on a normal machine.
- */
+/** Film grain, inline SVG turbulence. Puts type and photograph in one material. */
+const GRAIN =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E\")";
+
 function chromiumPath() {
   const candidates = [process.env.CHROMIUM_PATH, '/opt/pw-browsers/chromium'];
   return candidates.find((p) => p && existsSync(p)) || undefined;
 }
 
-/**
- * One card. `kind` picks the layout.
- *
- * `rows` (price), `answer` and `steps` (myth) are the parts of each layout that
- * are specific to the week's content rather than to the design. They were
- * hardcoded — the foils breakdown and the purple-shampoo correction lived in
- * the template — which meant every week's cards needed a renderer edit to say
- * anything new. They default to the week 1 text, so those cards still render
- * exactly as they did.
- */
-function html({ kind, eyebrow, headline, sub, detail, footer, rows, answer, steps }) {
-  const priceRows = rows || [
-    { label: 'Foils, root to end', value: '2 hr 30' },
-    { label: 'Toner to finish', value: '45 min' },
-    { label: 'Blow wave to finish', value: 'Included' },
-  ];
-  const mythAnswer = answer || 'It tones the surface. It cannot lift the warmth underneath.';
-  const mythSteps = steps || [
-    { label: 'In the chair', text: 'A toner or gloss, about forty five minutes, every six to eight weeks.' },
-    { label: 'At home', text: 'Purple shampoo once a week to hold it. Not to fix it.' },
-  ];
-  const shared = `
+function shell(card) {
+  const { photo, focus = '50% 40%', zoom = 100 } = card;
+  return `
     ${FONTS}
     *{margin:0;padding:0;box-sizing:border-box}
-    body{width:${W}px;height:${H}px;overflow:hidden;font-family:'Inter',sans-serif;
-         -webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-    .wrap{width:100%;height:100%;padding:88px 84px 76px;display:flex;flex-direction:column;
-          position:relative;z-index:1}
-    .eyebrow{font-size:21px;letter-spacing:.26em;text-transform:uppercase;font-weight:600}
-    /* Two spacers with different weights, not one big one: a single flex:1
-       parks the whole block against an edge and leaves a void that reads as a
-       mistake rather than as air. */
-    .grow{flex:1}
-    .grow-sm{flex:.42}
-    .foot{font-size:23px;letter-spacing:.03em;display:flex;justify-content:space-between;
-          align-items:baseline;gap:24px;font-weight:500}
-    .rule{height:1px;width:100%;margin:30px 0 0}
-    h1{font-family:'Fraunces',serif;font-weight:400;line-height:1.03;letter-spacing:-.022em;
+    body{width:${W}px;height:${H}px;overflow:hidden;position:relative;background:${INK};
+         font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;
+         text-rendering:geometricPrecision}
+    .shot{position:absolute;inset:0;background-image:url('${photo}');
+          background-size:${zoom}% auto;background-position:${focus};
+          background-repeat:no-repeat;filter:saturate(1.12) contrast(1.05) brightness(.99)}
+    .warm{position:absolute;inset:0;background:${GOLD};opacity:.13;mix-blend-mode:soft-light}
+    .grain{position:absolute;inset:0;background-image:${GRAIN};opacity:.15;
+           mix-blend-mode:overlay;pointer-events:none}
+    .eyebrow{font-size:20px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;color:${GOLD}}
+    h1{font-family:'Fraunces',serif;font-weight:400;line-height:1.03;letter-spacing:-.026em;
        font-variation-settings:'opsz' 144}
-    .num{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144}
+    .rule{height:1px;background:${GOLD};opacity:.5}
   `;
+}
 
-  if (kind === 'price') {
-    return `<html><head><meta charset="utf-8"><style>${shared}
-      body{background:${INK};color:${CREAM}}
-      .eyebrow{color:${GOLD}}
-      h1{font-size:98px}
-      .num{font-size:236px;font-weight:300;color:${GOLD};line-height:.86;letter-spacing:-.045em}
-      .sub{font-size:29px;line-height:1.52;color:rgba(246,241,233,.7);max-width:74%;font-weight:400}
-      .rule{background:rgba(246,241,233,.2)}
-      .foot{color:rgba(246,241,233,.5)}
-      .glow{position:absolute;width:900px;height:900px;right:-300px;top:-260px;border-radius:50%;
-            background:radial-gradient(circle,rgba(176,124,51,.34),transparent 66%);z-index:0}
-      /* Price posts get scanned for what is included, not for the number. The
-         breakdown is the part that answers the DM before it gets sent. */
-      .incl{border-top:1px solid rgba(246,241,233,.2)}
-      .row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;
-           padding:22px 0;border-bottom:1px solid rgba(246,241,233,.13);font-size:28px}
-      .row span:last-child{color:${GOLD};font-size:23px;letter-spacing:.1em;
-                           text-transform:uppercase;font-weight:600}
+function html(card) {
+  const base = shell(card);
+
+  /* ---------- hero-price ---------- */
+  if (card.kind === 'hero-price') {
+    return `<html><head><meta charset="utf-8"><style>${base}
+      /* Holds near-clear to 44% so the gloss reads, then drops fast. A gentle
+         gradient muddies the hair AND leaves type on moving texture. */
+      .scrim{position:absolute;inset:0;background:linear-gradient(to bottom,
+        rgba(18,16,14,.32) 0%, rgba(18,16,14,.05) 26%, rgba(18,16,14,.26) 44%,
+        rgba(18,16,14,.80) 55%, rgba(18,16,14,.95) 66%, ${INK} 88%)}
+      .copy{position:absolute;left:76px;right:76px;bottom:84px;color:${CREAM}}
+      h1{font-size:76px;margin:18px 0 0;max-width:15ch}
+      .price{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144;font-size:96px;
+             color:${GOLD};margin-top:22px;line-height:1;letter-spacing:-.03em}
+      .support{font-size:26px;line-height:1.5;color:rgba(246,241,233,.78);margin-top:16px;max-width:31ch}
+      .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:500;
+            color:rgba(246,241,233,.62);margin-top:30px}
     </style></head><body>
-      <div class="glow"></div>
-      <div class="wrap">
-        <p class="eyebrow">${eyebrow}</p>
-        <div class="rule"></div>
-        <div class="grow-sm"></div>
-        <h1>${headline}</h1>
-        <div style="height:26px"></div>
-        <p class="num">${detail}</p>
-        <div style="height:56px"></div>
-        <div class="incl">
-          ${priceRows
-            .map((r) => `<div class="row"><span>${r.label}</span><span>${r.value}</span></div>`)
-            .join('')}
-        </div>
-        <div style="height:44px"></div>
-        <p class="sub">${sub}</p>
-        <div class="grow"></div>
-        <div class="foot"><span>${footer}</span><span>@hairbysha_c</span></div>
+      <div class="shot"></div><div class="warm"></div><div class="scrim"></div><div class="grain"></div>
+      <div class="copy">
+        <p class="eyebrow">${card.eyebrow}</p>
+        <h1>${card.headline}</h1>
+        <p class="price">${card.price}</p>
+        <p class="support">${card.support}</p>
+        <div class="rule" style="margin-top:26px"></div>
+        <div class="foot"><span>${card.footL}</span><span>${card.footR}</span></div>
       </div>
     </body></html>`;
   }
 
-  if (kind === 'myth') {
-    // Each line gets its own strike. One span across a two-line heading draws a
-    // single rule positioned against the first fragment, which lands in the gap
-    // between the lines and crosses out neither of them.
-    const struck = headline
-      .split('<br>')
-      .map((line) => `<span class="strike">${line}</span>`)
-      .join('<br>');
-    return `<html><head><meta charset="utf-8"><style>${shared}
-      body{background:${CREAM};color:${INK}}
-      .eyebrow{color:${GOLD}}
-      h1{font-size:92px}
-      .strike{position:relative;display:inline}
-      .strike::after{content:'';position:absolute;left:-8px;right:-8px;top:53%;height:7px;
-                     background:${GOLD};transform:rotate(-1.2deg);border-radius:4px}
-      .answer{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144;font-size:60px;
-              line-height:1.14;letter-spacing:-.02em;color:${VIOLET};max-width:88%}
-      .sub{font-size:30px;line-height:1.55;color:rgba(18,16,14,.66);max-width:82%}
-      .rule{background:rgba(18,16,14,.16)}
-      .foot{color:rgba(18,16,14,.46)}
-      .tag{display:inline-block;font-size:21px;letter-spacing:.2em;text-transform:uppercase;
-           font-weight:600;color:${CREAM};background:${INK};padding:16px 28px;border-radius:3px}
-      /* The correction on its own is a scold. The two rows turn it into
-         something the reader can act on, which is what gets it saved. */
-      .steps{margin-top:44px;border-top:1px solid rgba(18,16,14,.16)}
-      .step{display:flex;gap:26px;padding:24px 0;border-bottom:1px solid rgba(18,16,14,.16);
-            font-size:28px;line-height:1.4;color:rgba(18,16,14,.82)}
-      .step b{font-weight:600;color:${GOLD};min-width:196px;font-size:20px;letter-spacing:.16em;
-              text-transform:uppercase;padding-top:8px;white-space:nowrap}
-    </style></head><body><div class="wrap">
-      <p class="eyebrow">${eyebrow}</p>
-      <div class="rule"></div>
-      <div class="grow-sm"></div>
-      <h1>${struck}</h1>
-      <div style="height:46px"></div>
-      <p class="answer">${mythAnswer}</p>
-      <div style="height:40px"></div>
-      <p class="sub">${sub}</p>
-      <div class="steps">
-        ${mythSteps
-          .map((s) => `<div class="step"><b>${s.label}</b><span>${s.text}</span></div>`)
-          .join('')}
+  /* ---------- bundle ---------- */
+  if (card.kind === 'bundle') {
+    const rows = card.items
+      .map(
+        (i) =>
+          `<div class="row"><span>${i.label}</span><span class="${i.strike ? 'was' : 'inc'}">${i.value}</span></div>`,
+      )
+      .join('');
+    return `<html><head><meta charset="utf-8"><style>${base}
+      .frame{position:absolute;left:0;right:0;top:0;height:46%;overflow:hidden}
+      .seam{position:absolute;left:0;right:0;top:46%;height:3px;background:${GOLD};z-index:2}
+      .plate{position:absolute;left:0;right:0;bottom:0;height:54%;background:${CREAM};color:${INK};
+             padding:44px 72px 48px;display:flex;flex-direction:column}
+      h1{font-size:50px;margin-top:12px;max-width:20ch}
+      .rows{margin-top:24px;border-top:1px solid rgba(18,16,14,.16)}
+      .row{display:flex;justify-content:space-between;align-items:baseline;padding:15px 0;
+           border-bottom:1px solid rgba(18,16,14,.16);font-size:25px;color:rgba(18,16,14,.82)}
+      .inc{color:${GOLD};font-weight:600;font-size:21px;letter-spacing:.1em;text-transform:uppercase}
+      .was{color:rgba(18,16,14,.42);text-decoration:line-through;font-weight:500}
+      .grow{flex:1}
+      .total{display:flex;justify-content:space-between;align-items:baseline;margin-top:22px}
+      .total .lab{font-size:21px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:${GOLD}}
+      .total .num{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144;
+                  font-size:88px;line-height:1;letter-spacing:-.03em}
+      .note{font-size:22px;color:rgba(18,16,14,.55);margin-top:8px}
+      .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:600;
+            color:${INK};margin-top:22px}
+    </style></head><body>
+      <div class="frame"><div class="shot"></div><div class="warm"></div><div class="grain"></div></div>
+      <div class="seam"></div>
+      <div class="plate">
+        <p class="eyebrow">${card.eyebrow}</p>
+        <h1>${card.headline}</h1>
+        <div class="rows">${rows}</div>
+        <div class="grow"></div>
+        <div class="total"><span class="lab">Together</span><span class="num">${card.total}</span></div>
+        <p class="note">${card.note}</p>
+        <div class="foot"><span>${card.footL}</span><span>${card.footR}</span></div>
       </div>
-      <div class="grow"></div>
-      <p><span class="tag">${detail}</span></p>
-      <div style="height:44px"></div>
-      <div class="foot"><span>${footer}</span><span>@hairbysha_c</span></div>
-    </div></body></html>`;
+    </body></html>`;
   }
 
-  // 'list' — aftercare / education, built to be saved
-  const items = detail.split('|');
-  return `<html><head><meta charset="utf-8"><style>${shared}
-    body{background:${INK};color:${CREAM}}
-    .eyebrow{color:${GOLD}}
-    h1{font-size:84px}
-    ol{list-style:none;counter-reset:i;margin-top:52px}
-    li{counter-increment:i;display:flex;gap:30px;padding:28px 0;align-items:baseline;
-       border-bottom:1px solid rgba(246,241,233,.13);font-size:30px;line-height:1.36;
-       color:rgba(246,241,233,.9)}
-    li:first-child{border-top:1px solid rgba(246,241,233,.13)}
-    /* Inter, not Fraunces, for the numerals. At display optical size Fraunces'
-       3 has a flat top that reads as a 5 at thumbnail size, and a numbered list
-       whose third item looks like item five is worse than a plain one. */
-    li::before{content:'0' counter(i);font-family:'Inter',sans-serif;font-size:25px;color:${GOLD};
-               min-width:58px;font-weight:600;letter-spacing:.06em;
-               font-variant-numeric:tabular-nums}
-    /* A save prompt, not decoration: saves are weighted six times a like in the
-       engine's own scoring, so the card asks for the action it is scored on. */
-    .close{border-left:2px solid ${GOLD};padding-left:26px;font-size:27px;line-height:1.45;
-           color:rgba(246,241,233,.74);max-width:76%}
-    .rule{background:rgba(246,241,233,.2)}
-    .foot{color:rgba(246,241,233,.5)}
-    .glow{position:absolute;width:840px;height:840px;left:-320px;bottom:-320px;border-radius:50%;
-          background:radial-gradient(circle,rgba(106,91,140,.36),transparent 66%);z-index:0}
+  /* ---------- steps ---------- */
+  if (card.kind === 'steps') {
+    const items = card.items
+      .map((t) => `<li><span>${t}</span></li>`)
+      .join('');
+    return `<html><head><meta charset="utf-8"><style>${base}
+      .frame{position:absolute;left:0;right:0;top:0;height:38%;overflow:hidden}
+      .seam{position:absolute;left:0;right:0;top:38%;height:3px;background:${GOLD};z-index:2}
+      .plate{position:absolute;left:0;right:0;bottom:0;height:62%;background:${CREAM};color:${INK};
+             padding:44px 72px 46px;display:flex;flex-direction:column}
+      h1{font-size:52px;margin-top:12px;max-width:20ch}
+      ol{list-style:none;counter-reset:i;margin-top:24px}
+      li{counter-increment:i;display:flex;gap:24px;padding:17px 0;align-items:baseline;
+         border-bottom:1px solid rgba(18,16,14,.14);font-size:26px;line-height:1.35;
+         color:rgba(18,16,14,.84)}
+      li:first-child{border-top:1px solid rgba(18,16,14,.14)}
+      /* Inter for the numerals: Fraunces' display 3 has a flat top that reads
+         as a 5 at thumbnail size. */
+      li::before{content:'0' counter(i);font-family:'Inter',sans-serif;font-size:22px;color:${GOLD};
+                 min-width:52px;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+      .grow{flex:1}
+      .close{border-left:2px solid ${GOLD};padding-left:22px;font-size:24px;line-height:1.45;
+             color:rgba(18,16,14,.68);max-width:80%}
+      .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:600;
+            color:${INK};margin-top:22px}
+    </style></head><body>
+      <div class="frame"><div class="shot"></div><div class="warm"></div><div class="grain"></div></div>
+      <div class="seam"></div>
+      <div class="plate">
+        <p class="eyebrow">${card.eyebrow}</p>
+        <h1>${card.headline}</h1>
+        <ol>${items}</ol>
+        <div class="grow"></div>
+        <p class="close">${card.close}</p>
+        <div class="foot"><span>${card.footL}</span><span>${card.footR}</span></div>
+      </div>
+    </body></html>`;
+  }
+
+  /* ---------- statement ---------- */
+  return `<html><head><meta charset="utf-8"><style>${base}
+    .scrim{position:absolute;inset:0;background:linear-gradient(to bottom,
+      rgba(18,16,14,.42) 0%, rgba(18,16,14,.10) 30%, rgba(18,16,14,.18) 52%,
+      rgba(18,16,14,.72) 74%, rgba(18,16,14,.92) 100%)}
+    .top{position:absolute;top:70px;left:72px;right:72px}
+    .copy{position:absolute;left:72px;right:72px;bottom:76px;color:${CREAM}}
+    h1{font-size:82px;max-width:13ch;text-shadow:0 2px 30px rgba(18,16,14,.45)}
+    .support{font-size:27px;line-height:1.5;color:rgba(246,241,233,.82);margin-top:22px;max-width:28ch}
+    .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:500;
+          color:rgba(246,241,233,.6);margin-top:28px}
   </style></head><body>
-    <div class="glow"></div>
-    <div class="wrap">
-      <p class="eyebrow">${eyebrow}</p>
-      <div class="rule"></div>
-      <div style="height:60px"></div>
-      <h1>${headline}</h1>
-      <ol>${items.map((t) => `<li><span>${t.trim()}</span></li>`).join('')}</ol>
-      <div class="grow"></div>
-      <p class="close">${sub}</p>
-      <div class="grow-sm"></div>
-      <div class="foot"><span>${footer}</span><span>@hairbysha_c</span></div>
+    <div class="shot"></div><div class="warm"></div><div class="scrim"></div><div class="grain"></div>
+    <div class="top"><p class="eyebrow">${card.eyebrow}</p></div>
+    <div class="copy">
+      <h1>${card.headline}</h1>
+      <p class="support">${card.support}</p>
+      <div class="rule" style="margin-top:26px"></div>
+      <div class="foot"><span>${card.footL}</span><span>${card.footR}</span></div>
     </div>
   </body></html>`;
 }
 
 export const CARDS = [
   {
-    file: 'w2-midweek.png',
-    kind: 'myth',
-    eyebrow: 'Correcting a myth',
-    headline: 'Saturday is the<br>best day for<br>a big colour',
-    answer: 'The chair is the same. The room around it is not.',
-    steps: [
-      {
-        label: 'Mid-week',
-        text: 'The salon is quiet. Three and a half hours runs at your pace, not the room’s.',
-      },
-      { label: 'This week', text: 'Wednesday and Thursday are the quiet ones.' },
-    ],
-    detail: 'Wednesday & Thursday',
-    sub: 'A long colour is a better appointment on a calm day. Same chair, same hands, more room to think.',
-    footer: 'Hair by Sha · Camberwell',
+    file: 'w3-blowwave.png',
+    kind: 'hero-price',
+    photo: 'site/site-07-IMG_0260.jpg',
+    focus: '50% 34%',
+    zoom: 118,
+    eyebrow: 'Blow wave · Camberwell',
+    headline: 'Forty five minutes<br>and the week<br>looks handled.',
+    price: 'from $55',
+    support: 'Booked into the gaps a colour cannot fill — Wednesday, Thursday and Friday.',
+    footL: 'Hair by Sha',
+    footR: '45 min',
   },
   {
-    file: 'w2-spring.png',
-    kind: 'price',
-    eyebrow: 'Before spring',
-    headline: 'A lived-in<br>blonde starts at',
-    detail: '$340',
-    rows: [
-      { label: 'Hand-painted balayage', value: '2 hr 30' },
-      { label: 'Toner to finish', value: '45 min' },
-      { label: 'Blow wave', value: 'Included' },
+    file: 'w3-package.png',
+    kind: 'bundle',
+    photo: 'site/site-02-sha-at-work-2.jpg',
+    // Pushed hard right and down. The obvious crop centred the ELEVEN poster
+    // on the wall, so the card led with a stock beauty model instead of Sha's
+    // hands — exactly the "looks like an ad" read this rewrite exists to kill.
+    // Source is only 900x1200, so this is a ~2.4x upscale and slightly soft at
+    // full size; it holds at feed size and the right subject beats the sharper
+    // wrong one.
+    focus: '94% 52%',
+    zoom: 200,
+    eyebrow: 'Limited time',
+    headline: 'Half foil, toner,<br>treatment, blow dry.',
+    items: [
+      { label: 'Half foil', value: 'Included' },
+      { label: 'Toner', value: '$45', strike: true },
+      { label: 'Deep treatment', value: '$30', strike: true },
+      { label: 'Blow dry', value: '$35', strike: true },
     ],
-    sub: 'Three and a half hours, one price. Built to grow out softly, so you are not back in six weeks. Wednesday and Thursday are the quiet ones this week.',
-    footer: 'Hair by Sha · Camberwell',
+    total: '$250',
+    note: 'Booked separately it comes to about $350.',
+    footL: 'Wed · Thu · Fri',
+    footR: 'Hair by Sha',
   },
   {
-    file: 'w2-winter.png',
-    kind: 'list',
-    eyebrow: 'What winter did',
-    headline: 'Four things<br>winter did to<br>your hair',
-    detail:
-      'Ducted heating pulling moisture out | Showers hotter than lukewarm | Friction where a beanie sits | Treatments skipped until summer',
-    sub: 'Save this one, then tell me which of the four sounds like you. Heat-damaged hair takes colour differently, and knowing before you sit down changes what I do in the chair.',
-    footer: 'Hair by Sha · Camberwell',
+    file: 'w3-lasting.png',
+    kind: 'steps',
+    photo: 'site/site-13-IMG_0764.jpg',
+    focus: '50% 30%',
+    zoom: 116,
+    eyebrow: 'Make it last',
+    headline: 'Five days from<br>one blow wave.',
+    items: [
+      'Let each section cool before you brush it out',
+      'Shower cap on. Water is the enemy, not time',
+      'Silk pillowcase, or a loose plait at night',
+      'Dry shampoo on day two, before it looks oily',
+      'Stop touching it — that is the oil, not the style',
+    ],
+    close: 'Save this. Three to five days is normal; five to seven is what these get you.',
+    footL: 'Hair by Sha',
+    footR: 'Camberwell',
+  },
+  {
+    file: 'w3-brunette.png',
+    kind: 'statement',
+    photo: 'site/site-14-IMG_0766.jpg',
+    focus: '50% 42%',
+    zoom: 112,
+    eyebrow: 'Colour specialist · 20 years',
+    headline: 'Not everyone<br>should go blonde.',
+    support: 'Sometimes the answer is depth and shine, not lift. I will tell you which.',
+    footL: 'Hair by Sha',
+    footR: 'Camberwell',
   },
 ];
 
@@ -271,23 +300,28 @@ export async function render(outDir = OUT, cards = CARDS) {
   mkdirSync(outDir, { recursive: true });
   const browser = await chromium.launch({ executablePath: chromiumPath() });
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+  // Written into the photos directory so the images are same-origin siblings.
+  // setContent() runs on about:blank and Chromium refuses file:// subresources
+  // from an opaque origin — the photo silently fails and renders as a black
+  // rectangle with type on it.
+  const scratch = join(PHOTOS, '.render.html');
   const written = [];
   for (const card of cards) {
-    await page.setContent(html(card), { waitUntil: 'domcontentloaded' });
-    // The faces are data URIs, so there is nothing to wait on the network for —
-    // but they still have to be decoded before the shot or the first card
-    // renders in a fallback and looks nothing like the other two.
+    writeFileSync(scratch, html(card));
+    await page.goto(`file://${scratch}`, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
+    await page.evaluate(
+      (src) => new Promise((res) => { const i = new Image(); i.onload = i.onerror = res; i.src = src; }),
+      card.photo,
+    );
     const buf = await page.screenshot({ type: 'png' });
-    const path = join(outDir, card.file);
-    writeFileSync(path, buf);
-    written.push({ file: card.file, path, bytes: buf.length });
+    const dest = join(outDir, card.file);
+    writeFileSync(dest, buf);
+    written.push(dest);
+    console.log(`${card.file}  ${Math.round(buf.length / 1000)}kB`);
   }
   await browser.close();
   return written;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const out = await render();
-  for (const w of out) console.log(`${w.file}  ${(w.bytes / 1024).toFixed(0)}kB`);
-}
+if (import.meta.url === `file://${process.argv[1]}`) await render();
