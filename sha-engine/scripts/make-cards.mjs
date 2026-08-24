@@ -70,15 +70,23 @@ function chromiumPath() {
 
 function shell(card) {
   const { photo, focus = '50% 40%', zoom = 100 } = card;
+  // A card may legitimately carry no photograph. The bundle card is the one
+  // place typography is the right form rather than a fallback: it is a price
+  // table, and a table wants to be read, not looked at. The only foiling shot
+  // in the library is 900x1200 and needed a 2.4x upscale to fill the frame,
+  // which read as soft and cluttered next to a clean set of numbers.
+  const shot = photo
+    ? `.shot{position:absolute;inset:0;background-image:url('${photo}');
+          background-size:${zoom}% auto;background-position:${focus};
+          background-repeat:no-repeat;filter:saturate(1.12) contrast(1.05) brightness(.99)}`
+    : '';
   return `
     ${FONTS}
     *{margin:0;padding:0;box-sizing:border-box}
     body{width:${W}px;height:${H}px;overflow:hidden;position:relative;background:${INK};
          font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;
          text-rendering:geometricPrecision}
-    .shot{position:absolute;inset:0;background-image:url('${photo}');
-          background-size:${zoom}% auto;background-position:${focus};
-          background-repeat:no-repeat;filter:saturate(1.12) contrast(1.05) brightness(.99)}
+    ${shot}
     .warm{position:absolute;inset:0;background:${GOLD};opacity:.13;mix-blend-mode:soft-light}
     .grain{position:absolute;inset:0;background-image:${GRAIN};opacity:.15;
            mix-blend-mode:overlay;pointer-events:none}
@@ -128,30 +136,30 @@ function html(card) {
           `<div class="row"><span>${i.label}</span><span class="${i.strike ? 'was' : 'inc'}">${i.value}</span></div>`,
       )
       .join('');
+    // No photograph. Full cream, wide margins, one number doing the work.
     return `<html><head><meta charset="utf-8"><style>${base}
-      .frame{position:absolute;left:0;right:0;top:0;height:46%;overflow:hidden}
-      .seam{position:absolute;left:0;right:0;top:46%;height:3px;background:${GOLD};z-index:2}
-      .plate{position:absolute;left:0;right:0;bottom:0;height:54%;background:${CREAM};color:${INK};
-             padding:44px 72px 48px;display:flex;flex-direction:column}
-      h1{font-size:50px;margin-top:12px;max-width:20ch}
-      .rows{margin-top:24px;border-top:1px solid rgba(18,16,14,.16)}
-      .row{display:flex;justify-content:space-between;align-items:baseline;padding:15px 0;
-           border-bottom:1px solid rgba(18,16,14,.16);font-size:25px;color:rgba(18,16,14,.82)}
-      .inc{color:${GOLD};font-weight:600;font-size:21px;letter-spacing:.1em;text-transform:uppercase}
-      .was{color:rgba(18,16,14,.42);text-decoration:line-through;font-weight:500}
+      body{background:${CREAM};color:${INK}}
+      .wrap{position:absolute;inset:0;padding:96px 84px 84px;display:flex;flex-direction:column}
+      .hair{height:2px;background:${GOLD};width:64px}
+      h1{font-size:64px;margin-top:26px;max-width:15ch}
+      .rows{margin-top:56px;border-top:1px solid rgba(18,16,14,.18)}
+      .row{display:flex;justify-content:space-between;align-items:baseline;padding:24px 0;
+           border-bottom:1px solid rgba(18,16,14,.18);font-size:29px;color:rgba(18,16,14,.86)}
+      .inc{color:${GOLD};font-weight:600;font-size:21px;letter-spacing:.14em;text-transform:uppercase}
+      .was{color:rgba(18,16,14,.4);text-decoration:line-through;font-weight:500}
       .grow{flex:1}
-      .total{display:flex;justify-content:space-between;align-items:baseline;margin-top:22px}
-      .total .lab{font-size:21px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:${GOLD}}
+      .total{display:flex;justify-content:space-between;align-items:flex-end}
+      .total .lab{font-size:21px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+                  color:${GOLD};padding-bottom:16px}
       .total .num{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144;
-                  font-size:88px;line-height:1;letter-spacing:-.03em}
-      .note{font-size:22px;color:rgba(18,16,14,.55);margin-top:8px}
-      .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:600;
-            color:${INK};margin-top:22px}
+                  font-size:150px;line-height:.86;letter-spacing:-.04em}
+      .note{font-size:24px;color:rgba(18,16,14,.56);margin-top:18px}
+      .foot{display:flex;justify-content:space-between;font-size:22px;font-weight:600;
+            color:${INK};margin-top:46px;padding-top:22px;border-top:1px solid rgba(18,16,14,.18)}
     </style></head><body>
-      <div class="frame"><div class="shot"></div><div class="warm"></div><div class="grain"></div></div>
-      <div class="seam"></div>
-      <div class="plate">
-        <p class="eyebrow">${card.eyebrow}</p>
+      <div class="wrap">
+        <div class="hair"></div>
+        <p class="eyebrow" style="margin-top:26px">${card.eyebrow}</p>
         <h1>${card.headline}</h1>
         <div class="rows">${rows}</div>
         <div class="grow"></div>
@@ -241,15 +249,8 @@ export const CARDS = [
   {
     file: 'w3-package.png',
     kind: 'bundle',
-    photo: 'site/site-02-sha-at-work-2.jpg',
-    // Pushed hard right and down. The obvious crop centred the ELEVEN poster
-    // on the wall, so the card led with a stock beauty model instead of Sha's
-    // hands — exactly the "looks like an ad" read this rewrite exists to kill.
-    // Source is only 900x1200, so this is a ~2.4x upscale and slightly soft at
-    // full size; it holds at feed size and the right subject beats the sharper
-    // wrong one.
-    focus: '94% 52%',
-    zoom: 200,
+    // Deliberately no photograph — see shell(). The one foiling shot in the
+    // library is 900x1200 and read soft and cluttered behind a price table.
     eyebrow: 'Limited time',
     headline: 'Half foil, toner,<br>treatment, blow dry.',
     items: [
