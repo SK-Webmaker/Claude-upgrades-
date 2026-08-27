@@ -30,13 +30,35 @@ nobody else has a claim on.* Her audience is working mums in Camberwell.
 Weekdays are work, Saturday is sport and parties and errands. Sunday 10–2 is the
 one block that is actually theirs. Sell that, not the haircut.
 
-## The campaign mark
+## The design system
 
-A shallow gold arc, ends dotted, labelled **10** and **2** — the arc of the day,
-the window itself. It appears on all nine assets. Six posts, three stories and
-an email read as one campaign rather than nine separate things, and no other
-local salon is using a geometric time mark. That is most of why it will stand
-out in a feed of before-and-afters.
+**Sunday is the sun day.** A warm marigold ground, a cream disc, and the word
+**SUN** cut out of SUNDAYS in outline so the idea is visible at a glance. Bright,
+graphic, and legible at 100px wide in a feed.
+
+The first version of this campaign was scrapped. It was nine variations of one
+object — a dark photograph of hair, a gradient, and type in the bottom-left
+corner. Tasteful and completely invisible at the size a post is actually seen.
+Restraint is not the same as design.
+
+What changed:
+
+| was | now |
+|---|---|
+| dark, low contrast | bright flat colour fields — marigold, violet, cream, ink |
+| photograph as wallpaper | photograph as a jewel in a disc, or absent entirely |
+| type in a corner | type at 290–380px, owning the whole card |
+| one composition, nine times | five distinct layouts |
+| gold as a hairline | gold as a full-bleed ground |
+
+The palette is the brand's, opened up. `#B07C33` is a hairline gold — right for a
+rule, muddy across 1080px — so the campaign marigold is that hue lifted to
+survive a full field. Ink, cream and violet are unchanged.
+
+**Photography appears on two assets only**, cropped into a disc, showing nothing
+but colour and movement. A campaign about *time* does not need a picture of hair
+on every asset to be about hair — and the discipline is what lets the type get
+big enough to stop a scroll.
 
 ---
 
@@ -44,12 +66,12 @@ out in a feed of before-and-afters.
 
 | # | File | Post | Job |
 |---|---|---|---|
-| 1 | `sun-01-reveal.png` | **Sundays.** | The announcement. Full stop as a headline. |
-| 2 | `sun-02-yours.png` | Four hours that belong to you | The emotional core. Empty, light-filled salon. |
-| 3 | `sun-03-ledger.png` | A Sunday is four hours long | The scarcity, shown honestly as a timetable. |
-| 4 | `sun-04-this-sunday.png` | **30 August** | Urgency, dated. |
-| 5 | `sun-05-next-sunday.png` | **06 September** | Urgency, dated, catches whoever missed the first. |
-| 6 | `sun-06-fits.png` | What fits into a Sunday | Saveable utility. Times, never prices. |
+| 1 | `sun-01-reveal.png` | **SUN / DAYS** | The announcement. Marigold, the disc, the word. |
+| 2 | `sun-02-hours.png` | **10–2** | The window at colossal scale. Violet field, one idea. |
+| 3 | `sun-03-ledger.png` | **4 HOURS** | The scarcity, shown honestly as a timetable. |
+| 4 | `sun-04-this-sunday.png` | **30 AUGUST** | Urgency, dated. Marigold. |
+| 5 | `sun-05-next-sunday.png` | **06 SEPTEMBER** | Same system in violet — the pair reads as a set. |
+| 6 | `sun-06-fits.png` | What fits in a Sunday | Saveable utility, on ink. Times, never prices. |
 
 **Suggested run:** 1 and 4 together on day one (announcement + this Sunday),
 2 the next morning, 3 the day after, 5 once the first Sunday is gone,
