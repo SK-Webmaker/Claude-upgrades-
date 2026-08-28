@@ -189,3 +189,67 @@ If the first two Sundays fill with colour, the constraint becomes capacity and
 the right conversation is a second Sunday chair or a longer window. If they fill
 with blow waves, the offer is working but the positioning is pulling the wrong
 service and posts 3 and 6 need to lean harder on the big colour.
+
+---
+
+## A business decision worth thinking about: The Sunday List
+
+This is not a marketing tactic. It is a change to how the business earns, and it
+is Sha's call — but Sunday is the moment it becomes possible, so it is worth
+putting in front of her now.
+
+### What the numbers say about memberships
+
+Salons running a membership programme
+[grew revenue 8% against 2% for those without — four times faster](https://www.zenoti.com/thecheckin/salon-service-packages-pricing),
+and retained existing guests at
+[four times the rate](https://dingg.app/blogs/how-to-increase-salon-revenue-with-membership-plans-in-2026).
+Prepaid revenue also arrives *before* the service is delivered, which for a chair
+renter is working capital she does not currently have.
+
+The critical detail, and the reason this fits her rather than fighting her:
+the research is explicit that value should be anchored in
+**convenience, exclusivity and priority access — not blanket percentage
+discounts.** That is invariant 7 restated by someone else. A membership built on
+access rather than price is the one kind of recurring offer she can run without
+teaching her audience to wait for a sale.
+
+### The shape it would take
+
+**The Sunday List.** A small, capped group who get **first refusal on every
+Sunday before it goes public.**
+
+- She has exactly **52 Sunday slots a year** and roughly one big colour fits in
+  each. That is the scarcest thing she owns, and scarcity is the only thing a
+  membership can sell honestly without discounting.
+- Members pay monthly. They are not buying a cheaper balayage — they are buying
+  the right to claim a Sunday before anyone else sees it.
+- Cap it deliberately. A list of a dozen is exclusive; a list of eighty is a
+  waiting room, and the promise breaks the first time a member cannot get in.
+- Add convenience, not money off: a standing slot, first pick of the month's
+  dates, a treatment included, colour held on file.
+
+### What she would actually have to decide
+
+1. **Is she willing to hold Sunday slots for members** — which means turning away
+   a non-member who wants that exact date? That is the whole deal, and it is the
+   part that is uncomfortable.
+2. **What the monthly figure is.** Not a number to guess at from here; it depends
+   on how many members she caps at and what she is prepared to guarantee.
+3. **Whether Kairo can take recurring payments**, or whether it is a manual
+   arrangement to start with. Worth checking before promising anything.
+
+### The honest risks
+
+- **Held slots that go unbooked are worse than an open diary.** A cap that is too
+  generous, or members who do not use it, and she is protecting empty hours.
+- **It only works if Sundays actually fill.** Run the first month or two openly
+  and see. If Sundays book out without help, the list has something real to sell.
+  If they do not, the constraint is demand and a membership would paper over it.
+- **Start manual.** A dozen people and a note in her phone proves the idea. Build
+  the billing after it has earned it, not before.
+
+**Recommendation:** do not launch this alongside the Sunday campaign — one new
+thing at a time. Run Sundays for three or four weeks. If they fill, and
+particularly if people start asking to be told when the next one opens, the list
+already exists and all she is doing is naming it.

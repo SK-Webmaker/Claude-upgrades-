@@ -149,14 +149,14 @@
         "category": "add-on"
       },
       {
-        "name": "Extensions \u2014 Move up / Refit",
+        "name": "Extensions — Move up / Refit",
         "price": 300,
         "from": false,
         "minutes": 150,
         "category": "extensions"
       },
       {
-        "name": "Extensions \u2014 Removal",
+        "name": "Extensions — Removal",
         "price": 100,
         "from": false,
         "minutes": 90,
@@ -192,10 +192,22 @@
       "limitedTime": true,
       "requestedBy": "operator, 23 Aug 2026",
       "includes": [
-        { "item": "Half foil", "note": "brightness through the top and sides" },
-        { "item": "Toner", "standalonePrice": 45 },
-        { "item": "Deep treatment", "standalonePrice": 30 },
-        { "item": "Blow dry", "standalonePrice": 35 }
+        {
+          "item": "Half foil",
+          "note": "brightness through the top and sides"
+        },
+        {
+          "item": "Toner",
+          "standalonePrice": 45
+        },
+        {
+          "item": "Deep treatment",
+          "standalonePrice": 30
+        },
+        {
+          "item": "Blow dry",
+          "standalonePrice": 35
+        }
       ],
       "note": "Priced as a bundle. Booked separately the nearest equivalents in this file come to roughly $350 (Partial Blonde from $240 + toner $45 + treatment $30 + blow dry $35), so this is a real saving, not a rounded one. Invariant 7 forbids introducing a discount unprompted — this one was explicitly asked for by the operator, which the invariant allows. Do not extend it, repeat it weekly, or invent further offers off the back of it."
     }
@@ -227,20 +239,33 @@
     ],
     "emojiMax": 2,
     "hashtagCount": {
-      "min": 4,
-      "max": 8
+      "min": 3,
+      "max": 5,
+      "note": "Instagram caps hashtags at 5 per post as of 2026 — anything beyond is dropped. Was 4-8, which is out of date. Formula: one hyperlocal suburb + one niche service + one campaign tag + one local anchor + one branded. Avoid generic mega-tags (#melbournehairdresser and similar compete with hundreds of thousands of posts); hyperlocal suburb tags reach the person who is four suburbs away. Keyword-rich captions out-reach hashtag-heavy ones by roughly 30%, so write the searchable words into the sentences too."
     },
     "coreHashtags": [
       "#melbournehairdresser",
       "#camberwellhair",
       "#balayagemelbourne",
       "#melbournecolourist"
-    ]
+    ],
+    "localHashtagPool": [
+      "#camberwellhair",
+      "#camberwellhairdresser",
+      "#boroondara",
+      "#gleniris",
+      "#hawthornhair",
+      "#canterburyvic",
+      "#balwyn",
+      "#surreyhills",
+      "#kewmelbourne"
+    ],
+    "brandedHashtag": "#hairbyshacamberwell"
   },
   "cta": {
     "primary": "Book at the link in bio",
     "variants": [
-      "Chair's open this week \u2014 link in bio",
+      "Chair's open this week — link in bio",
       "Booking through Fresha, link in bio",
       "DM me your hair goals"
     ],
