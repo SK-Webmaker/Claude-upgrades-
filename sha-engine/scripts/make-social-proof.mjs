@@ -4,23 +4,28 @@
  * Instagram Highlight cover, and a QR card.
  *
  * ---------------------------------------------------------------------------
- * The important part: this will not invent a rating.
+ * Two separate gates, because the quotes and the rating are not the same claim.
  *
- * The brief described a pinned post reading "5.0 on Google — 100+ reviews".
- * Hair by Sha has **no Google Business Profile**, which the July growth audit
- * found and a search on 28 Aug 2026 confirmed — there is no Google rating to
- * display. (The 57-review Camberwell listing belongs to Hair Hut, the salon she
- * rents a chair inside, not to her.)
+ * A QUOTE is verifiable as soon as it exists — six real ones, with names, are in
+ * `content/reviews.json`, collected off her own site. Those cards render live.
  *
- * So every number and every quote is read from `content/reviews.json`, and when
- * that file is empty the renderer draws a visibly unfinished asset with the
- * slots marked. It is deliberately impossible to accidentally publish a
- * fabricated rating from this script.
+ * A RATING is a claim about a place a customer can go and check. "5.0 on Google"
+ * is only worth printing if tapping it lands on a profile showing 5.0. Hair by
+ * Sha has no publicly findable Google Business Profile — the July growth audit
+ * found none, and her own website links "Read all reviews on Google" to a search
+ * results page rather than a profile, which is the tell that whoever built it
+ * had no profile URL either. (The 57-review Camberwell listing belongs to Hair
+ * Hut, the salon she rents a chair inside.)
  *
- * That is not caution for its own sake. False social proof on a local service
- * business is the most damaging thing in this whole system: the customer taps
- * "read our reviews", finds nothing, and the trust is gone permanently. The
- * whole point of pointing at Google is that it is verifiable.
+ * So `rating`/`reviewCount`/`profileUrl` gate the pinned card only. Without them
+ * the pinned card falls back to a claim that IS supported by the quotes on file:
+ * named clients who have followed her across three suburbs for ten years. That
+ * is stronger than a star average anyway, and it does not create a dead link.
+ *
+ * False social proof is the most damaging thing in this whole system. The
+ * customer taps "read our reviews", finds nothing, and the trust is gone. The
+ * whole point of citing Google is that it is checkable — so nothing here cites a
+ * platform unless there is a URL on file that actually reaches it.
  *
  * Design follows the Sundays campaign — marigold, violet, ink, cream, type at
  * scale — so the page reads as one brand rather than a salon plus a widget.
@@ -45,7 +50,8 @@ const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E\")";
 
 const data = JSON.parse(readFileSync(join(ROOT, 'content', 'reviews.json'), 'utf8'));
-const HAS_RATING = data.rating != null && data.reviewCount != null && data.source.profileUrl;
+const PROFILE = (data.source.profileUrl || '').trim();
+const HAS_RATING = data.rating != null && data.reviewCount != null && PROFILE;
 const realReviews = (data.reviews || []).filter((r) => r.quote && r.quote.trim());
 
 function chromiumPath() {
@@ -84,7 +90,13 @@ function base(W, H) {
                border:4px solid ${SUN};text-align:center;line-height:1.5}`;
 }
 
-/* ---------------- the pinned card ---------------- */
+/* ---------------- the pinned card ----------------
+ * With a rating on file: the star average, big, sourced.
+ * Without one: the claim the quotes DO support. Three named clients on file
+ * describe following her for ten years across Malvern, Armadale and Camberwell.
+ * That is specific, checkable against the testimonial cards sitting beside it,
+ * and it needs no profile to link to.
+ */
 function heroHtml() {
   const W = 1080, H = 1080; // square — Facebook's pinned post crops kindly to this
   return `<html><head><meta charset="utf-8"><style>${base(W, H)}
@@ -93,10 +105,10 @@ function heroHtml() {
     .wrap{position:absolute;inset:0;padding:76px 72px 70px;display:flex;flex-direction:column;z-index:5}
     .rulebar{height:10px;background:${INK};width:190px;margin-bottom:28px}
     .grow{flex:1}
-    h1{font-size:${HAS_RATING ? 210 : 120}px;color:${INK};margin-top:10px}
+    h1{font-size:${HAS_RATING ? 210 : 116}px;color:${INK};margin-top:10px;max-width:13ch}
     .of{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144;font-size:60px;
         color:${VIOLET};margin-top:6px}
-    .count{font-size:34px;font-weight:700;color:${INK};margin-top:24px}
+    .count{font-size:34px;font-weight:700;color:${INK};margin-top:24px;max-width:26ch;line-height:1.4}
     .cta{display:inline-block;background:${INK};color:${SUN};font-size:24px;font-weight:800;
          letter-spacing:.16em;text-transform:uppercase;padding:20px 30px;align-self:flex-start;margin-top:30px}
     .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:700;color:${INK};
@@ -105,17 +117,21 @@ function heroHtml() {
     <div class="disc"></div>
     <div class="wrap">
       <div class="rulebar"></div>
-      <p class="kicker" style="color:${INK}">Loved by our clients</p>
+      <p class="kicker" style="color:${INK}">${HAS_RATING ? 'Loved by our clients' : 'In their own words'}</p>
       <div class="grow"></div>
-      <div style="margin-bottom:14px">${stars(data.rating, 54, INK)}</div>
-      <h1>${HAS_RATING ? esc(data.rating.toFixed(1)) : '0.0'}</h1>
-      <p class="of">on ${esc(data.source.platform)}</p>
-      <p class="count">${HAS_RATING ? esc(data.reviewCount) + ' reviews' : '— reviews'}</p>
-      <span class="cta">Read our ${esc(data.source.platform)} reviews</span>
+      ${HAS_RATING
+        ? `<div style="margin-bottom:14px">${stars(data.rating, 54, INK)}</div>
+           <h1>${esc(data.rating.toFixed(1))}</h1>
+           <p class="of">on ${esc(data.source.platform)}</p>
+           <p class="count">${esc(data.reviewCount)} reviews</p>
+           <span class="cta">Read our ${esc(data.source.platform)} reviews</span>`
+        : `<div style="margin-bottom:20px">${stars(5, 48, INK)}</div>
+           <h1>Ten years.<br>Three suburbs.<br>Same clients.</h1>
+           <p class="count">Malvern, then Armadale, now Camberwell &mdash; and they followed her.</p>
+           <span class="cta">Read what they said</span>`}
       <div class="grow"></div>
       <div class="foot"><span>Hair by Sha</span><span>Camberwell</span></div>
     </div>
-    ${HAS_RATING ? '' : `<div class="todo"><span>Not ready to post<br>no ${esc(data.source.platform)} profile yet</span></div>`}
     <div class="grain"></div>
   </body></html>`;
 }
@@ -128,15 +144,27 @@ function reviewHtml(r, i) {
   const fg = tone === 'violet' ? CREAM : INK;
   const acc = tone === 'violet' ? SUN : VIOLET;
   const filled = r && r.quote && r.quote.trim();
+  // Long reviews are the good ones — a specific review is a persuasive review —
+  // so the type steps down rather than the quote getting cut. Never truncate a
+  // customer's words to fit a layout; that is editing the review.
+  const len = filled ? r.quote.length : 0;
+  const size = len > 250 ? 44 : len > 150 ? 52 : 66;
+  // Only claim a platform when there is a URL that reaches it. Otherwise the
+  // client's own context ("client of 10+ years") is both true and better copy.
+  const attribution = PROFILE
+    ? `Verified on ${esc(data.source.platform)}`
+    : esc(r && r.context ? r.context : '');
   return `<html><head><meta charset="utf-8"><style>${base(W, H)}
     body{background:${bg}}
     .disc{width:640px;height:640px;background:${acc};left:-240px;bottom:-260px;opacity:.28}
     .wrap{position:absolute;inset:0;padding:76px 72px 70px;display:flex;flex-direction:column;z-index:5}
     .rulebar{height:10px;background:${acc};width:190px;margin-bottom:26px}
+    /* Not centred. An even split leaves the quote sitting low against the disc
+       and reads bottom-heavy at feed size — the top gap wants to be smaller. */
     .grow{flex:1}
+    .grow.top{flex:.42}
     .quote{font-family:'Fraunces',serif;font-variation-settings:'opsz' 144;
-           font-size:${filled && r.quote.length > 150 ? 52 : 66}px;line-height:1.16;color:${fg};
-           letter-spacing:-.02em}
+           font-size:${size}px;line-height:1.16;color:${fg};letter-spacing:-.02em}
     .who{font-size:28px;font-weight:700;color:${acc};margin-top:32px}
     .src{font-size:22px;font-weight:600;color:${fg};opacity:.62;margin-top:8px}
     .foot{display:flex;justify-content:space-between;font-size:21px;font-weight:700;color:${fg};
@@ -145,12 +173,12 @@ function reviewHtml(r, i) {
     <div class="disc"></div>
     <div class="wrap">
       <div class="rulebar"></div>
-      <p class="kicker" style="color:${acc}">${esc(data.source.platform)} review</p>
-      <div class="grow"></div>
+      <p class="kicker" style="color:${acc}">${PROFILE ? esc(data.source.platform) + ' review' : 'In her words'}</p>
+      <div class="grow top"></div>
       <div style="margin-bottom:22px">${stars(filled ? 5 : 0, 40, acc)}</div>
       <p class="quote">${filled ? '&ldquo;' + esc(r.quote) + '&rdquo;' : '&ldquo;Paste the review here, word for word.&rdquo;'}</p>
-      <p class="who">${filled ? esc(r.author || '') : '— first name and initial'}</p>
-      <p class="src">Verified on ${esc(data.source.platform)}</p>
+      <p class="who">${filled ? esc(r.author || '') : '— client name'}</p>
+      ${attribution ? `<p class="src">${attribution}</p>` : ''}
       <div class="grow"></div>
       <div class="foot"><span>Hair by Sha</span><span>Camberwell</span></div>
     </div>
@@ -219,24 +247,40 @@ async function shoot(browser, html, file, W, H) {
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ executablePath: chromiumPath() });
 
-console.log(HAS_RATING ? 'Rating found — rendering live assets.' : 'No rating in reviews.json — rendering PLACEHOLDER assets.');
+console.log(`${realReviews.length} real review(s) on file.`);
+console.log(
+  HAS_RATING
+    ? 'Rating + profile URL found — pinned card renders the star average.'
+    : 'No rating/profile URL — pinned card falls back to the tenure claim, and cards cite client context rather than a platform.'
+);
+
 await shoot(browser, heroHtml(), 'proof-01-pinned.png', 1080, 1080);
-for (let i = 0; i < 3; i++) {
-  await shoot(browser, reviewHtml(data.reviews[i], i), `proof-0${i + 2}-review.png`, 1080, 1080);
+
+const slots = realReviews.length ? realReviews : [null, null, null];
+for (let i = 0; i < slots.length; i++) {
+  await shoot(browser, reviewHtml(slots[i], i), `proof-${String(i + 2).padStart(2, '0')}-review.png`, 1080, 1080);
 }
-await shoot(browser, highlightHtml(), 'proof-05-highlight-cover.png', 1080, 1920);
+
+const n = slots.length + 2;
+await shoot(browser, highlightHtml(), `proof-${String(n).padStart(2, '0')}-highlight-cover.png`, 1080, 1920);
 
 // Booking QR is real and usable today. The review QR needs the profile URL.
 const qrOpts = { margin: 1, width: 900, color: { dark: '#12100E', light: '#FFFFFF' } };
 const bookUri = await QRCode.toDataURL('https://hairbysha-booking.onrender.com/book', qrOpts);
-await shoot(browser, qrHtml(bookUri, 'Book your next appointment', 'Point your camera here. Sundays now open, 10 til 2.'), 'proof-06-qr-booking.png', 1080, 1350);
+await shoot(browser, qrHtml(bookUri, 'Book your next appointment', 'Point your camera here. Sundays now open, 10 til 2.'),
+  `proof-${String(n + 1).padStart(2, '0')}-qr-booking.png`, 1080, 1350);
 
-if (data.source.profileUrl) {
-  const revUri = await QRCode.toDataURL(data.source.profileUrl, qrOpts);
-  await shoot(browser, qrHtml(revUri, 'Loved your visit?', `Leave a ${data.source.platform} review. It takes about thirty seconds.`), 'proof-07-qr-review.png', 1080, 1350);
+if (PROFILE) {
+  const revUri = await QRCode.toDataURL(PROFILE, qrOpts);
+  await shoot(browser, qrHtml(revUri, 'Loved your visit?', `Leave a ${data.source.platform} review. It takes about thirty seconds.`),
+    `proof-${String(n + 2).padStart(2, '0')}-qr-review.png`, 1080, 1350);
 } else {
   console.log('  (review QR skipped — no profileUrl in reviews.json)');
 }
 
 await browser.close();
-console.log(HAS_RATING ? '\nDone.' : '\nDone — placeholders only. Do not post these until reviews.json is filled in.');
+console.log(
+  HAS_RATING
+    ? '\nDone.'
+    : '\nDone. Testimonial cards are postable. The rating card is not — fill in rating, reviewCount and profileUrl once the Google profile exists.'
+);

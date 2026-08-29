@@ -3,24 +3,58 @@
 
   "source": {
     "platform": "Google",
-    "_note": "The label printed on every asset. Say where the rating comes from — '5.0 on Google' is credible, a bare '5 stars' is not. Change to 'Fresha' only if the reviews genuinely came from there.",
+    "_note": "The label printed on an asset when there is a profileUrl to point at. Say where the rating comes from — '5.0 on Google' is credible, a bare '5 stars' is not.",
     "profileUrl": "",
-    "_profileUrl_note": "The public link a customer taps to verify. EMPTY = she has no Google Business Profile yet. Until this is filled in, the assets render in placeholder mode and must not be posted."
+    "_profileUrl_note": "The public link a customer taps to verify. STILL EMPTY. The reviews below are real and were collected off hairbyshacamberwell.com on 29 Aug 2026, and one carries a Google 'Local Guide' byline, so they originated on Google — but no Google Business Profile for Hair by Sha is publicly findable, and her own website links 'Read all reviews on Google' to a search-results page rather than a profile. Until a real profile URL is here, the cards cite the client's own tenure instead of claiming 'verified on Google', and the rating card stays blocked.",
+
+    "collectedFrom": "https://hairbyshacamberwell.com/#reviews",
+    "collectedOn": "2026-08-29"
   },
 
   "rating": null,
   "reviewCount": null,
-  "_rating_note": "Leave null until the real figures exist. The renderer refuses to invent them — a fabricated rating is the one thing here that could genuinely damage her, because anyone who taps through finds nothing.",
+  "_rating_note": "Leave null until the real figures exist. Six quotes is not a rating — a star average and a review count have to come from a live profile that a customer can open. The renderer refuses to invent them, because anyone who taps through finds nothing.",
 
   "reviews": [
     {
-      "quote": "",
-      "author": "",
+      "quote": "Shamalka is fantastic! Not only does she understand exactly what you need, she has an incredible eye for what colour and hairstyle will actually suit you. She's patient, professional, and makes the whole experience feel relaxed and enjoyable. I always leave feeling confident and so happy with the result. Highly recommend!",
+      "author": "Sonya Agarwal",
+      "context": "Camberwell",
       "date": "",
-      "_note": "Paste the review exactly as the customer wrote it. Do not tidy the grammar, do not shorten it, do not merge two reviews. First name and initial is the normal convention — 'Sarah M.'"
+      "_note": "Pasted exactly as published. Do not tidy the grammar, do not shorten it, do not merge two reviews."
     },
-    { "quote": "", "author": "", "date": "" },
-    { "quote": "", "author": "", "date": "" }
+    {
+      "quote": "I've been following Shamalka now for 10 years from Malvern to Armadale now Camberwell. She is an exceptionally good hairdresser, does a perfect job on colours & cuts. Very very happy & prices are very reasonable for the exceptionally high standard she delivers.",
+      "author": "Stella McCammon",
+      "context": "Local Guide · client of 10+ years",
+      "date": ""
+    },
+    {
+      "quote": "Shamalka is honestly the best hairdresser! I've been getting my hair colour and cuts done by her since 2018, and she has never disappointed me. Every visit, she delivers amazing results. She listens carefully, gives honest advice, and always makes me feel confident and beautiful.",
+      "author": "Nimali Samarakoon",
+      "context": "Loyal client since 2018",
+      "date": ""
+    },
+    {
+      "quote": "I've been going to Sha for over 10 years now. She is very honest and will also help you with what is best for your hair. I could not recommend her enough.",
+      "author": "Uppsala Trinh",
+      "context": "Client of 10+ years",
+      "date": ""
+    },
+    {
+      "quote": "Sha is so lovely and does the best blow waves. Recently I decided to go back to blonde and loving the colour. Would highly recommend.",
+      "author": "Dimmy Alevizos",
+      "context": "Camberwell",
+      "date": "",
+      "_note": "The blow-wave one. Pairs with the blow-wave post and with anything pointing at the Sunday window, where a 45-minute service actually fits."
+    },
+    {
+      "quote": "Girlsss run don't walk!! Hair by Sha has to be one of the most welcoming salons I've been to. Always greeted with a smile and I have always left feeling my best. P.S Sha does the best blow wavesss. Book now!",
+      "author": "Michelle Tissera",
+      "context": "Camberwell",
+      "date": "",
+      "_note": "Kept verbatim, spelling included. 'Girlsss' would fail the brand voice check if Sha wrote it — but she did not, a client did, and correcting a customer's words to fit a style guide turns a real review into copy. The Critic governs captions, not quotations."
+    }
   ],
 
   "lookFor": [
