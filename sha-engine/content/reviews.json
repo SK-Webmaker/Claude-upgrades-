@@ -1,0 +1,33 @@
+{
+  "_readme": "Real reviews only. This file is the single source of truth for every social-proof asset — the pinned Facebook card, the testimonial posts and the Instagram Highlight. Fill it in, then run `node scripts/make-social-proof.mjs`. Nothing renders a number or a quote that is not in here.",
+
+  "source": {
+    "platform": "Google",
+    "_note": "The label printed on every asset. Say where the rating comes from — '5.0 on Google' is credible, a bare '5 stars' is not. Change to 'Fresha' only if the reviews genuinely came from there.",
+    "profileUrl": "",
+    "_profileUrl_note": "The public link a customer taps to verify. EMPTY = she has no Google Business Profile yet. Until this is filled in, the assets render in placeholder mode and must not be posted."
+  },
+
+  "rating": null,
+  "reviewCount": null,
+  "_rating_note": "Leave null until the real figures exist. The renderer refuses to invent them — a fabricated rating is the one thing here that could genuinely damage her, because anyone who taps through finds nothing.",
+
+  "reviews": [
+    {
+      "quote": "",
+      "author": "",
+      "date": "",
+      "_note": "Paste the review exactly as the customer wrote it. Do not tidy the grammar, do not shorten it, do not merge two reviews. First name and initial is the normal convention — 'Sarah M.'"
+    },
+    { "quote": "", "author": "", "date": "" },
+    { "quote": "", "author": "", "date": "" }
+  ],
+
+  "lookFor": [
+    "the colour result specifically, not just 'lovely salon'",
+    "her expertise or the consultation",
+    "blonde work, grey blending or a correction",
+    "someone saying they came back, or travelled to get there",
+    "the one-on-one experience of a private chair"
+  ]
+}

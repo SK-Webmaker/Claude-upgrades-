@@ -2,7 +2,7 @@
   "name": "sha-engine",
   "version": "1.1.0",
   "private": true,
-  "description": "Weekly content and marketing engine for Hair by Sha, Camberwell VIC \u2014 driven from a Claude Code session",
+  "description": "Weekly content and marketing engine for Hair by Sha, Camberwell VIC — driven from a Claude Code session",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -30,6 +30,8 @@
     "ffprobe-static": "^3.1.0"
   },
   "devDependencies": {
-    "playwright": "^1.62.1"
+    "jsqr": "^1.4.0",
+    "playwright": "^1.62.1",
+    "qrcode": "^1.5.4"
   }
 }
