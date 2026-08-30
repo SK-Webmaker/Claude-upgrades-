@@ -265,8 +265,14 @@ const n = slots.length + 2;
 await shoot(browser, highlightHtml(), `proof-${String(n).padStart(2, '0')}-highlight-cover.png`, 1080, 1920);
 
 // Booking QR is real and usable today. The review QR needs the profile URL.
+//
+// Uses the branded Kairo domain, not the raw Render host. Both serve the same
+// app (identical response, checked 29 Aug 2026) but this is a card printed and
+// handed to a client — a visible `*.onrender.com` reads as a dev link, and it is
+// the domain her own Instagram bio already points at.
+const BOOKING_URL = 'https://hairbysha.kairobookings.com/book';
 const qrOpts = { margin: 1, width: 900, color: { dark: '#12100E', light: '#FFFFFF' } };
-const bookUri = await QRCode.toDataURL('https://hairbysha-booking.onrender.com/book', qrOpts);
+const bookUri = await QRCode.toDataURL(BOOKING_URL, qrOpts);
 await shoot(browser, qrHtml(bookUri, 'Book your next appointment', 'Point your camera here. Sundays now open, 10 til 2.'),
   `proof-${String(n + 1).padStart(2, '0')}-qr-booking.png`, 1080, 1350);
 

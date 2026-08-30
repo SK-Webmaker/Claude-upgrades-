@@ -11,7 +11,8 @@
     "instagram": "hairbysha_c",
     "tiktok": null,
     "website": "https://hairbyshacamberwell.com/",
-    "bookingUrl": "https://hairbysha-booking.onrender.com/book",
+    "bookingUrl": "https://hairbysha.kairobookings.com/book",
+    "_bookingUrl_note": "Branded Kairo domain. The raw host https://hairbysha-booking.onrender.com/book serves the identical app (byte-identical response, checked 29 Aug 2026) and still works, but this is the domain her own Instagram bio points at and the one that belongs in a caption or on a printed card. Her website still links the onrender host — worth changing there too.",
     "phone": "0452 611 799",
     "bookingPlatform": "Kairo"
   },
