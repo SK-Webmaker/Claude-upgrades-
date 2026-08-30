@@ -1,0 +1,52 @@
+{
+  "_readme": "The seven Facebook review posts, in posting order, with the dates they go up. Consumed by scripts/send-reviews.mjs. Captions here are Facebook captions — deliberately no hashtag block. Facebook hashtags do almost nothing for reach, and a wall of Instagram tags on a Facebook post looks copy-pasted.",
+
+  "posts": [
+    {
+      "image": "proof-01-pinned.png",
+      "who": "The pinned post",
+      "day": "Monday 31 August",
+      "pin": true,
+      "note": "This is the one that has to be pinned to the top of the Page. Post it first, before any of the review cards, so the six that follow have something to sit under.",
+      "caption": "Some of my clients have been with me for ten years.\n\nMalvern, then Armadale, now Camberwell — and they came with me. That is the part I am proudest of, more than any single colour.\n\nBelow is what a few of them said, in their own words.\n\nSundays are open now too, 10 til 2.\n\nBook: hairbysha.kairobookings.com/book"
+    },
+    {
+      "image": "proof-03-review.png",
+      "who": "Stella",
+      "day": "Wednesday 2 September",
+      "note": "Lead with Stella. Ten years across three suburbs is the strongest thing anyone has said about the business, so it goes first.",
+      "caption": "Stella has been coming to me for ten years, across three suburbs.\n\nMalvern, then Armadale, now Camberwell. She wrote this herself and I have not touched a word of it.\n\nWednesdays and Thursdays are the quiet ones at the moment, so there is room this week.\n\nBook: hairbysha.kairobookings.com/book"
+    },
+    {
+      "image": "proof-04-review.png",
+      "who": "Nimali",
+      "day": "Thursday 3 September",
+      "caption": "Nimali has been with me since 2018.\n\nShe mentions the honest advice, which matters more to me than the compliment about the colour. Telling someone what will not work is most of the job.\n\nHer words, exactly as she wrote them.\n\nBook: hairbysha.kairobookings.com/book"
+    },
+    {
+      "image": "proof-06-review.png",
+      "who": "Dimmy",
+      "day": "Wednesday 9 September",
+      "caption": "Dimmy came back to blonde this year, and this is what she said about it.\n\nShe mentions the blow waves too. Those take 45 minutes, which makes them the easiest thing to fit into the new Sunday window.\n\nHer words, unedited.\n\nBook: hairbysha.kairobookings.com/book"
+    },
+    {
+      "image": "proof-02-review.png",
+      "who": "Sonya",
+      "day": "Thursday 10 September",
+      "caption": "Sonya picked out the part of the job I care most about.\n\nNot the colour itself, but knowing which colour will actually suit the person in the chair. That is what the consultation is for, and it is why every appointment starts with one.\n\nWord for word, as she wrote it.\n\nBook: hairbysha.kairobookings.com/book"
+    },
+    {
+      "image": "proof-05-review.png",
+      "who": "Uppsala",
+      "day": "Wednesday 16 September",
+      "caption": "Uppsala has been coming to me for over ten years.\n\nVery honest is the bit I would keep. Sometimes the honest answer is that we go slower, or that today is not the day to lift it further.\n\nHer words, exactly.\n\nWednesdays and Thursdays are still the quiet ones, so there is room this week.\n\nBook: hairbysha.kairobookings.com/book"
+    },
+    {
+      "image": "proof-07-review.png",
+      "who": "Michelle",
+      "day": "Thursday 17 September",
+      "note": "Michelle's review has playful spelling in it. Leave it exactly as it is — correcting a client's words is what makes a real review start to look written by the salon.",
+      "caption": "Michelle wrote this one, and I have left it exactly as she typed it.\n\nThe welcome is not an accident. One chair, one person at a time, no double booking, so the room stays calm.\n\nSundays are open now too, 10 til 2.\n\nBook: hairbysha.kairobookings.com/book"
+    }
+  ]
+}
