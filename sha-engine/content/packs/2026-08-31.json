@@ -1,0 +1,231 @@
+{
+  "weekOf": "2026-08-31",
+  "authoredBy": "gloss /start",
+  "title": "The ticket week",
+  "thesis": "Sunday is one appointment, not a day. Week 4 says that in a shape people already understand — a numbered, dated, one-of-one ticket — and asks for a DM rather than a click, because a DM is the only CTA that starts a conversation she can close herself.",
+  "projection": "Last week's two published posts scored 4.42% and 3.31% against an account average of 7.09% — six to eight times better than the 0.56% the typographic cards managed, and still under the line. The pattern is now unambiguous across four weeks: this account rewards video and tolerates stills. Followers 180 to 181 against a predicted 183, so the model is running hot; a realistic target this week is 184-186. The one thing to change: every post this week asks for a DM instead of a link click, because the account has reach it is not converting and a DM is the only call to action Sha can answer personally. What this sets up for next week is a real measurement — if the Sunday of 6 September fills from a DM, the ticket format has earned a rerun and the scarcity is real; if it does not, the constraint is demand rather than urgency, and next week says so plainly instead of shouting louder.",
+  "posts": [
+    {
+      "id": "w4-toner",
+      "day": "Monday",
+      "postAt": "2026-08-31T08:00:00+10:00",
+      "type": "myth",
+      "medium": "image",
+      "title": "Your toner did not wash out",
+      "image": "w4-toner.png",
+      "imageAlt": "A cream ticket-stock card. The line \"My toner washed out too fast\" struck through in red, and beneath it in large serif type \"It did not wash out. It was never going to stay.\" Two columns underneath headed \"Makes it last\" and \"Will not\", and a footer reading Toner & Gloss, $45 · 45 min.",
+      "whyItWorks": "This is the highest-frequency question in a colour chair and almost nobody answers it honestly, because the honest answer sounds like the service failed. Reframing a fading toner as the toner working correctly does two things at once: it removes the suspicion that she under-delivered, and it makes the six-week gloss a maintenance item rather than a repair. It sells a $45 service without carrying an offer, which matters because two of this week's three posts do carry one and the cta-frequency cap exists to stop the feed reading as an ad channel. The two columns are what earns the save — the explanation is interesting once, the practical half is what someone wants back in six weeks.",
+      "caption": {
+        "hook": "Your toner did not wash out. It was never going to stay.",
+        "body": "Toner sits on the outside of the hair. It is not permanent colour and it was never meant to be, so every wash takes a little of it with it. Four to six weeks and it has gone. That is it working correctly, not failing.\n\nWhat makes it last: cooler water, fewer washes, and booking the gloss before it has fully gone. What will not: a stronger purple shampoo. That tones the surface, it does not replace the toner underneath.",
+        "cta": "A toner and gloss is $45 and takes 45 minutes. Send this to whoever keeps buying purple shampoo.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Post it Monday morning — this one is the week's warm-up and carries no offer.",
+        "The last line is doing the work. A send to one friend is worth more than ten likes, so leave it in.",
+        "If anyone replies asking about their own toner, answer in the comments rather than the DM. Public answers are what make the next person ask."
+      ]
+    },
+    {
+      "id": "w4-what-fits",
+      "day": "Wednesday",
+      "postAt": "2026-09-02T08:00:00+10:00",
+      "type": "saveable",
+      "medium": "image",
+      "title": "Everything that fits in a Sunday",
+      "image": "w4-what-fits.png",
+      "imageAlt": "A cream ticket-stock card headed \"Everything that fits in a Sunday\" with the line \"Four hours. That is the whole window.\" A dotted-leader list runs Blonde transformation 4 hrs in red, then Balayage 3 hr 30, Half foil 2 hr 30, Root colour and refresh 1 hr 45, Blow wave 45 min. A black bar at the foot reads DM me the Sunday you want.",
+      "whyItWorks": "This is the scarcity argument made as a timetable rather than a claim, which is why it can be urgent without being pushy — every line on it is just true. Putting the four-hour blonde transformation in red at the top makes the point visually before anyone reads a number: the biggest service consumes the entire window. It also quietly does price-anchoring work without a single dollar figure, pulling attention toward the colour band rather than the blow wave. Saves score roughly six times a like, and a list someone saves in September is a list they open in November.",
+      "caption": {
+        "hook": "This is everything that fits in a Sunday. It is not much, and that is the point.",
+        "body": "Ten til two is four hours. A blonde transformation takes all of it. A balayage, three and a half. A half foil, two and a half. A blow wave, forty five minutes.\n\nSo a Sunday is one big colour, or two small things. There is no version where it is three, which is why I would rather you picked the date early than found out it had gone.",
+        "cta": "Save this, then DM me the Sunday you want",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#gleniris", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Wednesday morning. This sets up Friday's ticket post — the two are a pair and the order matters.",
+        "Ask people to save it in the first comment, not the caption. Saves are the metric this format exists for.",
+        "Anyone who replies with a date is a warm lead. Answer with a time, not a link."
+      ]
+    },
+    {
+      "id": "w4-sunday-ticket",
+      "day": "Friday",
+      "postAt": "2026-09-04T17:30:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "image",
+      "title": "One Sunday chair — DM to claim",
+      "image": "w4-sunday-ticket.png",
+      "imageAlt": "A cream perforated ticket. Large serif SUNDAY across the top, 06 SEPTEMBER beneath it, 10 — 2 in gold, and a red rubber stamp reading ONE CHAIR ONLY. Below the tear line a stub reads ADMIT ONE, No. 01 / 01, and DM me SUNDAY and it's yours.",
+      "whyItWorks": "Friday evening is when people plan their weekend, and this is the closest the week gets to the appointment it is selling. The ticket does the persuading before a word is read: perforation, serial number and a stamp are the visual grammar of a thing there is only one of, so the scarcity is felt rather than argued. Critically the urgency is literally true — four hours holds one colour — so nothing here trains her audience to wait for a discount, which invariant 7 exists to prevent. Asking for a DM rather than a link click is the deliberate change this week: the account has reach it is not converting, and a DM is the only call to action she can answer in her own voice.",
+      "caption": {
+        "hook": "There is one Sunday chair, and it goes to whoever asks first.",
+        "body": "Sunday the 6th, ten til two. One appointment, because four hours is one appointment.\n\nMid-week I am running colour back to back. Sunday is the quiet one, and it is the only slot where I can take four hours over a colour without the room filling up around us. If you have been putting off a big change because you could never find the time, this is the time.",
+        "cta": "DM me the word Sunday and it is yours",
+        "hashtags": ["#camberwellhair", "#sundayhairappointment", "#boroondara", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Friday about 5.30pm — people are making weekend plans and the phone is in their hand.",
+        "Put it on your story straight after, with the countdown sticker set to Sunday 10am. That sticker is the best free urgency tool Instagram gives you.",
+        "When it goes, post the same card to your story with TAKEN across it and the next date. A visibly gone appointment is what makes the following week's ticket believable.",
+        "Do not repeat this format next week if the Sunday does not fill. If it stays empty the problem is demand, not the caption, and saying so is more useful than shouting louder."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w4-v1-empty-room",
+      "title": "The room at 10am on a Sunday",
+      "lengthSec": [12, 18],
+      "difficulty": "Easiest — one shot, no talking, film it while you wait",
+      "copyThis": {
+        "url": "https://www.quarkbooker.com/blog/luxury-hair-salon-instagram-strategy-2026",
+        "creator": "Format research — luxury salon Instagram strategy 2026",
+        "whatItIs": "The ambient 'calm empty space' open. A slow push through a quiet salon before anyone arrives, with one line of text over it. No talking, no cuts.",
+        "whyItCopies": "It sells the thing your Sunday actually offers, which is not hair — it is a room with nobody else in it. Sunday is the only day you can film this honestly, because it is the only day the salon really is empty at 10am.",
+        "howToCopy": [
+          "Get there at 10 on Sunday, before the client.",
+          "Hold the phone low and walk slowly toward the chair. One take, no stopping.",
+          "Keep it under 15 seconds. The whole point is that nothing happens.",
+          "Put one line of text on at 1 second and leave it there."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://sunnystorm.marketing/blog/instagram-reel-ideas-salons",
+          "creator": "Salon reel formats roundup",
+          "what": "The ambient and 'day in the chair' formats, with why they hold attention without a hook line"
+        }
+      ],
+      "references": [
+        "https://www.quarkbooker.com/blog/luxury-hair-salon-instagram-strategy-2026",
+        "https://sunnystorm.marketing/blog/instagram-reel-ideas-salons"
+      ],
+      "hook": "Open on the empty chair, not on you. Text at 1 second: \"There is one of these a week.\"",
+      "shots": [
+        "0.0–3.0s — low slow push toward the empty chair, light from the window",
+        "3.0–8.0s — trolley, foils, the colour bowl. Still no people.",
+        "8.0–13.0s — the chair again, wider. Hold it a beat too long on purpose.",
+        "13.0–16.0s — your hands setting one thing down. That is the only movement."
+      ],
+      "onScreenText": [
+        "1.0s — There is one of these a week",
+        "6.0s — Sunday. 10 til 2.",
+        "11.0s — Four hours. One appointment.",
+        "14.5s — DM me the word Sunday"
+      ],
+      "audio": "This is the one to try a trending track on. Open the audio picker, tap Trending, and look for the small upward arrow beside a sound — that arrow is Instagram telling you it is rising right now. Pick something slow and warm; anything with a beat fights the stillness. If a track you want will not attach, that is the account type talking, not you — pick the next one down.",
+      "caption": {
+        "hook": "This is what 10am on a Sunday looks like before anyone arrives.",
+        "body": "It stays like this for about ten minutes, and then it is one person in the chair for four hours.\n\nThat is the whole Sunday. One appointment, no rush, nobody else waiting.",
+        "cta": "DM me the word Sunday if you want the next one",
+        "hashtags": ["#camberwellhair", "#sundayhairappointment", "#melbournecolourist", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Filming it with someone in it. The empty room is the entire idea — the second a person appears it becomes an ordinary salon clip."
+    },
+    {
+      "id": "w4-v2-toner-talk",
+      "title": "Why your toner faded, to camera",
+      "lengthSec": [25, 40],
+      "difficulty": "Medium — you talking, one take, no edit",
+      "copyThis": {
+        "url": "https://www.opus.pro/research/best-video-hooks-instagram",
+        "creator": "Video hook research — question-hook format",
+        "whatItIs": "The question hook: open with the exact sentence your client already says, then answer it straight to camera. No intro, no 'hi guys'.",
+        "whyItCopies": "The research is blunt that the scroll is decided in about 1.7 seconds and that a question your ideal client is already asking signals relevance faster than anything else. You have twenty years of answering this one — the only change is starting at the answer instead of the greeting.",
+        "howToCopy": [
+          "Say the client's sentence first, in their words, not yours.",
+          "Answer it in one breath. No preamble.",
+          "Film it in one take. A cut here makes it feel scripted and the whole value is that it is not.",
+          "End on the practical bit, because that is what gets sent on."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://smmnut.com/blog/instagram-hooks/",
+          "creator": "Instagram hook patterns 2026",
+          "what": "Why correction hooks (\"that is not what happened\") outperform tip hooks"
+        }
+      ],
+      "references": [
+        "https://www.opus.pro/research/best-video-hooks-instagram",
+        "https://smmnut.com/blog/instagram-hooks/"
+      ],
+      "hook": "First words, no intro: \"Your toner didn't wash out. It was never going to stay.\" Say it to the lens.",
+      "shots": [
+        "0.0–2.0s — you, mid-shot, already talking. Do not start on a smile and a wave.",
+        "2.0–18.0s — same shot, keep going. Let it be one take.",
+        "18.0–26.0s — cut to your hands on a client's mid-lengths if you have it, voice continuing over the top.",
+        "26.0–32.0s — back to you for the last line."
+      ],
+      "onScreenText": [
+        "0.5s — \"My toner washed out too fast\"",
+        "3.0s — It didn't. Toner sits on the outside.",
+        "12.0s — 4–6 weeks is normal",
+        "22.0s — Cooler water. Fewer washes.",
+        "28.0s — Toner & gloss · $45 · 45 min"
+      ],
+      "audio": "No music on this one. Your voice is the product here, and a track underneath makes a genuine explanation read as an advert. It is also the safest audio you have — your own voice is original audio, so nothing about licensing or account type can touch it, and original audio gets its own discovery surface when other people use it.",
+      "caption": {
+        "hook": "Your toner did not wash out. It was never going to stay.",
+        "body": "This is the question I answer most, and the honest answer sounds like bad news until you hear the rest of it. Toner is not permanent colour. Four to six weeks is it doing its job, not failing.\n\nThe fix is not a stronger purple shampoo. It is booking the gloss before it has fully gone.",
+        "cta": "Send this to whoever keeps buying purple shampoo",
+        "hashtags": ["#melbournecolourist", "#camberwellhair", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Starting with a greeting. Every second before the client's own sentence costs you the people who needed to hear it."
+    },
+    {
+      "id": "w4-v3-four-hours",
+      "title": "Four hours in thirty seconds",
+      "lengthSec": [20, 30],
+      "difficulty": "Hardest — needs a propped phone and a client who says yes",
+      "copyThis": {
+        "url": "https://dingg.app/blogs/what-us-salons-need-to-post-on-tiktok-and-instagram-reels-checklist",
+        "creator": "Salon reel checklist 2026 — transformation compression",
+        "whatItIs": "The compressed transformation. A long appointment collapsed into twenty seconds, opening on the finished result rather than the start.",
+        "whyItCopies": "Every top-5 post on your account is video, and the transformation reveal is the format the research puts first for colourists. Opening on the after rather than the before is the part most people get wrong — the before is only interesting once you already care.",
+        "howToCopy": [
+          "Prop the phone somewhere it can stay all appointment. Do not hold it.",
+          "Film ten seconds every half hour. That is all.",
+          "Open the edit with the finished hair, then go back to the start.",
+          "Get consent before you film. Blanket consent at booking is the policy, but ask again on the day."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026",
+          "creator": "Salon post formats that drive bookings",
+          "what": "Why transformation reels convert better when the time cost is shown rather than hidden"
+        }
+      ],
+      "references": [
+        "https://dingg.app/blogs/what-us-salons-need-to-post-on-tiktok-and-instagram-reels-checklist",
+        "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"
+      ],
+      "hook": "Open on the finished blonde, moving, in good light. Text at 0.5s: \"This took four hours. Here is all of it.\"",
+      "shots": [
+        "0.0–2.5s — the finished result, hair moving. Best light you have.",
+        "2.5–5.0s — hard cut back to the consultation, dry hair, the before",
+        "5.0–15.0s — foils going in, sped up hard. Six or seven half-second clips.",
+        "15.0–20.0s — the wash, the toner, the blow wave, one second each",
+        "20.0–26.0s — the reveal again, slower this time, and her reaction if she is happy for it"
+      ],
+      "onScreenText": [
+        "0.5s — This took four hours",
+        "5.0s — 10am",
+        "14.0s — 12.30pm",
+        "20.0s — 2pm",
+        "24.0s — One Sunday appointment. That is the whole day's list."
+      ],
+      "audio": "Trending track, and this is the format that benefits most from one — a compressed transformation needs a beat to cut against. Open the picker, tap Trending, take something from the top of the list with a clear rhythm and cut your half-second clips to it. If it will not attach to the Reel, pick the next one rather than fighting it.",
+      "caption": {
+        "hook": "This took four hours. That is the entire Sunday.",
+        "body": "Ten til two, start to finish, one person in the chair. No second client, no gap where I disappear to check someone's foils.\n\nIf you have been waiting for a day where a big colour does not have to be rushed, this is what it looks like.",
+        "cta": "DM me the word Sunday for the next one",
+        "hashtags": ["#balayagemelbourne", "#camberwellhair", "#sundayhairappointment", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Filming the whole thing and then trying to cut it down. Ten seconds every half hour gives you ninety usable seconds; three hours of footage gives you a job you will not do."
+    }
+  ]
+}

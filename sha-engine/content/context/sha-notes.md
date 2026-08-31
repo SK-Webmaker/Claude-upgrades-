@@ -56,6 +56,26 @@ The published/not-published check is now automatic — `node src/cli.js posted`
 matches the captions the system wrote against what is actually on the account,
 so nobody has to remember. The questions are for what the API cannot see.
 
+### Week of 2026-08-31
+
+- **Days needing filling:** not the weekdays this time — **Sundays**. The whole
+  week is pointed at the Sunday of 6 September and at making the single Sunday
+  slot feel as limited as it genuinely is.
+- **Call to action changed:** operator asked for **DM for Sunday appointments**
+  rather than a link click. Every Sunday post this week asks for a DM. This is
+  the one deliberate change being tested.
+- **Last week:** "everything was good." 2 of 4 posts went up, both as reels,
+  scoring 8 and 6 likes (4.42% and 3.31%) against 1 and 1 the week before.
+- **Music — the constraint is lifted.** Operator says Sha can use trending
+  music and should not be held to the Meta Sound Collection. See CLAUDE.md §2:
+  the API still reports `accountType: BUSINESS`, so the guidance is now "try the
+  trending track, and if it will not attach that is the account type" rather
+  than "do not suggest one". Her own voice is still the safest and strongest
+  audio she has.
+- **Look:** operator asked for a completely new visual system to keep the feed
+  fresh. Week 4 is the **ticket system** — cream stock, perforated tear line,
+  serial number, red rubber stamp. `scripts/make-tickets.mjs`.
+
 ### Week of 2026-08-24
 
 - **Days needing filling:** Wednesday, Thursday **and Friday**. Both Wed/Thu and

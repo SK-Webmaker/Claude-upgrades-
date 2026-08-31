@@ -1,0 +1,32 @@
+{
+  "capturedAt": "2026-08-30",
+  "weekOf": "2026-08-31",
+  "source": "Composio INSTAGRAM_GET_USER_INFO + src/stages/review.js, live read 30 Aug 2026",
+  "account": {
+    "username": "hairbysha_c",
+    "accountType": "BUSINESS",
+    "followers": 181,
+    "mediaCount": 46,
+    "postsReviewed": 25,
+    "averageEngagement": 7.09,
+    "grade": "B"
+  },
+  "publishedLastWeek": [
+    { "id": "w3-blowwave", "url": "https://www.instagram.com/reel/DcZz-8XTUGj/", "likes": 8, "comments": 0, "engagement": 4.42, "grade": "C", "vsAverage": -2.67 },
+    { "id": "w3-blonde",   "url": "https://www.instagram.com/reel/Dcch1YyzDb0/", "likes": 6, "comments": 0, "engagement": 3.31, "grade": "C", "vsAverage": -3.78 }
+  ],
+  "notPublished": ["w3-halffoil-250", "w3-fivedays"],
+  "captionDefectsRemaining": 19,
+  "notes": [
+    "Engagement average slipped 7.48 to 7.09 because both published posts landed under the account average and pull it down.",
+    "But this is the best week the system has produced: 8 and 6 likes against 1 and 1 the week before. Photography-led beat typographic cards by 6-8x.",
+    "Both published items are at /reel/ URLs — she published them as reels, not stills. That is likely why they cleared 1 like.",
+    "Followers 180 to 181 (+1) against a predicted 183. The +4%/week growth model is running hot on this account; treat ~+2/week as the realistic base until proven otherwise.",
+    "Caption defects 22 to 19 — three more fixed by hand this week.",
+    "Saves and shares came back unmeasured again. Missing data, not zero."
+  ],
+  "predictionForNextWeek": {
+    "followers": "184-186",
+    "test": "Does the Sunday of 6 September fill from a DM? If yes the ticket format earns a rerun. If no, the constraint is demand rather than urgency, and next week must say so rather than escalating the urgency."
+  }
+}

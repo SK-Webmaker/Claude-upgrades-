@@ -109,19 +109,33 @@ line she stocks), DM, CTA, VIC, AU, IG, SMS, UV.
 `baseline-2026-08-14.json` records `accountType: BUSINESS`. That is not a
 detail, it decides what audio she can legally use:
 
-- **Business accounts get the Meta Sound Collection only** — a royalty-free
-  library. Meta's licensing deals with the labels cover *personal,
-  non-commercial* use, which a salon is not.
-- **The trending chart music every "trending Reels audio" listicle recommends
-  is unavailable to her.** Naming one is worse than naming none: it either does
-  not appear in her picker, or the Reel gets muted or pulled after posting.
-- Instagram's audio fingerprinting got stricter in 2026 and now catches
-  AI-generated audio, background music and TikTok-watermarked reuse. Filming a
-  Reel with a song playing in the salon is a real risk, not a theoretical one.
+**Updated 30 Aug 2026 — the operator says she can use trending music, and that
+overrides what follows.** She is holding the phone and can see her own audio
+picker; this file cannot. So: suggest trending tracks, and stop treating the
+royalty-free library as her only option.
 
-So: **suggest Meta Sound Collection tracks, or suggest nothing.** Give her a
-mood and a search term for the in-app library rather than a song title lifted
-from a blog, unless she has switched to a Creator account.
+The reason for the original caution still stands as a *diagnosis*, not a ban:
+
+- The API still reports `accountType: BUSINESS`. Meta's label deals cover
+  *personal, non-commercial* use, and most major-label chart music is restricted
+  on business accounts.
+- So the honest instruction is **"try the trending track — if it will not attach,
+  that is the account type, pick the next one"**, rather than naming a song and
+  promising it will work. Never assert that a specific track is available to her.
+- Instagram's audio fingerprinting got stricter in 2026 and catches AI-generated
+  audio, background music and TikTok-watermarked reuse. Filming a Reel with a
+  song playing in the salon is still a real risk.
+
+**Her own voice is the best audio she has**, and worth saying so whenever a guide
+could go either way. Original audio is unrestricted regardless of account type,
+it cannot be muted for licensing, it gets its own discovery surface when other
+people use it, and on a talking-head explanation a music bed makes genuine advice
+read as an advert. `voice.onCamera` is `face_and_voice` — use it.
+
+Switching to Creator unlocks the full licensed library and takes about thirty
+seconds, reversibly. What it costs her: the public address on the profile and
+the wider business CTA buttons. Both account types keep **Book Now**. It is her
+call, and it is not something to switch on her behalf.
 
 Switching to Creator unlocks the full licensed library and takes about thirty
 seconds, reversibly. What it costs her: the public address on the profile and
