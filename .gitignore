@@ -12,3 +12,6 @@ node_modules/
 .env
 *.env
 !*.env.example
+
+# Reel build intermediates — segment mp4s and 2x scene PNGs, ~100MB per build
+sha-engine/content/reels/.frames/
