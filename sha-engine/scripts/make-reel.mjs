@@ -229,13 +229,17 @@ for (let i = 0; i < SCENES.length; i++) {
   const z = inZoom
     ? `min(1.0+0.00075*on,1.10)`     // slow push in
     : `max(1.10-0.00075*on,1.0)`;    // slow pull out
+  // zoompan's `d` emits d frames for EVERY input frame. With `-loop 1 -t dur`
+  // the input is dur*fps frames, so d=frames produced frames^2 — a 3s scene
+  // became 270s. Feed it exactly one input frame and cap the output instead.
   execFileSync(
     ffmpegPath,
     [
-      '-y', '-loop', '1', '-t', String(s.dur), '-i', join(WORK, `s${String(i).padStart(2, '0')}.png`),
+      '-y', '-loop', '1', '-i', join(WORK, `s${String(i).padStart(2, '0')}.png`),
       '-filter_complex',
       `zoompan=z='${z}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${frames}:s=1080x1920:fps=${FPS},format=yuv420p`,
-      '-c:v', 'libx264', '-preset', 'medium', '-crf', '18', '-r', String(FPS),
+      '-frames:v', String(frames),
+      '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-r', String(FPS),
       join(WORK, `v${String(i).padStart(2, '0')}.mp4`),
     ],
     { stdio: ['ignore', 'ignore', 'pipe'] },
@@ -264,7 +268,7 @@ const finalPath = join(OUT, 'w6-reel-colour-care.mp4');
 execFileSync(
   ffmpegPath,
   [...['-y'], ...inputs, '-filter_complex', filter, '-map', '[vout]',
-   '-c:v', 'libx264', '-preset', 'slow', '-crf', '19', '-pix_fmt', 'yuv420p',
+   '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p',
    '-movflags', '+faststart', '-r', String(FPS), finalPath],
   { stdio: ['ignore', 'ignore', 'pipe'] },
 );
