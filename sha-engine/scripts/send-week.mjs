@@ -111,8 +111,19 @@ function copyBlock(text) {
 }
 
 function postBlock(p, i) {
+  // A carousel is useless as a cover image — she has to save every slide, in
+  // order, or she cannot post it at all. Render the lot, numbered.
+  const files = p.slides && p.slides.length ? p.slides : [p.image];
   const img = imageBase
-    ? `<img src="${imageBase}/${encodeURIComponent(p.image)}" alt="${esc(p.imageAlt)}" width="560" style="width:100%;max-width:560px;height:auto;display:block;border-radius:3px;margin:0 0 18px">`
+    ? files
+        .map((f, n) => {
+          const label =
+            files.length > 1
+              ? `<p style="margin:0 0 6px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${GOLD};font-weight:700">Slide ${n + 1} of ${files.length}</p>`
+              : '';
+          return `${label}<img src="${imageBase}/${encodeURIComponent(f)}" alt="${esc(p.imageAlt)}" width="560" style="width:100%;max-width:560px;height:auto;display:block;border-radius:3px;margin:0 0 18px">`;
+        })
+        .join('')
     : `<p style="color:#b00">[image unavailable — repo URL could not be resolved]</p>`;
   const steps = (p.howToPost || [])
     .map((s) => `<li style="margin:0 0 6px">${esc(s)}</li>`)
