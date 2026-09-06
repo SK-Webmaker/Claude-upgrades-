@@ -1,0 +1,47 @@
+{
+  "capturedAt": "2026-09-06",
+  "weekOf": "2026-09-07",
+  "source": "Composio INSTAGRAM_GET_USER_INFO + src/stages/review.js, live read 6 Sep 2026",
+  "account": {
+    "username": "hairbysha_c",
+    "accountType": "BUSINESS",
+    "followers": 179,
+    "mediaCount": 51,
+    "postsReviewed": 25,
+    "averageEngagement": 6.19,
+    "grade": "B"
+  },
+  "publishedLastWeek": [
+    { "id": "w4-toner", "url": "https://www.instagram.com/p/DcuVJ9azCZc/", "likes": 2, "comments": 0, "engagement": 1.12, "grade": "F", "vsAverage": -5.07, "postedAs": "still" },
+    { "id": "w4-what-fits", "url": "https://www.instagram.com/p/Dcw5zgITn6D/", "likes": 3, "comments": 0, "engagement": 1.68, "grade": "D", "vsAverage": -4.51, "postedAs": "still" }
+  ],
+  "notPublished": ["w4-sunday-ticket"],
+  "captionDefectsRemaining": 16,
+  "theFormatFinding": {
+    "conclusion": "It is the medium, not the design. Three separate visual systems have now been tested as flat stills and all three failed the same way.",
+    "stills": [
+      { "week": "2026-08-17", "design": "typographic ink cards", "engagement": 0.56, "grade": "F" },
+      { "week": "2026-08-31", "design": "ticket stock system", "engagement": 1.12, "grade": "F" },
+      { "week": "2026-08-31", "design": "ticket stock system", "engagement": 1.68, "grade": "D" }
+    ],
+    "reels": [
+      { "week": "2026-08-24", "design": "her photography", "engagement": 4.42, "grade": "C" },
+      { "week": "2026-08-24", "design": "her photography", "engagement": 3.31, "grade": "C" }
+    ],
+    "accountAverage": 6.19,
+    "action": "Week 5 is video-led: 4 reels, 3 carousels, 2 stills. Single flat cards are on notice — if the carousels beat them, stills are retired."
+  },
+  "notes": [
+    "Worst published week the system has produced. Engagement average fell 7.09 to 6.19; followers fell 181 to 179 against a predicted 184-186.",
+    "Both published items went up as /p/ stills, not reels. Week 3's went up as /reel/ and scored 3-4x higher with a comparable design.",
+    "Media count 46 to 51, so five things were posted in total and only two were the system's.",
+    "Caption defects 19 to 16 — three more fixed by hand.",
+    "Saves and shares came back unmeasured again. Missing data, not zero.",
+    "The +4%/week growth model has now over-predicted three weeks running. Treat flat-to-+2 as the realistic base."
+  ],
+  "predictionForNextWeek": {
+    "followers": "182-184",
+    "engagement": "return to 6.19 or better",
+    "test": "Do carousels beat single stills? This account has never run one. If a 5-slide educational carousel outperforms a flat card, the weekly mix moves permanently to reels plus carousels and single images are retired."
+  }
+}

@@ -1,0 +1,387 @@
+{
+  "weekOf": "2026-09-07",
+  "authoredBy": "gloss /start",
+  "title": "Video week — nine posts, four reels",
+  "thesis": "Four weeks of data have settled the format question and week 5 acts on it. Flat typographic cards do not work on this account in any visual system — three separate designs have now scored F, F and D as stills. Photography posted as a reel triples that. So this week is video-led: four reels shot 9:16 full-bleed, three educational carousels, and two singles carrying the direct asks. Every piece drives at the two things that pay — a mid-week chair and a Sunday chair.",
+  "projection": "Week 4 was the worst published week the system has produced: 1.12% and 1.68%, grades F and D, against an account average that fell 7.09% to 6.19%. Followers went backwards, 181 to 179, against a predicted 184-186. The ticket design was not the problem — the medium was, and the evidence is now unambiguous across three separate visual systems tested as stills. This week changes the variable that actually matters: nine posts of which four are reels and three are multi-slide carousels, with only two flat stills in the whole week. Target is a return to the 6.19% average rather than growth, with followers back to 182-184; if the reels land where week 3's did the average lifts instead. What this sets up for next week is the first clean read on carousels, which this account has never run — if a five-slide educational carousel beats a single still, the weekly mix moves permanently to reels plus carousels and single images are retired for good.",
+  "posts": [
+    {
+      "id": "w5-r1-brassy",
+      "day": "Monday",
+      "postAt": "2026-09-07T08:00:00+10:00",
+      "type": "education",
+      "medium": "reel",
+      "title": "Spring is what turns your blonde brassy",
+      "image": "w5-r1-brassy.png",
+      "imageAlt": "Full-bleed 9:16 photograph of long buttery blonde hair in window light, with a deep scrim at the foot carrying the words \"Spring is what turns your blonde brassy\" and beneath it \"It is not your shampoo. It is the UV coming back.\"",
+      "whyItWorks": "It is 7 September and Melbourne UV climbs steeply from now, so this is the rare seasonal hook that is both true and immediately useful rather than a calendar excuse. It also reassigns blame in the client's favour: she has been suspecting her shampoo or her colourist, and the answer is neither. That is the emotional shape of every post this account has done well with. Southern hemisphere matters here — a northern-seasons version of this post in September would be about autumn and would be wrong.",
+      "caption": {
+        "hook": "Your blonde is about to go brassy, and it is not your shampoo.",
+        "body": "Melbourne UV climbs from September and it is the single biggest thing that pulls warmth back into blonde. Sun oxidises the toner, the cool sits on top gets stripped, and what is underneath is the warmth that was always in your hair.\n\nThat is why it happens in spring and not in July, and why a stronger purple shampoo never quite fixes it. Purple tones the surface. It cannot put back what the sun took off.",
+        "cta": "A gloss at six weeks is $45 and 45 minutes. Send this to the friend blaming her shampoo.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Post as a reel, not a still. This is the whole point of the week.",
+        "Use the cover image as your first frame, or set it as the cover in the reel editor.",
+        "The last line is the share instruction. Leave it in — a send is worth more than ten likes."
+      ]
+    },
+    {
+      "id": "w5-c1-services",
+      "day": "Tuesday",
+      "postAt": "2026-09-08T08:00:00+10:00",
+      "type": "education",
+      "medium": "carousel",
+      "title": "Balayage, foils or babylights?",
+      "image": "w5-c1-1.png",
+      "slides": ["w5-c1-1.png", "w5-c1-2.png", "w5-c1-3.png", "w5-c1-4.png", "w5-c1-5.png"],
+      "imageAlt": "Five-slide carousel. Cover is a full-bleed photograph of sleek blonde highlights headed \"Balayage, foils or babylights?\". Three dark slides follow, each with a photo strip, explaining balayage from $340, foils from $240 partial and $320 full, and babylights. A cream closing slide reads \"Not sure which one you want?\" with the instruction to DM a photo.",
+      "whyItWorks": "This is the single most common point of confusion for anyone spending $240 to $420, and nobody local publishes a straight comparison. It does price transparency, service education and lead capture in one object. The carousel format is the deliberate experiment: this account has never run one, and each swipe counts as a fresh engagement on the same post, which is the cheapest reach available at 179 followers. The close asks for a photo in the DM rather than a booking, which is a far smaller ask and gives Sha a conversation she can price.",
+      "caption": {
+        "hook": "Balayage, foils and babylights are not the same thing, and picking the wrong one costs you a year.",
+        "body": "Balayage is painted by hand and grows out with no line, so you are back in ten to fourteen weeks. Foils lift further and more evenly because the foil holds the heat, but they leave a regrowth line and you are back in six to eight. Babylights are very fine foils woven close to the root, the most natural of the three and the slowest to do.\n\nThe right one is not about which photo you like. It is about how often you can honestly get back in that chair.",
+        "cta": "Swipe for the prices and the timings, then DM me a photo of your hair and I will tell you which one gets you there",
+        "hashtags": ["#balayagemelbourne", "#camberwellhair", "#melbournecolourist", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Upload all five slides in order — the cover first, the cream one last.",
+        "Carousels are new for this account. Watch whether the reach beats a single still; that is the thing being measured this week.",
+        "Anyone who sends a photo is a warm lead. Reply with the option and a rough price, not a link."
+      ]
+    },
+    {
+      "id": "w5-r2-wednesday",
+      "day": "Wednesday",
+      "postAt": "2026-09-09T08:00:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "reel",
+      "title": "A Wednesday sounds worse than it is",
+      "image": "w5-r2-wednesday.png",
+      "imageAlt": "Full-bleed 9:16 photograph of the calm salon interior, empty, in daylight. Deep scrim at the foot carrying \"A Wednesday sounds worse than it is\" and \"Nobody waiting. No rush. The calmest four hours of the week.\"",
+      "whyItWorks": "Wednesday and Thursday are the days that need filling, and the honest way to sell a quiet day is to make the quiet the product. A four-hour balayage on a Saturday is a worse experience for everyone — the room is full, the colourist is split, and the client feels processed. That is genuinely true here, so this reframes the leftover slot as the good slot without a dollar coming off the price. Invariant 7 holds: scarcity and convenience, never a discount.",
+      "caption": {
+        "hook": "A Wednesday appointment sounds like the leftover one. It is the good one.",
+        "body": "On a Saturday the room is full and I am split between chairs. On a Wednesday it is you, the window, and four uninterrupted hours.\n\nIf you are having a big colour done, the day you pick changes the appointment more than you would think. Mid-week is when I can take my time over a toner instead of watching the clock.",
+        "cta": "Wednesday and Thursday are the quiet ones this week. DM me a day that suits you.",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#boroondara", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Reel, Wednesday morning, so it can fill this week rather than next.",
+        "This one is quiet on purpose. Do not put a busy track under it.",
+        "Do not run this format again next week if the days stay empty — that would mean the problem is demand, not the caption."
+      ]
+    },
+    {
+      "id": "w5-s1-midweek",
+      "day": "Wednesday",
+      "postAt": "2026-09-09T17:00:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "image",
+      "title": "Wednesday and Thursday are the quiet ones",
+      "image": "w5-s1-midweek.png",
+      "imageAlt": "Photograph of foils being placed, with a scrim at the foot reading \"Wednesday and Thursday are the quiet ones\" and a gold button reading DM me a day that suits.",
+      "whyItWorks": "The direct ask, posted late afternoon when people are looking at their week. It carries no argument because the morning reel already made it — this is the closing half of a pair, and pairing a reel with a still ask on the same day is a pattern worth testing. It names the days without inventing a number of open slots, which the standing context is explicit about: she said Wednesday and Thursday are quiet but gave no count.",
+      "caption": {
+        "hook": "Two days this week where the chair is calm and the clock is not the problem.",
+        "body": "Wednesday and Thursday are the quiet ones. If you have been putting off a colour because you could not face a busy Saturday, these are the days I would pick for you.",
+        "cta": "DM me a day that suits and I will hold it",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#surreyhills", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "About 5pm, when people are planning the rest of their week.",
+        "Put it on your story straight after with a poll: Wednesday or Thursday. Poll answers are a warm list."
+      ]
+    },
+    {
+      "id": "w5-c2-consult",
+      "day": "Thursday",
+      "postAt": "2026-09-10T08:00:00+10:00",
+      "type": "education",
+      "medium": "carousel",
+      "title": "Three questions before I mix anything",
+      "image": "w5-c2-1.png",
+      "slides": ["w5-c2-1.png", "w5-c2-2.png", "w5-c2-3.png", "w5-c2-4.png", "w5-c2-5.png"],
+      "imageAlt": "Five-slide carousel opening on a photograph of Sha placing foils, headed \"Three questions before I mix anything\". Three dark slides ask what has been on the hair, how often the client can really come back, and what they do with it every morning. A cream closing slide reads \"Consultations are free, and separate.\"",
+      "whyItWorks": "Twenty years of expertise is invisible on Instagram unless it is shown as judgement rather than results, and the consultation is where her judgement actually lives. This is the post that separates her from a chain salon in the one way a photograph cannot. The third question in particular — what do you do with it every morning — is the kind of thing only someone who has done this a long time asks, and it lands as care rather than sales. The close removes the biggest barrier for a nervous new client: you do not have to book colour on the same day.",
+      "caption": {
+        "hook": "I ask three things before I mix a single bowl, and none of them are what you want it to look like.",
+        "body": "What has been on it, because box dye and old colour decide how far your hair can safely lift and it does not always show. How often you can honestly get back in, because a root-heavy foil is the wrong choice for someone who comes twice a year no matter how good the photo is. And what you actually do with it every morning, because air dried and tied up is a different colour to blow dried and worn out.\n\nGet these wrong and the colour is right on the day and wrong in six weeks.",
+        "cta": "Consultations are free and you do not have to book colour the same day. DM me if you want one.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#hawthornhair", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "All five slides in order. The cream one closes it.",
+        "This is the post to pin or save to a highlight — it is the one that converts a stranger who is nervous about their hair.",
+        "Answer consult questions publicly in the comments where you can. It is what makes the next person ask."
+      ]
+    },
+    {
+      "id": "w5-r3-foursunday",
+      "day": "Friday",
+      "postAt": "2026-09-11T08:00:00+10:00",
+      "type": "education",
+      "medium": "reel",
+      "title": "Four hours. One Sunday. One chair.",
+      "image": "w5-r3-foursunday.png",
+      "imageAlt": "Full-bleed 9:16 photograph of long sleek blonde balayage, deep scrim at the foot carrying \"Four hours. One Sunday. One chair.\" and \"Start to finish, and nobody else in the room.\"",
+      "whyItWorks": "The transformation reel is the format the research puts first for colourists and it is the one this account has never properly run. Opening on the finished result rather than the before is the part most people get wrong — the before is only interesting once you already care about the after. Attaching it to the Sunday window turns a format post into a booking post: the compression makes four hours look like a treat rather than a commitment, which is exactly the objection that stops someone booking a balayage.",
+      "caption": {
+        "hook": "This is four hours in thirty seconds, and it is the whole Sunday.",
+        "body": "Ten til two, start to finish, one person in the chair. No second client, no gap where I disappear to check someone else's foils.\n\nFour hours sounds like a lot until you see it like this. It is one morning, and then you do not think about your hair again until Christmas.",
+        "cta": "Sunday the 13th is open. DM me the word Sunday.",
+        "hashtags": ["#balayagemelbourne", "#camberwellhair", "#sundayhairappointment", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Friday morning, so it has the weekend to run before Sunday.",
+        "Open on the finished hair. Do not open on the before.",
+        "This is the one that benefits most from a track with a clear beat to cut against."
+      ]
+    },
+    {
+      "id": "w5-s2-sunday",
+      "day": "Friday",
+      "postAt": "2026-09-11T17:30:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "image",
+      "title": "One Sunday chair. 10 til 2.",
+      "image": "w5-s2-sunday.png",
+      "imageAlt": "Photograph of long wavy blonde balayage with a scrim at the foot reading \"One Sunday chair. 10 til 2.\" and a gold button reading DM me the word Sunday.",
+      "whyItWorks": "Friday at half five is when the weekend gets planned and the phone is already in their hand. This is the closing ask of the week and it is deliberately the plainest thing in it — the reel that morning did the persuading. The scarcity is literally true rather than manufactured, which is the only reason it can be this direct without training the audience to wait for a discount.",
+      "caption": {
+        "hook": "One Sunday chair, and it goes to whoever asks first.",
+        "body": "Sunday the 13th, ten til two. One appointment, because four hours is one appointment.\n\nIf you have been putting off a big change because you could never find the time during the week, this is the time.",
+        "cta": "DM me the word Sunday and it is yours",
+        "hashtags": ["#camberwellhair", "#sundayhairappointment", "#gleniris", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Friday about 5.30pm.",
+        "Story straight after with the countdown sticker set to Sunday 10am.",
+        "When it goes, put the same image on your story with Taken across it and the next date. A visibly gone appointment is what makes next week's believable."
+      ]
+    },
+    {
+      "id": "w5-c3-lasting",
+      "day": "Saturday",
+      "postAt": "2026-09-12T09:00:00+10:00",
+      "type": "saveable",
+      "medium": "carousel",
+      "title": "Make this colour last until Christmas",
+      "image": "w5-c3-1.png",
+      "slides": ["w5-c3-1.png", "w5-c3-2.png", "w5-c3-3.png", "w5-c3-4.png", "w5-c3-5.png", "w5-c3-6.png"],
+      "imageAlt": "Six-slide carousel opening on sleek blonde balayage headed \"Make this colour last until Christmas\". Four dark slides cover water temperature, wash frequency, Melbourne UV from September, and booking the gloss before it goes. A cream closing slide reads \"Christmas is fifteen weeks away.\"",
+      "whyItWorks": "Saves score roughly six times a like and this is built entirely to be saved: four things, none of them a product she is selling, which is what makes the advice credible. The Christmas frame is the real work though. Fifteen weeks out is exactly when a December colour has to be planned, and naming that turns a maintenance post into a booking prompt for the busiest month of her year. Giving away the free advice first is what earns the right to the ask on the last slide.",
+      "caption": {
+        "hook": "Four things that keep this colour alive until Christmas, and none of them are something you buy from me.",
+        "body": "Turn the water down, because hot water opens the cuticle and the toner leaves with it. Wash it less than you think, because every wash takes a little. Remember that Melbourne UV climbs from now and it lifts blonde warm and fades brunette flat, so a hat on a long day outside does more than any product.\n\nAnd book the gloss before it has gone rather than after. Forty five minutes at six weeks is a very different appointment to a correction in November.",
+        "cta": "Save this. Christmas is fifteen weeks away and December books out first, so DM me if you want your dates held.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#balayagemelbourne", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Saturday morning, when people are actually reading rather than commuting.",
+        "Ask for the save in your first comment, not in the caption.",
+        "December genuinely does book out. If people start asking for dates, take them now."
+      ]
+    },
+    {
+      "id": "w5-r4-platinum",
+      "day": "Sunday",
+      "postAt": "2026-09-13T16:00:00+10:00",
+      "type": "myth",
+      "medium": "reel",
+      "title": "Why I will not take you platinum today",
+      "image": "w5-r4-platinum.png",
+      "imageAlt": "Full-bleed 9:16 photograph of a polished blonde bob, deep scrim at the foot carrying \"Why I will not take you platinum today\" and \"Not a no. A longer plan, and hair that survives it.\"",
+      "whyItWorks": "Saying no in public is the strongest trust signal a colourist has, and almost nobody does it because it reads as turning away money. It does the opposite — it tells every person who has been burned by a salon that said yes too fast that this is the one who will not. It also pre-handles the most expensive objection in the business, which is the client who wants three levels of lift in one sitting and blames the colourist when the ends give out. Posting it Sunday afternoon, when people scroll and plan, gives it a long tail into the week.",
+      "caption": {
+        "hook": "If you ask me for platinum today and your hair is dark, I am going to say not today.",
+        "body": "That is not me being careful with your money. Lifting that far in one sitting is what breaks hair, and the damage does not show up in the chair, it shows up in three weeks when the ends stop behaving.\n\nWhat I will do instead is map it over two or three appointments so you get there with hair that still feels like hair. It takes longer. It is the difference between blonde you keep and blonde you cut off.",
+        "cta": "If someone said yes too fast and you are living with it, DM me a photo and I will tell you honestly what it takes to fix.",
+        "hashtags": ["#melbournecolourist", "#camberwellhair", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Sunday afternoon. People scroll and plan on a Sunday and this one runs long.",
+        "Talking head, your voice, no music. This is the one where a track would undo it.",
+        "Expect DMs with photos. Those are the highest value conversations of the week."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w5-v1-brassy",
+      "title": "Spring is what turns your blonde brassy",
+      "lengthSec": [25, 35],
+      "difficulty": "Medium — you talking, one take, one cutaway",
+      "copyThis": {
+        "url": "https://www.opus.pro/research/best-video-hooks-instagram",
+        "creator": "Video hook research — the correction hook",
+        "whatItIs": "Open by naming the thing the viewer already blames, then take the blame off them. No intro, no greeting, straight into the sentence.",
+        "whyItCopies": "The research puts the practical scroll window at about 1.7 seconds. A sentence that reassigns blame in the viewer's favour is the fastest way to earn the next five.",
+        "howToCopy": [
+          "First words: \"Your blonde is about to go brassy, and it is not your shampoo.\"",
+          "Answer it in one breath, no preamble.",
+          "One cutaway to hair in daylight, voice continuing over it.",
+          "End on the practical line, because that is what gets it sent on."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://smmnut.com/blog/instagram-hooks/", "creator": "Instagram hook patterns 2026", "what": "Why correction hooks outperform tip hooks" }
+      ],
+      "references": ["https://www.opus.pro/research/best-video-hooks-instagram", "https://smmnut.com/blog/instagram-hooks/"],
+      "hook": "Straight in, no greeting: \"Your blonde is about to go brassy, and it is not your shampoo.\"",
+      "shots": [
+        "0.0–2.0s — you, mid-shot, already mid-sentence. Film vertical, fill the frame, no gaps at the sides.",
+        "2.0–14.0s — same take. Explain UV oxidising the toner.",
+        "14.0–22.0s — cutaway to blonde hair in window light, voice continuing.",
+        "22.0–30.0s — back to you for the gloss line."
+      ],
+      "onScreenText": [
+        "0.5s — It is not your shampoo",
+        "5.0s — Melbourne UV climbs from September",
+        "12.0s — Sun oxidises the toner",
+        "20.0s — Purple shampoo tones the surface only",
+        "26.0s — Gloss · $45 · 45 min"
+      ],
+      "audio": "Your voice, no music. This is an explanation and a track under it makes it read as an advert. Original audio is also the safest thing you can use — nothing about licensing or account type can touch it.",
+      "caption": {
+        "hook": "Your blonde is about to go brassy, and it is not your shampoo.",
+        "body": "Melbourne UV climbs from September and it is the biggest thing pulling warmth back into blonde. The sun oxidises the toner, the cool sitting on top goes, and what is left is the warmth that was always underneath.\n\nA stronger purple shampoo will not fix it. Purple tones the surface. It cannot put back what the sun took off.",
+        "cta": "Send this to the friend who keeps blaming her shampoo",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Leaving dead space at the top or bottom of the frame. Film full 9:16 and keep your head in the upper middle third — Instagram covers the bottom 350 pixels with the caption and buttons."
+    },
+    {
+      "id": "w5-v2-wednesday",
+      "title": "A Wednesday sounds worse than it is",
+      "lengthSec": [12, 20],
+      "difficulty": "Easiest — one shot, no talking",
+      "copyThis": {
+        "url": "https://www.quarkbooker.com/blog/luxury-hair-salon-instagram-strategy-2026",
+        "creator": "Luxury salon Instagram strategy 2026 — the ambient open",
+        "whatItIs": "A slow move through a calm, empty salon with one line of text over it. No cuts, no talking, nothing happening.",
+        "whyItCopies": "It sells the thing a quiet day actually offers, which is not hair — it is a room with nobody else in it. You can only film this honestly on a day that genuinely is quiet.",
+        "howToCopy": [
+          "Film it on a Wednesday before your first client, not on a Saturday pretending.",
+          "One slow walk toward the chair, phone held low. One take.",
+          "Under 15 seconds. Nothing happening is the point.",
+          "One line of text at 1 second and leave it."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://sunnystorm.marketing/blog/instagram-reel-ideas-salons", "creator": "Salon reel formats roundup", "what": "Ambient and day-in-the-chair formats and why they hold without a hook line" }
+      ],
+      "references": ["https://www.quarkbooker.com/blog/luxury-hair-salon-instagram-strategy-2026", "https://sunnystorm.marketing/blog/instagram-reel-ideas-salons"],
+      "hook": "Open on the empty chair and the window light. Text at 1 second: \"This is a Wednesday.\"",
+      "shots": [
+        "0.0–4.0s — slow push toward the empty chair, light from the window. Vertical, full frame.",
+        "4.0–9.0s — trolley, foils, colour bowl. Still nobody in shot.",
+        "9.0–14.0s — the chair again, wider, held a beat too long on purpose.",
+        "14.0–17.0s — your hands setting one thing down. The only movement in it."
+      ],
+      "onScreenText": [
+        "1.0s — This is a Wednesday",
+        "5.0s — No waiting. No rush.",
+        "10.0s — The calmest four hours of the week",
+        "14.5s — Wednesday and Thursday are open"
+      ],
+      "audio": "Something slow and warm from the audio picker. Try a trending track first — if it will not attach, that is the account type rather than you, so take the next one. Anything with a beat fights the stillness, so pick for mood not energy.",
+      "caption": {
+        "hook": "A Wednesday appointment sounds like the leftover one. It is the good one.",
+        "body": "On a Saturday the room is full and I am split between chairs. On a Wednesday it is you, the window, and four uninterrupted hours.\n\nIf you are having a big colour done, the day changes the appointment more than you would think.",
+        "cta": "Wednesday and Thursday are the quiet ones this week. DM me a day that suits.",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#boroondara", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Filming it with someone in it. The empty room is the entire idea — the second a person appears it is an ordinary salon clip."
+    },
+    {
+      "id": "w5-v3-foursunday",
+      "title": "Four hours in thirty seconds",
+      "lengthSec": [20, 30],
+      "difficulty": "Hardest — propped phone, and a client who says yes",
+      "copyThis": {
+        "url": "https://dingg.app/blogs/what-us-salons-need-to-post-on-tiktok-and-instagram-reels-checklist",
+        "creator": "Salon reel checklist 2026 — transformation compression",
+        "whatItIs": "A long appointment collapsed into twenty seconds, opening on the finished result rather than the start.",
+        "whyItCopies": "Every top-5 post on your account is video and the transformation reveal is the format the research puts first for colourists. Opening on the after is the bit most people get wrong — the before is only interesting once you already care.",
+        "howToCopy": [
+          "Prop the phone somewhere it can stay all appointment. Do not hold it.",
+          "Ten seconds every half hour. That is all.",
+          "Open the edit with the finished hair, then jump back to the start.",
+          "Get consent before you film, and ask again on the day even though it is blanket at booking."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026", "creator": "Salon post formats that drive bookings", "what": "Why transformation reels convert better when the time cost is shown rather than hidden" }
+      ],
+      "references": ["https://dingg.app/blogs/what-us-salons-need-to-post-on-tiktok-and-instagram-reels-checklist", "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"],
+      "hook": "Open on the finished blonde, moving, in the best light you have. Text at 0.5s: \"This took four hours.\"",
+      "shots": [
+        "0.0–2.5s — the finished result, hair moving. Vertical, filling the frame.",
+        "2.5–5.0s — hard cut back to the consultation, dry hair, the before",
+        "5.0–15.0s — foils going in, sped up hard. Six or seven half-second clips cut to the beat.",
+        "15.0–20.0s — wash, toner, blow wave. One second each.",
+        "20.0–26.0s — the reveal again, slower, and her reaction if she is happy for it."
+      ],
+      "onScreenText": [
+        "0.5s — This took four hours",
+        "5.0s — 10am",
+        "13.0s — 12.30pm",
+        "19.0s — 2pm",
+        "24.0s — One Sunday appointment. That is the whole day."
+      ],
+      "audio": "Trending track with a clear beat, and cut the half-second clips to it. This is the format that benefits most from music. Try the top of the trending list first; if it will not attach, take the next one rather than fighting it.",
+      "caption": {
+        "hook": "This is four hours in thirty seconds, and it is the whole Sunday.",
+        "body": "Ten til two, start to finish, one person in the chair. No second client, no gap where I disappear to check someone else's foils.\n\nFour hours sounds like a lot until you see it like this.",
+        "cta": "Sunday the 13th is open. DM me the word Sunday.",
+        "hashtags": ["#balayagemelbourne", "#camberwellhair", "#sundayhairappointment", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Filming the whole appointment and trying to cut it down afterwards. Ten seconds every half hour gives you ninety usable seconds; three hours of footage gives you a job you will not do."
+    },
+    {
+      "id": "w5-v4-platinum",
+      "title": "Why I will not take you platinum today",
+      "lengthSec": [30, 45],
+      "difficulty": "Medium — you talking, one take",
+      "copyThis": {
+        "url": "https://smmnut.com/blog/instagram-hooks/",
+        "creator": "Instagram hook patterns 2026 — the refusal hook",
+        "whatItIs": "Open by saying no to the thing the viewer wants, then immediately explain why the no is in their favour.",
+        "whyItCopies": "A refusal is pattern-breaking in a feed where every salon says yes. It reads as expertise rather than sales, and it pre-handles the most expensive objection you deal with.",
+        "howToCopy": [
+          "Say the no in the first sentence. Do not soften it first.",
+          "Explain the damage timeline — that it shows up in three weeks, not in the chair.",
+          "Then give the alternative, so it lands as a plan and not a rejection.",
+          "Invite the people already living with a bad one to send a photo."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://www.opus.pro/research/best-video-hooks-instagram", "creator": "Video hook research", "what": "Why hooks that contradict expectation hold longer than hooks that promise a tip" }
+      ],
+      "references": ["https://smmnut.com/blog/instagram-hooks/", "https://www.opus.pro/research/best-video-hooks-instagram"],
+      "hook": "First sentence, flat and unhedged: \"If you ask me for platinum today and your hair is dark, I am going to say not today.\"",
+      "shots": [
+        "0.0–3.0s — you, mid-shot, straight to lens. Vertical and filling the frame.",
+        "3.0–20.0s — one continuous take. The damage explanation.",
+        "20.0–32.0s — cutaway to foils or a mid-lengths shot while you explain the two-appointment plan.",
+        "32.0–40.0s — back to you for the invitation to send a photo."
+      ],
+      "onScreenText": [
+        "0.5s — Not today",
+        "6.0s — Lifting that far in one sitting is what breaks hair",
+        "16.0s — The damage shows up in three weeks, not in the chair",
+        "26.0s — Two or three appointments instead",
+        "36.0s — DM me a photo"
+      ],
+      "audio": "No music. This is the one where a track would undo the whole thing — it only works because it sounds like a person telling you the truth rather than an advert.",
+      "caption": {
+        "hook": "If you ask me for platinum today and your hair is dark, I am going to say not today.",
+        "body": "That is not me being careful with your money. Lifting that far in one sitting is what breaks hair, and it does not show up in the chair, it shows up in three weeks when the ends stop behaving.\n\nWhat I will do instead is map it over two or three appointments so you get there with hair that still feels like hair.",
+        "cta": "If someone said yes too fast and you are living with it, DM me a photo and I will tell you honestly what it takes to fix",
+        "hashtags": ["#melbournecolourist", "#camberwellhair", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Softening the first sentence. The whole reel works because the no comes before the explanation — hedge it and it becomes an ordinary tip video."
+    }
+  ]
+}

@@ -56,6 +56,25 @@ The published/not-published check is now automatic — `node src/cli.js posted`
 matches the captions the system wrote against what is actually on the account,
 so nobody has to remember. The questions are for what the API cannot see.
 
+### Week of 2026-09-07
+
+- **Sha's ask:** better posts that bring in more clients, more educational
+  reels, and a harder push on Sunday 10am-2pm. **Seven posts minimum for seven
+  days**, plus two or three add-ons. Mix of single posts, carousels and reels,
+  **at least two reels**, high quality and cinematic, **9:16 for reels**, and any
+  text or promo must fill the frame rather than leaving dead space.
+- **Days needing filling:** **Wednesday and Thursday, and Sunday.** Both.
+- **Delivered:** 9 posts — 4 reels, 3 carousels, 2 singles. First carousels this
+  account has ever run.
+- **The finding that shaped the week:** week 4 scored 1.12% (F) and 1.68% (D),
+  both posted as stills. Week 3's photography posts went up as reels and scored
+  4.42% and 3.31%. Three separate visual systems have now failed as flat stills.
+  **It is the medium, not the design.** Week 5 is video-led as a result, and
+  single stills are on notice.
+- **Design direction:** photography-led and full-bleed, type set into the image
+  rather than on a coloured panel. Reels composed for Instagram's real safe area
+  — the bottom 350px and right 180px are covered by the app's own UI.
+
 ### Week of 2026-08-31
 
 - **Days needing filling:** not the weekdays this time — **Sundays**. The whole
