@@ -128,6 +128,24 @@ function postBlock(p, i) {
   const steps = (p.howToPost || [])
     .map((s) => `<li style="margin:0 0 6px">${esc(s)}</li>`)
     .join('');
+
+  // A finished reel cannot travel inside an email — Gmail will not play an
+  // attached MP4 and a 5MB attachment is hostile on a phone. Link it instead,
+  // pinned to the same commit as the images so it does not rot.
+  const videoBase = imageBase ? imageBase.replace(/\/content\/cards$/, '/content/reels') : null;
+  const video = p.video && videoBase
+    ? `<div style="margin:0 0 18px;padding:20px 22px;background:${CREAM};border-left:3px solid ${GOLD}">
+         <p style="margin:0 0 12px;font-size:15px;line-height:1.6;color:${INK}">
+           <strong>This one is a finished video.</strong> Tap below to download it, then upload it to Instagram as a reel. Nothing to film.
+         </p>
+         <a href="${videoBase}/${encodeURIComponent(p.video)}"
+            style="display:inline-block;background:${INK};color:${CREAM};font-size:15px;font-weight:700;
+                   letter-spacing:.06em;text-decoration:none;padding:14px 22px">Download the reel &rarr;</a>
+         <p style="margin:12px 0 0;font-size:13px;line-height:1.55;color:#666">
+           It has no sound on purpose &mdash; add a track in Instagram when you post it.
+         </p>
+       </div>`
+    : '';
   return `
   <tr><td style="padding:0 0 44px">
     <p style="margin:0 0 4px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:${GOLD};font-weight:600">
@@ -135,7 +153,8 @@ function postBlock(p, i) {
     </p>
     <h2 style="margin:0 0 16px;font-size:21px;line-height:1.3;color:${INK};font-weight:600">${esc(p.title)}</h2>
     ${img}
-    <p style="margin:0 0 8px;font-size:13px;color:#666">Save the image, then copy this caption:</p>
+    ${video}
+    <p style="margin:0 0 8px;font-size:13px;color:#666">${p.video ? 'Then copy this caption:' : 'Save the image, then copy this caption:'}</p>
     ${copyBlock(fullCaption(p.caption))}
     <ul style="margin:14px 0 0;padding-left:20px;font-size:14px;line-height:1.5;color:#444">${steps}</ul>
   </td></tr>`;
