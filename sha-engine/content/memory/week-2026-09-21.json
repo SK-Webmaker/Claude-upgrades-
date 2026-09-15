@@ -1,0 +1,53 @@
+{
+  "capturedAt": "2026-09-15",
+  "weekOf": "2026-09-21",
+  "source": "Composio INSTAGRAM_GET_USER_INFO + INSTAGRAM_GET_USER_MEDIA, live read 15 Sep 2026",
+  "account": {
+    "username": "hairbysha_c",
+    "accountType": "BUSINESS",
+    "followers": 186,
+    "mediaCount": 58,
+    "postsReviewed": 25,
+    "averageEngagement": 5.42,
+    "grade": "C"
+  },
+  "followerChange": "+7 from 179 — the best week the account has had",
+  "captionDefectsRemaining": 10,
+  "theDesignQuestionIsAnswered": {
+    "conclusion": "The studio-palette photography posts beat the ticket cards 2.7-4x. That system stays.",
+    "studioPalette": [
+      { "id": "w5-r1-brassy", "engagement": 4.30, "date": "2026-09-06" },
+      { "id": "w5-c1-services", "engagement": 4.30, "date": "2026-09-07" },
+      { "id": "w5-r2-wednesday", "engagement": 3.76, "date": "2026-09-08" },
+      { "id": "w5-c2-consult", "engagement": 2.69, "date": "2026-09-09" }
+    ],
+    "ticketCards": [
+      { "id": "w4-what-fits", "engagement": 1.61, "date": "2026-09-02" },
+      { "id": "w4-toner", "engagement": 1.08, "date": "2026-09-01" }
+    ]
+  },
+  "theNewFinding": {
+    "conclusion": "Her own captions beat the system's. The two best posts on the account are hers, and both are one warm line with a single emoji.",
+    "hers": [
+      { "caption": "Event season is creeping up", "engagement": 7.53, "likes": 14, "date": "2026-09-13" },
+      { "caption": "the blow dry that actually lasts", "engagement": 6.45, "likes": 12, "date": "2026-09-03" }
+    ],
+    "action": "Week 7 captions cut from ~120 words to ~38 average, and the voice moved toward hers."
+  },
+  "notes": [
+    "Week 6 (2026-09-14) has not been posted at all yet — 0 of 7. She is working through week 5 and her own content, and both weeks landed in her inbox the same day.",
+    "Zero comments across all 14 recent posts. The DM calls to action are not producing visible engagement, though DMs would not show here.",
+    "Engagement average fell 6.19 to 5.42 while followers rose — more posts dilutes the average even as absolute likes climb. Watch likes-per-post, not just the average.",
+    "Container was recycled before this run: .env is gitignored so credentials had to be rebuilt, and node_modules reinstalled.",
+    "Caption defects 16 to 10 — six more fixed by hand."
+  ],
+  "defectsFoundThisRun": [
+    "Week 6 shipped with ONE video guide where the invariant requires two. The pack test only checked pack.current(), which on 6 Sep resolved to an older pack, so the suite stayed green for nine days. Test now walks every pack on disk; week 6 given a second guide.",
+    "Week 1's three captions carried 6 hashtags against the 3-5 rule introduced later. Trimmed the generic #melbournehairdresser mega-tag from each. None were ever published."
+  ],
+  "predictionForNextWeek": {
+    "followers": "190-193",
+    "engagement": "back over 6%",
+    "test": "Does the 48-hour rule fill a single Wednesday or Thursday? If yes it runs again ahead of the Caulfield Cup (17 Oct) and Cox Plate (24 Oct), which are the biggest booking windows left this year."
+  }
+}

@@ -1,16 +1,33 @@
 import { test, describe } from 'node:test';
 import assert from 'node:assert/strict';
+import { readdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import pack, { checkCaption, fullCaption, weekOf } from '../src/lib/pack.js';
+
+const PACKS = join(dirname(fileURLToPath(import.meta.url)), '..', 'content', 'packs');
 
 describe('the week pack', () => {
   test('every shipped pack passes the Critic', () => {
     // forWeek throws if any caption in the pack trips a blocker, so the call
     // itself is the assertion. This is the guard that stops a hand-written
     // pack reaching the console with an unhashed tag or a drafting leftover.
-    const week = pack.current();
-    assert.ok(week, 'no pack found for the current week');
-    assert.ok(week.posts.length >= 3, 'a week owes Sha three finished posts');
-    assert.ok(week.videoGuides.length >= 2, 'a week owes Sha at least two video guides');
+    //
+    // This deliberately walks EVERY pack on disk rather than pack.current().
+    // current() resolves to whatever week today falls in, so a pack authored
+    // ahead of time was never checked until its week arrived — week 6 shipped
+    // with one video guide instead of two and the suite stayed green for nine
+    // days. A pack is wrong the moment it is written, not the Monday it lands.
+    const files = readdirSync(PACKS).filter((f) => f.endsWith('.json'));
+    assert.ok(files.length > 0, 'no packs on disk');
+
+    for (const f of files) {
+      const w = f.slice(0, -5);
+      const week = pack.forWeek(w);
+      assert.ok(week, `no pack found for ${w}`);
+      assert.ok(week.posts.length >= 3, `${w}: a week owes Sha three finished posts`);
+      assert.ok(week.videoGuides.length >= 2, `${w}: a week owes Sha at least two video guides`);
+    }
   });
 
   test('finished means the image exists, not just the caption', () => {

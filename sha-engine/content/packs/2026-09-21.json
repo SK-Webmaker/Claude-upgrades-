@@ -1,0 +1,252 @@
+{
+  "weekOf": "2026-09-21",
+  "authoredBy": "gloss /start",
+  "title": "The 48-hour rule — race week",
+  "thesis": "Spring Racing runs to 29 November and Caulfield is four kilometres from her chair. Colour needs roughly 48 hours to settle, so a Saturday race day means colour on Wednesday or Thursday. One true fact fills the two days that need filling, with colour work rather than a blow wave, and it needs no discount to do it.",
+  "projection": "Followers 179 to 186 — plus seven, the best week the account has had — while engagement settled to 5.42% across 58 posts. The design question is answered: the studio-palette photography posts ran 4.30%, 4.30% and 3.76% against 1.08% and 1.61% for the ticket cards, so that system stays. The thing to change is the writing. Her own two best posts are 7.53% and 6.45%, both one warm line with a single emoji, while the system has been shipping expert paragraphs that land at half that. Captions this week are cut to roughly a third of their previous length and the voice moves toward hers. Target is 190-193 followers and a lift back over 6%. What this sets up for next week is the Caulfield Cup on 17 October and the Cox Plate on 24 October — if the 48-hour rule fills a single Wednesday this week, it runs again ahead of both, and the October race days become the biggest booking window of the year.",
+  "posts": [
+    {
+      "id": "w7-p1-48hour",
+      "day": "Monday",
+      "postAt": "2026-09-21T08:00:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Colour needs 48 hours",
+      "image": "w7-p1-48hour.png",
+      "imageAlt": "A deep fig-green card with a clay disc top right. Large serif type reads \"Colour needs 48 hours\", then a three-row timeline: Wed, colour, the quiet chair no clock; Thu, it settles, do not wash it; Sat, blow wave 45 minutes then go. The two midweek rows are picked out in gold.",
+      "whyItWorks": "This is the week's whole argument in one object, and it solves the quiet-day problem with a reason rather than a discount. Wednesday and Thursday stop being the leftover days and become the correct days, because a colour done on Friday genuinely has not finished moving by Saturday morning. The timeline does the persuading before the caption is read — the eye goes Wed, Thu, Sat and the gap is the point. It also pulls midweek bookings toward the $240-420 colour band rather than a 45-minute blow wave, which is where the chair actually earns.",
+      "caption": {
+        "hook": "Friday colour for a Saturday event is too late.",
+        "body": "Colour keeps moving for about 48 hours. The cuticle is still closing, the toner is still settling, and that first wash is what strips it.\n\nWednesday or Thursday, then leave it alone.",
+        "cta": "Race season is here. DM me your date.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#springracing", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Monday morning. This one sets up the whole week — everything else refers back to it.",
+        "Pin it to your profile for the next six weeks. Race season runs to November and this is the post that keeps earning."
+      ]
+    },
+    {
+      "id": "w7-c1-raceweek",
+      "day": "Tuesday",
+      "postAt": "2026-09-22T08:00:00+10:00",
+      "type": "education",
+      "medium": "carousel",
+      "title": "Why Friday is the wrong day",
+      "image": "w7-c1-1.png",
+      "slides": ["w7-c1-1.png", "w7-c1-2.png", "w7-c1-3.png", "w7-c1-4.png", "w7-c1-5.png"],
+      "imageAlt": "Five-slide carousel in the studio palette. A clay cover reading \"Why Friday is the wrong day\", three ink slides on the 48-hour settle, not washing in between, and booking the blow wave separately, and a clay closing slide on the midweek chair being the calmest.",
+      "whyItWorks": "The long-form version of Monday's card, for the people who want the reasoning rather than the instruction. Carousels are still unmeasured on this account, so running one every week until there is a number is the right call. The closing slide is doing the commercial work: it reframes midweek as the better appointment on experience grounds, so the booking feels like an upgrade rather than a compromise.",
+      "caption": {
+        "hook": "Four things nobody tells you about colour before an event.",
+        "body": "The short version is that Friday is too late and the day before is worse. Swipe for why, and for the bit about not washing it in between.",
+        "cta": "Save it for the next race day",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#springracingcarnival", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "All five slides in order.",
+        "Ask for the save in your first comment, not in the caption."
+      ]
+    },
+    {
+      "id": "w7-p3-wednesday",
+      "day": "Wednesday",
+      "postAt": "2026-09-23T07:30:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "image",
+      "title": "Wednesday is the new Friday",
+      "image": "w7-p3-wednesday.png",
+      "imageAlt": "A fig-green card with a clay disc. Serif type reads \"Wednesday is the new Friday\", with a line about booking midweek and letting it settle, and a clay button reading DM me for Wed or Thu.",
+      "whyItWorks": "The direct ask, posted on the morning of the day it is selling so someone can still take it. It carries no argument because Monday and Tuesday already made it — this is just the door being held open. Naming both days without inventing a number of open slots is deliberate: the standing context says Wednesday and Thursday are quiet but gives no count, and a fabricated number is the fastest way to lose the credibility the rest of the week is building.",
+      "caption": {
+        "hook": "Wednesday is the new Friday 🥂",
+        "body": "If it is for Saturday, midweek is the right appointment. Quiet chair, no clock, and two full days for it to settle.",
+        "cta": "DM me for Wednesday or Thursday",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#boroondara", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Early, about 7.30am, so it is there before the day gets away.",
+        "Story straight after with a poll: Wednesday or Thursday. Poll answers are a warm list you can message."
+      ]
+    },
+    {
+      "id": "w7-p6-aspiration",
+      "day": "Thursday",
+      "postAt": "2026-09-24T08:00:00+10:00",
+      "type": "education",
+      "medium": "image",
+      "title": "Get it right once, then coast to Christmas",
+      "image": "w7-p6-aspiration.png",
+      "imageAlt": "A clay card with a fig-green disc. Serif type reads \"Get it right once, then coast to Christmas\", with a line about one proper colour in September carrying the whole run of events.",
+      "whyItWorks": "Zooms out from one race day to the whole season, which is the move that turns a single booking into a plan. Races, weddings and the end of year all land between now and December, and someone who books one considered colour in September genuinely does coast through — where someone who books reactively ends up with three rushed appointments and worse hair. It sells the maintenance rhythm without naming a price, and it pulls the conversation toward the standing-appointment clients who are the most valuable thing in the business.",
+      "caption": {
+        "hook": "Get it right once and coast through to Christmas.",
+        "body": "Races, weddings, end of year. One proper colour now carries all of it, instead of three rushed ones in a row.",
+        "cta": "DM me and we will map the dates",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#gleniris", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Thursday morning, the second of the two quiet days.",
+        "Anyone who replies with a date is worth taking properly — get the whole season in the diary, not just the next one."
+      ]
+    },
+    {
+      "id": "w7-p4-saturday",
+      "day": "Friday",
+      "postAt": "2026-09-25T17:00:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "image",
+      "title": "Forty five minutes and the day is handled",
+      "image": "w7-p4-saturday.png",
+      "imageAlt": "A photograph of sleek ashy blonde in daylight, with a scrim at the foot reading \"Forty five minutes, and the day is handled\", a line about the blow wave being the only thing that fits on the morning of, and a gold button reading DM me a Saturday time.",
+      "whyItWorks": "Saturday has never been sold on this account and it is the easiest day to fill, because a 45-minute blow wave is the one service that fits between waking up and leaving for an event. Posted Friday at five, when the weekend is being planned and tomorrow is still bookable. It also completes the week's logic: midweek colour, Saturday finish. The two bookings belong to the same client and this is the post that asks for the second one.",
+      "caption": {
+        "hook": "Forty five minutes and the day is handled 🤍",
+        "body": "A blow wave is the only thing that fits on the morning of. On hair that was coloured midweek, it is the one that photographs.",
+        "cta": "DM me a Saturday morning",
+        "hashtags": ["#camberwellhair", "#blowwavemelbourne", "#surreyhills", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Friday about 5pm. People are planning the weekend with the phone already in their hand.",
+        "Saturday mornings are the slot to push. Say a time, not a link."
+      ]
+    },
+    {
+      "id": "w7-p2-racing",
+      "day": "Saturday",
+      "postAt": "2026-09-26T09:00:00+10:00",
+      "type": "seasonal",
+      "medium": "image",
+      "title": "Caulfield is four kilometres away",
+      "image": "w7-p2-racing.png",
+      "imageAlt": "A photograph of glossy dimensional brunette waves in the salon, with a scrim at the foot reading \"Caulfield is four kilometres away\", a line about race season running to November, and a gold button reading DM me your race day.",
+      "whyItWorks": "Her own best-performing post was a seasonal one — event season at 7.53% — so this runs the same hook with the local detail she did not use. Caulfield being four kilometres away is the specific, checkable fact that turns a generic race-season post into one that is obviously about her clients. Posted Saturday morning during a race meeting, when the feed is already full of it, so it reads as part of the day rather than an interruption.",
+      "caption": {
+        "hook": "Caulfield is four kilometres away.",
+        "body": "Spring racing runs right through to November, and every one of those days is a Saturday. Which means the colour goes in the Wednesday before.",
+        "cta": "DM me your race day and I will work backwards",
+        "hashtags": ["#springracingcarnival", "#camberwellhair", "#melbournecolourist", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Saturday morning while the racing is on. Timing is most of this one.",
+        "The Caulfield Cup is 17 October and the Cox Plate is 24 October. Both are worth their own post nearer the time."
+      ]
+    },
+    {
+      "id": "w7-p5-sunday",
+      "day": "Sunday",
+      "postAt": "2026-09-27T17:00:00+10:00",
+      "type": "quiet-day fill",
+      "medium": "image",
+      "title": "Four hours, and nobody waiting",
+      "image": "w7-p5-sunday.png",
+      "imageAlt": "An ink card with a fig-green disc. Serif type reads \"Four hours, and nobody waiting\", with a line about one chair and one colour, and a gold button reading DM me the word Sunday.",
+      "whyItWorks": "Sunday evening is when the coming week gets planned, so this closes one week and opens the next in the same post. It is the only day that can hold a four-hour colour without anything else in the diary, which is a real difference rather than a marketing line, and after a week of race-day urgency it lands as the calm alternative for the person who is not going anywhere but has been putting their hair off.",
+      "caption": {
+        "hook": "One chair, ten til two.",
+        "body": "Four hours, nobody waiting, no rush. If the week never works, Sunday might.",
+        "cta": "DM me the word Sunday",
+        "hashtags": ["#camberwellhair", "#sundayhairappointment", "#hawthornhair", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Sunday about 5pm, as the week ahead is being planned.",
+        "If today's Sunday was booked, say so on your story. A visibly taken slot is what makes next week's believable."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w7-v1-48hour",
+      "title": "The 48-hour rule, to camera",
+      "lengthSec": [20, 30],
+      "difficulty": "Medium — you talking, one take, no edit",
+      "copyThis": {
+        "url": "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
+        "creator": "Salon reel trends 2026 — the corrective hook",
+        "whatItIs": "Open by contradicting what the viewer is about to do, then explain why. No greeting, no intro.",
+        "whyItCopies": "Your own best post this month was a seasonal line with one emoji, not an explainer — so the winning shape here is short and warm rather than thorough. Twenty seconds, one idea, said the way you would say it in the chair.",
+        "howToCopy": [
+          "First line: \"If your event is Saturday, do not book Friday.\"",
+          "Say the 48 hours, say why, stop.",
+          "One take. Do not film it twice trying to be tidier — the first one is always warmer.",
+          "End on the ask, not on a summary."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026", "creator": "Salon formats that drive bookings", "what": "Why timing and availability posts convert better than technique posts" }
+      ],
+      "references": [
+        "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
+        "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"
+      ],
+      "hook": "Straight in, no greeting: \"If your event is Saturday, do not book Friday.\"",
+      "shots": [
+        "0.0–2.0s — you, mid-shot, already talking. Vertical, filling the frame.",
+        "2.0–14.0s — one continuous take. The 48 hours and why.",
+        "14.0–20.0s — cutaway to a fresh toner or a mid-lengths shot, voice over the top.",
+        "20.0–26.0s — back to you for the midweek ask."
+      ],
+      "onScreenText": [
+        "0.5s — Saturday event?",
+        "3.0s — Do not book Friday",
+        "9.0s — Colour moves for 48 hours",
+        "16.0s — Wednesday or Thursday",
+        "22.0s — DM me your date"
+      ],
+      "audio": "Your voice, no music. It is a piece of advice, and a track underneath turns advice into an advert. Original audio is also the safest thing you can use on this account.",
+      "caption": {
+        "hook": "If your event is Saturday, do not book the Friday.",
+        "body": "Colour keeps moving for about 48 hours. Friday colour on a Saturday head has not finished settling, and the first wash takes the toner with it.\n\nMidweek, then leave it alone.",
+        "cta": "DM me your date and I will work backwards",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#springracing", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Making it thorough. Twenty seconds beats forty here — the point is one instruction, not a lesson."
+    },
+    {
+      "id": "w7-v2-saturday",
+      "title": "The Saturday morning blow wave",
+      "lengthSec": [15, 25],
+      "difficulty": "Easiest — propped phone, no talking",
+      "copyThis": {
+        "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026",
+        "creator": "Salon formats that drive bookings — the compressed finish",
+        "whatItIs": "A short service compressed to its best fifteen seconds, opening on the finished movement rather than the start.",
+        "whyItCopies": "Your blow-dry post ran 6.45%, second best on the account, and it was exactly this. A blow wave is the only service short enough to show end to end, which makes it the easiest high-performing video you can make.",
+        "howToCopy": [
+          "Prop the phone once and leave it. Do not hold it.",
+          "Open on the finished hair moving, then cut back to the start.",
+          "Four or five clips, a second each, then the finish again slower.",
+          "Get consent on the day even though it is blanket at booking."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today", "creator": "Salon reel trends 2026", "what": "Why the finish-first edit holds longer than a chronological one" }
+      ],
+      "references": [
+        "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026",
+        "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today"
+      ],
+      "hook": "Open on the finished blow wave, moving, in the window light. Text at 0.5s: \"45 minutes.\"",
+      "shots": [
+        "0.0–2.5s — the finish, hair moving. Best light in the room.",
+        "2.5–5.0s — cut back to damp hair at the start.",
+        "5.0–12.0s — brush and dryer, four quick clips.",
+        "12.0–18.0s — the finish again, slower, and a turn if she is happy for it."
+      ],
+      "onScreenText": [
+        "0.5s — 45 minutes",
+        "5.0s — Saturday, 9am",
+        "12.0s — Coloured on Wednesday",
+        "16.0s — DM me a Saturday time"
+      ],
+      "audio": "This one takes a track. Open the audio picker, try the trending list first, and pick something with a clear beat to cut the short clips against. If a song will not attach, that is the account type rather than you — take the next one.",
+      "caption": {
+        "hook": "Forty five minutes and the day is handled 🤍",
+        "body": "The only thing that fits on the morning of an event, on hair that was coloured midweek.",
+        "cta": "DM me a Saturday morning",
+        "hashtags": ["#blowwavemelbourne", "#camberwellhair", "#springracingcarnival", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Starting at the beginning. Open on the finish or the first two seconds are a woman with wet hair."
+    }
+  ]
+}
