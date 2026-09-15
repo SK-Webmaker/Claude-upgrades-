@@ -19,7 +19,12 @@
         "hook": "Friday colour for a Saturday event is too late.",
         "body": "Colour keeps moving for about 48 hours. The cuticle is still closing, the toner is still settling, and that first wash is what strips it.\n\nWednesday or Thursday, then leave it alone.",
         "cta": "Race season is here. DM me your date.",
-        "hashtags": ["#camberwellhair", "#melbournecolourist", "#springracing", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#springracing",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "Monday morning. This one sets up the whole week — everything else refers back to it.",
@@ -34,14 +39,25 @@
       "medium": "carousel",
       "title": "Why Friday is the wrong day",
       "image": "w7-c1-1.png",
-      "slides": ["w7-c1-1.png", "w7-c1-2.png", "w7-c1-3.png", "w7-c1-4.png", "w7-c1-5.png"],
+      "slides": [
+        "w7-c1-1.png",
+        "w7-c1-2.png",
+        "w7-c1-3.png",
+        "w7-c1-4.png",
+        "w7-c1-5.png"
+      ],
       "imageAlt": "Five-slide carousel in the studio palette. A clay cover reading \"Why Friday is the wrong day\", three ink slides on the 48-hour settle, not washing in between, and booking the blow wave separately, and a clay closing slide on the midweek chair being the calmest.",
       "whyItWorks": "The long-form version of Monday's card, for the people who want the reasoning rather than the instruction. Carousels are still unmeasured on this account, so running one every week until there is a number is the right call. The closing slide is doing the commercial work: it reframes midweek as the better appointment on experience grounds, so the booking feels like an upgrade rather than a compromise.",
       "caption": {
         "hook": "Four things nobody tells you about colour before an event.",
         "body": "The short version is that Friday is too late and the day before is worse. Swipe for why, and for the bit about not washing it in between.",
         "cta": "Save it for the next race day",
-        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#springracingcarnival", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#springracingcarnival",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "All five slides in order.",
@@ -62,7 +78,12 @@
         "hook": "Wednesday is the new Friday 🥂",
         "body": "If it is for Saturday, midweek is the right appointment. Quiet chair, no clock, and two full days for it to settle.",
         "cta": "DM me for Wednesday or Thursday",
-        "hashtags": ["#camberwellhair", "#melbournecolourist", "#boroondara", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#boroondara",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "Early, about 7.30am, so it is there before the day gets away.",
@@ -83,7 +104,12 @@
         "hook": "Get it right once and coast through to Christmas.",
         "body": "Races, weddings, end of year. One proper colour now carries all of it, instead of three rushed ones in a row.",
         "cta": "DM me and we will map the dates",
-        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#gleniris", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#gleniris",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "Thursday morning, the second of the two quiet days.",
@@ -104,7 +130,12 @@
         "hook": "Forty five minutes and the day is handled 🤍",
         "body": "A blow wave is the only thing that fits on the morning of. On hair that was coloured midweek, it is the one that photographs.",
         "cta": "DM me a Saturday morning",
-        "hashtags": ["#camberwellhair", "#blowwavemelbourne", "#surreyhills", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#blowwavemelbourne",
+          "#surreyhills",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "Friday about 5pm. People are planning the weekend with the phone already in their hand.",
@@ -125,7 +156,12 @@
         "hook": "Caulfield is four kilometres away.",
         "body": "Spring racing runs right through to November, and every one of those days is a Saturday. Which means the colour goes in the Wednesday before.",
         "cta": "DM me your race day and I will work backwards",
-        "hashtags": ["#springracingcarnival", "#camberwellhair", "#melbournecolourist", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#springracingcarnival",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "Saturday morning while the racing is on. Timing is most of this one.",
@@ -146,11 +182,94 @@
         "hook": "One chair, ten til two.",
         "body": "Four hours, nobody waiting, no rush. If the week never works, Sunday might.",
         "cta": "DM me the word Sunday",
-        "hashtags": ["#camberwellhair", "#sundayhairappointment", "#hawthornhair", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#sundayhairappointment",
+          "#hawthornhair",
+          "#hairbyshacamberwell"
+        ]
       },
       "howToPost": [
         "Sunday about 5pm, as the week ahead is being planned.",
         "If today's Sunday was booked, say so on your story. A visibly taken slot is what makes next week's believable."
+      ]
+    },
+    {
+      "id": "w7-x1-number",
+      "day": "Monday",
+      "postAt": "2026-09-21T17:00:00+10:00",
+      "type": "price",
+      "medium": "image",
+      "title": "From $340 — balayage, lived-in",
+      "image": "w7-x1-number.png",
+      "imageAlt": "A near-black card filled with a gold sunburst of 48 rays. A colossal cream 340 bleeds off the left and right edges with a gold dollar sign, the word FROM small above it. Beneath, Balayage / Lived-in Blonde in serif, 3 hr 30 min, toner and blow wave included. A full-width gold bar at the foot reads DM the word BLONDE.",
+      "whyItWorks": "A price advertisement has a different job to an education post: it has to survive a 120px thumbnail in a feed it was not invited to. At that size every word disappears and the only thing left is a number and a sunburst, which is exactly the intended read. Publishing the figure is also the local differentiator — nobody in Camberwell posts numbers, so this is the post that gets screenshotted and forwarded to a friend asking what colour costs. The time and the inclusions sit right under it so the number never looks like a teaser.",
+      "caption": {
+        "hook": "Three hundred and forty dollars, and here is exactly what it buys.",
+        "body": "Three and a half hours. Hand-painted balayage, toner and a blow wave, and a grow-out with no hard line so you are not back in four weeks.\n\nNo surprises at the counter.",
+        "cta": "DM me the word blonde and I will send you the times I have left",
+        "hashtags": [
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#melbournecolourist",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Monday evening, paired with the morning's 48-hour rule. One teaches, this one sells.",
+        "If someone asks what theirs would cost, answer with a range in the comments rather than sending them to the DM. Public prices are the whole point of the post."
+      ]
+    },
+    {
+      "id": "w7-x2-orbit",
+      "day": "Thursday",
+      "postAt": "2026-09-24T17:00:00+10:00",
+      "type": "price",
+      "medium": "image",
+      "title": "The whole menu, in one picture",
+      "image": "w7-x2-orbit.png",
+      "imageAlt": "A deep fig-green card. Service names and prices run around a large circular path in clay capitals — balayage from $340, foils from $240, root from $150, blow wave from $55 — orbiting a clay disc in the centre reading Toner and Gloss, $45, 45 minutes. An ink strap reads Camberwell, 20+ years, K18 certified, above a gold bar reading DM me the service you want.",
+      "whyItWorks": "Nothing else in a hair feed is round. A ring of type reads as an object rather than as a caption, which buys the extra half-second that decides whether someone stops. It also solves a real problem the flat price list never did: five services and five prices in one frame without a single row of small text. The cheapest service sits in the middle at full size on purpose — $45 is the easiest yes in the business and the most likely first booking from a stranger.",
+      "caption": {
+        "hook": "The whole menu, in one picture.",
+        "body": "Balayage from $340. Foils from $240. Root colour from $150. Blow wave from $55. A toner and gloss is $45 and takes forty five minutes.\n\nEvery one of those is a starting price, not a bait one.",
+        "cta": "DM me the service you want and I will quote yours properly",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#boroondara",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Thursday evening, the second quiet day, when someone is deciding about the weekend.",
+        "Save this one to a highlight. It answers the most common DM you get without you typing anything."
+      ]
+    },
+    {
+      "id": "w7-x3-marquee",
+      "day": "Saturday",
+      "postAt": "2026-09-26T17:00:00+10:00",
+      "type": "price",
+      "medium": "image",
+      "title": "The menu — every price, no surprises",
+      "image": "w7-x3-marquee.png",
+      "imageAlt": "A cream card crossed by nine diagonal bands at fourteen degrees in ink, gold, fig green and clay, each carrying the service list and prices in repeating capitals. A cream plate through the middle holds THE MENU in serif with a triple offset outline in clay and green, above the line colour from $240, blow wave from $55, gloss $45. An ink bar at the foot reads DM me for a quote on yours.",
+      "whyItWorks": "The loudest thing the account has ever posted, and deliberately so — a strong diagonal is still a strong diagonal at thumbnail size when horizontal type has become grey mush. The offset outline stack makes the headline sit on the bands as an object rather than float over them. Running the full menu as the texture rather than as a list means the prices are readable at full size and the pattern does the work at small size, so the post works at both distances instead of only one.",
+      "caption": {
+        "hook": "Every price, no surprises.",
+        "body": "Colour from $240. Blow wave from $55. Gloss $45. Twenty years behind the chair, K18 certified, one chair in Camberwell.\n\nThe final figure depends on your length and thickness, and you get it before anything is mixed.",
+        "cta": "DM me a photo of your hair and I will quote you",
+        "hashtags": [
+          "#camberwellhair",
+          "#balayagemelbourne",
+          "#surreyhills",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Saturday evening, when the week is done and people are scrolling properly.",
+        "Anyone who sends a photo is the warmest lead you get. Reply with a real number, not a range that says nothing."
       ]
     }
   ],
@@ -158,7 +277,10 @@
     {
       "id": "w7-v1-48hour",
       "title": "The 48-hour rule, to camera",
-      "lengthSec": [20, 30],
+      "lengthSec": [
+        20,
+        30
+      ],
       "difficulty": "Medium — you talking, one take, no edit",
       "copyThis": {
         "url": "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
@@ -173,7 +295,11 @@
         ]
       },
       "alsoWatch": [
-        { "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026", "creator": "Salon formats that drive bookings", "what": "Why timing and availability posts convert better than technique posts" }
+        {
+          "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026",
+          "creator": "Salon formats that drive bookings",
+          "what": "Why timing and availability posts convert better than technique posts"
+        }
       ],
       "references": [
         "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
@@ -198,14 +324,22 @@
         "hook": "If your event is Saturday, do not book the Friday.",
         "body": "Colour keeps moving for about 48 hours. Friday colour on a Saturday head has not finished settling, and the first wash takes the toner with it.\n\nMidweek, then leave it alone.",
         "cta": "DM me your date and I will work backwards",
-        "hashtags": ["#camberwellhair", "#melbournecolourist", "#springracing", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#springracing",
+          "#hairbyshacamberwell"
+        ]
       },
       "watchFor": "Making it thorough. Twenty seconds beats forty here — the point is one instruction, not a lesson."
     },
     {
       "id": "w7-v2-saturday",
       "title": "The Saturday morning blow wave",
-      "lengthSec": [15, 25],
+      "lengthSec": [
+        15,
+        25
+      ],
       "difficulty": "Easiest — propped phone, no talking",
       "copyThis": {
         "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026",
@@ -220,7 +354,11 @@
         ]
       },
       "alsoWatch": [
-        { "url": "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today", "creator": "Salon reel trends 2026", "what": "Why the finish-first edit holds longer than a chronological one" }
+        {
+          "url": "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
+          "creator": "Salon reel trends 2026",
+          "what": "Why the finish-first edit holds longer than a chronological one"
+        }
       ],
       "references": [
         "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026",
@@ -244,7 +382,12 @@
         "hook": "Forty five minutes and the day is handled 🤍",
         "body": "The only thing that fits on the morning of an event, on hair that was coloured midweek.",
         "cta": "DM me a Saturday morning",
-        "hashtags": ["#blowwavemelbourne", "#camberwellhair", "#springracingcarnival", "#hairbyshacamberwell"]
+        "hashtags": [
+          "#blowwavemelbourne",
+          "#camberwellhair",
+          "#springracingcarnival",
+          "#hairbyshacamberwell"
+        ]
       },
       "watchFor": "Starting at the beginning. Open on the finish or the first two seconds are a woman with wet hair."
     }
