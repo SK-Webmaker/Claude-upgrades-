@@ -261,7 +261,7 @@ const html = `<div style="background:#fff;padding:0;margin:0">
   </td></tr>
 </table></div>`;
 
-const subject = `Your week — ${pack.posts.length} posts, ${pack.videoGuides.length} videos (w/c ${pack.weekOf})`;
+const subject = `${pack.emailNote ? "Updated — " : ""}Your week — ${pack.posts.length} posts, ${pack.videoGuides.length} videos (w/c ${pack.weekOf})`;
 
 /* ---------- send ---------- */
 
