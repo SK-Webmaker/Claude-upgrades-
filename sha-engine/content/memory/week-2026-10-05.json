@@ -1,0 +1,39 @@
+{
+  "capturedAt": "2026-09-29",
+  "weekOf": "2026-10-05",
+  "source": "Composio INSTAGRAM_GET_USER_INFO + INSTAGRAM_GET_USER_MEDIA, live read 29 Sep 2026",
+  "account": { "username": "hairbysha_c", "accountType": "BUSINESS", "followers": 186, "mediaCount": 63, "averageEngagement": 3.92 },
+  "followerChange": "flat at 186 across the fortnight since 15 Sep",
+  "authoredPostsUsed": "0 of 7 from week 6, 0 of 10 from week 7. Five posts went up in the fortnight and all five were hers.",
+  "herFortnight": [
+    { "caption": "From level 2 to level 7 ✨", "likes": 13, "engagement": 6.99, "date": "2026-09-20" },
+    { "caption": "Soft, seamless, low maintenance.", "likes": 8, "engagement": 4.30, "date": "2026-09-16" },
+    { "caption": "The journey to your dream blonde doesn't happen in one sitting", "likes": 6, "comments": 1, "engagement": 3.76, "date": "2026-09-23", "note": "The week-5 platinum idea, rewritten in her own words — and the first comment in a month." },
+    { "caption": "From long to effortlessly layered ✂️", "likes": 6, "engagement": 3.23, "date": "2026-09-21" }
+  ],
+  "theFinding": {
+    "conclusion": "Seven of her ten best reels by likes have Sha herself on camera, standing behind the client. The account's strongest content is her, not a salon.",
+    "topTen": [
+      { "likes": 41, "caption": "Dimension, restored ✨", "shaOnCamera": false },
+      { "likes": 21, "caption": "Fresh colour + bouncy blow wave", "shaOnCamera": true },
+      { "likes": 19, "caption": "Dimension that doesn't scream for attention", "shaOnCamera": true },
+      { "likes": 16, "caption": "Asked what I make as a hairstylist and I panicked", "shaOnCamera": true, "note": "a personality trend reel" },
+      { "likes": 15, "caption": "Event season is creeping up 🥂", "shaOnCamera": true },
+      { "likes": 15, "caption": "Did you know a professional blow wave can last three to five days", "shaOnCamera": true, "note": "best by rate, 9.68%, 3 comments" },
+      { "likes": 13, "caption": "From level 2 to level 7 ✨", "shaOnCamera": true },
+      { "likes": 12, "caption": "the blow dry that actually lasts 🤍", "shaOnCamera": false },
+      { "likes": 11, "caption": "Natural texture — no filter, no fuss", "shaOnCamera": true },
+      { "likes": 10, "caption": "Blonde refresh after 10 weeks", "shaOnCamera": false }
+    ],
+    "action": "Week 8 is 'Come for Sha': two finished reels (a did-you-know and a personal-brand reel) and four posts. Fewer pieces, all finished, because 17 authored posts went unused."
+  },
+  "constraintsFound": [
+    "Instagram withholds media_url for reels with licensed music, so her best footage cannot be downloaded. The four that do return a file all show client faces, so no footage was reused.",
+    "Six of the ten top thumbnails show client faces and were deleted rather than committed — the repo is public.",
+    "Every photo of Sha at work has the host salon's poster behind her. Cropped out of every frame; the arch shape was chosen partly because it crops it cleanly."
+  ],
+  "predictionForNextWeek": {
+    "followers": "188-191",
+    "test": "Does at least one finished reel get posted? If a finished file still goes unused, the problem is not effort to produce — it is how the week reaches her, and that needs a conversation with the operator rather than more content."
+  }
+}

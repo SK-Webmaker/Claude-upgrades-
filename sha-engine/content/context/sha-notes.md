@@ -56,6 +56,25 @@ The published/not-published check is now automatic — `node src/cli.js posted`
 matches the captions the system wrote against what is actually on the account,
 so nobody has to remember. The questions are for what the API cannot see.
 
+### Week of 2026-10-05
+
+- **Operator's word:** the posts have been working and Sha has been enjoying
+  them. Asked for one or two entertaining, doom-scroll educational reels with
+  transitions, and three to four posts on education, services and price points,
+  with a **"come for Sha"** focus — come to her because she does it, not for a
+  haircut. No blank space anywhere, in the video or the posts.
+- **What the account said:** followers flat at 186. 0 of 17 authored posts from
+  weeks 6-7 went up; she posted five of her own. **Seven of her ten best reels
+  have her on camera.** The brief and the data agree — sell the person.
+- **Delivered:** 2 finished reels built frame by frame (a five-fact did-you-know,
+  and "Come for Sha"), plus 4 posts: Book Sha, the price staircase, the Stella
+  review, and a 5-slide "what happens in Sha's chair" carousel. Fewer pieces on
+  purpose.
+- **New engine:** `scripts/make-week8-reels.mjs` renders every frame through a
+  `render(t)` function — kinetic words, counters, whip / iris / slice / drop
+  transitions, a stories-style progress bar, animated grain. Use it for any
+  future reel; `--preview` renders one still per scene for a fast check.
+
 ### Week of 2026-09-07
 
 - **Sha's ask:** better posts that bring in more clients, more educational

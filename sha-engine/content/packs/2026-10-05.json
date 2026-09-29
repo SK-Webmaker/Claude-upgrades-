@@ -1,0 +1,222 @@
+{
+  "weekOf": "2026-10-05",
+  "authoredBy": "gloss /start",
+  "title": "Come for Sha",
+  "thesis": "The live read settled what this account actually is: seven of her ten best reels have Sha herself on camera, and one review says a client followed her for ten years across three suburbs. People are not choosing a salon, they are choosing her. So this week sells the person first, and the education, the services and the prices all hang off her. Two finished reels built frame by frame, four posts, every one dense edge to edge.",
+  "projection": "Followers held at 186 across the fortnight while 5 new posts went up — all five hers, and none from weeks 6 or 7, which means 17 authored posts went unused. Her own reels kept performing: 6.99% on the level-2-to-level-7 transformation, and the first comment in a month on the 'journey to your dream blonde' reel, which is the week-5 platinum idea rewritten in her own words. The lesson is the same one the numbers have given three times: the account rewards Sha, on video, speaking plainly. So this week ships fewer pieces and makes them finished — two reels she only has to upload, four posts — instead of ten she has to sort through. Target is a return to growth, 188-191 followers, and at least one of the two reels posted. What this sets up is the Caulfield Cup on Saturday 17 October: the price ladder carries the 48-hour line so race-day colour lands on the 14th and 15th, the quiet days.",
+  "posts": [
+    {
+      "id": "w8-reel-a",
+      "day": "Monday",
+      "postAt": "2026-10-05T19:00:00+10:00",
+      "type": "education",
+      "medium": "reel",
+      "title": "5 things your colourist wishes you knew",
+      "image": "w8-reel-a-cover.jpg",
+      "video": "w8-reel-a-did-you-know.mp4",
+      "imageAlt": "A 21.6-second vertical reel with a stories-style progress bar across the top. A gold 5 slams onto a photograph of brunette waves, then five facts land one after another through whip, iris and slice transitions: a blow wave lasting three to five days, a 48-hour counter with a filling ring, purple shampoo struck through and revealed as a toner, a thermometer dropping from hot to lukewarm, and a week counter running to 10-14 weeks for balayage. It closes on a photograph of Sha at work above an ink panel reading Save this, with price chips and a DM me to book button.",
+      "whyItWorks": "It is the format of her single best-performing post by rate — the 'Did you know a professional blow wave can last three to five days' reel at 9.68% with three comments — rebuilt with five facts instead of one. The progress bar is the retention device: once someone has seen two of five segments fill, leaving feels unfinished. 'Number three surprises everyone' is a promise the reel pays off with a 'Told you' sticker at fact three, so it is a hook rather than clickbait. Every fact is true and every one sells a service without an offer in it — the gloss, the midweek colour, the balayage rhythm.",
+      "caption": {
+        "hook": "Five things I tell every client, in twenty seconds 🤍",
+        "body": "Number three is the one nobody believes until they try it.",
+        "cta": "Save it, then send it to the friend who washes her hair the day she gets home.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#boroondara", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Download the reel from the email and upload it as a reel. It is already 1080x1920 and 21.6 seconds.",
+        "It has no sound on purpose. Add a trending track in the app — something with a steady beat suits the cuts. If a song will not attach, that is the account type, so pick the next one.",
+        "Monday evening, about 7pm, when people are on the couch and scrolling properly."
+      ]
+    },
+    {
+      "id": "w8-p1-book-sha",
+      "day": "Tuesday",
+      "postAt": "2026-10-06T08:00:00+10:00",
+      "type": "brand",
+      "medium": "image",
+      "title": "Don't book a salon. Book Sha.",
+      "image": "w8-p1-book-sha.png",
+      "imageAlt": "A deep fig-green card. On the right, a tall arch framed in gold holds a photograph of Sha colouring a client's hair. Behind it a giant outlined 'Sha' in clay. On the left, 'Don't book a salon.' in cream with a gold underline, and 'Book Sha.' in very large gold serif. Four cream tiles run along the foot: 20+ years behind the chair, 1000+ happy clients, K18 certified, 1 chair no hand-offs. A gold bar reads DM me to book, Sundays 10-2.",
+      "whyItWorks": "Seven of her ten best reels have her in them, so this is the post that states the account's actual thesis out loud. The arch frames a person rather than a product and echoes the round mirrors in her salon; it also crops out the host salon's poster that stands behind her in every photo of her at work. The four credential tiles are all taken from her own website, so nothing on the card is a claim she has not already made publicly.",
+      "caption": {
+        "hook": "You are not booking a salon. You are booking me.",
+        "body": "Twenty years, one chair, and the same pair of hands from the first chat to the blow wave. Nobody hands you off halfway.",
+        "cta": "DM me and tell me what you are after.",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#gleniris", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Tuesday morning.",
+        "Pin this one to the top of your profile. It is the answer to 'why her' for anyone who lands on the page."
+      ]
+    },
+    {
+      "id": "w8-c1-appointment",
+      "day": "Wednesday",
+      "postAt": "2026-10-07T08:00:00+10:00",
+      "type": "education",
+      "medium": "carousel",
+      "title": "What actually happens in Sha's chair",
+      "image": "w8-c1-1.png",
+      "slides": ["w8-c1-1.png", "w8-c1-2.png", "w8-c1-3.png", "w8-c1-4.png", "w8-c1-5.png"],
+      "imageAlt": "Five-slide carousel. The cover is her best-performing photograph of brunette waves with the headline 'What actually happens in Sha's chair'. Four step slides follow, each with an arched photograph, a large outlined step numeral, three tags and a coloured CTA bar: the chat, where you get the price first; the colour, placed by hand with no hand-offs; the toner, unrushed; and the finish, with the next date booked and the formula kept on file.",
+      "whyItWorks": "The biggest barrier for a new colour client is not price, it is not knowing what happens once they sit down. This walks them through it in four steps, and every step is a difference from a chain salon that her own website already states — the consultation and price before anything is mixed, one person start to finish, no double-booking. Posted on a Wednesday because it is the quiet day and this is the post most likely to turn a browser into a first booking.",
+      "caption": {
+        "hook": "What actually happens when you sit in my chair.",
+        "body": "Four steps, one person, and nobody waiting behind you. Swipe through.",
+        "cta": "DM me to book yours. Wednesdays and Thursdays are the calm ones.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#hawthornhair", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Upload all five slides in order — the photograph first.",
+        "Save it to a highlight called 'First visit'. It answers every nervous new-client DM before it is sent."
+      ]
+    },
+    {
+      "id": "w8-reel-b",
+      "day": "Thursday",
+      "postAt": "2026-10-08T19:00:00+10:00",
+      "type": "brand",
+      "medium": "reel",
+      "title": "Come for Sha",
+      "image": "w8-reel-b-cover.jpg",
+      "video": "w8-reel-b-come-for-sha.mp4",
+      "imageAlt": "A 21-second vertical reel. 'Don't book a haircut.' is struck through in gold and 'Book Sha.' slams in. A whip into a photograph of Sha at work with her name revealed as a lower third. Four stat beats wipe in with a rotating ring of text: 20+ years, 1,000+ clients, K18 certified, 1 chair. A client review types itself out with a route line drawing from Malvern to Armadale to Camberwell and the line 'Some clients follow a salon. Hers follow her.' A three-by-three grid of her work flies together under 'All Sha.', the menu flips in like a departures board, and it closes on Sha in a gold ring under 'Come for Sha.' with a DM me to book button and a moving ticker.",
+      "whyItWorks": "It makes the case her own content has been making by accident: people come for her. The stats are hers from her own website, the review is quoted verbatim from a real client, and the grid is her work with no client faces in it. The typewriter review and the route line are the two most watchable moments — motion that carries meaning, not decoration — and the flip-board menu means the reel sells the services and every price without a single discount.",
+      "caption": {
+        "hook": "Some clients follow a salon. Mine follow me ✨",
+        "body": "One of my clients has followed me from Malvern to Armadale to Camberwell. Ten years. I will never take that for granted.",
+        "cta": "Come for the colour, stay for the chat. DM me to book.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#surreyhills", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Download from the email and upload as a reel. 1080x1920, no sound — add a trending track in the app.",
+        "Thursday evening. It is the second quiet day, and this is the reel most likely to be sent to a friend."
+      ]
+    },
+    {
+      "id": "w8-p2-ladder",
+      "day": "Friday",
+      "postAt": "2026-10-09T17:00:00+10:00",
+      "type": "price",
+      "medium": "image",
+      "title": "Pick your step",
+      "image": "w8-p2-ladder.png",
+      "imageAlt": "An ink card with a faint gold sunburst. 'Pick your step.' in large serif, with 'Final quote before anything is mixed' at top right. Five ascending blocks form a staircase: Toner and gloss $45, 45 min; Blow wave from $55; Root colour and refresh from $150, 1 hr 45; Partial foils from $240, 2 hr 30; Balayage lived-in from $340, 3 hr 30. A gold bar at the foot reads DM me your step.",
+      "whyItWorks": "Her whole menu as one object, and the staircase does the price anchoring on its own — the eye climbs from $45 to $340 and lands on the colour band where the chair actually earns. Every figure comes from brand.json at render time with the 'from' flag respected, so it cannot drift from what she charges. Friday evening, with the Caulfield Cup the following Saturday, is when a race-day booking gets decided.",
+      "caption": {
+        "hook": "Every price, before you have to ask.",
+        "body": "Gloss $45. Blow wave from $55. Root colour from $150. Foils from $240. Balayage from $340. Your length and thickness decide the final number, and you get it before anything is mixed.\n\nCaulfield Cup is Saturday the 17th. For colour, book the 14th or 15th so it has two days to settle.",
+        "cta": "DM me your step.",
+        "hashtags": ["#camberwellhair", "#balayagemelbourne", "#springracingcarnival", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Friday about 5pm.",
+        "When someone DMs a step, reply with a real number for their hair, not a range."
+      ]
+    },
+    {
+      "id": "w8-p3-followed",
+      "day": "Saturday",
+      "postAt": "2026-10-10T09:00:00+10:00",
+      "type": "proof",
+      "medium": "image",
+      "title": "They followed her",
+      "image": "w8-p3-followed.png",
+      "imageAlt": "A cream card with a very large gold 10, 'Years. Three suburbs.' beneath it, and Sha in a gold arch at top right. A route line runs Malvern, Armadale, Camberwell. Stella McCammon's review is quoted in full in serif. Two green tiles name Nimali Samarakoon, loyal client since 2018, and Uppsala Trinh, client of 10+ years. An ink bar reads 'Some follow a salon. Hers follow her.' and DM to book.",
+      "whyItWorks": "The strongest proof of 'come for Sha' is not a claim, it is a client who followed her across three suburbs, and that client wrote it herself. The review is quoted in full, verbatim, from reviews.json — spelling and ampersands intact. The two tenure tiles name real clients from her own website and quote nothing, so there is no excerpting of anyone's words.",
+      "caption": {
+        "hook": "This review still gets me.",
+        "body": "Stella has followed me from Malvern to Armadale to Camberwell. Ten years. Thank you for every single one of them.",
+        "cta": "If you want to be next, DM me to book.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#canterburyvic", "#hairbyshacamberwell"]
+      },
+      "howToPost": [
+        "Saturday morning.",
+        "Tag nobody. Stella's words are already on your website, but tagging a client in a promotional post is a step further than she agreed to."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w8-v1-finished",
+      "title": "The two finished reels — nothing to film",
+      "lengthSec": [20, 22],
+      "difficulty": "None. Both are made.",
+      "copyThis": {
+        "url": "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
+        "creator": "Salon reel trends 2026 — educational list and personal-brand formats",
+        "whatItIs": "Two finished MP4s: a five-fact 'did you know' reel with a progress bar, and a 'come for Sha' reel built from her own credentials, a verbatim client review and her work.",
+        "whyItCopies": "Her best post by rate is a 'did you know' reel and seven of her ten best reels have her in them. These two reels are those two formats, finished, so the only job left is uploading them.",
+        "howToCopy": [
+          "Download both from the email.",
+          "Upload each as a reel. Add a trending track in the app — pick something with a steady beat.",
+          "Set the cover to the first frame if the app picks something else."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026", "creator": "Salon post formats that drive bookings", "what": "Why personal-brand content converts better than portfolio posts for one-chair salons" }
+      ],
+      "references": [
+        "https://www.glammatic.com/post/5-viral-instagram-reel-trends-your-salon-must-try-today",
+        "https://www.socialmon.ai/blog/70-salon-instagram-post-ideas-that-actually-drive-bookings-in-2026"
+      ],
+      "hook": "Built in: a gold 5 slamming in on reel A, and 'Don't book a haircut.' struck through on reel B.",
+      "shots": ["Nothing to shoot — both reels are rendered frame by frame and finished."],
+      "onScreenText": ["All burned in as rendered type, placed inside Instagram's safe area so nothing sits under the buttons or the caption."],
+      "audio": "Silent on purpose. Add a trending track in the app on the day you post. If a song will not attach, that is the account type rather than you — take the next one.",
+      "caption": {
+        "hook": "Five things I tell every client, in twenty seconds 🤍",
+        "body": "Number three is the one nobody believes until they try it.",
+        "cta": "Save it, then send it to the friend who washes her hair the day she gets home.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#boroondara", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Posting without a track. A silent reel gets pushed less — the file is silent so you can choose the sound, not so it goes up without one."
+    },
+    {
+      "id": "w8-v2-never",
+      "title": "Three things I will never do to your hair",
+      "lengthSec": [15, 22],
+      "difficulty": "Easy — you, to camera, one take",
+      "copyThis": {
+        "url": "https://smmnut.com/blog/instagram-hooks/",
+        "creator": "Instagram hook patterns 2026 — the refusal list",
+        "whatItIs": "You, straight to camera, listing three things you refuse to do. It is the talking version of this week's whole idea.",
+        "whyItCopies": "Your top reels are you on camera. This one is only you — no client, no consent to think about — and a refusal reads as expertise rather than selling.",
+        "howToCopy": [
+          "Prop the phone at eye height in the chair you work from. Salon behind you.",
+          "Say the first line before you smile: 'Three things I will never do to your hair.'",
+          "Hold up a finger for each one. One take.",
+          "End on the third and stop — no sign-off."
+        ]
+      },
+      "alsoWatch": [
+        { "url": "https://www.opus.pro/research/best-video-hooks-instagram", "creator": "Video hook research", "what": "Why a numbered promise in the first second holds viewers to the end" }
+      ],
+      "references": [
+        "https://smmnut.com/blog/instagram-hooks/",
+        "https://www.opus.pro/research/best-video-hooks-instagram"
+      ],
+      "hook": "First line, no greeting: \"Three things I will never do to your hair.\"",
+      "shots": [
+        "0–2s — you, mid-shot, already talking.",
+        "2–7s — one finger: 'Take you platinum in one sitting.'",
+        "7–12s — two fingers: 'Hand you to someone else halfway through.'",
+        "12–17s — three fingers: 'Let you leave without your next date.'"
+      ],
+      "onScreenText": [
+        "0.5s — 3 things I'll never do to your hair",
+        "3s — 1. Platinum in one sitting",
+        "8s — 2. Hand you off halfway",
+        "13s — 3. Let you leave without a plan"
+      ],
+      "audio": "Your voice, no music. It only works because it sounds like you talking, not like an advert.",
+      "caption": {
+        "hook": "Three things I will never do to your hair.",
+        "body": "Take you platinum in one sitting. Hand you to someone else halfway through. Let you leave without your next date.",
+        "cta": "DM me if that sounds like your kind of colourist.",
+        "hashtags": ["#camberwellhair", "#melbournecolourist", "#blondehairmelbourne", "#hairbyshacamberwell"]
+      },
+      "watchFor": "Softening the first line. Say it flat. The whole reel works because it sounds like a boundary, not a tip."
+    }
+  ]
+}
