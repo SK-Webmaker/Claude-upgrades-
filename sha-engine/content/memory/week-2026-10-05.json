@@ -25,7 +25,7 @@
       { "likes": 11, "caption": "Natural texture — no filter, no fuss", "shaOnCamera": true },
       { "likes": 10, "caption": "Blonde refresh after 10 weeks", "shaOnCamera": false }
     ],
-    "action": "Week 8 is 'Come for Sha': two finished reels (a did-you-know and a personal-brand reel) and four posts. Fewer pieces, all finished, because 17 authored posts went unused."
+    "action": "Week 8 is 'Come for Sha': two finished reels (a did-you-know and a personal-brand reel), a five-slide carousel and four single posts — one a day. Every image is drawn (lib/hair-art.mjs): the face-free photo library had gone stale and the Drive upload never arrived."
   },
   "constraintsFound": [
     "Instagram withholds media_url for reels with licensed music, so her best footage cannot be downloaded. The four that do return a file all show client faces, so no footage was reused.",

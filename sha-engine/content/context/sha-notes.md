@@ -74,6 +74,15 @@ so nobody has to remember. The questions are for what the API cannot see.
   `render(t)` function — kinetic words, counters, whip / iris / slice / drop
   transitions, a stories-style progress bar, animated grain. Use it for any
   future reel; `--preview` renders one still per scene for a fast check.
+- **Revision, 29 Sep — no photographs.** The operator said the pictures felt
+  dated, and the brunette waves (ig-01) had been used far too often. The Google
+  Drive library was connected but the upload never arrived, so every photo was
+  replaced with drawn design elements from `scripts/lib/hair-art.mjs`: strands
+  with a root-to-end gradient, a shade-book swatch fan, gold foils, a gloss drop.
+  Drawn, not AI-generated, so invariant 2 holds. Added a fourth single — "Dull
+  by week six?", the $45 gloss — so the week is one post a day: carousel, four
+  singles, two reels. When the Drive photos do land, check them for client
+  faces and the Hair Hut poster before any are used.
 
 ### Week of 2026-09-07
 

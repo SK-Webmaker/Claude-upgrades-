@@ -206,13 +206,24 @@ function guideBlock(g, i) {
   </td></tr>`;
 }
 
+// Count what is actually in the pack — the old fixed line said "three posts
+// and three videos" long after weeks stopped being that shape.
+const n = (k) => pack.posts.filter((p) => p.medium === k).length;
+const parts = [
+  n('reel') && `${n('reel')} finished reel${n('reel') > 1 ? 's' : ''}`,
+  n('carousel') && `${n('carousel')} carousel${n('carousel') > 1 ? 's' : ''}`,
+  n('image') && `${n('image')} single post${n('image') > 1 ? 's' : ''}`,
+].filter(Boolean);
+const intro = `${parts.slice(0, -1).join(', ')}${parts.length > 1 ? ' and ' : ''}${parts.at(-1)} — ${pack.posts.length} in all, one for each day listed. Save each image (or download the reel), copy the caption under it, and post it on its day. Nothing here posts itself.`;
+
 const html = `<div style="background:#fff;padding:0;margin:0">
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:600px;margin:0 auto;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
   <tr><td style="padding:32px 20px 28px">
     <p style="margin:0 0 6px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:${GOLD};font-weight:600">Hair by Sha &middot; week of ${esc(pack.weekOf)}</p>
     <h1 style="margin:0 0 14px;font-size:26px;line-height:1.25;color:${INK};font-weight:600">${esc(pack.title)}</h1>
+    ${pack.emailNote ? `<div style="margin:0 0 16px;padding:16px 18px;background:${CREAM};border-left:3px solid ${GOLD};font-size:15px;line-height:1.6;color:${INK}">${esc(pack.emailNote)}</div>` : ''}
     <p style="margin:0;font-size:15px;line-height:1.6;color:#444">
-      Three posts and three videos, finished. Save each image, copy the caption under it, post it on the day listed. Nothing here posts itself.
+      ${intro}
     </p>
   </td></tr>
 

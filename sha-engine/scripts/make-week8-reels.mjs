@@ -37,12 +37,12 @@
  * ---------------------------------------------------------------------------
  * What is deliberately NOT here
  *
- * No AI-generated or AI-animated hair (invariant 2). No client faces: seven of
- * her top reels show the client's face, and her posting a client is not consent
- * for this system to recut them into an ad — the same call made on blog-06.
- * Only four of her thumbnails are face-free and those are the ones used. The
- * host salon's poster appears behind Sha in both photos of her and is cropped
- * out of every frame.
+ * No photographs, and no AI-generated or AI-animated hair (invariant 2). The
+ * face-free photo library had been used until it went stale, so every image
+ * scene is drawn hair from lib/hair-art.mjs — strands that fall in, sway, and
+ * catch a sheen; a shade book that fans open; a toner drop that cools a brassy
+ * lock. It is illustration, and it reads as illustration, so nothing here
+ * passes itself off as her work.
  *
  * No audio. It is left for her to add a trending track in the app on the day.
  */
@@ -52,6 +52,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import ffmpegPath from 'ffmpeg-static';
+import { HAIR, strands, swatchFan, drop, glints } from './lib/hair-art.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
@@ -131,6 +132,8 @@ const CSS = `${FONTS}
   .pill{display:inline-flex;align-items:center;gap:18px;border-radius:999px;font-weight:800;letter-spacing:.02em}
   .ticker{position:absolute;left:0;right:0;height:92px;overflow:hidden;display:flex;align-items:center}
   .ticker .tk{white-space:nowrap;font-size:34px;font-weight:800;letter-spacing:.16em;will-change:transform}
+  .hair{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:50% 30%;will-change:transform,clip-path}
+  .hair svg{position:absolute;left:0;top:0;overflow:visible}
   .chip{display:inline-block;padding:14px 26px;border-radius:999px;font-weight:800;font-size:30px;letter-spacing:.01em;opacity:0}
 `;
 
@@ -192,6 +195,14 @@ function typer(el,lt,start,dur){
   el.innerHTML=full.slice(0,n).replace(/&/g,'&amp;').replace(/</g,'&lt;')+caret;
 }
 function draw(el,lt,start,dur){ el.style.transform='scaleX('+E.inOutCubic(seg(lt,start,dur))+')'; }
+/* Drawn hair: falls in from the top, then keeps moving — a slow sway and a
+   breath of scale, so a still illustration never sits dead on screen. */
+function fall(el,lt,start,dur){ const p=E.outCubic(seg(lt,start,dur)); el.style.clipPath='inset(0 0 '+((1-p)*100)+'% 0)'; }
+function sway(el,lt,amp=14,deg=1.6,sp=1.1,z0=1.04,z1=1.12,dur=3){
+  const k=E.inOutCubic(clamp(lt/dur));
+  el.style.transform='translateX('+(Math.sin(lt*sp)*amp)+'px) skewX('+(Math.sin(lt*sp*.8+.6)*deg)+'deg) scale('+lerp(z0,z1,k)+')';
+}
+function twinkle(root,lt){ $$('.twk',root).forEach((g,i)=>{ const v=.5+.5*Math.sin(lt*4+i*1.7); g.style.opacity=(.2+.8*v).toFixed(2); g.style.transformBox='fill-box'; g.style.transformOrigin='center'; g.style.transform='scale('+(.6+.5*v)+') rotate('+(lt*40+i*20)+'deg)'; }); }
 
 function transIn(sc,type,p){
   const s=sc.style;
@@ -243,6 +254,13 @@ function page(scenesHtml, scenes, updJs, extraCss = '', overlayHtml = '', overla
   </body></html>`;
 }
 
+/** A full-bleed fall of drawn hair for a 1080×1920 scene. */
+function hairBg({ ramp, seed, n = 330, sway = 0.09, waves = 1.2, sheen = 0.6, glint = 7, cls = '', style = '' }) {
+  return `<div class="hair ${cls}" style="${style}"><svg width="1080" height="1920" viewBox="0 0 1080 1920">
+    <g transform="translate(-110 -60)">${strands({ w: 1300, h: 2080, seed, n, ramp, sway, waves, taper: 0.06, width: [1.6, 4.4], sheen })}</g>
+    ${glint ? glints({ w: 1000, h: 1300, seed: seed + 1, n: glint, size: [12, 36] }) : ''}</svg></div>`;
+}
+
 function timeline(list) {
   let t = 0;
   return list.map((s) => {
@@ -251,6 +269,16 @@ function timeline(list) {
     return o;
   });
 }
+
+const SHADES = [
+  { ramp: HAIR.espresso, label: '4N', sub: 'ESPRESSO' },
+  { ramp: HAIR.caramel, label: '6G', sub: 'CARAMEL' },
+  { ramp: HAIR.copper, label: '7C', sub: 'COPPER' },
+  { ramp: HAIR.balayage, label: 'BAL', sub: 'LIVED-IN' },
+  { ramp: HAIR.honey, label: '8G', sub: 'HONEY' },
+  { ramp: HAIR.blonde, label: '9V', sub: 'BEIGE' },
+  { ramp: HAIR.icy, label: '10P', sub: 'PEARL' },
+];
 
 /* ================================================================ REEL A
    "5 things your colourist wishes you knew" — the did-you-know format.     */
@@ -280,10 +308,10 @@ function reelA() {
 
   const html = `
   <section class="scene" id="a0"><div class="cam">
-    <img class="ph" src="ig/ig-01-18260664004305649.jpg" style="object-position:50% 40%;transform-origin:50% 40%">
+    ${hairBg({ ramp: HAIR.gold, seed: 101, cls: 'h0' })}
     <div class="scrimB"></div>
     <div class="safe" style="top:300px">
-      <div class="num big5" style="font-size:640px;color:${GOLD};opacity:0;transform-origin:18% 60%;text-shadow:0 10px 80px rgba(0,0,0,.5)">5</div>
+      <div class="num big5" style="font-size:640px;color:${CREAM};opacity:0;transform-origin:18% 60%;text-shadow:0 10px 80px rgba(0,0,0,.5)">5</div>
     </div>
     <div class="safe" style="bottom:400px">
       <h1 class="fr hook" style="font-size:118px;line-height:.95">${W('things your colourist [[wishes you knew]]')}</h1>
@@ -292,8 +320,8 @@ function reelA() {
   </div></section>
 
   <section class="scene" id="a1"><div class="cam">
-    <img class="ph" src="ig/ig-08-18627133987050433.jpg" data-z="1.6" style="object-position:50% 100%;transform-origin:50% 100%">
-    <div class="tint"></div><div class="scrimB"></div>
+    ${hairBg({ ramp: HAIR.rose, seed: 111, waves: 1.7, sway: 0.11, sheen: 0.95, glint: 9 })}
+    <div class="scrimB"></div>
     <div class="idx fr">01</div>
     <div class="safe" style="bottom:400px">
       <h2 class="fr h2">${W('A blow wave can last [[3–5 days]]')}</h2>
@@ -320,7 +348,10 @@ function reelA() {
   </div></section>
 
   <section class="scene" id="a3"><div class="cam">
-    <img class="ph" src="site/site-10-IMG_2720.jpg" style="object-position:50% 32%;transform-origin:30% 40%">
+    ${hairBg({ ramp: HAIR.brassy, seed: 131, sheen: 0.3, glint: 0, cls: 'warm' })}
+    ${hairBg({ ramp: HAIR.icy, seed: 131, sheen: 0.9, glint: 8, cls: 'cool', style: 'opacity:0' })}
+    <svg class="dropA" width="220" height="300" viewBox="0 0 220 300" style="position:absolute;left:430px;top:-320px;overflow:visible;z-index:3">${drop({ w: 220, c1: '#E4D9F2', c2: '#5B4A86' })}</svg>
+    <div class="ripple" style="position:absolute;left:540px;top:900px;width:10px;height:10px;border-radius:50%;border:6px solid #C3B3DE;opacity:0;transform:translate(-50%,-50%)"></div>
     <div class="scrimB"></div>
     <div class="idx fr">03</div>
     <div class="safe" style="bottom:400px">
@@ -356,8 +387,8 @@ function reelA() {
   </div></section>
 
   <section class="scene" id="a5"><div class="cam">
-    <img class="ph" src="blog/blog-03-IMG_8353.jpg" style="object-position:50% 34%;transform-origin:60% 40%">
-    <div class="tint"></div><div class="scrimB"></div>
+    ${hairBg({ ramp: HAIR.balayage, seed: 151, waves: 1.0, sway: 0.07, sheen: 0.7, glint: 6 })}
+    <div class="scrimB"></div>
     <div class="idx fr">05</div>
     <div class="safe" style="bottom:400px">
       <h2 class="fr h2">${W('Balayage grows out with [[no line]]')}</h2>
@@ -373,8 +404,9 @@ function reelA() {
 
   <section class="scene" id="a6" style="background:${INK}"><div class="cam">
     <div style="position:absolute;left:0;right:0;top:0;height:940px;overflow:hidden">
-      <img class="ph" src="ig/ig-03-18130950424627623.jpg" data-z="1.34" style="object-position:92% 30%;transform-origin:78% 34%">
-      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,16,14,.35),rgba(18,16,14,0) 30%,rgba(18,16,14,0) 70%,rgba(18,16,14,.85))"></div>
+      <div class="disc" style="width:1400px;height:1400px;left:-160px;top:-900px;background:radial-gradient(circle,rgba(192,139,62,.4),rgba(192,139,62,0) 62%)"></div>
+      <svg class="fan" width="1080" height="940" viewBox="0 0 1080 940" style="position:absolute;left:0;top:0;overflow:visible">${swatchFan({ items: SHADES, w: 150, h: 640, cx: 540, cy: 370, spread: 76, pivot: 700, clip: '#1E1A17' })}${glints({ w: 1080, h: 600, seed: 61, n: 8 })}</svg>
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,16,14,.25),rgba(18,16,14,0) 25%,rgba(18,16,14,0) 55%,rgba(18,16,14,.95))"></div>
       <div class="tag" style="position:absolute;left:66px;top:720px;opacity:0">
         <div class="fr" style="font-size:120px">Sha</div>
         <div class="lbl" style="color:${GOLD};margin-top:12px">20+ years · Camberwell</div>
@@ -398,13 +430,13 @@ function reelA() {
 
   const upd = `
   a0(lt,el,dur){
-    kb($('.ph',el),lt,dur+.4,1.26,1.08,0,-30);
+    const h=$('.hair',el); fall(h,lt,0,.55); sway(h,lt,16,1.8,1.3,1.14,1.04,dur); twinkle(el,lt);
     slam($('.big5',el),lt,.05,.45,2.6); shake($('.cam',el),lt,.34,.26,20);
     words($('.hook',el),lt,.5,.075);
     rise($('.tease',el),lt,1.45,.4);
   },
   a1(lt,el,dur){
-    kb($('.ph',el),lt,dur+.4,1.14,1.02,0,-40);
+    sway($('.hair',el),lt,18,2.2,1.6,1.02,1.14,dur); twinkle(el,lt);
     pop($('.idx',el),lt,.12,.4,.7);
     words($('.h2',el),lt,.3); rise($('.sub',el),lt,1.35); pop($('.tip',el),lt,1.95,.35,.7);
   },
@@ -418,7 +450,12 @@ function reelA() {
     words($('.h2',el),lt,1.1); rise($('.sub',el),lt,1.9);
   },
   a3(lt,el,dur){
-    kb($('.ph',el),lt,dur+.4,1.2,1.05,40,0);
+    // The drop falls, lands, and the brassy lock cools to pearl behind the words.
+    sway($('.warm',el),lt,12,1.4,1.1,1.06,1.12,dur); sway($('.cool',el),lt,12,1.4,1.1,1.06,1.12,dur);
+    const dp=E.inCubic(seg(lt,.15,.55)); const d=$('.dropA',el);
+    d.style.transform='translateY('+(dp*960)+'px) scale('+lerp(.8,1,dp)+','+lerp(.8,1.12,dp)+')'; d.style.opacity= lt<.72? 1 : 1-seg(lt,.72,.12);
+    const rp=seg(lt,.7,.7), r=$('.ripple',el); r.style.opacity=rp>0? (1-rp)*.9 : 0; r.style.width=r.style.height=(10+rp*900)+'px';
+    $('.cool',el).style.opacity=E.inOutCubic(seg(lt,.72,.9)); twinkle(el,lt);
     pop($('.idx',el),lt,.1,.4,.7);
     words($('.l1',el),lt,.25);
     draw($('.strike',el),lt,.95,.32);
@@ -438,14 +475,16 @@ function reelA() {
     rise($('.sub',el),lt,1.6);
   },
   a5(lt,el,dur){
-    kb($('.ph',el),lt,dur+.4,1.15,1.03,-30,-20);
+    sway($('.hair',el),lt,14,1.6,1.2,1.12,1.02,dur); twinkle(el,lt);
     pop($('.idx',el),lt,.1,.4,.7);
     words($('.h2',el),lt,.25);
     count($('.wk',el),lt,1.0,1.1,0,14,(n)=> n<10? String(n) : '10–'+n);
     draw($('.bar',el),lt,1.0,1.1);
   },
   a6(lt,el,dur){
-    kb($('.ph',el),lt,dur,1.08,1.0,0,0);
+    // The shade book fans open from closed.
+    const fp=E.outBack(seg(lt,.05,.8)); $$('.sw',el).forEach(g=>{ g.style.transform='rotate('+(+g.dataset.a*fp)+'deg)'; });
+    $('.fan',el).style.transform='translateY('+(Math.sin(lt*1.4)*8)+'px)'; twinkle(el,lt);
     draw($('.gl',el),lt,.1,.45);
     const tg=$('.tag',el); const p=E.outExpo(seg(lt,.3,.5)); tg.style.opacity=seg(lt,.3,.3); tg.style.transform='translateX('+((1-p)*-120)+'px)';
     words($('.save',el),lt,.4,.1,.4,70);
@@ -482,10 +521,12 @@ function reelB() {
     ['Partial foils', svc('Partial Blonde (Foils)')],
     ['Balayage', svc('Balayage / Lived-in Blonde')],
   ];
+  // Nine shades, one colourist — the grid used to be nine photographs of her
+  // work, most of which had already run twice.
   const grid = [
-    'blog/blog-01-IMG_0435.jpg', 'site/site-03-IMG_0430.jpg', 'blog/blog-04-IMG_0433.jpg',
-    'ig/ig-01-18260664004305649.jpg', 'site/site-13-IMG_0764.jpg', 'ig/ig-08-18627133987050433.jpg',
-    'site/site-06-IMG_0135.jpg', 'site/site-09-sleek-blonde-highlights.jpg', 'ig/ig-10-17979484956078027.jpg',
+    ['Espresso', HAIR.espresso], ['Copper', HAIR.copper], ['Honey', HAIR.honey],
+    ['Rose', HAIR.rose], ['Lived-in', HAIR.balayage], ['Caramel', HAIR.caramel],
+    ['Pearl', HAIR.icy], ['Beige blonde', HAIR.blonde], ['Toned', HAIR.toner],
   ];
   const S = timeline([
     { id: 'b0', dur: 2.5, in: null },
@@ -512,7 +553,7 @@ function reelB() {
     .row .n{font-size:40px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
     .row .p{font-size:78px;color:${GOLD}}
     .tile{position:absolute;overflow:hidden}
-    .tile img{width:100%;height:100%;object-fit:cover}
+    .tile svg{will-change:transform}
   `;
 
   const ringText = 'COME FOR SHA ✦ CAMBERWELL ✦ 20+ YEARS ✦ ';
@@ -532,7 +573,7 @@ function reelB() {
   </div></section>
 
   <section class="scene" id="b1"><div class="cam">
-    <img class="ph" src="ig/ig-03-18130950424627623.jpg" data-z="1.36" style="object-position:94% 22%;transform-origin:74% 24%">
+    ${hairBg({ ramp: HAIR.copper, seed: 201, waves: 1.3, sway: 0.1, sheen: 0.8, glint: 8 })}
     <div class="scrimB"></div>
     <div class="chip top" style="position:absolute;left:66px;top:170px;background:${CREAM};color:${INK}">The one doing your colour</div>
     <div class="safe name" style="bottom:400px;opacity:0">
@@ -589,11 +630,11 @@ function reelB() {
   <section class="scene" id="b4" style="background:${INK}"><div class="cam">
     <div class="gridwrap" style="position:absolute;inset:0">
       ${grid
-        .map((src, i) => {
+        .map(([name, ramp], i) => {
           const c = i % 3, r = Math.floor(i / 3);
-          // ig-08 has the same poster blurred at top-centre; anchor that tile low.
-          const pos = src.includes('ig-08') ? 'object-position:50% 100%' : '';
-          return `<div class="tile" style="left:${c * 360 + 4}px;top:${r * 640 + 4}px;width:352px;height:632px"><img src="${src}" style="${pos}"></div>`;
+          return `<div class="tile" style="left:${c * 360 + 4}px;top:${r * 640 + 4}px;width:352px;height:632px;background:#140d09">
+            <svg width="352" height="632" viewBox="0 0 352 632" style="position:absolute;left:0;top:0;transform-origin:50% 30%"><g transform="translate(-40 -20)">${strands({ w: 432, h: 690, seed: 300 + i * 13, n: 150, ramp, sway: 0.08, waves: 1.1, taper: 0.06, width: [1.3, 3.6], sheen: 0.7 })}</g></svg>
+            <span class="lbl" style="position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;bottom:40px;padding:10px 18px;border-radius:999px;background:rgba(18,16,14,.72);color:${CREAM};font-size:19px;letter-spacing:.2em">${esc(name)}</span></div>`;
         })
         .join('')}
     </div>
@@ -622,7 +663,7 @@ function reelB() {
             <textPath href="#rr">${ringText.repeat(2)}</textPath></text></g>
       </svg>
       <div style="position:absolute;inset:0;border-radius:50%;overflow:hidden;border:8px solid ${GOLD}">
-        <img src="ig/ig-03-18130950424627623.jpg" style="position:absolute;width:1440px;height:2560px;left:-812px;top:-470px;max-width:none">
+        <svg width="500" height="500" viewBox="0 0 500 500" style="position:absolute;left:0;top:0;background:#140d09"><g transform="translate(-40 -30)">${strands({ w: 580, h: 580, seed: 401, n: 200, ramp: HAIR.balayage, sway: 0.1, waves: 1.1, taper: 0.05, width: [1.3, 3.6], sheen: 0.8 })}</g>${glints({ w: 460, h: 460, seed: 402, n: 5, size: [10, 26] })}</svg>
       </div>
     </div>
     <div class="safe" style="top:900px;right:120px">
@@ -643,7 +684,7 @@ function reelB() {
     rise($('.sm',el),lt,1.9,.35,20);
   },
   b1(lt,el,dur){
-    kb($('.ph',el),lt,dur+.4,1.0,1.1,-20,0);
+    const h=$('.hair',el); fall(h,lt,0,.5); sway(h,lt,18,2,1.4,1.02,1.12,dur); twinkle(el,lt);
     pop($('.top',el),lt,.9,.35,.7);
     const n=$('.name',el); n.style.opacity=seg(lt,.25,.3); const p=E.outExpo(seg(lt,.25,.55)); n.style.transform='translateX('+((1-p)*-140)+'px)';
     draw($('.nr',el),lt,.35,.45); rise($('.nsub',el),lt,1.1);
@@ -690,6 +731,7 @@ function reelB() {
     $$('.row',el).forEach((r,i)=>{const p=seg(lt,.6+i*.13,.38), e=E.outExpo(p); r.style.opacity=clamp(p*2); r.style.transform='perspective(900px) rotateX('+((1-e)*-88)+'deg)';});
   },
   b6(lt,el,dur){
+    twinkle(el,lt);
     $('.rays',el).style.transform='rotate('+(lt*10)+'deg)';
     const d=$('.shadisc',el); pop(d,lt,.1,.45,.5);
     $('.spin',el).style.transform='rotate('+(lt*-26)+'deg)';
