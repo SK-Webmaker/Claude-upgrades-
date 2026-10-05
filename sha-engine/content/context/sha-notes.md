@@ -56,6 +56,19 @@ The published/not-published check is now automatic — `node src/cli.js posted`
 matches the captions the system wrote against what is actually on the account,
 so nobody has to remember. The questions are for what the API cannot see.
 
+### Week of 2026-10-12
+
+- **Asked (5 Oct):** days to fill — **Saturday and Sunday**. From the chair —
+  nothing this week. Avoid — nothing. Resend week 8 with corrected Sunday
+  hours — **no, the operator will tell her**.
+- **Brief:** really eye-catching, educational and very entertaining.
+- **Live read:** 186 followers, flat for a third check. Engagement 3.33%, grade
+  C (from 3.92%). Week 8 not yet posted on the evening of its first day.
+- **Delivered — "Race week" (Caulfield Cup Sat 17 Oct):** race-day countdown
+  reel, salon client bingo, a six-slide "which blonde are you?" quiz, a
+  myth-or-fact game-show reel, a race-day form guide, and a Sunday-reset ticket
+  posted race night. All drawn, all Kairo hours, every CTA points at the weekend.
+
 ### Week of 2026-10-05
 
 - **Hours, 5 Oct — from Kairo's settings:** Wed 11am–6pm, Fri 11am–7pm,

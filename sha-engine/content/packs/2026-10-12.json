@@ -1,0 +1,293 @@
+{
+  "weekOf": "2026-10-12",
+  "authoredBy": "gloss /start",
+  "title": "Race week",
+  "thesis": "Caulfield Cup is Saturday 17 October, and the weekend — Saturday 9 to 5 and Sunday 11 to 4 — is what needs filling. The operator asked for posts that are eye-catching, educational and genuinely entertaining, so every piece this week is a game or a joke the reader is in on, with the lesson inside it: a race-day countdown reel, salon client bingo, a which-blonde-are-you quiz, a myth-or-fact game show, a form guide, and a Sunday-reset ticket for the morning after. Drawn hair only; every price from brand.json; Kairo's hours.",
+  "projection": "The live read on 5 October has followers flat at 186 for a third straight check and average engagement down to 3.33%, grade C, from 3.92% — the account is posting less of what works, not failing at it. Week 8's seven pieces had not gone up when this was written, on the evening of its first day, so the week-8 test (does a finished reel get posted?) is still open rather than failed. This week's change is timing: everything is attached to a date Melbourne already cares about, which is the cheapest reach available to a 186-follower account, and the reels are entertainment first so they can be shared beyond her followers. Target 189–192 followers by 19 October, at least one reel posted, and comments on the bingo card or the blonde quiz. Next week sets up the Cox Plate on Saturday 24 October and the Melbourne Cup on Tuesday 3 November — the same countdown reel can run again with new dates if this one gets posted.",
+  "posts": [
+    {
+      "id": "w9-reel-a",
+      "day": "Monday",
+      "postAt": "2026-10-12T19:00:00+11:00",
+      "type": "seasonal",
+      "medium": "reel",
+      "title": "Race-day hair: the countdown",
+      "image": "w9-reel-a-cover.jpg",
+      "video": "w9-reel-a-race-day.mp4",
+      "imageAlt": "A 19-second vertical reel with a racetrack rail across the top — Wed, Fri, Sat, Go — and a striped jockey-silk marker that runs along it as the reel plays. It opens on mown-turf green with a Caulfield Cup Sat 17 Oct ticket and a gold number counting down to 5 days to go. Wednesday: drawn balayage falls in under 'Colour or gloss', with Gloss $45 and Balayage from $340. Friday: a gold dotted line cuts across a drawn blonde lock and the split ends drop away — 'Snip. The split ends go. The length stays.' with K18 $45. Saturday 9am: a clock spins to nine over glossy honey waves, 'The blow wave', lasts three to five days, from $55. At the track: a gold fascinator with drawn feather plumes and two tips. It ends on 'And they're off.' with Saturday from 9am, Sunday 11 to 4, and a DM me to book button over a scrolling ticker.",
+      "whyItWorks": "The Caulfield Cup is five days away when this goes up, and the weekend is what she needs filled. The reel turns that into a plan a viewer can follow, and each step books a service: a Wednesday gloss or colour, a Friday K18, and Saturday morning, the slot that fills the day. The silk marker running along the rail does the same job the progress bar did in week 8 — once it has passed two stops, leaving feels unfinished. It is made to be sent to whoever the viewer is going to the races with.",
+      "caption": {
+        "hook": "Caulfield Cup is Saturday. Here is your hair countdown 🏇",
+        "body": "Wednesday: colour or gloss, so it has a few days to settle. Friday: K18 and tidy the ends. Saturday 9am: the blow wave, and it lasts three to five days.",
+        "cta": "Send this to whoever you are going with, then DM me for Saturday morning.",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#caulfieldcup",
+          "#springracingcarnival",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Download the reel from the email and upload it as a reel. It is 1080x1920 and silent — add a trending track in the app. If a song will not attach, that is the account type, so pick the next one.",
+        "Monday evening, about 7pm."
+      ]
+    },
+    {
+      "id": "w9-p1-bingo",
+      "day": "Tuesday",
+      "postAt": "2026-10-13T08:00:00+11:00",
+      "type": "entertainment",
+      "medium": "image",
+      "title": "Salon client bingo",
+      "image": "w9-p1-bingo.png",
+      "imageAlt": "A violet card titled 'Salon client BINGO' in cream and gold, with 'Count your squares. No judgement — I have seen all nine.' A three-by-three bingo card of cream squares: 'Just a trim' (means 10cm); showed me a photo with a filter on it; washed it the night after colour; purple shampoo, every single day; 'it was box dye, but only once'; straightener on the top setting; last trim, '2024, maybe'; slept on it soaking wet. Three squares carry violet dabber marks as if someone has played. The centre square is gold, with a small drawn swatch marked FREE: 'You booked with Sha'. A gold bar reads How many did you get? Send it to a friend.",
+      "whyItWorks": "The brief this week is entertaining, and a game is the most entertaining thing a still image can be. Every square is a real habit she corrects, so it teaches without lecturing, and the score is a comment prompt that costs the reader nothing to answer. It is built to be sent — a DM share is the strongest signal a post can earn — and the free square is the only call to action, which is why it does not read as an ad.",
+      "caption": {
+        "hook": "Salon client bingo. How many did you get? 🎯",
+        "body": "No judgement. I have seen every square on this card, sometimes in the same appointment. Each one has a fix, and none of them make you a bad client.",
+        "cta": "Comment your number, then send it to the friend who gets a full house.",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#salonlife",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Tuesday morning.",
+        "Reply to every number in the comments with the fix for one square. That turns a joke into the post that books."
+      ]
+    },
+    {
+      "id": "w9-c1-blonde",
+      "day": "Wednesday",
+      "postAt": "2026-10-14T08:00:00+11:00",
+      "type": "education",
+      "medium": "carousel",
+      "title": "Which blonde are you?",
+      "image": "w9-c1-1.png",
+      "slides": [
+        "w9-c1-1.png",
+        "w9-c1-2.png",
+        "w9-c1-3.png",
+        "w9-c1-4.png",
+        "w9-c1-5.png",
+        "w9-c1-6.png"
+      ],
+      "imageAlt": "Six-slide carousel. The cover is a shade book fanned open — four drawn swatches numbered 01 Honey, 02 Beige, 03 Pearl, 04 Caramel — above 'Which blonde are you?'. Each of the next four slides is one shade: a tall drawn lock of that colour with its number on a clip, the shade name in large serif, who it suits, the upkeep, the service and time, the starting price, and what is included. Honey: balayage, every 10–14 weeks, from $340. Beige: partial foils, every 6–8 weeks, from $240. Pearl: full blonde, every 6–8 weeks plus gloss, from $320. Caramel: root colour and refresh, every 4–6 weeks, from $150. The last slide says 'Not sure which one?', explains the consultation, and shows Saturday 9–5 and Sunday 11–4.",
+      "whyItWorks": "A quiz is entertaining and a price list is not, but this is a price list. It puts four colour services, their upkeep and their starting prices in front of someone at the exact moment they are deciding which one is them — the $150 to $340 band where her chair earns. 'Comment your number' is the easiest reply Instagram has, and every number is a lead she can answer in a DM. The last slide points the undecided at the weekend, the days that need filling.",
+      "caption": {
+        "hook": "Which blonde are you? Pick a number.",
+        "body": "Honey, beige, pearl or caramel. Each slide has the upkeep and the starting price, so you know what you are signing up for before you sit down.",
+        "cta": "Comment your number and I will tell you if it suits. This weekend is Saturday 9 to 5 and Sunday 11 to 4.",
+        "hashtags": [
+          "#blondehairmelbourne",
+          "#balayagemelbourne",
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Upload all six slides in order — the shade book first.",
+        "When someone comments a number, reply in the comments and then DM them. The comment shows others it gets answered; the DM books."
+      ]
+    },
+    {
+      "id": "w9-reel-b",
+      "day": "Thursday",
+      "postAt": "2026-10-15T19:00:00+11:00",
+      "type": "education",
+      "medium": "reel",
+      "title": "Myth or fact?",
+      "image": "w9-reel-b-cover.jpg",
+      "video": "w9-reel-b-myth-or-fact.mp4",
+      "imageAlt": "A 23-second vertical reel styled as a game show, with five progress segments across the top. It opens on 'Myth or fact?' as a MYTH stamp and a FACT stamp slam in, and 'Five rounds. Keep score.' Each round has its own colour, a cream card with the statement, a stamp that slams on with a shake and a white flash, the reason underneath, and a band of drawn hair along the bottom: trims make your hair grow faster — myth; pluck one grey and two grow back — myth; heat protectant actually works — fact; salon colour lifts box dye straight out — myth; the sun fades your colour — fact. It ends on 'Your score ?/5', 'Comment your score.', blow waves from $55 Saturday from 9am, and a DM me to book button.",
+      "whyItWorks": "'Hair myth or fact' is the second format named in the salon content guides circulating this month, and her own best post by rate is an educational 'did you know'. A stamp landing is the most satisfying beat a short video can have, and five of them in twenty-three seconds is the doom-scroll pace the operator asked for. Every answer is true. Round four — colour does not lift colour — is the one that sends people to a colourist instead of a box, and round five ties back to race day.",
+      "caption": {
+        "hook": "Myth or fact? Five rounds. Keep score.",
+        "body": "Round four is the one I correct every single week.",
+        "cta": "Comment your score out of five. Be honest.",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#haireducation",
+          "#hairmyths",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Download and upload as a reel, 1080x1920, silent — add a track in the app. Something with a beat drop suits the stamps.",
+        "Thursday evening. Reply to scores with the round they missed."
+      ]
+    },
+    {
+      "id": "w9-p2-form-guide",
+      "day": "Friday",
+      "postAt": "2026-10-16T08:00:00+11:00",
+      "type": "price",
+      "medium": "image",
+      "title": "The race-day form guide",
+      "image": "w9-p2-form-guide.png",
+      "imageAlt": "A newsprint-cream card styled as a racing form guide, with a fig-green header reading The form guide and Caulfield Cup Sat 17 Oct, and a large outlined R1. The headline is 'Race-day runners.' Five runners are listed in ruled rows, each with a numbered saddle-cloth tag and its own drawn jockey silks: 1 Blow Wave, from $55, 45 min — the favourite, lasts three to five days; 2 Cut & Blow Wave, $110, 1 hr; 3 Toner & Gloss, $45, 45 min; 4 Blow Dry, $35, 45 min; 5 K18 Treatment, $45, 15 min, an add-on. An ink bar at the foot reads DM me your runner, Sat 9am–5pm, Sun 11am–4pm.",
+      "whyItWorks": "The price list is the post that gets screenshotted and forwarded, and dressing it as the form guide makes it the one people screenshot this particular week. It goes up the morning before race day, when the decision to get hair done is actually made, and it lists only the services that fit a race morning. Every figure comes from brand.json at render time.",
+      "caption": {
+        "hook": "The race-day form guide is in.",
+        "body": "Blow wave from $55. Cut and blow wave $110. Toner and gloss $45. Blow dry $35. K18 $45 as an add-on. Saturday opens at 9am, and the early slots go first.",
+        "cta": "DM me your runner.",
+        "hashtags": [
+          "#caulfieldcup",
+          "#springracingcarnival",
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Friday morning, as early as you like.",
+        "Add it to your story as well, with the question sticker 'What are you wearing?' — it starts conversations that end in a booking."
+      ]
+    },
+    {
+      "id": "w9-p3-sunday",
+      "day": "Saturday",
+      "postAt": "2026-10-17T18:00:00+11:00",
+      "type": "quiet-day",
+      "medium": "image",
+      "title": "Sunday reset",
+      "image": "w9-p3-sunday.png",
+      "imageAlt": "A near-black card with 'Sunday reset.' in cream and gold. Below it, a cream ticket stub with notched sides and a dashed perforation. The top half reads Admit one, Sun 18 Oct, 'Pins, spray, wind and a very long day.', and that K18 repairs what the hot tools and hairspray took and a blow wave starts the week fresh, beside a quarter-arch of drawn honey hair with sparkles. Below the perforation: K18 treatment $45, blow wave from $55, gates open 11–4, and 'Both together: about an hour.' A gold bar reads DM me for Sunday, Sun 11am–4pm.",
+      "whyItWorks": "It goes up on race night, when the people who spent the day in pins and hairspray are looking at their phones, and it sells the next day — Sunday is one of the two days that need filling. It is a K18 plus a blow wave, about an hour, which is the honest fix for a day of heat and product rather than a discount to fill a chair.",
+      "caption": {
+        "hook": "Tomorrow is for the morning after.",
+        "body": "Pins, hairspray, wind and a very long day. K18 repairs what the hot tools took, and a blow wave starts the week fresh. About an hour for both.",
+        "cta": "DM me for Sunday, 11 to 4.",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournehairdresser",
+          "#k18hair",
+          "#caulfieldcup",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "howToPost": [
+        "Saturday evening, about 6pm, after the last race.",
+        "If you are fully booked on Sunday, post it anyway and change the CTA to next weekend — the reset still sells."
+      ]
+    }
+  ],
+  "videoGuides": [
+    {
+      "id": "w9-v1-finished",
+      "title": "The two finished reels — nothing to film",
+      "lengthSec": [
+        19,
+        23
+      ],
+      "difficulty": "None. Both are made.",
+      "copyThis": {
+        "url": "https://www.instagram.com/p/DaxQXCCk8sv/",
+        "creator": "Content ideas for hairdressers — 'Hair myth or fact' is format two",
+        "whatItIs": "Two finished MP4s: a race-day countdown for the Caulfield Cup, and a five-round myth-or-fact game show. Every image is drawn and animated.",
+        "whyItCopies": "Myth or fact is one of the two formats every salon content guide this month leads with, and a countdown to a date everyone in Melbourne knows is the most shareable thing she can post this week.",
+        "howToCopy": [
+          "Download both from the email.",
+          "Upload each as a reel and add a trending track — something with a beat drop for the myth-or-fact stamps.",
+          "Set the cover to the first frame if the app picks something else."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://www.instagram.com/p/Dd7zxXtyuYQ/",
+          "creator": "A Melbourne salon's Caulfield Cup race-day post",
+          "what": "How other salons are selling race-morning slots this week — open early, upstyles and blow waves"
+        }
+      ],
+      "references": [
+        "https://www.instagram.com/p/DaxQXCCk8sv/",
+        "https://mrc.racing.com/spring",
+        "https://www.instagram.com/p/Dd7zxXtyuYQ/"
+      ],
+      "hook": "Built in: a gold countdown to 5 days to go on reel A, and MYTH and FACT stamps slamming in on reel B.",
+      "shots": [
+        "Nothing to shoot — both reels are rendered frame by frame and finished."
+      ],
+      "onScreenText": [
+        "All burned in as rendered type, inside Instagram's safe area."
+      ],
+      "audio": "Silent on purpose. Add a trending track on the day. If one will not attach, that is the business account, not you — take the next.",
+      "caption": {
+        "hook": "Caulfield Cup is Saturday. Here is your hair countdown 🏇",
+        "body": "Wednesday colour, Friday K18, Saturday 9am blow wave.",
+        "cta": "Send this to whoever you are going with.",
+        "hashtags": [
+          "#camberwellhair",
+          "#caulfieldcup",
+          "#springracingcarnival",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "watchFor": "Posting the race-day reel after Wednesday. It is a countdown — it only works while there is still time to book every step."
+    },
+    {
+      "id": "w9-v2-myth-talk",
+      "title": "Myth or fact — your version, one question",
+      "lengthSec": [
+        10,
+        15
+      ],
+      "difficulty": "Easy — you, to camera, one take",
+      "copyThis": {
+        "url": "https://www.instagram.com/adelecatherine.socials/reel/DcA33ROIQi2/",
+        "creator": "Hairdresser content coach — 'number two is hair myth or fact'",
+        "whatItIs": "You, straight to camera, answering one myth in under fifteen seconds: 'Does a trim make your hair grow faster?'",
+        "whyItCopies": "The finished myth-or-fact reel is the hook; this is the follow-up in your own voice, and your top reels are you on camera. If the reel gets comments, film the answer to whichever myth people argued about.",
+        "howToCopy": [
+          "Phone at eye height, salon behind you, no client in shot.",
+          "Say the question as the very first words: 'Does a trim make your hair grow faster?'",
+          "Hold the pause for one beat, then: 'No. Hair grows from the root.'",
+          "Then why trims still matter: 'A trim stops split ends travelling up, so you keep the length you have grown.'",
+          "Stop there. No sign-off."
+        ]
+      },
+      "alsoWatch": [
+        {
+          "url": "https://www.instagram.com/p/DcBsZRfjiFU/",
+          "creator": "Content strategy for hairdressers",
+          "what": "The same list, with consultation-process and product content as formats three and four — next weeks' ideas"
+        }
+      ],
+      "references": [
+        "https://www.instagram.com/adelecatherine.socials/reel/DcA33ROIQi2/",
+        "https://www.instagram.com/p/DcBsZRfjiFU/"
+      ],
+      "hook": "First words, no greeting: \"Does a trim make your hair grow faster?\"",
+      "shots": [
+        "0–2s — you, mid-shot, asking the question.",
+        "2–4s — beat, then 'No.'",
+        "4–12s — the root, and why trims still matter.",
+        "12–14s — stop."
+      ],
+      "onScreenText": [
+        "0.3s — Myth or fact: trims make hair grow faster?",
+        "3s — MYTH",
+        "5s — Hair grows from the root",
+        "9s — Trims keep the length you've got"
+      ],
+      "audio": "Your voice, no music. A track under a talking answer makes it sound like an advert.",
+      "caption": {
+        "hook": "Does a trim make your hair grow faster?",
+        "body": "No. Hair grows from the root, about a centimetre a month. A trim stops split ends travelling up, so you keep the length you have grown.",
+        "cta": "Send it to the friend who has been growing hers out since 2024.",
+        "hashtags": [
+          "#camberwellhair",
+          "#melbournecolourist",
+          "#haireducation",
+          "#hairbyshacamberwell"
+        ]
+      },
+      "watchFor": "Starting with 'Hi guys'. The question has to be the first thing out of your mouth, or the scroll wins."
+    }
+  ]
+}

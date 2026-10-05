@@ -1,0 +1,19 @@
+{
+  "capturedAt": "2026-10-05",
+  "weekOf": "2026-10-12",
+  "source": "Composio live read via `node src/cli.js posted`, 5 Oct 2026 (Monday evening, AEDT)",
+  "account": { "username": "hairbysha_c", "accountType": "BUSINESS", "followers": 186, "postsReviewed": 25, "averageEngagement": 3.33, "grade": "C" },
+  "change": {
+    "followers": "flat at 186 — third check running (15 Sep, 29 Sep, 5 Oct)",
+    "engagement": "3.92% on 29 Sep → 3.33% on 5 Oct",
+    "captionDefects": "7 published captions still carry a defect (CAPTION-FIXES.md)"
+  },
+  "lastWeekAuthored": "0 of 7 week-8 posts live — read on the evening of week 8's first day, so an open question, not a verdict",
+  "hours": "Kairo: Wed 11–6, Fri 11–7, Sat 9–5, Sun 11–4; closed Mon, Tue, Thu. Website corrected 5 Oct.",
+  "shaAnswers": { "daysToFill": ["Saturday", "Sunday"], "fromTheChair": "nothing", "avoid": "nothing", "resendWeek8": "no" },
+  "action": "Race week: Caulfield Cup Sat 17 Oct. Two finished reels (race-day countdown, myth-or-fact game show), a six-slide which-blonde quiz, salon client bingo, a race-day form guide, a Sunday-reset ticket. Weekend-fill CTAs throughout.",
+  "predictionForNextWeek": {
+    "followers": "189-192 by 19 Oct",
+    "test": "Does a date-tied, entertainment-first reel get posted and shared? Check comments on bingo and the blonde quiz — the first comment-driven posts the system has made."
+  }
+}
