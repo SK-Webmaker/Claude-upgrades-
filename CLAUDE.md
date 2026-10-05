@@ -23,6 +23,7 @@ inside a Claude Code session. The weekly command is `/start`.
 | Booking | https://hairbysha-booking.onrender.com/book (Kairo, self-hosted) |
 | Phone | 0452 611 799 |
 | Timezone | Australia/Melbourne — **southern hemisphere seasons** |
+| Hours (Kairo, 5 Oct 2026) | **Wed 11–6 · Fri 11–7 · Sat 9–5 · Sun 11–4.** Closed Mon, Tue, Thu. Kairo's settings are the source of truth — never promote a closed day or old Sunday hours |
 | Speciality | Hair colour specialist. K18 certified, 20+ years |
 
 Catchment: Camberwell and the surrounding eastern suburbs — Glen Iris, Hawthorn,

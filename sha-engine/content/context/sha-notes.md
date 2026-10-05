@@ -58,6 +58,13 @@ so nobody has to remember. The questions are for what the API cannot see.
 
 ### Week of 2026-10-05
 
+- **Hours, 5 Oct — from Kairo's settings:** Wed 11am–6pm, Fri 11am–7pm,
+  Sat 9am–5pm, Sun 11am–4pm; **closed Mon, Tue and Thu**. The website had Tue
+  and Thu open and was corrected the same day (Lovable `src/data/site.ts` and
+  `public/llms.txt`). Week 8 had "Sundays 10–2" baked into two cards and both
+  reels, a "Thursdays are calm" CTA, and a book-the-15th (a Thursday) race-day
+  line — all re-rendered to the Kairo hours. Never promote a closed day.
+
 - **Operator's word:** the posts have been working and Sha has been enjoying
   them. Asked for one or two entertaining, doom-scroll educational reels with
   transitions, and three to four posts on education, services and price points,

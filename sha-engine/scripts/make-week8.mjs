@@ -115,7 +115,7 @@ function bookSha() {
       <h1 class="fr" style="font-size:212px;color:${GOLD};margin-top:26px">Book<br>Sha.</h1>
     </div>
     <div class="tiles">${tiles.map(([n, l]) => `<div class="tile"><span class="num">${n}</span><p>${l}</p></div>`).join('')}</div>
-    <div class="cta" style="background:${GOLD};color:${INK}"><b>DM me to book</b><span>Sundays 10–2</span></div>
+    <div class="cta" style="background:${GOLD};color:${INK}"><b>DM me to book</b><span>Sundays 11–4</span></div>
     <div class="grain"></div>
   </body></html>`;
 }
@@ -313,7 +313,7 @@ function gloss() {
     ${art(1080, 1350, `<g transform="translate(470 690)">${drop({ w: 140, c1: '#E4D9F2', c2: '#5B4A86' })}</g>
       <path d="M486,952 H592" stroke="${GOLD}" stroke-width="6" stroke-linecap="round"/>
       <path d="M572,934 L594,952 L572,970" fill="none" stroke="${GOLD}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`, 'z-index:7')}
-    <div class="cta" style="background:${GOLD};color:${INK}"><b>Gloss · ${g.from ? 'from ' : ''}$${g.price}</b><span>DM me · Sundays 10–2</span></div>
+    <div class="cta" style="background:${GOLD};color:${INK}"><b>Gloss · ${g.from ? 'from ' : ''}$${g.price}</b><span>DM me · Sundays 11–4</span></div>
     <div class="grain"></div>
   </body></html>`;
 }

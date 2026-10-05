@@ -424,7 +424,7 @@ function reelA() {
         </div>
       </div>
       <div class="cta pill" style="position:absolute;left:66px;top:500px;padding:28px 48px;background:${GOLD};color:${INK};font-size:46px;opacity:0">DM me to book <span style="font-size:50px">→</span></div>
-      <div class="ticker" style="top:680px;background:${FIG}"><div class="tk" style="color:${CLAY}">${'HAIR BY SHA ✦ CAMBERWELL ✦ SUNDAYS 10–2 ✦ 20+ YEARS ✦ K18 CERTIFIED ✦ '.repeat(4)}</div></div>
+      <div class="ticker" style="top:680px;background:${FIG}"><div class="tk" style="color:${CLAY}">${'HAIR BY SHA ✦ CAMBERWELL ✦ SUNDAYS 11–4 ✦ 20+ YEARS ✦ K18 CERTIFIED ✦ '.repeat(4)}</div></div>
     </div>
   </div></section>`;
 
@@ -668,7 +668,7 @@ function reelB() {
     </div>
     <div class="safe" style="top:900px;right:120px">
       <h1 class="fr come" style="font-size:190px;color:${CREAM}">${W('Come for [[Sha.]]')}</h1>
-      <p class="det" style="margin-top:34px;font-size:38px;font-weight:700;color:${CLAY};opacity:0">One chair · Camberwell · Sundays 10–2</p>
+      <p class="det" style="margin-top:34px;font-size:38px;font-weight:700;color:${CLAY};opacity:0">One chair · Camberwell · Sundays 11–4</p>
       <div class="cta pill" style="margin-top:48px;padding:28px 46px;background:${GOLD};color:${INK};font-size:44px;opacity:0">DM me to book <span style="font-size:48px">→</span></div>
     </div>
     <div class="ticker" style="top:1640px;background:${INK}"><div class="tk" style="color:${GOLD}">${'COME FOR SHA ✦ ONE CHAIR ✦ CAMBERWELL ✦ DM TO BOOK ✦ '.repeat(5)}</div></div>
