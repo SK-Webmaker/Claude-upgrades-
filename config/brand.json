@@ -1,0 +1,57 @@
+{
+  "_": "Kairo, for Gloss reels. The single source of truth for anything a reel says or shows. Read it; never quote from memory.",
+  "business": {
+    "name": "Kairo",
+    "what": "Booking, clients and payments for a salon",
+    "runs": "one salon",
+    "say": "a salon",
+    "neverSay": ["salons"],
+    "where": "Melbourne, Australia",
+    "timezone": "Australia/Melbourne",
+    "hemisphere": "southern",
+    "seller": "Shamalka Kiridena"
+  },
+  "price": {
+    "amount": 410,
+    "currency": "AUD",
+    "display": "$410",
+    "shape": "once",
+    "monthly": 0,
+    "commission": 0,
+    "spoken": "four hundred and ten dollars",
+    "source": "Kairo platform: KAIRO_PRICE_CENTS = 41000 (platform/render.yaml, platform/signup.js), the amount the live checkout charges. Checked 12 Oct 2026."
+  },
+  "cta": {
+    "channel": "dm",
+    "keyword": "KAIRO",
+    "display": "DM me KAIRO",
+    "spoken": "DM me Kairo.",
+    "never": ["a URL", "a website", "link in bio", "learn more"],
+    "why": "The website is not launched for this audience; the reel sells a conversation."
+  },
+  "facts": {
+    "notifyPrompt": {
+      "claim": "It asks before it texts your client.",
+      "true": "Every booking the owner makes or moves, and every cancellation, asks once at the moment of saving: Email them, Text them, Email and text them, or Don't send anything (You'll tell them yourself). Only the channels that client can actually receive are offered.",
+      "source": "Appointment-software- public/js/pages/calendar.js askNotify(); screenshot public/screenshots/kairo-notify-prompt.png"
+    },
+    "textsCost": "Texts go through the salon's own ClickSend account, a few cents each; Kairo adds nothing.",
+    "doubleBooking": "The diary refuses an overlapping booking for the same person unless the owner forces it."
+  },
+  "look": {
+    "ink": "#070A10",
+    "panel": "#0E1520",
+    "text": "#E8EDF6",
+    "muted": "#8796AE",
+    "sky": "#38BDF8",
+    "blue": "#2F7FD6",
+    "warn": "#F59E0B",
+    "font": "Inter (assets/fonts/kairo-fonts.css)",
+    "frame": [1080, 1920]
+  },
+  "voice": {
+    "design": "Australian woman, early 30s. Warm and quick, slightly dry, a bit of edge. Runs her own business and is telling another owner something genuinely useful: not a narrator, not an ad read. Conversational pace with real variation in it. Light natural texture, not polished.",
+    "never": ["the default voice", "a generic neutral male read", "a corporate explainer read"],
+    "write": "To be said, not read. Short sentences. Contractions everywhere except \"cannot\"."
+  }
+}

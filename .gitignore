@@ -18,3 +18,7 @@ sha-engine/content/reels/.frames/
 sha-engine/content/reels/.frames-*/
 sha-engine/content/photos/.*.html
 sha-engine/data/reel-preview/
+
+# Kairo reel build output: probe frames, voice track, renders. The contact
+# sheet worth keeping is copied to reel/contact-sheet.png.
+reel/out/

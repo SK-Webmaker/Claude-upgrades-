@@ -1,0 +1,15 @@
+{
+  "name": "gloss-kairo",
+  "private": true,
+  "type": "module",
+  "description": "Gloss for Kairo: reels. The Hair by Sha engine is in sha-engine/ and keeps its own package.",
+  "scripts": {
+    "vo:spans": "node tools/vo-spans.mjs reel/vo/kairo-notify.mp3",
+    "vo:cut": "node tools/cut-vo.mjs",
+    "probe": "node tools/probe-reel.mjs",
+    "render": "node tools/render-reel.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.56.1"
+  }
+}

@@ -1,0 +1,337 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Kairo — it asks before it texts your client</title>
+<link rel="stylesheet" href="../assets/fonts/kairo-fonts.css">
+<style>
+  /* 1080x1920, one idea: the notify prompt. Every picture of Kairo here is a
+     real capture from public/screenshots; the words come from reel/notify.json
+     and the price and call to action from config/brand.json. No progress bar:
+     a reel that shows how much is left invites the swipe. */
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #070A10; }
+  #f { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Inter, sans-serif; color: #F4F7FB; }
+  .abs { position: absolute; }
+  .shot { position: absolute; inset: 0; visibility: hidden; }
+  .bg { position: absolute; inset: -200px; }
+  .grain { position: absolute; inset: 0; opacity: 0.09; mix-blend-mode: overlay; pointer-events: none; }
+  .scrim { position: absolute; left: 0; right: 0; top: 0; height: 760px; background: linear-gradient(#070A10 0%, rgba(7,10,16,0.92) 42%, rgba(7,10,16,0) 100%); }
+  .scrim.low { top: auto; bottom: 0; height: 520px; background: linear-gradient(rgba(7,10,16,0), rgba(7,10,16,0.85)); }
+  .shotimg { position: absolute; left: 0; top: 0; width: 1170px; height: 2532px; background-size: 1170px 2532px; transform-origin: 0 0; }
+  .card { position: absolute; overflow: hidden; border-radius: 46px; background: #0E1520;
+          box-shadow: 0 50px 120px rgba(0,0,0,0.6), 0 0 0 2px rgba(255,255,255,0.06); transform-origin: 50% 0%; }
+  .type { position: absolute; left: 72px; right: 72px; font-weight: 700; letter-spacing: -0.035em; line-height: 1.02; }
+  .type .w { display: inline-block; will-change: transform, opacity; }
+  .sky { color: #38BDF8; } .amber { color: #F59E0B; } .muted { color: #8796AE; }
+  .ring { position: absolute; border: 7px solid #38BDF8; border-radius: 30px;
+          box-shadow: 0 0 0 12px rgba(56,189,248,0.16), 0 0 46px rgba(56,189,248,0.55); }
+  .finger { position: absolute; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%;
+            background: rgba(255,255,255,0.32); box-shadow: 0 0 0 10px rgba(255,255,255,0.12), 0 10px 30px rgba(0,0,0,0.4); }
+  .stamp { position: absolute; font-weight: 700; letter-spacing: -0.02em; color: #F59E0B; border: 12px solid #F59E0B; border-radius: 34px;
+           padding: 6px 44px 12px; line-height: 1; text-align: center; background: rgba(7,10,16,0.55); }
+  /* Close-ups fade the screenshot out under the big type: its own header text
+     must never sit behind the words being said. */
+  .under-type { -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 650px, #000 770px); mask-image: linear-gradient(to bottom, transparent 0, transparent 650px, #000 770px); }
+  .chip { position: absolute; padding: 14px 26px; border-radius: 99px; font-weight: 700; font-size: 40px; letter-spacing: 0.02em; }
+</style></head>
+<body><div id="f">
+  <div class="bg" id="bg"></div>
+
+  <!-- 1 · hook: the real prompt rises while the line is said -->
+  <div class="shot" id="s-hook">
+    <div class="card" id="hk-card" style="left:60px;width:960px;height:1433px">
+      <div class="shotimg" id="hk-img"></div>
+      <div class="ring" id="hk-ring"></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="type" id="hk-type" data-probe="text" style="top:250px;font-size:100px"></div>
+  </div>
+
+  <!-- 2 · the drag: Kairo's own calendar, the booking picked up -->
+  <div class="shot" id="s-drag">
+    <div class="abs" id="dg-cam" style="left:0;top:0;width:1080px;height:1920px;transform-origin:0 0">
+      <div class="shotimg" id="dg-img"></div>
+      <div class="abs" id="dg-ghost"></div>
+      <div class="abs" id="dg-block"></div>
+      <div class="finger" id="dg-finger"></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="type" id="dg-type" data-probe="text" style="top:250px;font-size:100px"></div>
+  </div>
+
+  <!-- 3 · "texted her" — the old way fires mid-drag -->
+  <div class="shot" id="s-sent">
+    <div class="abs" id="st-cam" style="left:0;top:0;width:1080px;height:1920px;transform-origin:0 0">
+      <div class="shotimg" id="st-img"></div>
+      <div class="abs" id="st-ghost"></div>
+      <div class="abs" id="st-block"></div>
+      <div class="finger" id="st-finger"></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="type" id="st-type" data-probe="text" style="top:250px;font-size:100px"></div>
+    <div class="stamp" id="st-stamp" data-probe="text" style="left:200px;top:880px;width:600px;font-size:210px">SENT<div style="font-size:46px;letter-spacing:0.04em;margin-top:2px">9:41 PM</div></div>
+  </div>
+
+  <!-- 4 · "before you've even let go" — held, tight -->
+  <div class="shot" id="s-held">
+    <div class="abs" id="hd-cam" style="left:0;top:0;width:1080px;height:1920px;transform-origin:0 0">
+      <div class="shotimg" id="hd-img"></div>
+      <div class="abs" id="hd-ghost"></div>
+      <div class="abs" id="hd-block"></div>
+      <div class="finger" id="hd-finger"></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="type" id="hd-type" data-probe="text" style="top:250px;font-size:112px"></div>
+    <div class="chip" id="hd-chip" style="right:72px;top:1430px;background:rgba(245,158,11,0.16);color:#F59E0B;border:3px solid rgba(245,158,11,0.6)">SENT 9:41 PM</div>
+  </div>
+
+  <!-- 5 · "Kairo stops. And asks." — the real prompt drops in -->
+  <div class="shot" id="s-asks">
+    <div class="card" id="as-card" style="left:40px;width:1000px;height:1494px">
+      <div class="shotimg" id="as-img"></div>
+      <div class="ring" id="as-ring"></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="type" id="as-type" data-probe="text" style="top:250px;font-size:112px"></div>
+  </div>
+
+  <!-- 6 · "Text her, email her" — the choices, close -->
+  <div class="shot" id="s-choose">
+    <div class="abs under-type" style="inset:0">
+    <div class="abs under-type-wrap" id="ch-cam" style="left:0;top:0;width:1080px;height:1920px;transform-origin:0 0">
+      <div class="shotimg" id="ch-img"></div>
+      <div class="ring" id="ch-ring"></div>
+    </div></div>
+    <div class="scrim"></div>
+    <div class="type" id="ch-type" data-probe="text" style="top:250px;font-size:112px"></div>
+  </div>
+
+  <!-- 7 · "or don't" — the real "Don't send anything", chosen -->
+  <div class="shot" id="s-dont">
+    <div class="abs under-type" style="inset:0">
+    <div class="abs under-type-wrap" id="dn-cam" style="left:0;top:0;width:1080px;height:1920px;transform-origin:0 0">
+      <div class="shotimg" id="dn-img"></div>
+      <div class="ring" id="dn-ring"></div>
+    </div></div>
+    <div class="scrim"></div>
+    <div class="type" id="dn-type" data-probe="text" style="top:250px;font-size:120px"></div>
+    <div class="type" id="dn-sub" data-probe="text" style="top:400px;font-size:64px;font-weight:600;letter-spacing:-0.02em"></div>
+  </div>
+
+  <!-- 8 · "Your client. Your call." -->
+  <div class="shot" id="s-call">
+    <div class="abs" id="cl-cam" style="left:0;top:0;width:1080px;height:1920px;transform-origin:0 0;filter:blur(7px)">
+      <div class="shotimg" id="cl-img"></div>
+    </div>
+    <div class="abs" style="inset:0;background:rgba(7,10,16,0.74)"></div>
+    <div class="type" id="cl-type" data-probe="text" style="top:520px;font-size:150px;text-align:center"></div>
+  </div>
+
+  <!-- 9 · the price -->
+  <div class="shot" id="s-price">
+    <div class="abs" id="pr-num" data-probe="text" style="left:0;right:0;top:540px;text-align:center;font-weight:700;font-size:400px;letter-spacing:-0.05em;line-height:1"></div>
+    <div class="abs sky" id="pr-once" data-probe="text" style="left:0;right:0;top:960px;text-align:center;font-weight:700;font-size:150px;letter-spacing:-0.035em;line-height:1"></div>
+    <div class="abs muted" id="pr-fine" data-probe="text" style="left:0;right:0;top:1200px;text-align:center;font-weight:600;font-size:52px;letter-spacing:-0.01em"></div>
+  </div>
+
+  <!-- 10 · the call to action, and the end -->
+  <div class="shot" id="s-cta">
+    <div class="abs" id="ct-mark" style="left:470px;top:420px;width:140px;height:140px"></div>
+    <div class="abs" id="ct-dm" data-probe="text" style="left:0;right:0;top:640px;text-align:center;font-weight:700;font-size:170px;letter-spacing:-0.04em;line-height:1"></div>
+    <div class="abs sky" id="ct-key" data-probe="text" style="left:0;right:0;top:850px;text-align:center;font-weight:700;font-size:250px;letter-spacing:0.01em;line-height:1"></div>
+  </div>
+
+  <div class="grain" id="grain"></div>
+</div>
+
+<script type="module">
+// ── timeline in, nothing hardcoded about time except shot order ──
+const TL = window.TIMELINE;   // reel/out/timeline.json, injected by the probe and the renderer
+const BRAND = window.BRAND;   // config/brand.json, injected likewise
+const META = window.SHOTMETA; // public/screenshots/kairo-notify-prompt.json
+const SS = '../public/screenshots/';
+const L = Object.fromEntries(TL.lines.map((l) => [l.id, l]));
+const $ = (id) => document.getElementById(id);
+
+/** When the nth word of a line lands, spread by characters across the line. */
+function wordAt(id, n) {
+  const l = L[id]; const words = l.say.split(/\s+/);
+  const before = words.slice(0, n).join(' ').length + (n ? 1 : 0);
+  return l.start + (l.end - l.start) * (before / l.say.length);
+}
+const words = (id) => L[id].say.split(/\s+/);
+
+// ── the shots: hard cuts, none longer than ~3 s ──
+const D = TL.duration;
+const cut = {
+  drag: L.drag.start - 0.18,
+  sent: L.sent.start,
+  held: wordAt('sent', 6) - 0.06,
+  asks: L.asks.start - 0.12,
+  choose: L.choose.start - 0.1,
+  dont: wordAt('choose', 4) - 0.08,
+  call: L.call.start - 0.12,
+  price: L.price.start - 0.14,
+  cta: L.cta.start - 0.1,
+};
+const SHOTS = [
+  ['hook', 0, cut.drag], ['drag', cut.drag, cut.sent], ['sent', cut.sent, cut.held], ['held', cut.held, cut.asks],
+  ['asks', cut.asks, cut.choose], ['choose', cut.choose, cut.dont], ['dont', cut.dont, cut.call],
+  ['call', cut.call, cut.price], ['price', cut.price, cut.cta], ['cta', cut.cta, D],
+].map(([id, from, to]) => ({ id, from: +from.toFixed(3), to: +to.toFixed(3) }));
+window.SHOTS = SHOTS;
+
+// ── a tiny deterministic engine: everything is a function of t ──
+const EASE = { lin: (k) => k, out: (k) => 1 - (1 - k) ** 3, in: (k) => k ** 3, io: (k) => (k < 0.5 ? 4 * k ** 3 : 1 - (-2 * k + 2) ** 3 / 2), back: (k) => 1 + 2.4 * (k - 1) ** 3 + 1.4 * (k - 1) ** 2 };
+const ticks = [];
+const lerp = (a, b, k) => a + (b - a) * k;
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+/** keys: [[t, {prop: v}, ease], ...] → value at t */
+function at(keys, t) {
+  if (t <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) {
+    const [t1, v1, e] = keys[i]; const [t0, v0] = keys[i - 1];
+    if (t <= t1) { const k = (EASE[e || 'io'])(clamp01((t - t0) / (t1 - t0 || 1))); const o = {}; for (const p in v1) o[p] = lerp(v0[p] ?? v1[p], v1[p], k); return { ...v0, ...o }; }
+  }
+  return keys[keys.length - 1][1];
+}
+const fill = (keys) => { let prev = {}; return keys.map(([t, v, e]) => { prev = { ...prev, ...v }; return [t, prev, e]; }); };
+function anim(el, keys, base = { o: 1, x: 0, y: 0, s: 1, r: 0, b: 0 }) {
+  if (typeof el === 'string') el = $(el);
+  const k = fill([[0, base], ...keys]);
+  ticks.push((t) => { const v = at(k, t);
+    el.style.opacity = v.o.toFixed(3);
+    el.style.transform = `translate(${v.x.toFixed(1)}px, ${v.y.toFixed(1)}px) rotate(${v.r.toFixed(2)}deg) scale(${v.s.toFixed(4)})`;
+    el.style.filter = v.b > 0.05 ? `blur(${v.b.toFixed(1)}px)` : 'none'; });
+}
+/** A line of big type whose words land as they are said. */
+function sayType(el, id, html, { from = 0, color = {} } = {}) {
+  el = typeof el === 'string' ? $(el) : el;
+  const ws = words(id);
+  el.innerHTML = (html || ws.map((w, i) => `<span class="w${color[i] ? ' ' + color[i] : ''}">${w}</span>`).join(' '));
+  [...el.querySelectorAll('.w')].forEach((w, i) => { const t0 = wordAt(id, from + i) - 0.06;
+    anim(w, [[t0, { o: 0, y: 46, s: 0.96 }], [t0 + 0.16, { o: 1, y: 0, s: 1 }, 'out']], { o: 0, x: 0, y: 46, s: 0.96, r: 0, b: 0 }); });
+}
+/** Point a screenshot at a rectangle of itself (screenshot px), filling a box. */
+function frameShot(img, rect, box, s) {
+  const k = s ?? Math.max(box.w / rect.w, box.h / rect.h);
+  return { k, x: box.x + box.w / 2 - (rect.x + rect.w / 2) * k, y: box.y + box.h / 2 - (rect.y + rect.h / 2) * k };
+}
+const setImg = (el, file) => { $(el).style.backgroundImage = `url('${SS}${file}')`; };
+
+// shots appear exactly in their window: hard cuts
+for (const sh of SHOTS) ticks.push((t) => { $(`s-${sh.id}`).style.visibility = t >= sh.from && t < sh.to + (sh.to === D ? 1 : 0) ? 'visible' : 'hidden'; });
+
+// ── always moving: the room behind everything, and the grain ──
+ticks.push((t) => {
+  $('bg').style.background = `radial-gradient(900px 900px at ${540 + 220 * Math.sin(t * 0.55)}px ${520 + 140 * Math.cos(t * 0.41)}px, rgba(56,189,248,0.20), transparent 70%),`
+    + `radial-gradient(1000px 1000px at ${700 + 200 * Math.cos(t * 0.37)}px ${1500 + 160 * Math.sin(t * 0.5)}px, rgba(47,127,214,0.22), transparent 70%), #070A10`;
+  $('grain').style.backgroundImage = GRAIN; $('grain').style.backgroundPosition = `${(t * 211) % 320}px ${(t * 137) % 320}px`;
+});
+const GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='320' height='320' filter='url(%23n)'/%3E%3C/svg%3E\")";
+
+const P = META.prompt, DLG = P.dialog, OPT = P.options;
+const optRect = (re) => OPT.find((o) => re.test(o.text));
+
+// 1 · hook ────────────────────────────────────────────────────────────────
+{ const s = 960 / DLG.w; setImg('hk-img', 'kairo-notify-prompt.png');
+  $('hk-img').style.transform = `translate(${-DLG.x * s}px, ${-DLG.y * s}px) scale(${s})`;
+  const tx = optRect(/^Text them/);
+  Object.assign($('hk-ring').style, { left: `${(tx.x - DLG.x) * s - 8}px`, top: `${(tx.y - DLG.y) * s - 8}px`, width: `${tx.w * s + 2}px`, height: `${tx.h * s + 2}px` });
+  anim('hk-card', [[0, { y: 1180, r: -6, s: 1.05 }], [0.7, { y: 640, r: -3, s: 1 }, 'out'], [cut.drag, { y: 600, r: -2.2, s: 1.015 }, 'lin']]);
+  anim('hk-ring', [[1.25, { o: 0, s: 1.12 }], [1.5, { o: 1, s: 1 }, 'out']], { o: 0, x: 0, y: 0, s: 1, r: 0, b: 0 });
+  sayType('hk-type', 'hook', `<span class="w">It</span> <span class="w sky">asks</span><br><span class="w">before</span> <span class="w">it</span> <span class="w">texts</span><br><span class="w">your</span> <span class="w">client.</span>`); }
+
+// 2–4 · the calendar, the drag, the misfire ────────────────────────────────
+const CAL = 'kairo-calendar-phone.png', BLK = META.calendar.appt, HOUR = 207, DROP = 4 * HOUR; // 10:00 → 2:00 PM
+function calendarShot(p, { cam, slide, finger = true }) {
+  setImg(`${p}-img`, CAL);
+  const blk = $(`${p}-block`);
+  Object.assign(blk.style, { left: `${BLK.x}px`, top: `${BLK.y}px`, width: `${BLK.w}px`, height: `${BLK.h}px`, borderRadius: '18px',
+    backgroundImage: `url('${SS}${CAL}')`, backgroundSize: '1170px 2532px', backgroundPosition: `${-BLK.x}px ${-BLK.y}px`, boxShadow: '0 30px 60px rgba(0,0,0,0.55), 0 0 0 4px rgba(56,189,248,0.75)' });
+  Object.assign($(`${p}-ghost`).style, { left: `${BLK.x}px`, top: `${BLK.y}px`, width: `${BLK.w}px`, height: `${BLK.h}px`, borderRadius: '18px', background: 'rgba(7,10,16,0.62)', outline: '4px dashed rgba(135,150,174,0.7)', outlineOffset: '-4px' });
+  ticks.push((t) => {
+    const c = cam(t); $(`${p}-cam`).style.transform = `translate(${c.x}px, ${c.y}px) scale(${c.k})`;
+    const d = slide(t); const lift = clamp01((t - cut.drag - 0.15) / 0.25);
+    blk.style.transform = `translate(${6 * lift}px, ${d}px) scale(${1 + 0.05 * lift})`;
+    const f = $(`${p}-finger`); f.style.display = finger ? 'block' : 'none';
+    f.style.left = `${BLK.x + BLK.w * 0.55}px`; f.style.top = `${BLK.y + BLK.h * 0.45 + d}px`;
+  });
+}
+const slideAt = (t) => DROP * 0.62 * EASE.io(clamp01((t - cut.drag - 0.3) / (cut.held - cut.drag - 0.3))) + (t > cut.held ? 6 * Math.sin((t - cut.held) * 9) : 0);
+const blockCenter = { x: BLK.x + BLK.w / 2, y: BLK.y + BLK.h / 2 };
+// The camera follows the booking but never lets the edge of the screenshot into
+// the frame: a strip of empty background reads as a broken picture.
+const fillClamp = (k, x, y) => ({ k, x: Math.min(0, Math.max(1080 - 1170 * k, x)), y: Math.min(0, Math.max(1920 - 2532 * k, y)) });
+const camOn = (zoom, dy = 0, t0 = 0, t1 = 1, z1 = zoom) => (t) => { const k = lerp(zoom, z1, EASE.io(clamp01((t - t0) / (t1 - t0)))); const y = blockCenter.y + slideAt(t) * 0.55 + dy;
+  return fillClamp(k, 540 - blockCenter.x * k, 1060 - y * k); };
+calendarShot('dg', { cam: camOn(0.94, 0, cut.drag, cut.sent, 1.02), slide: slideAt });
+calendarShot('st', { cam: camOn(1.15, 0, cut.sent, cut.held, 1.24), slide: slideAt });
+calendarShot('hd', { cam: camOn(1.55, 120, cut.held, cut.asks, 1.68), slide: slideAt });
+sayType('dg-type', 'drag', `<span class="w">You</span> <span class="w">drag</span> <span class="w">one</span><br><span class="w">booking</span> <span class="w">across,</span>`);
+sayType('st-type', 'sent', `<span class="w muted">and</span> <span class="w">your</span> <span class="w">old</span> <span class="w">system's</span><br><span class="w amber">texted</span> <span class="w amber">her</span>`);
+sayType('hd-type', 'sent', `<span class="w">before</span> <span class="w">you've</span><br><span class="w">even</span> <span class="w amber">let</span> <span class="w amber">go.</span>`, { from: 6 });
+{ const t0 = wordAt('sent', 4) - 0.04;
+  anim('st-stamp', [[t0, { o: 0, s: 1.9, r: -14 }], [t0 + 0.14, { o: 1, s: 0.96, r: -8 }, 'out'], [t0 + 0.24, { s: 1.0 }, 'out'], [cut.held, { s: 1.03, r: -7.5 }, 'lin']], { o: 0, x: 0, y: 0, s: 1, r: -8, b: 0 });
+  ticks.push((t) => { if (t > t0 && t < t0 + 0.3) { const a = (1 - (t - t0) / 0.3) * 14; $('st-cam').style.translate = `${a * Math.sin(t * 90)}px ${a * Math.cos(t * 77)}px`; } else $('st-cam').style.translate = '0 0'; });
+  anim('hd-chip', [[cut.held, { o: 1, x: 0 }], [cut.asks, { o: 1, x: -20 }, 'lin']]); }
+
+// 5 · Kairo stops. And asks. ───────────────────────────────────────────────
+{ const s = 1000 / DLG.w; setImg('as-img', 'kairo-notify-prompt.png');
+  $('as-img').style.transform = `translate(${-DLG.x * s}px, ${-DLG.y * s}px) scale(${s})`;
+  const ti = P.title;
+  Object.assign($('as-ring').style, { left: `${(ti.x - DLG.x) * s - 22}px`, top: `${(ti.y - DLG.y) * s - 18}px`, width: `${ti.w * s + 44}px`, height: `${ti.h * s + 36}px` });
+  anim('as-card', [[cut.asks, { y: -900, s: 1.04 }], [cut.asks + 0.32, { y: 560, s: 1 }, 'back'], [cut.choose, { y: 540, s: 1.02 }, 'lin']]);
+  anim('as-ring', [[wordAt('asks', 3) - 0.05, { o: 0, s: 1.2 }], [wordAt('asks', 3) + 0.15, { o: 1, s: 1 }, 'out']], { o: 0, x: 0, y: 0, s: 1, r: 0, b: 0 });
+  sayType('as-type', 'asks', `<span class="w">Kairo</span> <span class="w">stops.</span><br><span class="w sky">And</span> <span class="w sky">asks.</span>`); }
+
+// 6 · the choices, close ────────────────────────────────────────────────────
+{ setImg('ch-img', 'kairo-notify-prompt.png');
+  const em = optRect(/^Email them/), tx = optRect(/^Text them/);
+  const box = { x: 40, y: 720, w: 1000, h: 980 };
+  const region = { x: em.x, y: em.y - 40, w: em.w, h: 4 * 205 + 40 };
+  const f0 = frameShot(null, region, box, 1000 / em.w);
+  ticks.push((t) => { const k = clamp01((t - cut.choose) / (cut.dont - cut.choose)); const z = 1 + 0.06 * EASE.io(k);
+    $('ch-cam').style.transform = `translate(${f0.x - 540 * (z - 1)}px, ${f0.y - 1000 * (z - 1)}px) scale(${f0.k * z})`;
+    const tE = wordAt('choose', 2) - 0.05; const r = t < tE ? tx : em;
+    Object.assign($('ch-ring').style, { left: `${r.x - 14}px`, top: `${r.y - 14}px`, width: `${r.w + 28}px`, height: `${r.h + 28}px` }); });
+  anim('ch-ring', [[cut.choose, { o: 0, s: 1.1 }], [cut.choose + 0.14, { o: 1, s: 1 }, 'out']], { o: 0, x: 0, y: 0, s: 1, r: 0, b: 0 });
+  sayType('ch-type', 'choose', `<span class="w">Text</span> <span class="w">her,</span><br><span class="w">email</span> <span class="w">her,</span>`); }
+
+// 7 · or don't ──────────────────────────────────────────────────────────────
+{ setImg('dn-img', 'kairo-notify-prompt-none.png');
+  const dn = optRect(/^Don't send anything/);
+  const f0 = frameShot(null, { x: dn.x - 20, y: dn.y - 260, w: dn.w + 40, h: dn.h + 520 }, { x: 0, y: 820, w: 1080, h: 960 });
+  ticks.push((t) => { const k = clamp01((t - cut.dont) / (cut.call - cut.dont)); const z = 1 + 0.1 * EASE.io(k); const cx = dn.x + dn.w / 2, cy = dn.y + dn.h / 2;
+    $('dn-cam').style.transform = `translate(${540 - cx * f0.k * z}px, ${1240 - cy * f0.k * z}px) scale(${f0.k * z})`; });
+  Object.assign($('dn-ring').style, { left: `${dn.x - 14}px`, top: `${dn.y - 14}px`, width: `${dn.w + 28}px`, height: `${dn.h + 28}px` });
+  anim('dn-ring', [[wordAt('choose', 5) - 0.05, { o: 0, s: 1.14 }], [wordAt('choose', 5) + 0.14, { o: 1, s: 1 }, 'out']], { o: 0, x: 0, y: 0, s: 1, r: 0, b: 0 });
+  sayType('dn-type', 'choose', `<span class="w">or</span> <span class="w sky">don't.</span>`, { from: 4 });
+  sayType('dn-sub', 'choose', `<span class="w">You'll</span> <span class="w">tell</span> <span class="w">her</span> <span class="w">yourself.</span>`, { from: 6 }); }
+
+// 8 · your client, your call ────────────────────────────────────────────────
+{ setImg('cl-img', 'kairo-notify-prompt-none.png'); const sv = P.save;
+  ticks.push((t) => { const k = clamp01((t - cut.call) / (cut.price - cut.call)); const z = 1.5 + 0.12 * EASE.io(k);
+    $('cl-cam').style.transform = `translate(${540 - (sv.x + sv.w / 2) * z}px, ${1360 - (sv.y + sv.h / 2) * z}px) scale(${z})`; });
+  sayType('cl-type', 'call', `<span class="w">Your</span> <span class="w">client.</span><br><span class="w sky">Your</span> <span class="w sky">call.</span>`); }
+
+// 9 · the price, from config/brand.json ────────────────────────────────────
+{ const pr = BRAND.price; $('pr-num').textContent = pr.display; $('pr-once').textContent = `${pr.shape}.`;
+  $('pr-fine').textContent = [pr.monthly === 0 ? 'No monthly fee.' : '', pr.commission === 0 ? 'No commission.' : ''].filter(Boolean).join(' ');
+  anim('pr-num', [[cut.price, { o: 0, s: 1.22, b: 18 }], [cut.price + 0.22, { o: 1, s: 1, b: 0 }, 'out'], [cut.cta, { s: 1.04 }, 'lin']], { o: 0, x: 0, y: 0, s: 1.22, r: 0, b: 18 });
+  const tOnce = wordAt('price', 5) - 0.05;
+  anim('pr-once', [[tOnce, { o: 0, y: 60 }], [tOnce + 0.18, { o: 1, y: 0 }, 'out']], { o: 0, x: 0, y: 60, s: 1, r: 0, b: 0 });
+  anim('pr-fine', [[tOnce + 0.25, { o: 0, y: 30 }], [tOnce + 0.45, { o: 1, y: 0 }, 'out']], { o: 0, x: 0, y: 30, s: 1, r: 0, b: 0 }); }
+
+// 10 · DM me KAIRO, and stop ────────────────────────────────────────────────
+{ const c = BRAND.cta; $('ct-dm').textContent = c.display.replace(new RegExp(`\\s*${c.keyword}$`), ''); $('ct-key').textContent = c.keyword;
+  $('ct-mark').innerHTML = `<svg width="140" height="140" viewBox="0 0 48 48" fill="none"><defs><linearGradient id="km" x1="12" y1="9" x2="36" y2="39" gradientUnits="userSpaceOnUse"><stop stop-color="#e0f2fe"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs><path d="M13.75 10.5V37.5" stroke="url(#km)" stroke-width="5.5" stroke-linecap="round"/><path d="M17.2 25.6A16 16 0 0 1 29.6 13.9" stroke="url(#km)" stroke-width="5.5" stroke-linecap="round"/><path d="M17.2 25.6L33.6 37.5" stroke="url(#km)" stroke-width="5.5" stroke-linecap="round"/><circle cx="35.2" cy="10.4" r="3.9" fill="#38bdf8"/></svg>`;
+  anim('ct-mark', [[cut.cta, { o: 0, s: 0.7, r: -20 }], [cut.cta + 0.25, { o: 1, s: 1, r: 0 }, 'out'], [D, { s: 1.05 }, 'lin']], { o: 0, x: 0, y: 0, s: 0.7, r: -20, b: 0 });
+  anim('ct-dm', [[cut.cta, { o: 0, y: 50 }], [cut.cta + 0.18, { o: 1, y: 0 }, 'out'], [D, { s: 1.03 }, 'lin']], { o: 0, x: 0, y: 50, s: 1, r: 0, b: 0 });
+  const tK = wordAt('cta', 2) - 0.05;
+  anim('ct-key', [[tK, { o: 0, s: 1.3, b: 14 }], [tK + 0.2, { o: 1, s: 1, b: 0 }, 'out'], [D, { s: 1.06 }, 'lin']], { o: 0, x: 0, y: 0, s: 1.3, r: 0, b: 14 }); }
+
+window.seek = (t) => { for (const f of ticks) f(t); };
+window.DURATION = D;
+window.ready = Promise.all([...['kairo-notify-prompt.png', 'kairo-notify-prompt-none.png', CAL].map((f) => new Promise((ok) => { const i = new Image(); i.onload = ok; i.onerror = ok; i.src = SS + f; }))]).then(() => document.fonts.ready);
+window.seek(0);
+</script>
+</body></html>

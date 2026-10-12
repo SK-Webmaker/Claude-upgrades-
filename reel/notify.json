@@ -1,0 +1,16 @@
+{
+  "_": "Kairo reel: the notify prompt. One idea. Lines are written to be said; the scene each one carries is named beside it. Price and CTA words come from config/brand.json.",
+  "id": "kairo-notify",
+  "target": [20, 25],
+  "lines": [
+    { "id": "hook",   "say": "It asks before it texts your client.",                    "scene": "hook",   "gapAfter": 0.34 },
+    { "id": "drag",   "say": "You drag one booking across,",                             "scene": "drag",   "gapAfter": 0.12 },
+    { "id": "sent",   "say": "and your old system's texted her before you've even let go.", "scene": "sent", "gapAfter": 0.46 },
+    { "id": "asks",   "say": "Kairo stops. And asks.",                                   "scene": "asks",   "gapAfter": 0.22 },
+    { "id": "choose", "say": "Text her, email her, or don't. You'll tell her yourself.",  "scene": "choose", "gapAfter": 0.30 },
+    { "id": "call",   "say": "Your client. Your call.",                                  "scene": "call",   "gapAfter": 0.52 },
+    { "id": "price",  "say": "Four hundred and ten bucks. Once.",                        "scene": "price",  "gapAfter": 0.18 },
+    { "id": "cta",    "say": "DM me Kairo.",                                             "scene": "cta",    "gapAfter": 0 }
+  ],
+  "tail": 0.45
+}

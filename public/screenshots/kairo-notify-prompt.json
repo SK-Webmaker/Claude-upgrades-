@@ -1,0 +1,96 @@
+{
+  "scale": 3,
+  "viewport": [
+    1170,
+    2532
+  ],
+  "calendar": {
+    "appt": {
+      "x": 228,
+      "y": 1312.5,
+      "w": 432,
+      "h": 408
+    }
+  },
+  "prompt": {
+    "dialog": {
+      "x": 36,
+      "y": 445.828125,
+      "w": 1098,
+      "h": 1640.34375,
+      "text": "Moving this appointment Amara Okafor moves from Wed, Oct 14 at 10:00 AM to Wed, Oct 14 at 2:00 PM. Email them amara.okafor@example.com Text them 0412 345 678 Email and text them Don't send anything You'll tell them yourself. Back Save the change"
+    },
+    "options": [
+      {
+        "text": "Email them amara.okafor@example.com",
+        "checked": false,
+        "x": 87,
+        "y": 886.171875,
+        "w": 996,
+        "h": 189
+      },
+      {
+        "text": "Text them 0412 345 678",
+        "checked": true,
+        "x": 87,
+        "y": 1099.171875,
+        "w": 996,
+        "h": 189
+      },
+      {
+        "text": "Email and text them",
+        "checked": false,
+        "x": 87,
+        "y": 1312.171875,
+        "w": 996,
+        "h": 147
+      },
+      {
+        "text": "Don't send anything You'll tell them yourself.",
+        "checked": false,
+        "x": 87,
+        "y": 1483.171875,
+        "w": 996,
+        "h": 189
+      }
+    ],
+    "save": {
+      "x": 87,
+      "y": 1915.171875,
+      "w": 996,
+      "h": 132
+    },
+    "back": {
+      "x": 87,
+      "y": 1759.171875,
+      "w": 996,
+      "h": 132
+    },
+    "title": {
+      "x": 87,
+      "y": 523.828125,
+      "w": 583.640625,
+      "h": 60
+    }
+  },
+  "promptNone": {
+    "options": [
+      {
+        "text": "Email them amara.okafor@example.com",
+        "checked": false
+      },
+      {
+        "text": "Text them 0412 345 678",
+        "checked": false
+      },
+      {
+        "text": "Email and text them",
+        "checked": false
+      },
+      {
+        "text": "Don't send anything You'll tell them yourself.",
+        "checked": true
+      }
+    ]
+  }
+}
