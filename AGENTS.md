@@ -46,6 +46,32 @@ Read this before making a Kairo reel. Every rule below has been paid for once.
 - **Check credits before planning** a voice: designing one costs 3 Picsart credits,
   speaking a script 1 more. It ran out mid-task once and half a brief went unmade.
 
+## Credits: they have to last
+
+**Higgsfield: 820 credits on 17 Oct 2026, for at least 7–10 more reels.** That
+is about **80 per reel at most**. The first reel took two 20 s Seedance calls
+(a 480p draft, then a 1080p final); never repeat that recipe. In order:
+
+1. **Reuse before you generate (0 credits).** `reel/vo/presenter.mp4` is a
+   1080p take of the presenter. Her face, her reactions, the point at camera
+   and the closing "DM the word Kairo" can appear in every reel. One recurring
+   face is a character people recognise, which helps reach rather than hurts it.
+2. **Her voice comes from Picsart, not Higgsfield.** Clone it once from the
+   take (Picsart `voice-create`, 4 Picsart credits), then speak each new script
+   with ElevenLabs through Picsart (1 credit a script). Picsart refills monthly
+   (next on 18 Oct). Check `picsart_credits` first.
+3. **Higgsfield only for a new face moment the reel cannot do without.** One
+   Seedance call, **8 s or less, 720p, no draft**: her frame from the take as
+   `start_image` (the same woman every time) and the Picsart line as the
+   `audio` reference, so the words are already fixed and a draft has nothing
+   left to check.
+4. **Rotate the formats.** Of every ten reels, about four open on her (a short
+   Higgsfield clip each) and six are real screens with her cloned voice
+   (no Higgsfield at all).
+5. **Write it down.** After every paid call, add a line to `reel/credits.md`:
+   what was made, its length and resolution, and the balance when the owner
+   says it. Stop and ask before any reel would pass 80 credits.
+
 ## A presenter reel (the Higgsfield way)
 
 A face talking to camera in the first second holds a thumb better than any
