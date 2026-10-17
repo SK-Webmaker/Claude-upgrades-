@@ -12,6 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import { chromium } from 'playwright-core';
+import { buildSfx } from './sfx.mjs';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = path.join(ROOT, 'reel', 'out');
@@ -36,6 +37,7 @@ await page.addInitScript((d) => Object.assign(window, d), inject);
 await page.goto('file://' + path.join(ROOT, 'reel', 'notify.html'));
 await page.waitForFunction(() => window.ready); await page.evaluate(() => window.ready);
 const D = await page.evaluate(() => window.DURATION);
+const CUES = await page.evaluate(() => window.CUES || []);
 const frames = Math.round(D * FPS);
 
 const picture = path.join(OUT, SILENT ? 'kairo-notify-silent.mp4' : '.picture.mp4');
@@ -53,10 +55,22 @@ if (errs.length) console.log('page errors:', errs);
 if (SILENT) { console.log(`wrote ${path.relative(ROOT, picture)} (no sound)`); process.exit(0); }
 
 const final = path.join(OUT, 'kairo-notify.mp4');
-const mux = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', picture, '-i', vo, '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest', '-movflags', '+faststart', final], { stdio: 'inherit' });
+// Her voice, with the sound effects under it, held under -1 dBTP.
+const sfx = CUES.length ? buildSfx(CUES, D, path.join(OUT, 'sfx.wav')) : null;
+const audioIn = sfx ? ['-i', vo, '-i', sfx] : ['-i', vo];
+const audioMap = sfx
+  ? ['-filter_complex', '[1:a][2:a]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.84:level=false[a]', '-map', '0:v', '-map', '[a]']
+  : ['-map', '0:v', '-map', '1:a'];
+const mux = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', picture, ...audioIn, ...audioMap, '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-shortest', '-movflags', '+faststart', final], { stdio: 'inherit' });
 if (mux.status !== 0) process.exit(1);
 fs.rmSync(picture, { force: true });
 const loud = spawnSync('ffmpeg', ['-hide_banner', '-nostats', '-i', final, '-af', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' }).stderr.split('Summary:').pop();
 const pick = (re) => (re.exec(loud) || [])[1];
 console.log(`wrote ${path.relative(ROOT, final)}: ${D.toFixed(2)} s, ${frames} frames`);
 console.log(`measured: integrated ${pick(/I:\s+(-?[\d.]+) LUFS/)} LUFS, LRA ${pick(/LRA:\s+([\d.]+) LU/)} LU, true peak ${pick(/Peak:\s+(-?[\d.]+) dBFS/)} dBFS (target -14 LUFS, peak under -1)`);
+if (sfx) {
+  const level = (f, extra = []) => { const o = spawnSync('ffmpeg', ['-hide_banner', '-nostats', ...extra, '-i', f, '-af', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' }).stderr.split('Summary:').pop();
+    return { I: (/I:\s+(-?[\d.]+) LUFS/.exec(o) || [])[1], TP: (/Peak:\s+(-?[\d.]+) dBFS/.exec(o) || [])[1] }; };
+  const v = level(vo), e = level(sfx);
+  console.log(`  voice alone: ${v.I} LUFS, peak ${v.TP} dBFS; effects alone: ${e.I} LUFS, peak ${e.TP} dBFS (${CUES.length} cues)`);
+}

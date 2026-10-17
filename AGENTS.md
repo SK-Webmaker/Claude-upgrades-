@@ -46,7 +46,36 @@ Read this before making a Kairo reel. Every rule below has been paid for once.
 - **Check credits before planning** a voice: designing one costs 3 Picsart credits,
   speaking a script 1 more. It ran out mid-task once and half a brief went unmade.
 
-## The pipeline
+## A presenter reel (the Higgsfield way)
+
+A face talking to camera in the first second holds a thumb better than any
+screen. When the reel has a presenter, her take is the voice and the picture
+follows her timing; nothing is re-cut, or her lips stop matching her words.
+
+- **One take, Seedance 2.5, via Higgsfield** (`scene_builder_3d_generate_video`
+  in the "Kairo reels" 3D project, t2v, 9:16, `generateAudio: true`). Put the
+  whole script in the prompt, word for word, with the accent, the room and "no
+  music, no text on screen". 20 s fits ~45 words.
+- **Draft first, then finalise that same draft** (`draft: true` at 480p, then
+  `draftJobId` at 1080p). The final keeps the draft's words and pauses, so the
+  draft is the cheap place to find out the read is wrong. Two charges, never more
+  for one reel.
+- **She is AI-generated. She is never a customer**, never says "I use it", and
+  never says "DM me": she is not the seller (`brand.json → cta.presenter`).
+  Switch on Instagram's AI label when posting.
+
+```
+python tools/take-words.py reel/vo/presenter.mp4 > reel/out/words.json   # needs faster-whisper
+node tools/take-timeline.mjs reel/vo/presenter.mp4   # timeline (snapped to her pauses), vo.wav, her frames
+node tools/probe-reel.mjs                            # then the sheet, as always
+node tools/render-reel.mjs                           # voice + synthesised effects (tools/sfx.mjs)
+```
+
+`take-timeline.mjs` says where she went off script; read it before probing.
+The effects are cues in the page (`window.CUES`) on the same cut times as the
+picture, and the renderer prints both levels.
+
+## The pipeline (a voice-only reel)
 
 ```
 node tools/cut-vo.mjs --estimate     # no voice yet: time the lines from word counts

@@ -24,8 +24,9 @@
   "cta": {
     "channel": "dm",
     "keyword": "KAIRO",
-    "display": "DM me KAIRO",
-    "spoken": "DM me Kairo.",
+    "display": "DM the word KAIRO",
+    "spoken": "DM the word Kairo.",
+    "presenter": "A presenter who is not the seller never says \"DM me\": she says \"DM the word Kairo\". The DM still goes to the seller's account.",
     "never": ["a URL", "a website", "link in bio", "learn more"],
     "why": "The website is not launched for this audience; the reel sells a conversation."
   },

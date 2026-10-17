@@ -1,16 +1,16 @@
 {
-  "_": "Kairo reel: the notify prompt. One idea. Lines are written to be said; the scene each one carries is named beside it. Price and CTA words come from config/brand.json.",
+  "_": "Kairo reel: the notify prompt. One idea. A presenter says it to camera; her take (reel/vo/presenter.mp4) is the voice, and the picture follows her timing (tools/take-timeline.mjs). Lines are written to be said; the scene each one carries is named beside it. Price and CTA words come from config/brand.json.",
   "id": "kairo-notify",
-  "target": [20, 25],
+  "target": [18, 25],
+  "presenter": "Australian woman, early 30s, owns a small salon in Melbourne. AI-generated (Higgsfield Seedance 2.5): not a customer, and never presented as one. She says \"DM the word Kairo\", not \"DM me\": she is not the seller.",
   "lines": [
-    { "id": "hook",   "say": "It asks before it texts your client.",                    "scene": "hook",   "gapAfter": 0.34 },
-    { "id": "drag",   "say": "You drag one booking across,",                             "scene": "drag",   "gapAfter": 0.12 },
-    { "id": "sent",   "say": "and your old system's texted her before you've even let go.", "scene": "sent", "gapAfter": 0.46 },
-    { "id": "asks",   "say": "Kairo stops. And asks.",                                   "scene": "asks",   "gapAfter": 0.22 },
-    { "id": "choose", "say": "Text her, email her, or don't. You'll tell her yourself.",  "scene": "choose", "gapAfter": 0.30 },
-    { "id": "call",   "say": "Your client. Your call.",                                  "scene": "call",   "gapAfter": 0.52 },
-    { "id": "price",  "say": "Four hundred and ten bucks. Once.",                        "scene": "price",  "gapAfter": 0.18 },
-    { "id": "cta",    "say": "DM me Kairo.",                                             "scene": "cta",    "gapAfter": 0 }
+    { "id": "hook",   "say": "You move one booking, and your app's already texted her.", "scene": "face: the old app's text arrives" },
+    { "id": "sent",   "say": "Before you've even let go.",                               "scene": "calendar: the drag, SENT mid-drag" },
+    { "id": "asks",   "say": "Kairo stops. And asks.",                                   "scene": "the real prompt drops in" },
+    { "id": "choose", "say": "Text her, email her, or don't. You'll tell her yourself.",  "scene": "the choices, then Don't send anything" },
+    { "id": "call",   "say": "Your client. Your call.",                                  "scene": "face" },
+    { "id": "price",  "say": "Four hundred and ten bucks. Once. No subscription.",       "scene": "price card" },
+    { "id": "cta",    "say": "DM the word Kairo.",                                       "scene": "face, DM the word KAIRO" }
   ],
-  "tail": 0.45
+  "tail": 0.4
 }
