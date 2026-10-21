@@ -1,0 +1,204 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Kairo — group chat</title>
+<link rel="stylesheet" href="../assets/fonts/kairo-fonts.css">
+<style>
+  /* 1080x1920, no presenter: a text thread between two salon owners over
+     Higgsfield B-roll (reel/broll), cut on the beat (124 bpm). Every number in
+     it is in config/brand.json or the fine print, and every feature named is in
+     the Kairo app. Instagram covers the top ~220 px and the bottom ~380 px and
+     a column on the right, so nothing that matters sits there. */
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #070A10; }
+  #f { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Inter, 'Noto Color Emoji', sans-serif; color: #fff; }
+  .abs { position: absolute; }
+  .bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden; transform-origin: 50% 45%; }
+  #bg1, #bg3 { filter: blur(5px) brightness(0.5) saturate(0.9); }
+  #bg4 { filter: brightness(0.42) saturate(0.85); }
+  .hook { position: absolute; left: 60px; right: 60px; top: 232px; text-align: center; font-weight: 700; font-size: 54px; line-height: 1.52; letter-spacing: -0.01em; }
+  .hook span { background: #fff; color: #0b0b0d; padding: 6px 20px; border-radius: 16px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  /* the thread */
+  #view { position: absolute; left: 0; right: 0; top: 500px; height: 1000px; overflow: hidden;
+          -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 110px); mask-image: linear-gradient(to bottom, transparent 0, #000 110px); }
+  #thread { position: absolute; left: 0; right: 0; top: 0; }
+  .b { position: absolute; max-width: 700px; padding: 24px 36px 26px; border-radius: 46px; font-size: 50px; line-height: 1.22; font-weight: 500;
+       letter-spacing: -0.01em; visibility: hidden; box-shadow: 0 14px 40px rgba(0,0,0,0.35); }
+  .b.me { right: 140px; background: linear-gradient(#1C8EFF, #0A7AFF); border-bottom-right-radius: 14px; transform-origin: 100% 100%; }
+  .b.them { left: 60px; background: #2C2C30; border-bottom-left-radius: 14px; transform-origin: 0% 100%; }
+  .b.typing { padding: 30px 36px; display: flex; gap: 14px; }
+  .b.typing i { width: 22px; height: 22px; border-radius: 50%; background: #9A9AA2; display: block; }
+  .name { position: absolute; left: 92px; font-size: 32px; font-weight: 600; color: rgba(255,255,255,0.72); visibility: hidden; }
+  .b.kairo { font-weight: 700; font-size: 60px; }
+  /* the notification that starts it */
+  #notif { position: absolute; left: 50px; right: 50px; top: 560px; display: flex; gap: 26px; align-items: flex-start; padding: 30px 34px 34px;
+           border-radius: 48px; background: rgba(34,34,40,0.86); box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08); visibility: hidden; }
+  #notif .ic { flex: none; width: 90px; height: 90px; border-radius: 22px; display: grid; place-items: center; background: linear-gradient(#5BE37D, #23B847); }
+  #notif .top { display: flex; justify-content: space-between; font-size: 40px; color: rgba(255,255,255,0.6); }
+  #notif .top b { color: #fff; }
+  #notif .msg { margin-top: 6px; font-size: 46px; line-height: 1.22; font-weight: 500; }
+  /* the end card */
+  .word { position: absolute; left: 0; right: 0; top: 268px; display: flex; justify-content: center; align-items: center; gap: 22px; font-weight: 700; font-size: 74px; letter-spacing: -0.03em; visibility: hidden; }
+  .word .k { width: 92px; height: 92px; border-radius: 26px; background: #38BDF8; color: #070A10; display: grid; place-items: center; font-size: 62px; }
+  .line { position: absolute; left: 60px; right: 60px; text-align: center; font-family: 'Inter Tight', Inter, sans-serif; font-weight: 800; font-size: 122px;
+          letter-spacing: -0.045em; line-height: 1; visibility: hidden; text-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+  .sky { color: #38BDF8; } .amber { color: #F59E0B; }
+  .chip { position: absolute; left: 50%; top: 852px; padding: 26px 56px 30px; border-radius: 99px; background: #38BDF8; color: #070A10; font-weight: 700;
+          font-size: 66px; letter-spacing: -0.02em; white-space: nowrap; visibility: hidden; box-shadow: 0 0 0 12px rgba(56,189,248,0.18), 0 20px 60px rgba(56,189,248,0.35); }
+  .phone { position: absolute; left: 200px; top: 1040px; width: 640px; height: 460px; border-radius: 44px; overflow: hidden; visibility: hidden;
+           box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 3px rgba(255,255,255,0.1); background: #0E1520 url(../public/screenshots/24-phone-calendar.jpg) 0 -760px / 640px auto no-repeat; }
+  .fine { position: absolute; left: 70px; right: 170px; top: 1530px; font-size: 21px; line-height: 1.38; color: rgba(255,255,255,0.62); visibility: hidden; }
+</style></head>
+<body><div id="f">
+  <img class="bg" id="bg0" alt=""><img class="bg" id="bg1" alt=""><img class="bg" id="bg3" alt=""><img class="bg" id="bg4" alt="">
+  <div class="abs" id="topdim" style="left:0;right:0;top:0;height:700px;background:linear-gradient(rgba(7,10,16,0.55),rgba(7,10,16,0))"></div>
+
+  <div class="hook" id="hook"><span>POV: your salon bestie finds out you still pay Fresha monthly 😭</span></div>
+
+  <div id="notif">
+    <div class="ic"><svg width="56" height="56" viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.5 1.4 4.7 3.7 6.1-.2 1.3-.9 2.6-2 3.6 2 0 3.9-.7 5.3-1.8.9.2 1.9.3 3 .3 5.5 0 10-3.6 10-8.1S17.5 3 12 3z"/></svg></div>
+    <div style="flex:1;min-width:0"><div class="top"><b>Tash 💇‍♀️</b><span>now</span></div><div class="msg" id="notif-msg"></div></div>
+  </div>
+
+  <div id="view"><div id="thread"></div></div>
+
+  <div class="abs" id="lowdim" style="left:0;right:0;bottom:0;height:700px;background:linear-gradient(rgba(7,10,16,0),rgba(7,10,16,0.85) 55%);visibility:hidden"></div>
+  <div class="word" id="word"><div class="k">K</div><div>Kairo</div></div>
+  <div class="line" id="l1" style="top:392px"><span class="sky">$410</span> once.</div>
+  <div class="line" id="l2" style="top:540px">$0 a month.</div>
+  <div class="line" id="l3" style="top:688px">No commission.</div>
+  <div class="chip" id="chip">DM the word KAIRO</div>
+  <div class="phone" id="phone"></div>
+  <div class="fine" id="fine">Dramatisation. Fresha: Team plan, 3 bookable team members at A$29.95 + GST each a month ($98.85), from Fresha's published Australian pricing, checked 20 Oct 2026. Kairo: A$410 once, no monthly fee, no commission; card payments and texts run on your own Stripe and ClickSend accounts, whose fees apply. Fresha is a trademark of its owner; Kairo is not affiliated with Fresha.</div>
+</div>
+
+<script type="module">
+import { ease, at, anim, pop, Broll, money } from './lib.js';
+
+const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+const FR = window.FRAMES || {};
+const $ = (id) => document.getElementById(id);
+const n = (name) => FR[name] || 151;
+
+// Who says what, on which beat. Tash's replies get a typing bubble first.
+const MSGS = [
+  [5, 'them', 'wait. you still pay fresha EVERY month?? 😭'],
+  [7, 'me', '$98.85 a month for my team of 3 🙃'],
+  [9, 'them', 'there’s one you pay for ONCE'],
+  [11, 'me', 'once?? like one time??'],
+  [13, 'them', '$410. then $0 a month. no commission'],
+  [15, 'me', 'that’s like 4 months of fresha 😳'],
+  [16, 'me', 'but what about my client list'],
+  [18, 'them', 'import it in one go ✅'],
+  [20, 'me', 'online booking? deposits? reminders?'],
+  [22, 'them', 'all in it. + an iPhone app 📱'],
+  [24, 'me', 'ok what’s it called'],
+  [26, 'them', 'Kairo', 'kairo'],
+  [27, 'them', 'DM them the word KAIRO 🔑'],
+];
+const NOTIF = 3;                // the phone on the station lights up at 1.50 s in clip-0
+const END = 29;                 // the thread leaves, the end card lands
+const D = B(36);
+$('notif-msg').textContent = MSGS[0][2];
+
+// Build the thread once the fonts are in, so every height is the real one.
+const thread = $('thread');
+const items = [];               // { el, t0, t1, top, h }
+const VIEW = 1000;
+function layout() {
+  let y = 0, prev = null;
+  MSGS.forEach(([beat, who, text, cls], i) => {
+    const t = B(beat);
+    y += i === 0 ? 0 : prev === who ? 12 : 34;
+    if (who === 'them' && prev !== 'them') {
+      const nm = document.createElement('div'); nm.className = 'name'; nm.textContent = 'Tash 💇‍♀️';
+      thread.appendChild(nm); nm.style.top = y + 'px';
+      items.push({ el: nm, kind: 'name', t0: i === 0 ? t : t - 0.5, top: y, h: 44 }); y += 46;
+    }
+    if (who === 'them' && i > 0) {
+      const ty = document.createElement('div'); ty.className = 'b them typing'; ty.innerHTML = '<i></i><i></i><i></i>';
+      thread.appendChild(ty); ty.style.top = y + 'px';
+      items.push({ el: ty, kind: 'typing', t0: t - 0.5, t1: t, top: y, h: ty.offsetHeight });
+    }
+    const el = document.createElement('div'); el.className = `b ${who}${cls ? ' ' + cls : ''}`; el.textContent = text;
+    thread.appendChild(el); el.style.top = y + 'px';
+    const h = el.offsetHeight;
+    items.push({ el, kind: who, t0: t, top: y, h }); y += h; prev = who;
+  });
+}
+// How far the thread has scrolled at t: each arrival eases the newest line into view.
+function scrollAt(t) {
+  const ev = items.filter((it) => it.kind !== 'name').map((it) => ({ t: it.t0, bottom: it.top + it.h })).sort((a, c) => a.t - c.t);
+  let s = 0, prevTarget = 0;
+  for (const e of ev) {
+    const target = Math.max(prevTarget, e.bottom - VIEW + 40);
+    s += (target - prevTarget) * ease.out(Math.max(0, Math.min(1, (t - e.t) / 0.3)));
+    prevTarget = target;
+  }
+  return s;
+}
+
+const clips = { bg0: Broll($('bg0'), 'clip-0', n('clip-0')), bg1: Broll($('bg1'), 'clip-1', n('clip-1')), bg3: Broll($('bg3'), 'clip-3', n('clip-3')), bg4: Broll($('bg4'), 'clip-4', n('clip-4')) };
+// [from beat, to beat, image, speed]
+const SHOTS = [[0, 5, 'bg0', 1], [5, 18, 'bg1', 0.8], [18, END, 'bg3', 0.95], [END, 36, 'bg4', 1]];
+
+window.CUES = [
+  [B(NOTIF), 'ding'], [B(5) - 0.17, 'whoosh'],
+  ...MSGS.slice(1).map(([beat, who, , cls]) => [B(beat), cls === 'kairo' ? 'thud' : who === 'me' ? 'tick' : 'pop']),
+  [B(END) - 0.17, 'whoosh'], [B(END + 1), 'thud'], [B(END + 2), 'pop'], [B(END + 3), 'pop'], [B(END + 4), 'ding'],
+];
+window.BPM = BPM;
+window.DURATION = D;
+window.SHEET = [0, 1.0, 1.6, 2.2, 2.9, 4.0, 5.2, 6.4, 7.6, 8.8, 10.0, 11.2, 12.4, 13.4, 14.4, 15.1, 15.9, 17.3];
+
+window.seek = (t) => {
+  // B-roll: one shot at a time, a slow push in, a hard cut on the beat.
+  let wait = Promise.resolve();
+  for (const [a, z, id, speed] of SHOTS) {
+    const on = t >= B(a) && t < B(z);
+    const img = $(id); img.style.visibility = on ? 'visible' : 'hidden';
+    if (on) { const local = t - B(a); wait = clips[id](local * speed); img.style.transform = `scale(${1.08 - 0.06 * (local / (B(z) - B(a)))})`; }
+  }
+  const end = t >= B(END);
+  // the hook stays up until the end card
+  anim($('hook'), t, { o: [[B(END) - 0.15, 1], [B(END), 0]] });
+  anim($('topdim'), t, { o: [[0, 1]] });
+  // the notification drops in, then becomes the first message
+  anim($('notif'), t, { o: [[B(NOTIF) - 0.01, 0], [B(NOTIF) + 0.12, 1], [B(5) - 0.12, 1], [B(5), 0]], y: [[B(NOTIF), -60], [B(NOTIF) + 0.35, 0]], s: [[B(5) - 0.15, 1], [B(5), 0.92]] });
+  // the thread
+  for (const it of items) {
+    const on = t >= it.t0 && (it.t1 === undefined || t < it.t1);
+    if (it.kind === 'name') { anim(it.el, t, { o: [[it.t0, 0], [it.t0 + 0.15, 1]] }); continue; }
+    if (!on) { it.el.style.visibility = 'hidden'; continue; }
+    if (it.kind === 'typing') {
+      it.el.style.visibility = 'visible'; it.el.style.opacity = Math.min(1, (t - it.t0) / 0.08);
+      it.el.style.transform = `scale(${at([[it.t0, 0.7], [it.t0 + 0.2, 1]], t, ease.back)})`;
+      [...it.el.children].forEach((d, k) => { d.style.opacity = 0.35 + 0.65 * Math.max(0, Math.sin((t - it.t0) * 9 - k * 0.9)); });
+      continue;
+    }
+    pop(it.el, t, it.t0, Infinity, { from: 0.55, y: 26 });
+  }
+  $('thread').style.transform = `translateY(${-scrollAt(t)}px)`;
+  anim($('view'), t, { o: [[B(END) - 0.05, 1], [B(END) + 0.25, 0]], s: [[B(END) - 0.05, 1], [B(END) + 0.3, 0.86]], b: [[B(END), 0], [B(END) + 0.3, 14]] });
+  // the end card
+  pop($('word'), t, B(END) + 0.05, Infinity, { from: 0.8, y: 30 });
+  pop($('l1'), t, B(END + 1), Infinity, { from: 1.5, y: 0 });
+  pop($('l2'), t, B(END + 2), Infinity, { from: 0.6, y: 40 });
+  pop($('l3'), t, B(END + 3), Infinity, { from: 0.6, y: 40 });
+  const c = $('chip'), tc = B(END + 4); pop(c, t, tc, Infinity, { from: 0.5, y: 30 });
+  c.style.transform = `translateX(-50%) ${c.style.transform} scale(${t > tc + 0.3 ? 1 + 0.03 * Math.sin((t - tc - 0.3) * 2 * Math.PI / (2 * b)) : 1})`;
+  const tp = B(END + 1);
+  anim($('phone'), t, { o: [[tp, 0], [tp + 0.1, 1]], y: [[tp, 500], [tp + 0.55, 0]], r: [[tp, 8], [tp + 0.55, -3]] });
+  anim($('fine'), t, { o: [[B(END + 3), 0], [B(END + 3) + 0.3, 1]] });
+  anim($('lowdim'), t, { o: [[B(END), 0], [B(END) + 0.3, 1]] });
+  if (!end) { for (const id of ['word', 'l1', 'l2', 'l3', 'chip', 'phone', 'fine', 'lowdim']) $(id).style.visibility = 'hidden'; }
+  return wait;
+};
+
+window.ready = (async () => {
+  await document.fonts.ready;
+  await new Promise((ok) => { const i = new Image(); i.onload = ok; i.onerror = ok; i.src = '../public/screenshots/24-phone-calendar.jpg'; });
+  layout();
+  await window.seek(0);
+  return true;
+})();
+</script>
+</body></html>

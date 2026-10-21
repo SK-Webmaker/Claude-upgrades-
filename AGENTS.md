@@ -48,9 +48,20 @@ Read this before making a Kairo reel. Every rule below has been paid for once.
 
 ## Credits: they have to last
 
-**Higgsfield: 820 credits on 17 Oct 2026, for at least 7–10 more reels.** That
-is about **80 per reel at most**. The first reel took two 20 s Seedance calls
-(a 480p draft, then a 1080p final); never repeat that recipe. In order:
+**The owner does not want an AI person talking in the reels** (21 Oct 2026).
+Make presenter-free reels from the B-roll library (below); the presenter
+recipe further down is for the rare reel that truly needs a face.
+
+**Higgsfield subscription credits are wiped when the plan renews on the 26th**
+(26 Sep: 2.89 left over, gone). So plan the month's paid calls before then
+instead of hoarding them. The best use is B-roll clips that every later reel
+can use for 0 credits. A 5 s Seedance 2.5 clip at 720p costs 35 credits with
+or without a start image; 1080p costs 80. A GPT Image 2.5 still costs 0.25:
+make the still first, look at it, then animate only the stills that work.
+
+The presenter-reel budget, for when one is made: about **80 per reel at
+most**. The first reel took two 20 s Seedance calls (a 480p draft, then a
+1080p final); never repeat that recipe. In order:
 
 1. **Reuse before you generate (0 credits).** `reel/vo/presenter.mp4` is a
    1080p take of the presenter. Her face, her reactions, the point at camera
@@ -71,6 +82,44 @@ is about **80 per reel at most**. The first reel took two 20 s Seedance calls
 5. **Write it down.** After every paid call, add a line to `reel/credits.md`:
    what was made, its length and resolution, and the balance when the owner
    says it. Stop and ask before any reel would pass 80 credits.
+
+## A presenter-free reel (the default)
+
+Faceless formats that are working on Instagram now: a fake text thread over
+moody B-roll, big word-by-word type cut on a beat, and the 7-second "money
+can't buy happiness, but…" loop. Instagram ranks on sends, watch time and
+replays: open on the claim in the first frame, keep it under 18 s, and make
+it something one owner sends another.
+
+- **The library:** `reel/broll/clip-0.mp4` … `clip-12.mp4` (5 s, 720p, 9:16).
+  `library-sheet.jpg` beside them shows each at 2.5 s, 0 to 12, left to right. `node tools/broll-frames.mjs` turns them into
+  frames under `reel/out/broll/` that the pages play back by time.
+  Shots: 0 closing-time salon, phone lights up at 1.50 s · 1 hands typing on a
+  phone · 2 card tap at a terminal · 3 late-night desk, laptop, invoices ·
+  4 busy salon from behind · 5 barber finishing a fade, phone buzzes ·
+  6 empty chair, stylist waiting (no-show) · 7 bedside phone lights up at night (at ~2 s)
+  · 8 paper diary, crossings-out, landline · 9 owner on the couch at night with
+  invoices · 10 glossy blow-dry reveal · 11 closing up, sweeping · 12 trolley
+  tray, phone buzzing.
+- **A page per reel** (`reel/group-chat.html`, `reel/the-bill.html`,
+  `reel/loop.html`): everything on screen is a function of t (`reel/lib.js`),
+  cut on the beat (`window.BPM`, 124), sound cues in `window.CUES`.
+- **Contact sheet first:** `node tools/render-page.mjs <name> --sheet` (seconds).
+  Then the full render, `node tools/render-page.mjs <name>` (about 2 min), which
+  writes `<name>.mp4` (original beat from `tools/beat.mjs`, never muted for
+  copyright) and `<name>-nomusic.mp4`, for posting under a trending sound.
+- **Naming a competitor:** only its own published Australian price, the same
+  numbers as `my-creative-space/src/data/rivals.ts`, with fine print saying
+  where they come from, the date, and "Fresha is a trademark of its owner;
+  Kairo is not affiliated with Fresha". A made-up conversation says
+  "Dramatisation". Nobody "says" they bought Kairo: there are no customer
+  quotes to use.
+- **Every feature named must be in the app.** True today: online booking,
+  deposits, reminders, the iPhone app, client CSV import, no commission. Card
+  payments and texts use the salon's own Stripe and ClickSend, and the fine
+  print says their fees apply.
+- **Posting, captions and the DM reply** are in the Kairo repo,
+  `docs/marketing/REELS.md`.
 
 ## A presenter reel (the Higgsfield way)
 

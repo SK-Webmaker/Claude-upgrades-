@@ -1,0 +1,74 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Kairo — money can't buy happiness</title>
+<link rel="stylesheet" href="../assets/fonts/kairo-fonts.css">
+<style>
+  /* 1080x1920, a 4-bar loop (16 beats at 124 bpm, 7.74 s) in the "money can't
+     buy happiness, but it can buy…" format: short enough to be watched twice,
+     which is what Instagram counts. B-roll from reel/broll, no presenter. */
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #070A10; }
+  #f { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Inter, 'Noto Color Emoji', sans-serif; color: #fff; }
+  .bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden; transform-origin: 50% 50%; }
+  #bg0 { filter: brightness(0.85); }
+  #bg4 { filter: brightness(0.62) saturate(0.95); }
+  .txt { position: absolute; left: 70px; right: 70px; text-align: center; font-weight: 700; font-size: 66px; line-height: 1.5; letter-spacing: -0.01em; }
+  .txt span.box { background: #fff; color: #0b0b0d; padding: 8px 22px; border-radius: 18px; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  .txt .w { display: inline-block; }
+  .once { color: #D97706; }
+  .chip { position: absolute; left: 50%; top: 1190px; padding: 24px 50px 28px; border-radius: 99px; background: #38BDF8; color: #070A10; font-weight: 700;
+          font-size: 58px; letter-spacing: -0.02em; white-space: nowrap; visibility: hidden; box-shadow: 0 0 0 12px rgba(56,189,248,0.2), 0 20px 60px rgba(0,0,0,0.45); }
+  .sub { position: absolute; left: 60px; right: 60px; top: 1060px; text-align: center; font-family: 'Inter Tight', Inter, sans-serif; font-weight: 800; font-size: 84px;
+         letter-spacing: -0.04em; visibility: hidden; text-shadow: 0 8px 36px rgba(0,0,0,0.6); }
+  .fine { position: absolute; left: 70px; right: 170px; top: 1540px; font-size: 21px; line-height: 1.38; color: rgba(255,255,255,0.66); visibility: hidden; }
+</style></head>
+<body><div id="f">
+  <img class="bg" id="bg0" alt=""><img class="bg" id="bg4" alt="">
+  <div class="txt" id="t1" style="top:820px"><span class="box">money can’t buy happiness</span></div>
+  <div class="txt" id="t2" style="top:700px"><span class="box"><span class="w">but it can buy</span> <span class="w">booking software</span> <span class="w">you only pay for</span> <span class="w once">ONCE</span> <span class="w">🫶</span></span></div>
+  <div class="sub" id="sub"><span style="color:#38BDF8">$410.</span> then $0 a month.</div>
+  <div class="chip" id="chip">DM the word KAIRO</div>
+  <div class="fine" id="fine">Kairo: A$410 once, no monthly fee, no commission. Card payments and texts run on your own Stripe and ClickSend accounts, whose fees apply.</div>
+</div>
+
+<script type="module">
+import { at, ease, pop, Broll } from './lib.js';
+
+const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+const FR = window.FRAMES || {};
+const $ = (id) => document.getElementById(id);
+const clips = { bg0: Broll($('bg0'), 'clip-0', FR['clip-0'] || 151), bg4: Broll($('bg4'), 'clip-4', FR['clip-4'] || 151) };
+const CUT = 7;                          // "but it can buy…" lands on beat 7
+const D = B(16);
+
+window.CUES = [[B(CUT) - 0.17, 'whoosh'], [B(CUT + 1), 'tick'], [B(CUT + 2), 'tick'], [B(CUT + 3), 'thud'], [B(12), 'pop'], [B(13), 'ding']];
+window.BPM = BPM;
+window.DURATION = D;
+window.SHEET = [0, 1.5, 3.3, 3.9, 4.4, 5.0, 6.0, 6.6, 7.6];
+
+// The second line arrives a phrase per beat, the box growing with it.
+const parts = [...$('t2').querySelectorAll('.w')];
+window.seek = (t) => {
+  const before = t < B(CUT);
+  let wait;
+  for (const [id, a, z] of [['bg0', 0, CUT], ['bg4', CUT, 16]]) {
+    const on = t >= B(a) && t < B(z), img = $(id);
+    img.style.visibility = on ? 'visible' : 'hidden';
+    if (on) { const local = t - B(a); wait = clips[id](local); img.style.transform = `scale(${1.04 + 0.05 * (local / (B(z) - B(a)))})`; }
+  }
+  $('t1').style.visibility = before ? 'visible' : 'hidden';
+  $('t2').style.visibility = before ? 'hidden' : 'visible';
+  parts.forEach((p, i) => {
+    const on = t >= B(CUT + Math.min(i, 3));     // the emoji comes with ONCE
+    p.style.display = on ? 'inline-block' : 'none';
+    p.style.transform = i === 3 && on ? `scale(${at([[B(CUT + 3), 1.6], [B(CUT + 3) + 0.25, 1]], t, ease.back)})` : 'none';
+  });
+  pop($('sub'), t, B(12), Infinity, { from: 0.8, y: 30 });
+  const c = $('chip'); pop(c, t, B(13), Infinity, { from: 0.5, y: 30 });
+  c.style.transform = `translateX(-50%) ${c.style.transform}`;
+  $('fine').style.visibility = t >= B(13) ? 'visible' : 'hidden';
+  return wait;
+};
+
+window.ready = (async () => { await document.fonts.ready; await window.seek(0); return true; })();
+</script>
+</body></html>

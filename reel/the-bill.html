@@ -1,0 +1,198 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Kairo — the bill</title>
+<link rel="stylesheet" href="../assets/fonts/kairo-fonts.css">
+<style>
+  /* 1080x1920, no presenter: the money, said as loudly as it is true. Big type
+     cut on the beat (124 bpm) over Higgsfield B-roll (reel/broll). Fresha's
+     numbers are its published Australian prices as on the website
+     (my-creative-space src/data/rivals.ts, checked 20 Oct 2026); Kairo's are in
+     config/brand.json. The fine print says where each one comes from. */
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  #f { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Inter, 'Noto Color Emoji', sans-serif; color: #fff; }
+  .abs { position: absolute; }
+  .bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden; transform-origin: 50% 50%; }
+  #bg2 { filter: brightness(0.5) saturate(0.9); }
+  #bg3 { filter: brightness(0.62) saturate(0.9); }
+  #bg4 { filter: brightness(0.4) saturate(0.85); }
+  .big { position: absolute; left: 40px; right: 40px; text-align: center; font-family: 'Inter Tight', Inter, sans-serif; font-weight: 800;
+         letter-spacing: -0.045em; line-height: 0.95; visibility: hidden; text-shadow: 0 10px 50px rgba(0,0,0,0.55); }
+  .mid { position: absolute; left: 60px; right: 60px; text-align: center; font-weight: 700; letter-spacing: -0.025em; line-height: 1.12; visibility: hidden;
+         text-shadow: 0 6px 30px rgba(0,0,0,0.6); }
+  .sky { color: #38BDF8; } .amber { color: #F59E0B; } .muted { color: rgba(255,255,255,0.7); }
+  /* a bank's push notification: generic, no real bank */
+  .bank { position: absolute; left: 50px; right: 50px; display: flex; gap: 26px; align-items: center; padding: 30px 34px; border-radius: 46px;
+          background: rgba(30,30,36,0.9); box-shadow: 0 26px 70px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08); visibility: hidden; transform-origin: 50% 0; }
+  .bank .ic { flex: none; width: 92px; height: 92px; border-radius: 24px; background: linear-gradient(#26324A, #121A2B); display: grid; place-items: center;
+              color: #fff; font-weight: 800; font-size: 54px; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.12); }
+  .bank .top { display: flex; justify-content: space-between; font-size: 38px; color: rgba(255,255,255,0.6); }
+  .bank .top b { color: #fff; }
+  .bank .row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px; font-size: 48px; font-weight: 600; }
+  .bank .row .amt { color: #FF6B6B; font-weight: 700; }
+  .bank .sub { font-size: 34px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+  .word { position: absolute; left: 0; right: 0; top: 268px; display: flex; justify-content: center; align-items: center; gap: 22px; font-weight: 700; font-size: 70px; letter-spacing: -0.03em; visibility: hidden; }
+  .word .k { width: 88px; height: 88px; border-radius: 24px; background: #38BDF8; color: #070A10; display: grid; place-items: center; font-size: 58px; }
+  .stamp { position: absolute; left: 50%; top: 808px; white-space: nowrap; font-weight: 800; font-size: 54px; letter-spacing: 0.01em; color: #F59E0B;
+           border: 9px solid #F59E0B; border-radius: 26px; padding: 8px 34px 12px; background: rgba(7,10,16,0.6); visibility: hidden; }
+  .phone { position: absolute; left: 230px; top: 1040px; width: 620px; height: 490px; border-radius: 44px; overflow: hidden; visibility: hidden;
+           box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 3px rgba(255,255,255,0.12); background: #0E1520 url(../public/screenshots/23-phone-dashboard.jpg) 0 -120px / 620px auto no-repeat; }
+  .chip { position: absolute; left: 50%; top: 1380px; padding: 26px 56px 30px; border-radius: 99px; background: #38BDF8; color: #070A10; font-weight: 700;
+          font-size: 66px; letter-spacing: -0.02em; white-space: nowrap; visibility: hidden; box-shadow: 0 0 0 12px rgba(56,189,248,0.2), 0 20px 60px rgba(0,0,0,0.5); }
+  .fine { position: absolute; left: 70px; right: 170px; top: 1532px; font-size: 20px; line-height: 1.38; color: rgba(255,255,255,0.62); visibility: hidden; }
+</style></head>
+<body><div id="f">
+  <img class="bg" id="bg2" alt=""><img class="bg" id="bg3" alt=""><img class="bg" id="bg4" alt="">
+  <div class="abs" id="black" style="inset:0;background:#000;visibility:hidden"></div>
+
+  <!-- 1. the hook -->
+  <div class="big" id="h1" style="top:560px;font-size:100px;white-space:nowrap">YOUR BOOKING APP</div>
+  <div class="big" id="h2" style="top:668px;font-size:100px;white-space:nowrap">IS CHARGING YOU</div>
+  <div class="big amber" id="h3" style="top:782px;font-size:270px">RENT.</div>
+
+  <!-- 2. the bill, every month -->
+  <div id="banks"></div>
+  <div class="big" id="every" style="top:1290px;font-size:118px"><span class="w">every.</span> <span class="w">single.</span> <span class="w amber">month.</span></div>
+
+  <!-- 3. a year of it -->
+  <div class="mid muted" id="times" style="top:560px;font-size:84px">$98.85 × 12</div>
+  <div class="big amber" id="year" style="top:690px;font-size:250px">$1,186</div>
+  <div class="mid" id="yearly" style="top:950px;font-size:76px">a year. every year.</div>
+
+  <!-- 4. and the new-client fee -->
+  <div class="big amber" id="pct" style="top:520px;font-size:290px">+20%</div>
+  <div class="mid" id="pct1" style="top:820px;font-size:70px">of a new client’s first visit</div>
+  <div class="mid muted" id="pct2" style="top:920px;font-size:50px">when Fresha’s marketplace books them</div>
+
+  <!-- 5. or -->
+  <div class="big" id="or" style="top:780px;font-size:300px">OR.</div>
+
+  <!-- 6. Kairo -->
+  <div class="word" id="word"><div class="k">K</div><div>Kairo</div></div>
+  <div class="big sky" id="k1" style="top:380px;font-size:210px">$410.</div>
+  <div class="big" id="k2" style="top:580px;font-size:210px">ONCE.</div>
+  <div class="stamp" id="stamp">PAYS FOR ITSELF BY MONTH 5</div>
+  <div class="mid" id="k3" style="top:944px;font-size:54px">then $0 a month. no commission.</div>
+  <div class="phone" id="phone"></div>
+  <div class="abs" id="lowdim" style="left:0;right:0;bottom:0;height:520px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.85) 45%);visibility:hidden"></div>
+  <div class="chip" id="chip">DM the word KAIRO</div>
+  <div class="fine" id="fine">Fresha: Team plan, 3 bookable team members at A$29.95 + GST each a month ($98.85; $1,186 a year), from Fresha's published Australian pricing, checked 20 Oct 2026. Fresha also charges a one-time 20% of a new client's first booking when the client comes through its marketplace (minimum A$8). Kairo: A$410 once, no monthly fee, no commission; it costs less than that plan from month 5. Card payments and texts run on your own Stripe and ClickSend accounts, whose fees apply. Fresha is a trademark of its owner; Kairo is not affiliated with Fresha.</div>
+</div>
+
+<script type="module">
+import { ease, at, anim, pop, Broll, words } from './lib.js';
+
+const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+const FR = window.FRAMES || {};
+const $ = (id) => document.getElementById(id);
+const clips = {
+  bg2: Broll($('bg2'), 'clip-2', FR['clip-2'] || 151),
+  bg3: Broll($('bg3'), 'clip-3', FR['clip-3'] || 151),
+  bg4: Broll($('bg4'), 'clip-4', FR['clip-4'] || 151),
+};
+// [from beat, to beat, image, speed]; 22–23 is a black frame
+const SHOTS = [[0, 4, 'bg2', 1], [4, 22, 'bg3', 0.55], [23, 34, 'bg4', 0.9]];
+const D = B(34);
+
+// Four months of the same charge, newest on top.
+const BANKS = [4, 5, 6, 7];
+const banks = BANKS.map(() => {
+  const el = document.createElement('div'); el.className = 'bank';
+  el.innerHTML = '<div class="ic">$</div><div style="flex:1;min-width:0"><div class="top"><b>Bank</b><span>now</span></div>'
+    + '<div class="row"><span>FRESHA</span><span class="amt">−$98.85</span></div><div class="sub">Monthly plan · 3 team members</div></div>';
+  $('banks').appendChild(el); return el;
+});
+
+window.CUES = [
+  [B(1), 'tick'], [B(2), 'thud'],
+  [B(4), 'ding'], [B(5), 'pop'], [B(6), 'pop'], [B(7), 'pop'],
+  [B(8), 'tick'], [B(9), 'tick'], [B(10), 'thud'],
+  [B(12) - 0.17, 'whoosh'],
+  ...Array.from({ length: 16 }, (_, i) => [B(13) + i * b / 8, 'tick']), [B(15), 'thud'],
+  [B(18) - 0.17, 'whoosh'], [B(18), 'thud'], [B(19), 'pop'],
+  [B(22), 'thud'], [B(23), 'thud'], [B(24), 'pop'], [B(25), 'thud'], [B(26) - 0.17, 'whoosh'], [B(27), 'pop'], [B(29), 'ding'],
+];
+window.BPM = BPM;
+window.DURATION = D;
+window.SHEET = [0, 0.6, 1.1, 1.6, 4.4, 5.0, 13.0, 14.3, 16.3];
+
+const shake = (t, t0) => (t >= t0 && t < t0 + 0.25 ? Math.sin((t - t0) * 90) * 14 * (1 - (t - t0) / 0.25) : 0);
+const window_ = (t, a, z) => t >= B(a) && t < B(z);
+
+window.seek = (t) => {
+  let wait = Promise.resolve();
+  for (const [a, z, id, speed] of SHOTS) {
+    const on = window_(t, a, z), img = $(id);
+    img.style.visibility = on ? 'visible' : 'hidden';
+    if (on) { const local = t - B(a); wait = clips[id](local * speed); img.style.transform = `scale(${1.1 - 0.08 * (local / (B(z) - B(a)))})`; }
+  }
+  $('black').style.visibility = window_(t, 22, 23) ? 'visible' : 'hidden';
+
+  // 1. YOUR BOOKING APP IS CHARGING YOU RENT.
+  const off1 = B(4);
+  $('h1').style.visibility = t < off1 ? 'visible' : 'hidden'; $('h1').style.opacity = 1; $('h1').style.transform = `translateX(${shake(t, B(2))}px)`;
+  if (t < off1) { pop($('h2'), t, B(1), off1, { from: 0.8, y: 30 }); pop($('h3'), t, B(2), off1, { from: 1.8, y: 0 }); }
+  else { $('h2').style.visibility = 'hidden'; $('h3').style.visibility = 'hidden'; }
+  if (t >= B(2)) $('h3').style.transform += ` translateX(${shake(t, B(2))}px)`;
+
+  // 2. the same charge, month after month
+  BANKS.forEach((beat, i) => {
+    const el = banks[i], t0 = B(beat);
+    if (t < t0 || t >= B(12)) { el.style.visibility = 'hidden'; return; }
+    const newer = BANKS.filter((x) => B(x) <= t).length - 1 - i;      // how many arrived after this one
+    // each newer banner pushes this one down a slot, eased
+    let push = 0;
+    BANKS.slice(i + 1).forEach((nb) => { push += 205 * ease.out(Math.max(0, Math.min(1, (t - B(nb)) / 0.25))); });
+    el.style.visibility = 'visible';
+    el.style.opacity = Math.min(1, (t - t0) / 0.1) * (1 - 0.18 * newer);
+    const drop = at([[t0, -120], [t0 + 0.3, 0]], t, ease.back);
+    el.style.top = `${430 + push + drop}px`;
+    el.style.transform = `scale(${1 - 0.03 * newer})`;
+  });
+  const ev = $('every'); ev.style.visibility = window_(t, 8, 12) ? 'visible' : 'hidden'; ev.style.opacity = 1;
+  words(ev, t, B(8), b);
+
+  // 3. a year of it
+  const inYear = window_(t, 12, 18);
+  pop($('times'), t, B(12), B(18), { from: 0.9, y: 30 });
+  const yr = $('year'); pop(yr, t, B(13), B(18), { from: 0.85, y: 20 });
+  const v = 98.85 + (1186 - 98.85) * ease.out(Math.max(0, Math.min(1, (t - B(13)) / B(2))));
+  yr.textContent = '$' + Math.round(v).toLocaleString('en-AU');
+  pop($('yearly'), t, B(15.5), B(18), { from: 0.8, y: 30 });
+  if (!inYear) for (const id of ['times', 'year', 'yearly']) $(id).style.visibility = 'hidden';
+
+  // 4. +20%
+  pop($('pct'), t, B(18), B(22), { from: 1.6, y: 0 });
+  $('pct').style.transform += ` translateX(${shake(t, B(18))}px)`;
+  pop($('pct1'), t, B(19), B(22), { from: 0.85, y: 30 });
+  pop($('pct2'), t, B(20), B(22), { from: 0.85, y: 30 });
+  if (t < B(18) || t >= B(22)) for (const id of ['pct', 'pct1', 'pct2']) $(id).style.visibility = 'hidden';
+
+  // 5. OR.
+  pop($('or'), t, B(22), B(23), { from: 1.4, y: 0 });
+  if (!window_(t, 22, 23)) $('or').style.visibility = 'hidden';
+
+  // 6. Kairo
+  const k = t >= B(23);
+  pop($('word'), t, B(23), Infinity, { from: 0.8, y: 20 });
+  pop($('k1'), t, B(23), Infinity, { from: 1.5, y: 0 });
+  pop($('k2'), t, B(24), Infinity, { from: 1.5, y: 0 });
+  const st = $('stamp'); pop(st, t, B(25), Infinity, { from: 2.2, y: 0 });
+  st.style.transform = `translateX(-50%) rotate(-4deg) ${st.style.transform}`;
+  anim($('phone'), t, { o: [[B(26), 0], [B(26) + 0.1, 1]], y: [[B(26), 560], [B(26) + 0.5, 0]], r: [[B(26), 7], [B(26) + 0.5, 2]] });
+  pop($('k3'), t, B(27), Infinity, { from: 0.85, y: 24 });
+  anim($('lowdim'), t, { o: [[B(28), 0], [B(28) + 0.3, 1]] });
+  anim($('fine'), t, { o: [[B(28), 0], [B(28) + 0.3, 1]] });
+  const c = $('chip'), tc = B(29); pop(c, t, tc, Infinity, { from: 0.5, y: 30 });
+  c.style.transform = `translateX(-50%) ${c.style.transform} scale(${t > tc + 0.3 ? 1 + 0.03 * Math.sin((t - tc - 0.3) * 2 * Math.PI / (2 * b)) : 1})`;
+  if (!k) for (const id of ['word', 'k1', 'k2', 'stamp', 'phone', 'k3', 'lowdim', 'fine', 'chip']) $(id).style.visibility = 'hidden';
+  return wait;
+};
+
+window.ready = (async () => {
+  await document.fonts.ready;
+  await new Promise((ok) => { const i = new Image(); i.onload = ok; i.onerror = ok; i.src = '../public/screenshots/23-phone-dashboard.jpg'; });
+  await window.seek(0);
+  return true;
+})();
+</script>
+</body></html>
