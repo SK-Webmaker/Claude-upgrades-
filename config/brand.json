@@ -19,7 +19,8 @@
     "monthly": 0,
     "commission": 0,
     "spoken": "four hundred and ten dollars",
-    "source": "Kairo platform: KAIRO_PRICE_CENTS = 41000 (platform/render.yaml, platform/signup.js), the amount the live checkout charges. Checked 12 Oct 2026."
+    "source": "Kairo platform: KAIRO_PRICE_CENTS = 41000 (platform/render.yaml, platform/signup.js), the amount the live checkout charges. Checked 12 Oct 2026.",
+    "forever": "'$0 a month, forever' is the website's own wording (kairobookings.com). Never 'special offer' (it is the normal price) or 'yours to keep forever' (the terms don't promise it)."
   },
   "cta": {
     "channel": "dm",
@@ -37,7 +38,11 @@
       "source": "Appointment-software- public/js/pages/calendar.js askNotify(); screenshot public/screenshots/kairo-notify-prompt.png"
     },
     "textsCost": "Texts go through the salon's own ClickSend account, a few cents each; Kairo adds nothing.",
-    "doubleBooking": "The diary refuses an overlapping booking for the same person unless the owner forces it."
+    "doubleBooking": "The diary refuses an overlapping booking for the same person unless the owner forces it.",
+    "competitors": {
+      "rule": "Never named in a reel. Compare against 'your booking app' and an example bill ($99 a month), labelled as an example in the fine print.",
+      "why": "Owner's decision, 22 Oct 2026."
+    }
   },
   "look": {
     "ink": "#070A10",

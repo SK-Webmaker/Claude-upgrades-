@@ -108,12 +108,21 @@ it something one owner sends another.
   Then the full render, `node tools/render-page.mjs <name>` (about 2 min), which
   writes `<name>.mp4` (original beat from `tools/beat.mjs`, never muted for
   copyright) and `<name>-nomusic.mp4`, for posting under a trending sound.
-- **Naming a competitor:** only its own published Australian price, the same
-  numbers as `my-creative-space/src/data/rivals.ts`, with fine print saying
-  where they come from, the date, and "Fresha is a trademark of its owner;
-  Kairo is not affiliated with Fresha". A made-up conversation says
-  "Dramatisation". Nobody "says" they bought Kairo: there are no customer
-  quotes to use.
+- **Never name a competitor in a reel** (owner, 22 Oct 2026: no "Fresha",
+  no logos, no lookalike merchant names). Compare against "your booking app"
+  and an example bill ($99 a month); the fine print says it is an example,
+  not any particular app's price. Fees some apps charge (a cut of new
+  clients, per-team-member pricing) are said as "some apps…". A made-up
+  conversation says "Dramatisation". Nobody "says" they bought Kairo: there
+  are no customer quotes to use.
+- **What Kairo can promise:** "$410 once", "$0 a month, forever" (the
+  website's own words), "no commission". Not "special offer" or "limited
+  time": $410 is the normal price. Not "yours to keep forever": the terms
+  don't say that.
+- **Type, late-2026 Reels style:** lowercase and conversational, white with a
+  soft shadow (no white boxes), one word under a yellow highlighter
+  (`.hl`, #FBBF24), one loud word per reel in Anton
+  (`assets/fonts/anton.css`, OFL). All-caps on every line reads as dated.
 - **Every feature named must be in the app.** True today: online booking,
   deposits, reminders, the iPhone app, client CSV import, no commission. Card
   payments and texts use the salon's own Stripe and ClickSend, and the fine
