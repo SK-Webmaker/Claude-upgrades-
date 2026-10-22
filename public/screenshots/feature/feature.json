@@ -1,0 +1,127 @@
+{
+ "captured": "2026-10-22T06:53:08.364Z",
+ "size": [
+  1170,
+  2532
+ ],
+ "nextSat": "2026-10-24",
+ "shots": {
+  "settings-noshow": "Settings → No-shows: deposit after 2, phone-only after 3",
+  "settings-waitlist": "Settings → Waitlist & automatic filling, both switches on",
+  "client-mia": "Mia's record: 2 no-shows, deposit required, and Your rules / Always trusted / Phone only",
+  "calendar-sat-before": "Saturday 2026-10-24 with Zoe at 10:00",
+  "calendar-sat-empty": "Saturday the moment Zoe cancelled: 10:00 is free",
+  "messages-offers": "Messages: the waitlist offers that went out the moment Zoe cancelled",
+  "calendar-sat-after": "Saturday again: Chloe in the 10:00 Zoe gave up",
+  "book-1-services": "Booking page: the services",
+  "book-2-picked": "Booking page: Balayage picked, Continue bar",
+  "book-3-times": "Booking page: the times, with the waitlist line under them",
+  "book-3b-time-picked": "Booking page: a time picked",
+  "book-4-details": "Booking page: details",
+  "book-5-done": "Booking page: booked",
+  "book-waitlist": "Booking page: put me on the waitlist",
+  "dashboard": "Dashboard"
+ },
+ "rects": {
+  "client-mia": {
+   "history": {
+    "x": 87,
+    "y": 740,
+    "w": 996,
+    "h": 42
+   },
+   "badges": [
+    {
+     "x": 816.1875,
+     "y": 849.796875,
+     "w": 254.8125,
+     "h": 66
+    },
+    {
+     "x": 816.1875,
+     "y": 1017.796875,
+     "w": 254.8125,
+     "h": 66
+    }
+   ],
+   "deposit": {
+    "x": 87,
+    "y": 1250,
+    "w": 996,
+    "h": 181
+   },
+   "rules": {
+    "x": 87,
+    "y": 1458,
+    "w": 978,
+    "h": 144
+   },
+   "trusted": {
+    "x": 383,
+    "y": 1473,
+    "w": 367,
+    "h": 114
+   },
+   "phoneOnly": {
+    "x": 756,
+    "y": 1473,
+    "w": 295,
+    "h": 114
+   }
+  },
+  "calendar-sat-before": {
+   "zoe": {
+    "x": 228,
+    "y": 1923,
+    "w": 209,
+    "h": 512
+   }
+  },
+  "messages-offers": {
+   "first": {
+    "x": 87,
+    "y": 1697,
+    "w": 996,
+    "h": 48
+   },
+   "list": {
+    "x": 57,
+    "y": 1487,
+    "w": 133,
+    "h": 114
+   }
+  },
+  "calendar-sat-after": {
+   "chloe": {
+    "x": 228,
+    "y": 1923,
+    "w": 209,
+    "h": 512
+   }
+  },
+  "book-1-services": {
+   "balayage": {
+    "x": 60,
+    "y": 1431,
+    "w": 1050,
+    "h": 192
+   }
+  },
+  "book-3b-time-picked": {
+   "slot": {
+    "x": 775.96875,
+    "y": 954,
+    "w": 334.03125,
+    "h": 108
+   }
+  },
+  "book-4-details": {
+   "confirm": {
+    "x": 570,
+    "y": 1971,
+    "w": 540,
+    "h": 132
+   }
+  }
+ }
+}

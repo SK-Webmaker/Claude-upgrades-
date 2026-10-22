@@ -1,0 +1,79 @@
+/* The feature reels' shared look: a 3D phone holding a real Kairo screen, an
+   iOS-style notification, a text message, tap ripples, glow rings, and type in
+   the late-2026 Reels style (lowercase, soft shadow, one highlighted word, one
+   loud word in Anton). Used by reel/booked.html, reel/refill.html and
+   reel/noshow.html with reel/kit.js. */
+html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #05070C; }
+#f { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: Inter, 'Noto Color Emoji', sans-serif; color: #fff; }
+.abs { position: absolute; }
+.bg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; visibility: hidden; transform-origin: 50% 50%; }
+
+/* The stage behind the phone: ink, two slow brand-coloured glows, a faint grid. */
+.stage { position: absolute; inset: 0; visibility: hidden; background: radial-gradient(120% 80% at 50% 40%, #0C1626 0%, #05070C 70%); }
+.stage .glow { position: absolute; width: 900px; height: 900px; border-radius: 50%; filter: blur(140px); opacity: 0.42; }
+.stage .g1 { background: #2F7FD6; } .stage .g2 { background: #38BDF8; opacity: 0.2; }
+.stage .grid { position: absolute; inset: 0; opacity: 0.07;
+  background-image: linear-gradient(rgba(255,255,255,.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.6) 1px, transparent 1px);
+  background-size: 90px 90px; -webkit-mask-image: radial-gradient(70% 60% at 50% 45%, #000 0%, transparent 100%); mask-image: radial-gradient(70% 60% at 50% 45%, #000 0%, transparent 100%); }
+
+/* The phone. Its screen is a real capture (1170x2532); everything placed on
+   the screen uses those pixels, scaled by --k. */
+.p3d { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; perspective: 2600px; visibility: hidden; pointer-events: none; }
+.p3d-body { position: absolute; left: 0; top: 0; width: 636px; height: 1335px; border-radius: 96px; padding: 18px; box-sizing: border-box;
+  background: linear-gradient(145deg, #3A3F4B, #15181F 40%, #2A2E38); transform-style: preserve-3d;
+  box-shadow: 0 80px 160px rgba(0,0,0,0.65), 0 0 0 3px rgba(255,255,255,0.08), inset 0 0 0 2px rgba(255,255,255,0.12); }
+.p3d-screen { position: relative; width: 600px; height: 1299px; border-radius: 78px; overflow: hidden; background: #0B111B; --k: 0.51282; }
+.p3d-screen img { position: absolute; left: 0; top: 0; width: 600px; height: 1299px; }
+.p3d-island { position: absolute; left: 50%; top: 40px; width: 170px; height: 50px; margin-left: -85px; border-radius: 30px; background: #000; }
+.p3d-glare { position: absolute; inset: 18px; border-radius: 78px; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.16) 45%, transparent 60%); background-size: 300% 100%; }
+.p3d-fx { position: absolute; inset: 0; }
+
+/* A ring of light around a real UI element on the screen. */
+.ring { position: absolute; border-radius: 22px; border: 6px solid #38BDF8; visibility: hidden;
+  box-shadow: 0 0 0 10px rgba(56,189,248,0.18), 0 0 50px rgba(56,189,248,0.75); }
+.ring.red { border-color: #FF5A5F; box-shadow: 0 0 0 10px rgba(255,90,95,0.18), 0 0 50px rgba(255,90,95,0.75); }
+.ring.green { border-color: #34D399; box-shadow: 0 0 0 10px rgba(52,211,153,0.2), 0 0 60px rgba(52,211,153,0.8); }
+/* A fingertip tap. */
+.tap { position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; visibility: hidden;
+  background: radial-gradient(circle, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0) 70%);
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.35); }
+
+/* An iOS-style notification, Kairo's own wording. */
+.notif { position: absolute; left: 50px; right: 50px; display: flex; gap: 24px; align-items: center; padding: 28px 32px; border-radius: 46px;
+  background: rgba(38,40,48,0.82); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  box-shadow: 0 26px 70px rgba(0,0,0,0.5), 0 0 0 2px rgba(255,255,255,0.08); visibility: hidden; transform-origin: 50% 0; }
+.notif .ic { flex: none; width: 88px; height: 88px; border-radius: 22px; background: linear-gradient(160deg, #3B93F0, #2369C4); display: grid; place-items: center;
+  font-family: Anton, Inter, sans-serif; font-size: 58px; color: #fff; }
+.notif .top { display: flex; justify-content: space-between; font-size: 34px; color: rgba(255,255,255,0.58); letter-spacing: 0.02em; }
+.notif .ttl { font-size: 42px; font-weight: 700; margin-top: 2px; }
+.notif .msg { font-size: 38px; line-height: 1.25; color: rgba(255,255,255,0.92); margin-top: 2px; }
+
+/* A text message on a client's phone. */
+.sms { position: absolute; left: 70px; right: 70px; visibility: hidden; }
+.sms .from { font-size: 32px; color: rgba(255,255,255,0.6); margin: 0 0 12px 28px; }
+.sms .bubble { background: #2C2C30; border-radius: 46px; border-bottom-left-radius: 14px; padding: 30px 38px 34px; font-size: 44px; line-height: 1.3; font-weight: 500;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+.sms .link { display: inline-block; margin-top: 10px; padding: 6px 22px; border-radius: 18px; background: rgba(56,189,248,0.18); color: #7DD3FC; font-weight: 600; }
+
+/* Type. */
+.say { position: absolute; left: 70px; right: 70px; text-align: center; font-weight: 700; font-size: 70px; line-height: 1.16; letter-spacing: -0.03em; visibility: hidden;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.6), 0 10px 34px rgba(0,0,0,0.55); }
+.loud { position: absolute; left: 30px; right: 30px; text-align: center; font-family: Anton, 'Inter Tight', sans-serif; font-weight: 400; line-height: 1; visibility: hidden;
+  text-shadow: 0 14px 60px rgba(0,0,0,0.55); }
+.hl { position: relative; display: inline-block; padding: 0 12px; color: #0b0b0d; text-shadow: none; z-index: 0; }
+.hl::before { content: ''; position: absolute; left: -2px; right: -2px; top: 8%; bottom: 0; background: #FBBF24; border-radius: 14px;
+  transform: rotate(-2deg) scaleX(var(--hl, 1)); transform-origin: 0 50%; z-index: -1; }
+.sky { color: #38BDF8; } .amber { color: #FBBF24; } .green { color: #34D399; } .red { color: #FF6B6B; }
+
+/* The end card. */
+.word { position: absolute; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 22px; font-weight: 700; font-size: 72px; letter-spacing: -0.03em; visibility: hidden; }
+.word .k { width: 90px; height: 90px; border-radius: 24px; background: #38BDF8; color: #070A10; display: grid; place-items: center; font-family: Anton, sans-serif; font-weight: 400; font-size: 60px; }
+.chip { position: absolute; left: 50%; padding: 26px 56px 30px; border-radius: 99px; background: #38BDF8; color: #070A10; font-weight: 700; font-size: 66px;
+  letter-spacing: -0.02em; white-space: nowrap; visibility: hidden; box-shadow: 0 0 0 12px rgba(56,189,248,0.2), 0 20px 60px rgba(0,0,0,0.45); }
+.fine { position: absolute; left: 70px; right: 170px; top: 1560px; font-size: 21px; line-height: 1.38; color: rgba(255,255,255,0.62); visibility: hidden; }
+
+/* A light leak that sweeps across on a cut. */
+.leak { position: absolute; inset: -20%; pointer-events: none; visibility: hidden; mix-blend-mode: screen;
+  background: radial-gradient(40% 30% at 50% 50%, rgba(255,190,120,0.75), rgba(255,120,80,0.25) 45%, transparent 70%); }
+.grain { position: absolute; inset: 0; pointer-events: none; opacity: 0.06; mix-blend-mode: overlay; }

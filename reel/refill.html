@@ -1,0 +1,157 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Kairo — cancelled, rebooked</title>
+<link rel="stylesheet" href="../assets/fonts/kairo-fonts.css">
+<link rel="stylesheet" href="../assets/fonts/anton.css">
+<link rel="stylesheet" href="kit.css">
+<style>
+  /* 1080x1920, no presenter. Saturday 10am cancels; Kairo offers the slot to
+     the waitlist by text (src/waitlist.js, its wording word for word) and the
+     first to book takes it. Every screen is a real capture from Kairo
+     (tools/capture-feature-screens.mjs): Zoe booked, the slot freed, Chloe in
+     the slot; the texts are the waitlist offer's own wording. */
+  #bg13 { filter: brightness(0.8) saturate(1.05); }
+  #bg14 { filter: brightness(0.9) saturate(1.1); }
+  #bg14.blur { filter: blur(26px) brightness(0.45) saturate(1.2); }
+  #enddim { position: absolute; inset: 0; background: linear-gradient(rgba(5,7,12,0.5), rgba(5,7,12,0.85)); visibility: hidden; }
+  .xmark { position: absolute; visibility: hidden; display: grid; place-items: center; background: rgba(255,60,70,0.28); border-radius: 18px;
+           font-family: Anton, sans-serif; color: #FF6B6B; font-size: 120px; text-shadow: 0 0 30px rgba(255,90,95,0.8); }
+</style></head>
+<body><div id="f">
+  <img class="bg" id="bg13" alt=""><img class="bg" id="bg14" alt="">
+  <div class="stage" id="stage"><div class="glow g1"></div><div class="glow g2"></div><div class="grid"></div></div>
+  <div id="phone-holder"></div>
+  <div class="abs" id="topdim" style="left:0;right:0;top:0;height:760px;background:linear-gradient(rgba(5,7,12,0.6),rgba(5,7,12,0))"></div>
+
+  <div class="say" id="sat" style="top:330px;font-size:84px">saturday, 10am.</div>
+  <div class="loud red" id="cancelled" style="top:470px;font-size:220px">CANCELLED.</div>
+
+  <div class="say" id="dead" style="top:220px">normally? that’s a <span class="hl" id="dead-hl">dead slot.</span></div>
+  <div class="say" id="texts" style="top:220px">kairo texts your waitlist. <span class="hl" id="texts-hl">instantly.</span></div>
+  <div id="texts-box"></div>
+  <div class="say" id="first" style="top:220px">first to book gets it.</div>
+  <div class="loud green" id="rebooked" style="top:1480px;font-size:200px">REBOOKED.</div>
+
+  <div class="say" id="mid" style="top:330px">you were mid-colour <span class="hl" id="mid-hl">the whole time.</span></div>
+
+  <div id="enddim"></div>
+  <div class="word" id="word" style="top:300px"><div class="k">K</div><div>Kairo</div></div>
+  <div class="loud sky" id="e1" style="top:410px;font-size:230px">REFILLED.</div>
+  <div class="say" id="e2" style="top:680px;font-size:56px">cancellations offered to your<br>waitlist, automatically</div>
+  <div class="say" id="e3" style="top:880px;font-size:58px"><span class="hl" id="e3-hl">$410 once.</span> $0 a month, forever.</div>
+  <div class="chip" id="chip" style="top:1020px">DM the word KAIRO</div>
+  <div class="fine" id="fine">Dramatisation with sample data; the screens are Kairo’s real calendar and its waitlist text, word for word. Automatic waitlist offers are off until you switch them on, and the first to book gets the slot. Texts go through your own ClickSend account, a few cents each. Kairo: a one-off A$410 setup fee, then $0 a month, forever, no commission.</div>
+
+  <div class="leak" id="leak"></div>
+  <canvas class="grain" id="grain" width="270" height="480" style="width:1080px;height:1920px"></canvas>
+</div>
+
+<script type="module">
+import { at, ease, Broll } from './lib.js';
+import { Phone, ring, slam, say, hl, stage, leak, grain, makeNotif, notif } from './kit.js';
+
+const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+const $ = (id) => document.getElementById(id);
+const FR = window.FRAMES || {};
+const META = window.FEATURE || { rects: {} };
+const R = (shot, key) => (META.rects[shot] || {})[key] || { x: 228, y: 1923, w: 209, h: 512 };
+const S = (name) => `../public/screenshots/feature/${name}.png`;
+const D = B(34);
+
+const clips = { bg13: Broll($('bg13'), 'clip-13', FR['clip-13'] || 151), bg14: Broll($('bg14'), 'clip-14', FR['clip-14'] || 151) };
+const phone = Phone($('phone-holder'));
+const zoe = R('calendar-sat-before', 'zoe'), chloe = R('calendar-sat-after', 'chloe');
+const x = document.createElement('div'); x.className = 'xmark'; x.textContent = '✕'; phone.place(x, zoe, 6);
+const redRing = document.createElement('div'); redRing.className = 'ring red'; phone.place(redRing, zoe, 14);
+const greenRing = document.createElement('div'); greenRing.className = 'ring green'; phone.place(greenRing, chloe, 14);
+
+// The waitlist offer, word for word (src/waitlist.js copyFor), one per person waiting.
+const BUBBLE = '<svg width="54" height="54" viewBox="0 0 24 24" fill="#fff"><path d="M12 3C6.5 3 2 6.6 2 11c0 2.5 1.4 4.7 3.7 6.1-.2 1.3-.9 2.6-2 3.6 2 0 3.9-.7 5.3-1.8.9.2 1.9.3 3 .3 5.5 0 10-3.6 10-8.1S17.5 3 12 3z"/></svg>';
+const offer = (name) => makeNotif($('texts-box'), { app: 'MESSAGES', title: 'Luxe Hair', icon: BUBBLE, iconBg: 'linear-gradient(#5BE37D,#23B847)',
+  body: `Hi ${name}, you asked us to let you know — Saturday at 10am has just come free for Balayage. First to book gets it.` });
+const OFFERS = [offer('Ava'), offer('Priya'), offer('Chloe')];
+const T = { hook: [0, B(4)], cal: [B(4), B(9)], msg: [B(9), B(16)], won: [B(16), B(22)], mid: [B(22), B(27)] };
+window.CUES = [
+  [B(1.5), 'thud'], [B(4) - 0.17, 'whoosh'], [B(5.5), 'pop'], [B(6.3), 'tick'],
+  [B(9) - 0.17, 'whoosh'], [B(10.5), 'ding'], [B(11.2), 'ding'], [B(11.9), 'ding'],
+  [B(16) - 0.17, 'whoosh'], [B(17), 'thud'], [B(17.3), 'ding'], [B(22) - 0.17, 'whoosh'],
+  [B(27.5), 'thud'], [B(28.5), 'pop'], [B(29.5), 'pop'], [B(30.5), 'ding'],
+];
+window.BPM = BPM;
+window.DURATION = D;
+window.SHEET = [0, 1.6, 2.4, 2.9, 3.3, 4.6, 5.1, 5.6, 6.3, 7.3, 8.3, 9.1, 10.0, 12.6, 14.3, 16.0];
+
+const inR = (t, [a, z]) => t >= a && t < z;
+window.seek = (t) => {
+  const waits = [];
+  const hook = inR(t, T.hook), mid = t >= T.mid[0], phoneOn = inR(t, T.cal) || inR(t, T.won);
+  $('bg13').style.visibility = hook ? 'visible' : 'hidden';
+  if (hook) { waits.push(clips.bg13(t * 0.85)); $('bg13').style.transform = `scale(${1.06 + 0.05 * t / T.hook[1]}) translateX(${Math.sin(t * 40) * (t > B(1.5) && t < B(1.5) + 0.2 ? 8 : 0)}px)`; }
+  // The colour swirl: blurred behind the phone while Chloe takes the slot, then full.
+  const swirl = inR(t, T.won) || mid;
+  $('bg14').style.visibility = swirl ? 'visible' : 'hidden';
+  $('bg14').classList.toggle('blur', !mid);
+  if (swirl) waits.push(clips.bg14(t - T.won[0]));
+  stage($('stage'), t, inR(t, T.cal) || inR(t, T.msg));
+  $('topdim').style.visibility = 'visible';
+
+  // 1. the hook
+  slam($('sat'), t, -1, T.hook[1]);
+  slam($('cancelled'), t, B(1.5), T.hook[1]);
+
+  // 2–4. the phone
+  phone.show(phoneOn);
+  if (phoneOn) {
+    phone.screens(t, [[T.cal[0], S('calendar-sat-before')], [B(6.3), S('calendar-sat-empty')], [T.won[0], S('calendar-sat-after')]]);
+    const zc = { cx: zoe.x + zoe.w / 2, cy: zoe.y + zoe.h / 2 };
+    phone.pose(t, [
+      [T.cal[0], { ...zc, x: 1500, y: 1300, s: 0.85, ry: 40, rz: 6 }],
+      [B(4.8), { ...zc, x: 470, y: 1300, s: 1.12, ry: 8, rx: 4 }],
+      [B(8.8), { ...zc, x: 470, y: 1300, s: 1.12, ry: -6, rx: 4 }],
+      [T.won[0], { ...zc, x: 470, y: 1280, s: 0.95, ry: 12, rz: 2 }],
+      [B(16.8), { ...zc, x: 470, y: 1250, s: 1.15, ry: 4, rx: 3 }],
+      [T.won[1], { ...zc, x: 470, y: 1230, s: 1.22, ry: -4, rx: 3 }],
+    ]);
+  }
+  ring(redRing, t, B(5.2), B(6.3));
+  const xOn = t >= B(5.5) && t < B(6.3);
+  x.style.visibility = xOn ? 'visible' : 'hidden';
+  if (xOn) { x.style.opacity = Math.min(1, (t - B(5.5)) / 0.08); x.style.transform = `scale(${at([[B(5.5), 1.6], [B(5.5) + 0.2, 1]], t, ease.back)})`; }
+  ring(greenRing, t, B(17), T.won[1]);
+  say($('dead'), t, B(4.4), T.cal[1] - 0.1, { from: 0.85, y: 30 }); hl($('dead-hl'), t, B(6.4));
+  say($('texts'), t, T.msg[0] + 0.15, T.msg[1] - 0.1, { from: 0.85, y: 30 }); hl($('texts-hl'), t, B(10.2));
+  notif(OFFERS[0], t, B(10.5), 460, [B(11.2), B(11.9)], 330, T.msg[1] - 0.25);
+  notif(OFFERS[1], t, B(11.2), 460, [B(11.9)], 330, T.msg[1] - 0.25);
+  notif(OFFERS[2], t, B(11.9), 460, [], 330, T.msg[1] - 0.25);
+  say($('first'), t, T.won[0] + 0.15, T.won[1] - 0.1, { from: 0.85, y: 30 });
+  slam($('rebooked'), t, B(17), T.won[1]);
+
+  // 5. mid-colour
+  say($('mid'), t, T.mid[0] + 0.2, B(27.4), { from: 0.85, y: 30 }); hl($('mid-hl'), t, T.mid[0] + 0.7);
+
+  // 6. the end card
+  const end = t >= B(27.5);
+  $('enddim').style.visibility = end ? 'visible' : 'hidden';
+  $('enddim').style.opacity = at([[B(27.5), 0], [B(27.5) + 0.3, 1]], t);
+  say($('word'), t, B(27.5), Infinity, { from: 0.8, y: 20 });
+  slam($('e1'), t, B(27.5));
+  say($('e2'), t, B(28.5), Infinity, { from: 0.85, y: 24 });
+  say($('e3'), t, B(29.5), Infinity, { from: 0.85, y: 24 }); hl($('e3-hl'), t, B(29.8));
+  const c = $('chip'), tc = B(30.5); say(c, t, tc, Infinity, { from: 0.5, y: 30 });
+  c.style.transform = `translateX(-50%) ${c.style.transform} scale(${t > tc + 0.3 ? 1 + 0.03 * Math.sin((t - tc - 0.3) * 2 * Math.PI / (2 * b)) : 1})`;
+  $('fine').style.visibility = t >= B(29.5) ? 'visible' : 'hidden';
+
+  leak($('leak'), t, [T.cal[0], T.msg[0], T.won[0], T.mid[0]].reduce((best, c) => (Math.abs(t - c) < Math.abs(t - best) ? c : best)));
+  grain($('grain'), t);
+  return Promise.all(waits);
+};
+
+window.ready = (async () => {
+  await document.fonts.ready;
+  await Promise.all(['calendar-sat-before', 'calendar-sat-empty', 'calendar-sat-after']
+    .map((n) => new Promise((ok) => { const i = new Image(); i.onload = ok; i.onerror = ok; i.src = S(n); })));
+  await window.seek(0);
+  return true;
+})();
+</script>
+</body></html>

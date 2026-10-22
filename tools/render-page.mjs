@@ -35,6 +35,9 @@ const errs = []; page.on('pageerror', (e) => errs.push(e.message));
 await page.addInitScript((d) => Object.assign(window, d), {
   BRAND: JSON.parse(fs.readFileSync(path.join(ROOT, 'config', 'brand.json'), 'utf8')),
   FRAMES: JSON.parse(fs.readFileSync(path.join(OUT, 'broll', 'frames.json'), 'utf8')),
+  // Where things are on the real screens (tools/capture-feature-screens.mjs).
+  FEATURE: fs.existsSync(path.join(ROOT, 'public', 'screenshots', 'feature', 'feature.json'))
+    ? JSON.parse(fs.readFileSync(path.join(ROOT, 'public', 'screenshots', 'feature', 'feature.json'), 'utf8')) : null,
 });
 await page.goto('file://' + path.join(ROOT, 'reel', `${name}.html`));
 await page.waitForFunction(() => window.ready); await page.evaluate(() => window.ready);

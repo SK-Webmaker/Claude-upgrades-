@@ -30,3 +30,4 @@ reel/out/
 # later reels need; the stills stay in Higgsfield under their job ids.
 reel/broll/*.png
 reel/broll/lib2/
+reel/broll/lib3/

@@ -1,0 +1,167 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Kairo — no-shows, handled</title>
+<link rel="stylesheet" href="../assets/fonts/kairo-fonts.css">
+<link rel="stylesheet" href="../assets/fonts/anton.css">
+<link rel="stylesheet" href="kit.css">
+<style>
+  /* 1080x1920, no presenter. An empty chair; then Kairo's no-show rules on a
+     real client record (Mia: two no-shows, "Asked for a deposit", Your rules /
+     Always trusted / Phone only) captured by tools/capture-feature-screens.mjs,
+     and the two notes Kairo's booking page shows a client, word for word
+     (src/booking-rules.js client_note). */
+  #bg6 { filter: brightness(0.8) saturate(0.85); }
+  #bg2 { filter: brightness(0.45) saturate(0.9) blur(3px); }
+  #bg10 { filter: brightness(0.9) saturate(1.05); }
+  #enddim { position: absolute; inset: 0; background: linear-gradient(rgba(5,7,12,0.5), rgba(5,7,12,0.85)); visibility: hidden; }
+  .note { position: absolute; left: 70px; right: 70px; visibility: hidden; }
+  .note .from { font-size: 32px; color: rgba(255,255,255,0.6); margin: 0 0 14px 26px; }
+  .note .card { background: rgba(244,247,251,0.96); color: #0E1520; border-radius: 40px; padding: 34px 40px 38px; font-size: 48px; line-height: 1.3; font-weight: 600;
+                box-shadow: 0 30px 80px rgba(0,0,0,0.55); }
+</style></head>
+<body><div id="f">
+  <img class="bg" id="bg6" alt=""><img class="bg" id="bg2" alt=""><img class="bg" id="bg10" alt="">
+  <div class="stage" id="stage"><div class="glow g1"></div><div class="glow g2"></div><div class="grid"></div></div>
+  <div id="phone-holder"></div>
+  <div class="abs" id="topdim" style="left:0;right:0;top:0;height:760px;background:linear-gradient(rgba(5,7,12,0.65),rgba(5,7,12,0))"></div>
+
+  <div class="say" id="didnt" style="top:330px;font-size:84px">she didn’t show.</div>
+  <div class="loud amber" id="again" style="top:460px;font-size:300px">AGAIN.</div>
+
+  <div class="say" id="count" style="top:220px">kairo keeps count.</div>
+  <div class="say" id="dep" style="top:220px">2 no-shows? <span class="hl" id="dep-hl">deposit next time.</span></div>
+
+  <div class="say" id="polite" style="top:330px">she’s told <span class="hl" id="polite-hl">politely.</span> never a number.</div>
+  <div class="note" id="note1" style="top:640px">
+    <div class="from">Luxe Hair · booking page</div>
+    <div class="card">We ask for a small deposit on this booking. It comes off the price on the day.</div>
+  </div>
+
+  <div class="loud amber" id="three" style="top:380px;font-size:165px;white-space:nowrap">3 NO-SHOWS?</div>
+  <div class="note" id="note2" style="top:640px">
+    <div class="from">Luxe Hair · booking page</div>
+    <div class="card">We’d rather book this one in with you personally — please give us a call.</div>
+  </div>
+  <div class="say" id="phoneonly" style="top:1030px">phone bookings only.</div>
+
+  <div class="say" id="regulars" style="top:220px">your regulars? <span class="hl" id="reg-hl">never asked.</span></div>
+
+  <div id="enddim"></div>
+  <div class="word" id="word" style="top:300px"><div class="k">K</div><div>Kairo</div></div>
+  <div class="loud sky" id="e1" style="top:410px;font-size:230px">HANDLED.</div>
+  <div class="say" id="e2" style="top:680px;font-size:56px">no-show rules you set once.<br>kairo does the awkward bit.</div>
+  <div class="say" id="e3" style="top:880px;font-size:58px"><span class="hl" id="e3-hl">$410 once.</span> $0 a month, forever.</div>
+  <div class="chip" id="chip" style="top:1020px">DM the word KAIRO</div>
+  <div class="fine" id="fine">Sample data; the screens and wording are Kairo’s own. The rules are off until you set the numbers (no-shows counted over the last 90 and 180 days), and you can mark anyone trusted or phone-only. Deposits need your own Stripe account; Stripe’s fees apply. Kairo: a one-off A$410 setup fee, then $0 a month, forever, no commission.</div>
+
+  <div class="leak" id="leak"></div>
+  <canvas class="grain" id="grain" width="270" height="480" style="width:1080px;height:1920px"></canvas>
+</div>
+
+<script type="module">
+import { at, ease, Broll } from './lib.js';
+import { Phone, ring, slam, say, hl, stage, leak, grain } from './kit.js';
+
+const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+const $ = (id) => document.getElementById(id);
+const FR = window.FRAMES || {};
+const META = window.FEATURE || { rects: {} };
+const RM = (META.rects || {})['client-mia'] || {};
+const S = (name) => `../public/screenshots/feature/${name}.png`;
+const D = B(34);
+
+const clips = { bg6: Broll($('bg6'), 'clip-6', FR['clip-6'] || 151), bg2: Broll($('bg2'), 'clip-2', FR['clip-2'] || 151), bg10: Broll($('bg10'), 'clip-10', FR['clip-10'] || 151) };
+const phone = Phone($('phone-holder'));
+const badges = (RM.badges || [{ x: 816, y: 850, w: 255, h: 66 }, { x: 816, y: 1018, w: 255, h: 66 }]).map((r) => {
+  const e = document.createElement('div'); e.className = 'ring red'; phone.place(e, r, 10); return e; });
+const depRing = document.createElement('div'); depRing.className = 'ring'; phone.place(depRing, RM.deposit || { x: 87, y: 1250, w: 996, h: 181 }, 12);
+const trustRing = document.createElement('div'); trustRing.className = 'ring green'; phone.place(trustRing, RM.trusted || { x: 383, y: 1473, w: 367, h: 114 }, 10);
+
+const T = { hook: [0, B(5)], rec: [B(5), B(13)], polite: [B(13), B(18)], three: [B(18), B(22)], reg: [B(22), B(26)], end: B(26) };
+window.CUES = [
+  [B(2), 'thud'], [B(5) - 0.17, 'whoosh'], [B(6), 'pop'], [B(6.5), 'pop'], [B(9), 'tick'], [B(9.5), 'ding'],
+  [B(13) - 0.17, 'whoosh'], [B(13.6), 'pop'], [B(18) - 0.17, 'whoosh'], [B(18.3), 'thud'], [B(19.5), 'pop'], [B(20.5), 'tick'],
+  [B(22) - 0.17, 'whoosh'], [B(23), 'ding'], [B(26) - 0.17, 'whoosh'], [B(26.5), 'thud'], [B(27.5), 'pop'], [B(28.5), 'pop'], [B(29.5), 'ding'],
+];
+window.BPM = BPM;
+window.DURATION = D;
+window.SHEET = [0, 1.2, 2.4, 3.0, 3.6, 4.4, 5.0, 6.8, 7.4, 8.4, 9.4, 10.4, 11.3, 12.3, 13.4, 14.4, 16.0];
+
+const inR = (t, [a, z]) => t >= a && t < z;
+window.seek = (t) => {
+  const waits = [];
+  const hook = inR(t, T.hook), polite = inR(t, T.polite), end = t >= T.end;
+  const phoneOn = inR(t, T.rec) || inR(t, T.reg);
+  $('bg6').style.visibility = hook ? 'visible' : 'hidden';
+  if (hook) { waits.push(clips.bg6(t * 0.8)); $('bg6').style.transform = `scale(${1.04 + 0.05 * t / T.hook[1]})`; }
+  $('bg2').style.visibility = polite ? 'visible' : 'hidden';
+  if (polite) waits.push(clips.bg2(t - T.polite[0]));
+  $('bg10').style.visibility = end ? 'visible' : 'hidden';
+  if (end) { waits.push(clips.bg10((t - T.end) * 0.9)); $('bg10').style.transform = `scale(${1.08 - 0.04 * (t - T.end) / (D - T.end)})`; }
+  stage($('stage'), t, phoneOn || inR(t, T.three));
+
+  // 1. the empty chair
+  slam($('didnt'), t, -1, T.hook[1]);
+  slam($('again'), t, B(2), T.hook[1]);
+
+  // 2. Mia's record, and 5. the override
+  phone.show(phoneOn);
+  if (phoneOn) {
+    phone.screens(t, [[0, S('client-mia')]]);
+    const bc = { cx: 943, cy: 967 };
+    const dc = { cx: 585, cy: (RM.deposit ? RM.deposit.y + RM.deposit.h / 2 : 1340) };
+    const rc = { cx: 585, cy: (RM.rules ? RM.rules.y + RM.rules.h / 2 : 1530) };
+    phone.pose(t, [
+      [T.rec[0], { ...bc, x: 560, y: 2400, s: 0.9, ry: -30, rx: 24 }],
+      [B(5.8), { ...bc, x: 600, y: 1150, s: 1.3, ry: -8, rx: 4 }],
+      [B(8.6), { ...bc, x: 600, y: 1150, s: 1.3, ry: 6, rx: 4 }],
+      [B(9.4), { ...dc, x: 540, y: 1180, s: 1.15, ry: -4, rx: 4 }],
+      [T.rec[1], { ...dc, x: 540, y: 1180, s: 1.2, ry: 8, rx: 4 }],
+      [T.reg[0], { ...rc, x: 540, y: 1300, s: 0.95, ry: -16, rz: -3 }],
+      [B(22.8), { ...rc, x: 560, y: 1200, s: 1.3, ry: -4, rx: 3 }],
+      [T.reg[1], { ...rc, x: 560, y: 1200, s: 1.36, ry: 6, rx: 3 }],
+    ]);
+  }
+  ring(badges[0], t, B(6), B(9)); ring(badges[1], t, B(6.5), B(9));
+  ring(depRing, t, B(9.5), T.rec[1]);
+  ring(trustRing, t, B(23), T.reg[1]);
+  say($('count'), t, T.rec[0] + 0.2, B(8.9), { from: 0.85, y: 30 });
+  say($('dep'), t, B(9.1), T.rec[1] - 0.1, { from: 0.85, y: 30 }); hl($('dep-hl'), t, B(9.8));
+
+  // 3. what she is told
+  say($('polite'), t, T.polite[0] + 0.15, T.polite[1] - 0.1, { from: 0.85, y: 30 }); hl($('polite-hl'), t, B(14.4));
+  say($('note1'), t, B(13.6), T.polite[1] - 0.1, { from: 0.7, y: 80 });
+
+  // 4. three
+  slam($('three'), t, B(18.3), T.three[1]);
+  say($('note2'), t, B(19.5), T.three[1] - 0.1, { from: 0.7, y: 80 });
+  say($('phoneonly'), t, B(20.5), T.three[1] - 0.1, { from: 0.85, y: 30 });
+
+  // 5. regulars
+  say($('regulars'), t, T.reg[0] + 0.15, T.reg[1] - 0.1, { from: 0.85, y: 30 }); hl($('reg-hl'), t, B(23.2));
+
+  // 6. the end card
+  $('enddim').style.visibility = end ? 'visible' : 'hidden';
+  $('enddim').style.opacity = at([[T.end, 0], [T.end + 0.3, 1]], t);
+  say($('word'), t, T.end, Infinity, { from: 0.8, y: 20 });
+  slam($('e1'), t, B(26.5));
+  say($('e2'), t, B(27.5), Infinity, { from: 0.85, y: 24 });
+  say($('e3'), t, B(28.5), Infinity, { from: 0.85, y: 24 }); hl($('e3-hl'), t, B(28.8));
+  const c = $('chip'), tc = B(29.5); say(c, t, tc, Infinity, { from: 0.5, y: 30 });
+  c.style.transform = `translateX(-50%) ${c.style.transform} scale(${t > tc + 0.3 ? 1 + 0.03 * Math.sin((t - tc - 0.3) * 2 * Math.PI / (2 * b)) : 1})`;
+  $('fine').style.visibility = t >= B(28.5) ? 'visible' : 'hidden';
+
+  const cuts = [T.rec[0], T.polite[0], T.three[0], T.reg[0], T.end];
+  leak($('leak'), t, cuts.reduce((best, c) => (Math.abs(t - c) < Math.abs(t - best) ? c : best)));
+  grain($('grain'), t);
+  return Promise.all(waits);
+};
+
+window.ready = (async () => {
+  await document.fonts.ready;
+  await new Promise((ok) => { const i = new Image(); i.onload = ok; i.onerror = ok; i.src = S('client-mia'); });
+  await window.seek(0);
+  return true;
+})();
+</script>
+</body></html>

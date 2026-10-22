@@ -91,8 +91,8 @@ can't buy happiness, but…" loop. Instagram ranks on sends, watch time and
 replays: open on the claim in the first frame, keep it under 18 s, and make
 it something one owner sends another.
 
-- **The library:** `reel/broll/clip-0.mp4` … `clip-12.mp4` (5 s, 720p, 9:16).
-  `library-sheet.jpg` beside them shows each at 2.5 s, 0 to 12, left to right. `node tools/broll-frames.mjs` turns them into
+- **The library:** `reel/broll/clip-0.mp4` … `clip-15.mp4` (5 s, 720p, 9:16).
+  `library-sheet.jpg` beside them shows each at 2.5 s, 0 to 15, left to right. `node tools/broll-frames.mjs` turns them into
   frames under `reel/out/broll/` that the pages play back by time.
   Shots: 0 closing-time salon, phone lights up at 1.50 s · 1 hands typing on a
   phone · 2 card tap at a terminal · 3 late-night desk, laptop, invoices ·
@@ -100,7 +100,20 @@ it something one owner sends another.
   6 empty chair, stylist waiting (no-show) · 7 bedside phone lights up at night (at ~2 s)
   · 8 paper diary, crossings-out, landline · 9 owner on the couch at night with
   invoices · 10 glossy blow-dry reveal · 11 closing up, sweeping · 12 trolley
-  tray, phone buzzing.
+  tray, phone buzzing · 13 scissors through wet hair, macro slow-mo · 14 colour
+  swirling in a bowl, macro · 15 morning, a hand picks up the phone. The two
+  macros are pattern-interrupt openers: the first half-second that stops a thumb.
+- **Feature reels** (`reel/booked.html`, `reel/refill.html`, `reel/noshow.html`):
+  one real Kairo feature each, shown on real screens in a floating 3D phone that
+  zooms onto the exact element (`reel/kit.js` + `kit.css`: `Phone`, `ring`,
+  `tap`, `makeNotif`, `slam`, `say`, `hl`). The screens come from Kairo itself
+  on sample data: `node tools/capture-feature-screens.mjs` runs Kairo locally,
+  sets the features up through the API, and writes
+  `public/screenshots/feature/*.png` plus `feature.json` (where each element is,
+  in capture pixels), which `tools/render-page.mjs` passes to the page. Every
+  message shown (booking alert, waitlist text, deposit note) is copied from the
+  code that sends it, and a screen that only exists because the sample install
+  isn't set up (setup checklist, "add your ClickSend key") never goes in.
 - **A page per reel** (`reel/group-chat.html`, `reel/the-bill.html`,
   `reel/loop.html`): everything on screen is a function of t (`reel/lib.js`),
   cut on the beat (`window.BPM`, 124), sound cues in `window.CUES`.
