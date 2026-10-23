@@ -1,0 +1,47 @@
+{
+ "voice": "Kairo narrator: a synthetic Australian female voice (ElevenLabs Voice Design via Picsart, cloned in Higgsfield). Not a real person.",
+ "tempo": 100,
+ "beats": 37.5,
+ "lines": [
+  {
+   "beat": 0.25,
+   "file": "01.mp3",
+   "text": "Saturday, ten a.m."
+  },
+  {
+   "beat": 2.9,
+   "file": "02.mp3",
+   "text": "Cancelled."
+  },
+  {
+   "beat": 4.6,
+   "file": "03.mp3",
+   "text": "Normally? That's a dead slot."
+  },
+  {
+   "beat": 9.3,
+   "file": "04.mp3",
+   "text": "Kairo texts your waitlist. Instantly."
+  },
+  {
+   "beat": 16.2,
+   "file": "05.mp3",
+   "text": "The first one to book gets it."
+  },
+  {
+   "beat": 19.0,
+   "file": "06.mp3",
+   "text": "Booked again."
+  },
+  {
+   "beat": 22.4,
+   "file": "07.mp3",
+   "text": "And you were mid-colour the whole time."
+  },
+  {
+   "beat": 27.7,
+   "file": "08.mp3",
+   "text": "Four-ten, once. Zero a month. DM us 'Kairo'."
+  }
+ ]
+}

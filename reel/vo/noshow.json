@@ -1,0 +1,47 @@
+{
+ "voice": "Kairo narrator: a synthetic Australian female voice (ElevenLabs Voice Design via Picsart, cloned in Higgsfield). Not a real person.",
+ "tempo": 100,
+ "beats": 37.5,
+ "lines": [
+  {
+   "beat": 0.25,
+   "file": "01.mp3",
+   "text": "She didn't show."
+  },
+  {
+   "beat": 2.15,
+   "file": "02.mp3",
+   "text": "Again."
+  },
+  {
+   "beat": 5.4,
+   "file": "03.mp3",
+   "text": "Kairo keeps count."
+  },
+  {
+   "beat": 8.5,
+   "file": "04.mp3",
+   "text": "Two no-shows? Deposit next time."
+  },
+  {
+   "beat": 13.3,
+   "file": "05.mp3",
+   "text": "She's told politely. Never a number."
+  },
+  {
+   "beat": 18.4,
+   "file": "06.mp3",
+   "text": "Three? Phone bookings only."
+  },
+  {
+   "beat": 22.65,
+   "file": "07.mp3",
+   "text": "Your regulars? Never asked."
+  },
+  {
+   "beat": 26.3,
+   "file": "08.mp3",
+   "text": "Four-ten, once. Zero a month. DM us 'Kairo'."
+  }
+ ]
+}

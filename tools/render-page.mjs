@@ -5,6 +5,8 @@
 //
 //   node tools/render-page.mjs group-chat --sheet   # contact sheet only (seconds, not minutes)
 //   node tools/render-page.mjs group-chat           # the full render
+//   node tools/render-page.mjs noshow --tempo 100 --beats 37.5 --as noshow-vo
+//                                                   # slower and longer, for a voice-over (tools/mix-vo.mjs)
 //
 // The page sets window.DURATION, window.CUES ([time, kind] for tools/sfx.mjs),
 // window.BPM, window.SHEET (times for the contact sheet) and window.seek(t),
@@ -22,6 +24,9 @@ const OUT = path.join(ROOT, 'reel', 'out');
 const FPS = 30;
 const name = process.argv[2];
 const SHEET = process.argv.includes('--sheet');
+const opt = (flag) => { const i = process.argv.indexOf(flag); return i > 0 ? process.argv[i + 1] : undefined; };
+const OUTNAME = opt('--as') || name;
+const TEMPO = opt('--tempo') ? Number(opt('--tempo')) : undefined, BEATS = opt('--beats') ? Number(opt('--beats')) : undefined;
 if (!name || !fs.existsSync(path.join(ROOT, 'reel', `${name}.html`))) {
   console.error('usage: node tools/render-page.mjs <reel/NAME.html without .html> [--sheet]');
   process.exit(2);
@@ -38,6 +43,8 @@ await page.addInitScript((d) => Object.assign(window, d), {
   // Where things are on the real screens (tools/capture-feature-screens.mjs).
   FEATURE: fs.existsSync(path.join(ROOT, 'public', 'screenshots', 'feature', 'feature.json'))
     ? JSON.parse(fs.readFileSync(path.join(ROOT, 'public', 'screenshots', 'feature', 'feature.json'), 'utf8')) : null,
+  // Pages that read these run slower or longer (reel/noshow.html, refill.html, booked.html).
+  REEL_TEMPO: TEMPO, REEL_BEATS: BEATS,
 });
 await page.goto('file://' + path.join(ROOT, 'reel', `${name}.html`));
 await page.waitForFunction(() => window.ready); await page.evaluate(() => window.ready);
@@ -46,7 +53,7 @@ const { D, CUES, BPM, TIMES } = await page.evaluate(() => ({ D: window.DURATION,
 if (SHEET) {
   // One small frame per time, tiled six across, each labelled with its time.
   const times = TIMES.length ? TIMES : Array.from({ length: Math.ceil(D) }, (_, i) => i + 0.5);
-  const dir = path.join(OUT, 'probe', name); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
+  const dir = path.join(OUT, 'probe', OUTNAME); fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
   for (const [i, t] of times.entries()) {
     await page.evaluate((x) => window.seek(x), t);
     // the time, drawn in the page (this ffmpeg has no drawtext)
@@ -57,7 +64,7 @@ if (SHEET) {
     await page.evaluate(() => document.getElementById('__t').remove());
   }
   await b.close();
-  const sheet = path.join(OUT, `${name}-sheet.jpg`);
+  const sheet = path.join(OUT, `${OUTNAME}-sheet.jpg`);
   const labels = times.map((t, i) => `[${i}:v]scale=360:-1[v${i}]`);
   const cols = Math.min(6, times.length), rows = Math.ceil(times.length / cols);
   const inputs = times.flatMap((_, i) => ['-i', path.join(dir, `${String(i).padStart(3, '0')}.png`)]);
@@ -70,7 +77,7 @@ if (SHEET) {
 }
 
 const frames = Math.round(D * FPS);
-const picture = path.join(OUT, `.${name}-picture.mp4`);
+const picture = path.join(OUT, `.${OUTNAME}-picture.mp4`);
 const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
   '-c:v', 'libx264', '-preset', 'slow', '-crf', '19', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-level', '4.1', '-movflags', '+faststart', picture], { stdio: ['pipe', 'inherit', 'inherit'] });
 const t0 = Date.now();
@@ -88,8 +95,8 @@ const level = (f) => {
   const o = spawnSync('ffmpeg', ['-hide_banner', '-nostats', '-i', f, '-af', 'ebur128=peak=true', '-f', 'null', '-'], { encoding: 'utf8' }).stderr.split('Summary:').pop();
   return `${(/I:\s+(-?[\d.]+) LUFS/.exec(o) || [])[1]} LUFS, true peak ${(/Peak:\s+(-?[\d.]+) dBFS/.exec(o) || [])[1]} dBFS`;
 };
-const sfx = buildSfx(CUES, D, path.join(OUT, `${name}-sfx.wav`), { gainDb: 0 });
-const beat = buildBeat({ bpm: BPM, duration: D, out: path.join(OUT, `${name}-beat.wav`), gainDb: -2 }).out;
+const sfx = buildSfx(CUES, D, path.join(OUT, `${OUTNAME}-sfx.wav`), { gainDb: 0 });
+const beat = buildBeat({ bpm: BPM, duration: D, out: path.join(OUT, `${OUTNAME}-beat.wav`), gainDb: -2 }).out;
 const mux = (audio, graph, out) => {
   const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-i', picture, ...audio.flatMap((a) => ['-i', a]),
     '-filter_complex', graph, '-map', '0:v', '-map', '[a]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
@@ -98,7 +105,7 @@ const mux = (audio, graph, out) => {
   console.log(`wrote ${path.relative(ROOT, out)}: ${level(out)}`);
 };
 // Effects on their own are short hits: lifted to sit near -16 LUFS, held under -1 dBTP.
-mux([sfx], '[1:a]volume=6dB,alimiter=limit=0.8:level=false[a]', path.join(OUT, `${name}-nomusic.mp4`));
-mux([beat, sfx], '[1:a][2:a]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.8:level=false[a]', path.join(OUT, `${name}.mp4`));
+mux([sfx], '[1:a]volume=6dB,alimiter=limit=0.8:level=false[a]', path.join(OUT, `${OUTNAME}-nomusic.mp4`));
+mux([beat, sfx], '[1:a][2:a]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.8:level=false[a]', path.join(OUT, `${OUTNAME}.mp4`));
 fs.rmSync(picture, { force: true });
 console.log(`${D.toFixed(2)} s, ${frames} frames, ${CUES.length} cues, ${BPM} bpm; beat alone ${level(beat)}; effects alone ${level(sfx)}`);

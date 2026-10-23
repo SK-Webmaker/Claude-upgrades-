@@ -62,15 +62,16 @@
 import { at, ease, Broll } from './lib.js';
 import { Phone, ring, slam, say, hl, stage, leak, grain } from './kit.js';
 
-const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+// tools/render-page.mjs --tempo/--beats slow the whole reel down for a voice-over cut.
+const BPM = window.REEL_TEMPO || 124, b = 60 / BPM, B = (n) => n * b;
 const $ = (id) => document.getElementById(id);
 const FR = window.FRAMES || {};
 const META = window.FEATURE || { rects: {} };
 const RM = (META.rects || {})['client-mia'] || {};
 const S = (name) => `../public/screenshots/feature/${name}.png`;
-const D = B(34);
+const D = B(window.REEL_BEATS || 34);
 
-const clips = { bg6: Broll($('bg6'), 'clip-6', FR['clip-6'] || 151), bg2: Broll($('bg2'), 'clip-2', FR['clip-2'] || 151), bg10: Broll($('bg10'), 'clip-10', FR['clip-10'] || 151) };
+const clips = { bg6: Broll($('bg6'), 'clip-6', FR['clip-6'] || 151, { bounce: true }), bg2: Broll($('bg2'), 'clip-2', FR['clip-2'] || 151, { bounce: true }), bg10: Broll($('bg10'), 'clip-10', FR['clip-10'] || 151, { bounce: true }) };
 const phone = Phone($('phone-holder'));
 const badges = (RM.badges || [{ x: 816, y: 850, w: 255, h: 66 }, { x: 816, y: 1018, w: 255, h: 66 }]).map((r) => {
   const e = document.createElement('div'); e.className = 'ring red'; phone.place(e, r, 10); return e; });

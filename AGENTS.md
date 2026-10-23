@@ -121,6 +121,15 @@ it something one owner sends another.
   Then the full render, `node tools/render-page.mjs <name>` (about 2 min), which
   writes `<name>.mp4` (original beat from `tools/beat.mjs`, never muted for
   copyright) and `<name>-nomusic.mp4`, for posting under a trending sound.
+- **Voice-over cuts** (`noshow`, `refill`, `booked`): a synthetic Australian
+  woman's voice, designed with ElevenLabs Voice Design (via Picsart) and cloned
+  in Higgsfield as "Kairo narrator (AU female)"; never a real person's voice.
+  One file per line in `reel/vo/<name>/`, placed by beat in `reel/vo/<name>.json`.
+  The reel is rendered slower so the lines fit (`node tools/render-page.mjs <name>
+  --tempo 100 --beats 37.5 --as <name>-vo`), then `node tools/mix-vo.mjs <name>`
+  writes `<name>-voiceover.mp4` (voice over the effects, no music) and refuses
+  lines that collide. Transcribe every new line before using it ("Kairo" is
+  said like "Cairo"). Posting one needs Instagram's AI label.
 - **Never name a competitor in a reel** (owner, 22 Oct 2026: no "Fresha",
   no logos, no lookalike merchant names). Compare against "your booking app"
   and an example bill ($99 a month); the fine print says it is an example,

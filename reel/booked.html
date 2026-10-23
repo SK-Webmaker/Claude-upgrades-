@@ -46,15 +46,16 @@
 import { at, ease, Broll } from './lib.js';
 import { Phone, tap, ring, makeNotif, notif, slam, say, hl, stage, leak, grain } from './kit.js';
 
-const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+// tools/render-page.mjs --tempo/--beats slow the whole reel down for a voice-over cut.
+const BPM = window.REEL_TEMPO || 124, b = 60 / BPM, B = (n) => n * b;
 const $ = (id) => document.getElementById(id);
 const FR = window.FRAMES || {};
 const META = window.FEATURE || { rects: {} };
 const R = (shot, key) => (META.rects[shot] || {})[key] || { x: 400, y: 1200, w: 370, h: 120 };
 const S = (name) => `../public/screenshots/feature/${name}.png`;
-const D = B(34);
+const D = B(window.REEL_BEATS || 34);
 
-const clips = { bg7: Broll($('bg7'), 'clip-7', FR['clip-7'] || 151), bg15: Broll($('bg15'), 'clip-15', FR['clip-15'] || 151) };
+const clips = { bg7: Broll($('bg7'), 'clip-7', FR['clip-7'] || 151, { bounce: true }), bg15: Broll($('bg15'), 'clip-15', FR['clip-15'] || 151, { bounce: true }) };
 const phone = Phone($('phone-holder'));
 const taps = [0, 1, 2].map(() => { const e = document.createElement('div'); e.className = 'tap'; return e; });
 phone.point(taps[0], R('book-1-services', 'balayage'));

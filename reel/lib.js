@@ -44,10 +44,12 @@ export function pop(el, t, t0, t1 = Infinity, { from = 0.6, y = 40 } = {}) {
 
 // A Higgsfield clip, extracted by tools/broll-frames.mjs to reel/out/broll/<name>/00001.jpg…
 // Played at 30 fps from `start`, holding the last frame (or looping).
-export function Broll(img, name, frames, { loop = false } = {}) {
+export function Broll(img, name, frames, { loop = false, bounce = false } = {}) {
   let last = '';
   return (local) => {
     let i = Math.floor(local * 30);
+    // bounce: past the last frame, play back towards the first instead of freezing
+    if (bounce && i >= frames) { const p = 2 * (frames - 1); i %= p; if (i >= frames) i = p - i; }
     i = loop ? ((i % frames) + frames) % frames : Math.max(0, Math.min(frames - 1, i));
     const src = `out/broll/${name}/${String(i + 1).padStart(5, '0')}.jpg`;
     if (src === last) return Promise.resolve();

@@ -50,15 +50,16 @@
 import { at, ease, Broll } from './lib.js';
 import { Phone, ring, slam, say, hl, stage, leak, grain, makeNotif, notif } from './kit.js';
 
-const BPM = 124, b = 60 / BPM, B = (n) => n * b;
+// tools/render-page.mjs --tempo/--beats slow the whole reel down for a voice-over cut.
+const BPM = window.REEL_TEMPO || 124, b = 60 / BPM, B = (n) => n * b;
 const $ = (id) => document.getElementById(id);
 const FR = window.FRAMES || {};
 const META = window.FEATURE || { rects: {} };
 const R = (shot, key) => (META.rects[shot] || {})[key] || { x: 228, y: 1923, w: 209, h: 512 };
 const S = (name) => `../public/screenshots/feature/${name}.png`;
-const D = B(34);
+const D = B(window.REEL_BEATS || 34);
 
-const clips = { bg13: Broll($('bg13'), 'clip-13', FR['clip-13'] || 151), bg14: Broll($('bg14'), 'clip-14', FR['clip-14'] || 151) };
+const clips = { bg13: Broll($('bg13'), 'clip-13', FR['clip-13'] || 151, { bounce: true }), bg14: Broll($('bg14'), 'clip-14', FR['clip-14'] || 151, { bounce: true }) };
 const phone = Phone($('phone-holder'));
 const zoe = R('calendar-sat-before', 'zoe'), chloe = R('calendar-sat-after', 'chloe');
 const x = document.createElement('div'); x.className = 'xmark'; x.textContent = '✕'; phone.place(x, zoe, 6);

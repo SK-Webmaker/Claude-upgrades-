@@ -1,0 +1,37 @@
+{
+ "voice": "Kairo narrator: a synthetic Australian female voice (ElevenLabs Voice Design via Picsart, cloned in Higgsfield). Not a real person.",
+ "tempo": 100,
+ "beats": 37.5,
+ "lines": [
+  {
+   "beat": 0.25,
+   "file": "01.mp3",
+   "text": "Eleven forty-eight p.m. You're asleep."
+  },
+  {
+   "beat": 6.6,
+   "file": "02.mp3",
+   "text": "Your booking page doesn't sleep."
+  },
+  {
+   "beat": 10.75,
+   "file": "03.mp3",
+   "text": "Clients book themselves."
+  },
+  {
+   "beat": 18.6,
+   "file": "04.mp3",
+   "text": "No app. No login. Just booked."
+  },
+  {
+   "beat": 23.6,
+   "file": "05.mp3",
+   "text": "You wake up to a full day."
+  },
+  {
+   "beat": 28.4,
+   "file": "06.mp3",
+   "text": "Four-ten, once. Zero a month. DM us 'Kairo'."
+  }
+ ]
+}
